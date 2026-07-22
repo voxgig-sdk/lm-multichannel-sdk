@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "self": {
+      "SELF00": {
+        "account": {},
+        "id": "SELF00"
+      },
+      "SELF01": {
+        "account": {},
+        "id": "SELF01"
+      },
+      "SELF02": {
+        "account": {},
+        "id": "SELF02"
+      }
+    }
+  },
+  "new": {
+    "self": {
+      "self_ref01": {
+        "account": {}
+      }
+    }
+  }
+}

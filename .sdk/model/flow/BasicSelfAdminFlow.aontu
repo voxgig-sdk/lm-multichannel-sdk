@@ -1,0 +1,28 @@
+# BasicSelfAdminFlow
+
+main: kit: flow: BasicSelfAdminFlow:
+{
+  entity: "self_admin",
+  kind: "basic",
+  name: "BasicSelfAdminFlow",
+  step: [
+    {
+      input: {
+        ref: "self_admin_ref01",
+        srcdatavar: "self_admin_ref01_data",
+        suffix: "_up0"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-self_admin_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicSelfAdminFlow"
+}

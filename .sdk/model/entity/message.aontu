@@ -1,0 +1,122 @@
+# Entity: message
+
+main: kit: entity: message: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "message"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "schedule"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "message"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/messages"
+          parts: [
+            "messages"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "message_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/messages/{messageId}/schedule"
+          parts: [
+            "messages"
+            "{id}"
+            "schedule"
+          ]
+          rename: {
+            param: {
+              messageId: "id"
+            }
+          }
+          select: {
+            "$action": "schedule"
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "message_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/messages/{messageId}/schedule"
+          parts: [
+            "messages"
+            "{id}"
+            "schedule"
+          ]
+          rename: {
+            param: {
+              messageId: "id"
+            }
+          }
+          select: {
+            "$action": "schedule"
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

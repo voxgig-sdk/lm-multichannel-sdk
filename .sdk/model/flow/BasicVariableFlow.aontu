@@ -1,0 +1,57 @@
+# BasicVariableFlow
+
+main: kit: flow: BasicVariableFlow:
+{
+  entity: "variable",
+  kind: "basic",
+  name: "BasicVariableFlow",
+  step: [
+    {
+      input: {
+        ref: "variable_ref01"
+      }
+
+      match: {
+        template_id: "template01"
+      }
+
+      op: "create"
+    }
+
+    {
+      match: {
+        template_id: "template01"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "variable_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "variable_ref01",
+        srcdatavar: "variable_ref01_data",
+        suffix: "_up0",
+        textfield: "description"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-variable_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicVariableFlow"
+}

@@ -1,0 +1,9 @@
+# BasicTrafficFlow
+
+main: kit: flow: BasicTrafficFlow:
+{
+  entity: "traffic",
+  kind: "basic",
+  name: "BasicTrafficFlow",
+  "key$": "BasicTrafficFlow"
+}

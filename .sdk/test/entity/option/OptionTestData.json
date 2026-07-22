@@ -1,0 +1,28 @@
+{
+  "existing": {
+    "option": {
+      "OPTION00": {
+        "option": {},
+        "template_id": "TEMPLATE01",
+        "id": "OPTION00"
+      },
+      "OPTION01": {
+        "option": {},
+        "template_id": "TEMPLATE01",
+        "id": "OPTION01"
+      },
+      "OPTION02": {
+        "option": {},
+        "template_id": "TEMPLATE01",
+        "id": "OPTION02"
+      }
+    }
+  },
+  "new": {
+    "option": {
+      "option_ref01": {
+        "option": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+# Entity: content
+
+main: kit: entity: content: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "content"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "content"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "template_id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/templates/{templateId}/content"
+          parts: [
+            "templates"
+            "{template_id}"
+            "content"
+          ]
+          rename: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          select: {
+            exist: [
+              "template_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.content`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "template_id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/templates/{templateId}/content"
+          parts: [
+            "templates"
+            "{template_id}"
+            "content"
+          ]
+          rename: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          select: {
+            exist: [
+              "template_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.content`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "template"
+      ]
+    ]
+  }
+
+
+
+}

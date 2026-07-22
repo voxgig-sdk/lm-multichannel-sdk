@@ -1,0 +1,38 @@
+# Entity: self_admin
+
+main: kit: entity: self_admin: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "setting"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "self_admin"
+  op: {
+    update: {
+      name: "update"
+      points: [
+        {
+          method: "PATCH"
+          orig: "/self/settings"
+          parts: [
+            "self"
+            "settings"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

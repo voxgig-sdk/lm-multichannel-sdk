@@ -1,0 +1,44 @@
+# BasicContentFlow
+
+main: kit: flow: BasicContentFlow:
+{
+  entity: "content",
+  kind: "basic",
+  name: "BasicContentFlow",
+  step: [
+    {
+      input: {
+        ref: "content_ref01"
+      }
+
+      match: {
+        template_id: "template01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "content_ref01",
+        srcdatavar: "content_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "content01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-content_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicContentFlow"
+}

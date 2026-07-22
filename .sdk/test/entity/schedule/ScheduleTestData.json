@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "schedule": {
+      "SCHEDULE00": {
+        "count": "sa",
+        "id": "SCHEDULE00"
+      },
+      "SCHEDULE01": {
+        "count": "s14",
+        "id": "SCHEDULE01"
+      },
+      "SCHEDULE02": {
+        "count": "s1e",
+        "id": "SCHEDULE02"
+      }
+    }
+  },
+  "new": {
+    "schedule": {
+      "schedule_ref01": {
+        "count": "s28"
+      }
+    }
+  }
+}

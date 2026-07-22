@@ -1,0 +1,52 @@
+{
+  "existing": {
+    "variable": {
+      "VARIABLE00": {
+        "description": "s46",
+        "example": [],
+        "format": [],
+        "name": "s49",
+        "ref": "s4a",
+        "type": "s4b",
+        "variable": [],
+        "template_id": "TEMPLATE01",
+        "id": "VARIABLE00"
+      },
+      "VARIABLE01": {
+        "description": "s8c",
+        "example": [],
+        "format": [],
+        "name": "s8f",
+        "ref": "s90",
+        "type": "s91",
+        "variable": [],
+        "template_id": "TEMPLATE01",
+        "id": "VARIABLE01"
+      },
+      "VARIABLE02": {
+        "description": "sd2",
+        "example": [],
+        "format": [],
+        "name": "sd5",
+        "ref": "sd6",
+        "type": "sd7",
+        "variable": [],
+        "template_id": "TEMPLATE01",
+        "id": "VARIABLE02"
+      }
+    }
+  },
+  "new": {
+    "variable": {
+      "variable_ref01": {
+        "description": "s118",
+        "example": [],
+        "format": [],
+        "name": "s11b",
+        "ref": "s11c",
+        "type": "s11d",
+        "variable": []
+      }
+    }
+  }
+}

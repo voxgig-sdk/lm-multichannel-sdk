@@ -1,0 +1,87 @@
+# Entity: traffic_file
+
+main: kit: entity: traffic_file: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "file"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "path"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "url"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "traffic_file"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/traffic/files"
+          parts: [
+            "traffic"
+            "files"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "path"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/traffic/files/{path}"
+          parts: [
+            "traffic"
+            "files"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              path: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

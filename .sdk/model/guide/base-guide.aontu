@@ -1,0 +1,125 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 11
+  metrics: count: path: 17
+  metrics: count: method: 30
+
+  entity: content: {
+    path: "/templates/{templateId}/content": {
+      rename: param: "templateId": *"template_id"
+      op: create: method: *POST
+      op: create: transform: res: *("`body.content`")|top
+      op: load: method: *GET
+      op: load: transform: res: *("`body.content`")|top
+    }
+  }
+
+  entity: message: {
+    path: "/messages": {
+      op: create: method: *POST
+    }
+    path: "/messages/{messageId}/schedule": {
+      action: "schedule": {}
+      rename: param: "messageId": *"id"
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: message_event: {
+    path: "/messages/{messageId}/events": {
+      rename: param: "messageId": *"id"
+      op: list: method: *GET
+    }
+  }
+
+  entity: option: {
+    path: "/templates/{templateId}/options": {
+      rename: param: "templateId": *"template_id"
+      op: create: method: *POST
+      op: load: method: *GET
+      op: patch: method: *PATCH
+    }
+  }
+
+  entity: schedule: {
+    path: "/schedules": {
+      op: remove: method: *DELETE
+    }
+    path: "/schedules:count": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: self: {
+    path: "/self": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: self_admin: {
+    path: "/self/settings": {
+      op: patch: method: *PATCH
+    }
+  }
+
+  entity: template: {
+    path: "/templates": {
+      op: create: method: *POST
+      op: create: transform: res: *("`body.template`")|top
+      op: list: method: *GET
+    }
+    path: "/templates/{templateId}": {
+      rename: param: "templateId": *"id"
+      op: load: method: *GET
+      op: load: transform: res: *("`body.template`")|top
+      op: remove: method: *DELETE
+    }
+    path: "/templates/{templateId}/meta": {
+      action: "meta": {}
+      rename: param: "templateId": *"id"
+      op: create: method: *POST
+      op: load: method: *GET
+      op: patch: method: *PATCH
+    }
+    path: "/templates/{templateId}/reviews": {
+      action: "review": {}
+      rename: param: "templateId": *"id"
+      op: load: method: *GET
+    }
+    path: "/templates/{templateId}/reviews/{channelId}": {
+      rename: param: "channelId": *"channel_id"
+      rename: param: "templateId": *"id"
+      op: load: method: *GET
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+  }
+
+  entity: traffic: {
+    path: "/traffic/files/{path}": {
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: traffic_file: {
+    path: "/traffic/files": {
+      op: list: method: *GET
+    }
+    path: "/traffic/files/{path}": {
+      rename: param: "path": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: variable: {
+    path: "/templates/{templateId}/variables": {
+      rename: param: "templateId": *"template_id"
+      op: create: method: *POST
+      op: list: method: *GET
+      op: patch: method: *PATCH
+    }
+  }
+
+}

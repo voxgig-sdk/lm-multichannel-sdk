@@ -1,0 +1,37 @@
+# Entity: self
+
+main: kit: entity: self: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "account"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "self"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          method: "GET"
+          orig: "/self"
+          parts: [
+            "self"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

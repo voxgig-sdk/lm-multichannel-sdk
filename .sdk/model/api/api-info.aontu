@@ -1,0 +1,55 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        email: "product@linkmobility.com"
+      }
+      description: `Public API for MyLINK Multichannel Messaging API platform.
+Supports sending messages across SMS, RCS, Viber, WhatsApp and other channels,
+managing message templates, downloading traffic files, and configuring account settings.
+
+## Authentication
+
+Two authentication methods are available depending on the endpoint root:
+- **API Key** (\`/v1\`): Pass your API key in the \`x-api-key\` HTTP header.
+- **OAuth2** (\`/v2\`): Obtain a JWT token from the CPaaS SSO token endpoint https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token and pass it as a Bearer token (clientCredentials flow type)
+
+## Receiving events
+
+OCM produces events throughout the lifecycle of messages (\`messageStatusChanged\`),
+when end-users interact (\`userMessageReceived\`), and when template reviews change
+(\`templateReviewStatusChanged\`). Three methods are available to consume these events:
+
+| Method | Endpoint | Delivery | Event types | Pros | Cons |
+|--------|----------|----------|-------------|------|------|
+| **Callbacks** (webhooks) | Configured via \`PATCH /self/settings\` | Real-time push (HTTP POST) | All three | Lowest latency, no polling needed | Requires a publicly reachable HTTPS endpoint; must handle retries and idempotency |
+| **Get Message Events** | \`GET /messages/{messageId}/events\` | On-demand pull per message | \`messageStatusChanged\`, \`userMessageReceived\` only | Simple integration, no receiving endpoint needed | Shares rate limits with \`POST /messages\` (sending); not suited for high-traffic or bulk retrieval; no \`templateReviewStatusChanged\` |
+| **Traffic Files** | \`GET /traffic/files\` | Bulk pull (JSONL archives, 1 to ~15 min delay) | All three | Bulk retrieval of all events; no rate-limit impact on messaging; 30-day retention | Not real-time; requires downloading and parsing ZIP/JSONL files |`
+      security: {
+        in: "header"
+        name: "x-api-key"
+        prefix: ""
+        scheme: "apiKey"
+        type: "apiKey"
+      }
+      servers: [
+        {
+          description: "Production (API Key auth)"
+          url: "https://api.linkmobility.com/v1"
+        }
+        {
+          description: "Production (OAuth2 auth)"
+          url: "https://api.linkmobility.com/v2"
+        }
+      ]
+      summary: "Public API for MyLINK Multichannel Messaging API platform."
+      title: "MyLINK Multichannel API"
+      version: "5.0.0"
+      website: "https://linkmobility.com"
+    }
+  }
+}
+

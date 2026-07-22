@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "self_admin": {
+      "SELF_ADMIN00": {
+        "setting": {},
+        "id": "SELF_ADMIN00"
+      },
+      "SELF_ADMIN01": {
+        "setting": {},
+        "id": "SELF_ADMIN01"
+      },
+      "SELF_ADMIN02": {
+        "setting": {},
+        "id": "SELF_ADMIN02"
+      }
+    }
+  },
+  "new": {
+    "self_admin": {
+      "self_admin_ref01": {
+        "setting": {}
+      }
+    }
+  }
+}

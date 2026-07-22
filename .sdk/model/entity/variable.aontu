@@ -1,0 +1,176 @@
+# Entity: variable
+
+main: kit: entity: variable: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "description"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "example"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "format"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "name"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "ref"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "variable"
+      req: true
+      type: "`$ARRAY`"
+    }
+  ]
+
+  name: "variable"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "template_id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/templates/{templateId}/variables"
+          parts: [
+            "templates"
+            "{template_id}"
+            "variables"
+          ]
+          rename: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          select: {
+            exist: [
+              "template_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "template_id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/templates/{templateId}/variables"
+          parts: [
+            "templates"
+            "{template_id}"
+            "variables"
+          ]
+          rename: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          select: {
+            exist: [
+              "template_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "template_id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/templates/{templateId}/variables"
+          parts: [
+            "templates"
+            "{template_id}"
+            "variables"
+          ]
+          rename: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          select: {
+            exist: [
+              "template_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "template"
+      ]
+    ]
+  }
+
+
+
+}

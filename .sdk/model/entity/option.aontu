@@ -1,0 +1,146 @@
+# Entity: option
+
+main: kit: entity: option: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "option"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "option"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "template_id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/templates/{templateId}/options"
+          parts: [
+            "templates"
+            "{template_id}"
+            "options"
+          ]
+          rename: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          select: {
+            exist: [
+              "template_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "template_id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/templates/{templateId}/options"
+          parts: [
+            "templates"
+            "{template_id}"
+            "options"
+          ]
+          rename: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          select: {
+            exist: [
+              "template_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "template_id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/templates/{templateId}/options"
+          parts: [
+            "templates"
+            "{template_id}"
+            "options"
+          ]
+          rename: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          select: {
+            exist: [
+              "template_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "template"
+      ]
+    ]
+  }
+
+
+
+}

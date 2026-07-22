@@ -1,0 +1,42 @@
+{
+  "existing": {
+    "message_event": {
+      "MESSAGE_EVENT00": {
+        "account_id": "ACCOUNT01",
+        "event_id": "EVENT01",
+        "message_status_changed": {},
+        "on": "s3f",
+        "template_review_status_changed": {},
+        "user_message_received": {}
+      },
+      "MESSAGE_EVENT01": {
+        "account_id": "ACCOUNT01",
+        "event_id": "EVENT01",
+        "message_status_changed": {},
+        "on": "s7b",
+        "template_review_status_changed": {},
+        "user_message_received": {}
+      },
+      "MESSAGE_EVENT02": {
+        "account_id": "ACCOUNT01",
+        "event_id": "EVENT01",
+        "message_status_changed": {},
+        "on": "sb7",
+        "template_review_status_changed": {},
+        "user_message_received": {}
+      }
+    }
+  },
+  "new": {
+    "message_event": {
+      "message_event_ref01": {
+        "account_id": "ACCOUNT01",
+        "event_id": "EVENT01",
+        "message_status_changed": {},
+        "on": "sf3",
+        "template_review_status_changed": {},
+        "user_message_received": {}
+      }
+    }
+  }
+}

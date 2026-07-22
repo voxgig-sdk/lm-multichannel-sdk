@@ -1,0 +1,2644 @@
+{
+  "def": "multichannel-openapi.yaml",
+  "main": {
+    "def": {
+      "desc": ""
+    },
+    "kit": {
+      "config": {
+        "docs_order": [
+          "ts",
+          "py",
+          "php",
+          "go",
+          "rb",
+          "lua"
+        ],
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "entity": {
+        "content": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "content",
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          ],
+          "name": "content",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "template_id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/templates/{templateId}/content",
+                  "parts": [
+                    "templates",
+                    "{template_id}",
+                    "content"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "template_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "template_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body.content`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "template_id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/templates/{templateId}/content",
+                  "parts": [
+                    "templates",
+                    "{template_id}",
+                    "content"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "template_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "template_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body.content`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "template"
+              ]
+            ]
+          }
+        },
+        "message": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "message",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "schedule",
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          ],
+          "name": "message",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/messages",
+                  "parts": [
+                    "messages"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "message_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/messages/{messageId}/schedule",
+                  "parts": [
+                    "messages",
+                    "{id}",
+                    "schedule"
+                  ],
+                  "rename": {
+                    "param": {
+                      "messageId": "id"
+                    }
+                  },
+                  "select": {
+                    "$action": "schedule",
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "message_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/messages/{messageId}/schedule",
+                  "parts": [
+                    "messages",
+                    "{id}",
+                    "schedule"
+                  ],
+                  "rename": {
+                    "param": {
+                      "messageId": "id"
+                    }
+                  },
+                  "select": {
+                    "$action": "schedule",
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "message_event": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "account_id",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "event_id",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "message_status_changed",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "on",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "template_review_status_changed",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "user_message_received",
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          ],
+          "name": "message_event",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "message_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "page_index",
+                        "orig": "page_index",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "page_size",
+                        "orig": "page_size",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": "desc:on",
+                        "kind": "query",
+                        "name": "sort",
+                        "orig": "sort",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/messages/{messageId}/events",
+                  "parts": [
+                    "messages",
+                    "{id}",
+                    "events"
+                  ],
+                  "rename": {
+                    "param": {
+                      "messageId": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id",
+                      "page_index",
+                      "page_size",
+                      "sort"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "option": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "option",
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          ],
+          "name": "option",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "template_id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/templates/{templateId}/options",
+                  "parts": [
+                    "templates",
+                    "{template_id}",
+                    "options"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "template_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "template_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "template_id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/templates/{templateId}/options",
+                  "parts": [
+                    "templates",
+                    "{template_id}",
+                    "options"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "template_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "template_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "template_id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/templates/{templateId}/options",
+                  "parts": [
+                    "templates",
+                    "{template_id}",
+                    "options"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "template_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "template_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "template"
+              ]
+            ]
+          }
+        },
+        "schedule": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "count",
+              "req": true,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "name": "schedule",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "example": "2026-02-01T10:00,2026-02-16T20:00",
+                        "kind": "query",
+                        "name": "between",
+                        "orig": "between",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "campaign_id",
+                        "orig": "campaign_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": "Europe/Zurich",
+                        "kind": "query",
+                        "name": "time_zone",
+                        "orig": "time_zone",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/schedules:count",
+                  "parts": [
+                    "schedules:count"
+                  ],
+                  "select": {
+                    "exist": [
+                      "between",
+                      "campaign_id",
+                      "time_zone"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "between",
+                        "orig": "between",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "campaign_id",
+                        "orig": "campaign_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "time_zone",
+                        "orig": "time_zone",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/schedules",
+                  "parts": [
+                    "schedules"
+                  ],
+                  "select": {
+                    "exist": [
+                      "between",
+                      "campaign_id",
+                      "time_zone"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "self": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "account",
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          ],
+          "name": "self",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "GET",
+                  "orig": "/self",
+                  "parts": [
+                    "self"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "self_admin": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "setting",
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          ],
+          "name": "self_admin",
+          "op": {
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "PATCH",
+                  "orig": "/self/settings",
+                  "parts": [
+                    "self",
+                    "settings"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "template": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "channel_data",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "created_on",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "designer_url",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "detail",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "meta",
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$OBJECT`"
+                }
+              },
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "occurred_on",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "review",
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$OBJECT`"
+                }
+              },
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "status",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "template",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "template_id",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "updated_on",
+              "req": false,
+              "type": "`$STRING`"
+            }
+          ],
+          "name": "template",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/templates/{templateId}/meta",
+                  "parts": [
+                    "templates",
+                    "{id}",
+                    "meta"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "id"
+                    }
+                  },
+                  "select": {
+                    "$action": "meta",
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/templates",
+                  "parts": [
+                    "templates"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body.template`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "page_index",
+                        "orig": "page_index",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "page_size",
+                        "orig": "page_size",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": "desc:updatedOn!createdOn",
+                        "kind": "query",
+                        "name": "sort",
+                        "orig": "sort",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/templates",
+                  "parts": [
+                    "templates"
+                  ],
+                  "select": {
+                    "exist": [
+                      "page_index",
+                      "page_size",
+                      "sort"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "channel_id",
+                        "orig": "channel_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/templates/{templateId}/reviews/{channelId}",
+                  "parts": [
+                    "templates",
+                    "{id}",
+                    "reviews",
+                    "{channel_id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "channelId": "channel_id",
+                      "templateId": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "channel_id",
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/templates/{templateId}",
+                  "parts": [
+                    "templates",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body.template`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/templates/{templateId}/meta",
+                  "parts": [
+                    "templates",
+                    "{id}",
+                    "meta"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "id"
+                    }
+                  },
+                  "select": {
+                    "$action": "meta",
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/templates/{templateId}/reviews",
+                  "parts": [
+                    "templates",
+                    "{id}",
+                    "reviews"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "id"
+                    }
+                  },
+                  "select": {
+                    "$action": "review",
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "patch": {
+              "input": "data",
+              "name": "patch",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/templates/{templateId}/meta",
+                  "parts": [
+                    "templates",
+                    "{id}",
+                    "meta"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "id"
+                    }
+                  },
+                  "select": {
+                    "$action": "meta",
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "channel_id",
+                        "orig": "channel_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/templates/{templateId}/reviews/{channelId}",
+                  "parts": [
+                    "templates",
+                    "{id}",
+                    "reviews",
+                    "{channel_id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "channelId": "channel_id",
+                      "templateId": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "channel_id",
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/templates/{templateId}",
+                  "parts": [
+                    "templates",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "channel_id",
+                        "orig": "channel_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PUT",
+                  "orig": "/templates/{templateId}/reviews/{channelId}",
+                  "parts": [
+                    "templates",
+                    "{id}",
+                    "reviews",
+                    "{channel_id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "channelId": "channel_id",
+                      "templateId": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "channel_id",
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "review"
+              ]
+            ]
+          }
+        },
+        "traffic": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [],
+          "name": "traffic",
+          "op": {
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "path",
+                        "orig": "path",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/traffic/files/{path}",
+                  "parts": [
+                    "traffic",
+                    "files",
+                    "{path}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "path"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "file"
+              ]
+            ]
+          }
+        },
+        "traffic_file": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "file",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "path",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "url",
+              "req": true,
+              "type": "`$STRING`"
+            }
+          ],
+          "name": "traffic_file",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "GET",
+                  "orig": "/traffic/files",
+                  "parts": [
+                    "traffic",
+                    "files"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "path",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/traffic/files/{path}",
+                  "parts": [
+                    "traffic",
+                    "files",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "path": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "variable": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "description",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "example",
+              "req": false,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "format",
+              "req": false,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "ref",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "type",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "variable",
+              "req": true,
+              "type": "`$ARRAY`"
+            }
+          ],
+          "name": "variable",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "template_id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/templates/{templateId}/variables",
+                  "parts": [
+                    "templates",
+                    "{template_id}",
+                    "variables"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "template_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "template_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "template_id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/templates/{templateId}/variables",
+                  "parts": [
+                    "templates",
+                    "{template_id}",
+                    "variables"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "template_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "template_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "template_id",
+                        "orig": "template_id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/templates/{templateId}/variables",
+                  "parts": [
+                    "templates",
+                    "{template_id}",
+                    "variables"
+                  ],
+                  "rename": {
+                    "param": {
+                      "templateId": "template_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "template_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "template"
+              ]
+            ]
+          }
+        }
+      },
+      "feature": {
+        "test": {
+          "active": true,
+          "config": {
+            "options": {
+              "active": false
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": true,
+              "await": false
+            },
+            "GetMatch": {
+              "active": true,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": true,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": true,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PrePoint": {
+              "active": true,
+              "await": false
+            },
+            "PreRequest": {
+              "active": true,
+              "await": false
+            },
+            "PreResponse": {
+              "active": true,
+              "await": false
+            },
+            "PreResult": {
+              "active": true,
+              "await": false
+            },
+            "PreSpec": {
+              "active": true,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": true,
+              "await": false
+            },
+            "SetMatch": {
+              "active": true,
+              "await": false
+            }
+          },
+          "name": "test",
+          "target": {
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            }
+          },
+          "title": "In-memory mock transport for testing without a live server",
+          "version": "0.0.1"
+        }
+      },
+      "flow": {
+        "BasicContentFlow": {
+          "active": true,
+          "entity": "content",
+          "key$": "BasicContentFlow",
+          "kind": "basic",
+          "name": "BasicContentFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "content_ref01"
+              },
+              "match": {
+                "template_id": "template01"
+              },
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "content_ref01",
+                "srcdatavar": "content_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "content01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-content_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicMessageEventFlow": {
+          "active": true,
+          "entity": "message_event",
+          "key$": "BasicMessageEventFlow",
+          "kind": "basic",
+          "name": "BasicMessageEventFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {
+                "message_id": "message01"
+              },
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "message_event_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicMessageFlow": {
+          "active": true,
+          "entity": "message",
+          "key$": "BasicMessageFlow",
+          "kind": "basic",
+          "name": "BasicMessageFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "message_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "message_ref01",
+                "srcdatavar": "message_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "message01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-message_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "message_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "message01"
+              },
+              "op": "remove",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicOptionFlow": {
+          "active": true,
+          "entity": "option",
+          "key$": "BasicOptionFlow",
+          "kind": "basic",
+          "name": "BasicOptionFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "option_ref01"
+              },
+              "match": {
+                "template_id": "template01"
+              },
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "option_ref01",
+                "srcdatavar": "option_ref01_data",
+                "suffix": "_up0"
+              },
+              "match": {},
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-option_ref01"
+                  }
+                }
+              ],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "option_ref01",
+                "srcdatavar": "option_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "option01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-option_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicScheduleFlow": {
+          "active": true,
+          "entity": "schedule",
+          "key$": "BasicScheduleFlow",
+          "kind": "basic",
+          "name": "BasicScheduleFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "schedule_ref01",
+                "srcdatavar": "schedule_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {},
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-schedule_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicSelfAdminFlow": {
+          "active": true,
+          "entity": "self_admin",
+          "key$": "BasicSelfAdminFlow",
+          "kind": "basic",
+          "name": "BasicSelfAdminFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "self_admin_ref01",
+                "srcdatavar": "self_admin_ref01_data",
+                "suffix": "_up0"
+              },
+              "match": {},
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-self_admin_ref01"
+                  }
+                }
+              ],
+              "valid": []
+            }
+          ]
+        },
+        "BasicSelfFlow": {
+          "active": true,
+          "entity": "self",
+          "key$": "BasicSelfFlow",
+          "kind": "basic",
+          "name": "BasicSelfFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "self_ref01",
+                "srcdatavar": "self_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {},
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-self_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicTemplateFlow": {
+          "active": true,
+          "entity": "template",
+          "key$": "BasicTemplateFlow",
+          "kind": "basic",
+          "name": "BasicTemplateFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "template_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "template_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "template_ref01",
+                "srcdatavar": "template_ref01_data",
+                "suffix": "_up0",
+                "textfield": "created_on"
+              },
+              "match": {},
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-template_ref01"
+                  }
+                }
+              ],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "template_ref01",
+                "srcdatavar": "template_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "template01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-template_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "template_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "template01"
+              },
+              "op": "remove",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "suffix": "_rt0"
+              },
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemNotExists",
+                  "def": {
+                    "ref": "template_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicTrafficFileFlow": {
+          "active": true,
+          "entity": "traffic_file",
+          "key$": "BasicTrafficFileFlow",
+          "kind": "basic",
+          "name": "BasicTrafficFileFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "traffic_file_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "traffic_file_ref01",
+                "srcdatavar": "traffic_file_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "traffic_file01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-traffic_file_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicTrafficFlow": {
+          "active": true,
+          "entity": "traffic",
+          "key$": "BasicTrafficFlow",
+          "kind": "basic",
+          "name": "BasicTrafficFlow",
+          "param": {},
+          "step": []
+        },
+        "BasicVariableFlow": {
+          "active": true,
+          "entity": "variable",
+          "key$": "BasicVariableFlow",
+          "kind": "basic",
+          "name": "BasicVariableFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "variable_ref01"
+              },
+              "match": {
+                "template_id": "template01"
+              },
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {
+                "template_id": "template01"
+              },
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "variable_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "variable_ref01",
+                "srcdatavar": "variable_ref01_data",
+                "suffix": "_up0",
+                "textfield": "description"
+              },
+              "match": {},
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-variable_ref01"
+                  }
+                }
+              ],
+              "valid": []
+            }
+          ]
+        }
+      },
+      "info": {
+        "contact": {
+          "email": "product@linkmobility.com"
+        },
+        "description": "Public API for MyLINK Multichannel Messaging API platform.\nSupports sending messages across SMS, RCS, Viber, WhatsApp and other channels,\nmanaging message templates, downloading traffic files, and configuring account settings.\n\n## Authentication\n\nTwo authentication methods are available depending on the endpoint root:\n- **API Key** (`/v1`): Pass your API key in the `x-api-key` HTTP header.\n- **OAuth2** (`/v2`): Obtain a JWT token from the CPaaS SSO token endpoint https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token and pass it as a Bearer token (clientCredentials flow type)\n\n## Receiving events\n\nOCM produces events throughout the lifecycle of messages (`messageStatusChanged`),\nwhen end-users interact (`userMessageReceived`), and when template reviews change\n(`templateReviewStatusChanged`). Three methods are available to consume these events:\n\n| Method | Endpoint | Delivery | Event types | Pros | Cons |\n|--------|----------|----------|-------------|------|------|\n| **Callbacks** (webhooks) | Configured via `PATCH /self/settings` | Real-time push (HTTP POST) | All three | Lowest latency, no polling needed | Requires a publicly reachable HTTPS endpoint; must handle retries and idempotency |\n| **Get Message Events** | `GET /messages/{messageId}/events` | On-demand pull per message | `messageStatusChanged`, `userMessageReceived` only | Simple integration, no receiving endpoint needed | Shares rate limits with `POST /messages` (sending); not suited for high-traffic or bulk retrieval; no `templateReviewStatusChanged` |\n| **Traffic Files** | `GET /traffic/files` | Bulk pull (JSONL archives, 1 to ~15 min delay) | All three | Bulk retrieval of all events; no rate-limit impact on messaging; 30-day retention | Not real-time; requires downloading and parsing ZIP/JSONL files |",
+        "security": {
+          "in": "header",
+          "name": "x-api-key",
+          "prefix": "",
+          "scheme": "apiKey",
+          "type": "apiKey"
+        },
+        "servers": [
+          {
+            "description": "Production (API Key auth)",
+            "url": "https://api.linkmobility.com/v1"
+          },
+          {
+            "description": "Production (OAuth2 auth)",
+            "url": "https://api.linkmobility.com/v2"
+          }
+        ],
+        "summary": "Public API for MyLINK Multichannel Messaging API platform.",
+        "title": "MyLINK Multichannel API",
+        "version": "5.0.0",
+        "website": "https://linkmobility.com"
+      },
+      "option": {},
+      "target": {
+        "go": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "go",
+          "module": {
+            "name": "lm-multichannel"
+          },
+          "name": "go",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "",
+                "env": "",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Golang"
+        },
+        "go-cli": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "go",
+          "module": {
+            "name": "lm-multichannel"
+          },
+          "name": "go-cli",
+          "phase": {
+            "agentguide": {
+              "active": false
+            },
+            "entity": {
+              "active": false
+            },
+            "feature": {
+              "active": false
+            },
+            "readme": {
+              "active": false
+            },
+            "test": {
+              "active": false
+            }
+          },
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "",
+                "env": "",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "root"
+            }
+          },
+          "title": "Go CLI"
+        },
+        "go-mcp": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "go",
+          "module": {
+            "name": "lm-multichannel"
+          },
+          "name": "go-mcp",
+          "phase": {
+            "agentguide": {
+              "active": false
+            },
+            "entity": {
+              "active": false
+            },
+            "feature": {
+              "active": false
+            },
+            "readme": {
+              "active": false
+            },
+            "test": {
+              "active": false
+            }
+          },
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "",
+                "env": "",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "root"
+            }
+          },
+          "title": "Go MCP server"
+        },
+        "lua": {
+          "active": true,
+          "comment": {
+            "line": "--"
+          },
+          "deps": {
+            "dkjson": {
+              "active": true,
+              "kind": "prod",
+              "version": "2.5"
+            }
+          },
+          "ext": "lua",
+          "module": {
+            "name": "lm-multichannel"
+          },
+          "name": "lua",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "luarocks",
+              "package": "",
+              "state": "pending",
+              "url": "https://luarocks.org",
+              "vault": {
+                "alias": "luarocks",
+                "env": "LUAROCKS_API_KEY",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Lua"
+        },
+        "php": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "php",
+          "module": {
+            "name": "lm-multichannel"
+          },
+          "name": "php",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "packagist",
+              "package": "",
+              "state": "pending",
+              "url": "https://packagist.org",
+              "vault": {
+                "alias": "packagist",
+                "env": "PACKAGIST_API_TOKEN",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "PHP"
+        },
+        "py": {
+          "active": true,
+          "comment": {
+            "line": "#"
+          },
+          "deps": {
+            "requests": {
+              "active": true,
+              "kind": "prod",
+              "version": "2.33"
+            }
+          },
+          "ext": "py",
+          "module": {
+            "name": "lm-multichannel"
+          },
+          "name": "py",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "pypi",
+              "package": "",
+              "state": "pending",
+              "url": "https://pypi.org",
+              "vault": {
+                "alias": "pypi",
+                "env": "",
+                "recipe": "pypi"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Python"
+        },
+        "rb": {
+          "active": true,
+          "comment": {
+            "line": "#"
+          },
+          "deps": {
+            "json": {
+              "active": true,
+              "kind": "prod",
+              "version": "0"
+            },
+            "voxgig-struct": {
+              "active": true,
+              "kind": "prod",
+              "version": "0.0.10"
+            }
+          },
+          "ext": "rb",
+          "module": {
+            "name": "lm-multichannel"
+          },
+          "name": "rb",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "rubygems",
+              "package": "",
+              "state": "pending",
+              "url": "https://rubygems.org",
+              "vault": {
+                "alias": "gem",
+                "env": "",
+                "recipe": "gem"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Ruby"
+        },
+        "ts": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "comment": {
+            "line": "//"
+          },
+          "deps": {
+            "@types/node": {
+              "active": true,
+              "kind": "dev",
+              "version": "^25.6.0"
+            },
+            "dotenv": {
+              "active": true,
+              "kind": "dev",
+              "version": "^17.4.2"
+            },
+            "typescript": {
+              "active": true,
+              "kind": "dev",
+              "version": "^5.9.3"
+            }
+          },
+          "ext": "ts",
+          "module": {
+            "name": "lm-multichannel"
+          },
+          "name": "ts",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "npm",
+              "package": "",
+              "state": "pending",
+              "url": "https://registry.npmjs.org",
+              "vault": {
+                "alias": "npm",
+                "env": "",
+                "recipe": "npm"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "title": "TypeScript"
+        }
+      }
+    }
+  },
+  "name": "lm-multichannel",
+  "origin": "voxgig-sdk"
+}

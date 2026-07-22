@@ -1,0 +1,23 @@
+{
+  "existing": {
+    "traffic": {
+      "TRAFFIC00": {
+        "path": "PATH01",
+        "id": "TRAFFIC00"
+      },
+      "TRAFFIC01": {
+        "path": "PATH01",
+        "id": "TRAFFIC01"
+      },
+      "TRAFFIC02": {
+        "path": "PATH01",
+        "id": "TRAFFIC02"
+      }
+    }
+  },
+  "new": {
+    "traffic": {
+      "traffic_ref01": {}
+    }
+  }
+}

@@ -1,0 +1,112 @@
+# Entity: message_event
+
+main: kit: entity: message_event: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "account_id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "event_id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "message_status_changed"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "on"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "template_review_status_changed"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "user_message_received"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "message_event"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "message_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "page_index"
+                orig: "page_index"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "page_size"
+                orig: "page_size"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: "desc:on"
+                kind: "query"
+                name: "sort"
+                orig: "sort"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/messages/{messageId}/events"
+          parts: [
+            "messages"
+            "{id}"
+            "events"
+          ]
+          rename: {
+            param: {
+              messageId: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+              "page_index"
+              "page_size"
+              "sort"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

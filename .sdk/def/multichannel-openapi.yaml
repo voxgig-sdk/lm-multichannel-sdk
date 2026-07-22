@@ -1,0 +1,4477 @@
+openapi: 3.1.0
+info:
+  title: MyLINK Multichannel API
+  description: 'Public API for MyLINK Multichannel Messaging API platform.
+
+    Supports sending messages across SMS, RCS, Viber, WhatsApp and other channels,
+
+    managing message templates, downloading traffic files, and configuring account settings.
+
+
+    ## Authentication
+
+
+    Two authentication methods are available depending on the endpoint root:
+
+    - **API Key** (`/v1`): Pass your API key in the `x-api-key` HTTP header.
+
+    - **OAuth2** (`/v2`): Obtain a JWT token from the CPaaS SSO token endpoint https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token and pass it as a Bearer token (clientCredentials flow type)      
+
+
+    ## Receiving events
+
+
+    OCM produces events throughout the lifecycle of messages (`messageStatusChanged`),
+
+    when end-users interact (`userMessageReceived`), and when template reviews change
+
+    (`templateReviewStatusChanged`). Three methods are available to consume these events:
+
+
+    | Method | Endpoint | Delivery | Event types | Pros | Cons |
+
+    |--------|----------|----------|-------------|------|------|
+
+    | **Callbacks** (webhooks) | Configured via `PATCH /self/settings` | Real-time push (HTTP POST) | All three | Lowest latency, no polling needed | Requires a publicly reachable HTTPS endpoint; must handle
+    retries and idempotency |
+
+    | **Get Message Events** | `GET /messages/{messageId}/events` | On-demand pull per message | `messageStatusChanged`, `userMessageReceived` only | Simple integration, no receiving endpoint needed | Shares
+    rate limits with `POST /messages` (sending); not suited for high-traffic or bulk retrieval; no `templateReviewStatusChanged` |
+
+    | **Traffic Files** | `GET /traffic/files` | Bulk pull (JSONL archives, 1 to ~15 min delay) | All three | Bulk retrieval of all events; no rate-limit impact on messaging; 30-day retention | Not real-time;
+    requires downloading and parsing ZIP/JSONL files |'
+  version: 5.0.0
+  contact:
+    email: product@linkmobility.com
+servers:
+- url: https://api.linkmobility.com/v1
+  description: Production (API Key auth)
+- url: https://api.linkmobility.com/v2
+  description: Production (OAuth2 auth)
+security:
+- apiKey: []
+- oauth2: []
+tags:
+- name: Messages
+  description: Send messages, get events, manage individual schedules
+- name: Schedules
+  description: Bulk schedule counting and deletion
+- name: Templates
+  description: Create, update, delete and list message templates and their reviews
+- name: Traffic
+  description: Download event traffic files
+- name: Self Admin
+  description: Get and update account settings (callback configuration)
+paths:
+  /messages:
+    post:
+      tags:
+      - Messages
+      operationId: sendMessages
+      summary: Send one or multiple messages
+      description: 'Sends 1 to 10 messages to specified users on specified channels.
+
+        Total request payload must not exceed 6 MB. Individual message size must not exceed 250 KB.
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessagesRequest'
+            examples:
+              sms_text:
+                summary: 'SMS: simple text'
+                value:
+                  messages:
+                  - channelId: sms
+                    userId: '33699999999'
+                    content:
+                      text: This is a simple text sent by SMS!
+              sms_text_oadc:
+                summary: 'SMS: text with custom originating address'
+                value:
+                  messages:
+                  - channelId: sms
+                    userId: '33699999999'
+                    content:
+                      text: This is a simple text sent by SMS!
+                    options:
+                      sms.originatingAddress: OCM
+              rcs_text:
+                summary: 'RCS: simple text'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      text: This is a simple text sent by RCS!
+              rcs_text_suggestions:
+                summary: 'RCS: text with 2 reply suggestions'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      text: Hello, this is a simple text...
+                      suggestions:
+                      - caption: 👍 Yes!
+                        postback: 'YES'
+                      - caption: 👎 No!
+                        postback: 'NO'
+              rcs_media_jpeg:
+                summary: 'RCS: JPEG image'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      media:
+                        type: image/jpeg
+                        source: https://example.com/picture.jpeg
+              rcs_media_video:
+                summary: 'RCS: WebM video'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      media:
+                        type: video/webm
+                        source: https://example.com/video.webm
+              rcs_media_video_thumbnail:
+                summary: 'RCS: WebM video with thumbnail'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      media:
+                        type: video/webm
+                        source: https://example.com/movie.webm
+                        thumbnail: https://example.com/poster.png
+              rcs_media_suggestions:
+                summary: 'RCS: JPEG image with 3 reply suggestions'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      media:
+                        type: image/jpeg
+                        source: https://example.com/picture.jpeg
+                      suggestions:
+                      - caption: 👍
+                        postback: LIKE
+                      - caption: 😃
+                        postback: HAPPY
+                      - caption: 👿
+                        postback: ANGRY
+              rcs_card_text:
+                summary: 'RCS: card with title and text'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      card:
+                        title: Paul Cezanne
+                        text: Paul Cezanne was a French artist and Post-Impressionist painter...
+              rcs_card_buttons:
+                summary: 'RCS: card with media, reply/dial/openUrl buttons'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      card:
+                        title: Still Life with Teapot and Fruit (1896)
+                        text: Still Life with Teapot...
+                        media:
+                          source: https://example.com/picture.jpeg
+                          type: image/png
+                        buttons:
+                        - caption: Tell me more
+                          postback: DETAILS
+                        - caption: Call us
+                          postback: CALL
+                          dial:
+                            phoneNumber: '+33600000000'
+                        - caption: Visit us
+                          postback: WEB
+                          openUrl:
+                            url: https://www.netsize.com
+              rcs_card_webview:
+                summary: 'RCS: card with openUrl webview (half-size)'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      card:
+                        title: Edgar Degas
+                        text: Edgar Degas biography
+                        buttons:
+                        - caption: Read on Wikipedia
+                          openUrl:
+                            url: https://en.wikipedia.org/wiki/Edgar_Degas
+                          options:
+                            rcs.button.openUrl.application: WEBVIEW
+                            rcs.button.openUrl.webviewMode: HALF
+              rcs_card_location_calendar:
+                summary: 'RCS: card with viewLocation, shareLocation, createCalendarEvent buttons + suggestions'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      card:
+                        title: Trees and Houses Near the Jas de Bouffan
+                        text: Painted directly from nature...
+                        media:
+                          source: https://example.com/picture.jpg
+                          type: image/jpeg
+                        buttons:
+                        - caption: Plan the exhibit
+                          createCalendarEvent:
+                            startTime: '2020-04-23T18:25:43.511Z'
+                            endTime: '2020-05-23T18:25:43.511Z'
+                            title: Cezanne Exhibit 2020
+                            description: Visit the exhibition
+                        - caption: Locate Jas de Bouffan
+                          viewLocation:
+                            latitude: '43.5249046'
+                            longitude: '5.4033345'
+                            description: Jas de Bouffan
+                        - caption: Find museums nearby
+                          viewLocation:
+                            query: Museum
+                        - caption: Share my location
+                          shareLocation: {}
+                      suggestions:
+                      - caption: Previous
+                        postback: PREVIOUS
+                      - caption: Next
+                        postback: NEXT
+              rcs_card_short_height:
+                summary: 'RCS: card with short media height option'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      card:
+                        title: Mont Sainte-Victoire
+                        text: La montagne Sainte-Victoire...
+                        media:
+                          source: https://example.com/picture.jpeg
+                          type: image/png
+                    options:
+                      rcs.media.height: SHORT
+              rcs_card_tall_height:
+                summary: 'RCS: card with tall media height option'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      card:
+                        title: Mont Sainte-Victoire
+                        text: La montagne Sainte-Victoire...
+                        media:
+                          source: https://example.com/picture.jpeg
+                          type: image/png
+                    options:
+                      rcs.media.height: TALL
+              rcs_card_horizontal:
+                summary: 'RCS: horizontal card with buttons'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      card:
+                        title: Madame Cezanne
+                        text: Le Portrait de Madame Cezanne...
+                        media:
+                          source: https://example.com/picture.jpeg
+                          type: image/jpeg
+                        buttons:
+                        - caption: J'aime
+                          postback: LOVE
+                        - caption: Voir la fiche
+                          postback: VIEW_ONLINE
+                          openUrl:
+                            url: https://museum.com/fiche
+                    options:
+                      rcs.card.orientation: HORIZONTAL
+              rcs_card_horizontal_right_thumb:
+                summary: 'RCS: horizontal card with right thumbnail alignment'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      card:
+                        title: Madame Cezanne
+                        text: Le Portrait de Madame Cezanne...
+                        media:
+                          source: https://example.com/picture.jpeg
+                          type: image/jpeg
+                        buttons:
+                        - caption: J'aime
+                          postback: LOVE
+                        - caption: Voir la fiche
+                          postback: VIEW_ONLINE
+                          openUrl:
+                            url: https://museum.com/fiche
+                    options:
+                      rcs.card.orientation: HORIZONTAL
+                      rcs.card.thumbnailImageAlignment: RIGHT
+              rcs_carousel:
+                summary: 'RCS: carousel with 3 cards'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      carousel:
+                        cards:
+                        - title: Gustave Boyer in a Straw Hat
+                          text: Early twentieth-century scholars....
+                          media:
+                            source: https://example.com/picture1.jpeg
+                            type: image/jpeg
+                          buttons:
+                          - caption: View online
+                            openUrl:
+                              url: https://example.com
+                        - title: Madame Cezanne in the Conservatory
+                          text: Hortense Fiquet, a former artist's model...
+                          media:
+                            source: https://example.com/picture2.jpeg
+                            type: image/jpeg
+                          buttons:
+                          - caption: View online
+                            openUrl:
+                              url: https://example.com
+                        - title: Seated Peasant
+                          text: The mood and palette of this pensive figure study...
+                          media:
+                            source: https://example.com/picture3.jpeg
+                            type: image/jpeg
+                          buttons:
+                          - caption: View online
+                            openUrl:
+                              url: https://example.com
+              rcs_carousel_small:
+                summary: 'RCS: carousel with small card width option'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33699999999'
+                    content:
+                      carousel:
+                        cards:
+                        - title: Card 1
+                          text: '...'
+                          media:
+                            source: https://example.com/1.jpeg
+                            type: image/jpeg
+                          buttons:
+                          - caption: View
+                            openUrl:
+                              url: https://example.com
+                        - title: Card 2
+                          text: '...'
+                          media:
+                            source: https://example.com/2.jpeg
+                            type: image/jpeg
+                          buttons:
+                          - caption: View
+                            openUrl:
+                              url: https://example.com
+                    options:
+                      rcs.carousel.cardWidth: SMALL
+              viber_text:
+                summary: 'Viber: simple text'
+                value:
+                  messages:
+                  - channelId: viber
+                    userId: '33699999999'
+                    content:
+                      text: This is a simple text sent by Viber!
+              viber_text_all_devices:
+                summary: 'Viber: text to all devices'
+                value:
+                  messages:
+                  - channelId: viber
+                    userId: '33699999999'
+                    content:
+                      text: This is a simple text sent by Viber!
+                    options:
+                      viber.deviceDestination: allDevices
+              viber_media:
+                summary: 'Viber: JPEG image'
+                value:
+                  messages:
+                  - channelId: viber
+                    userId: '33699999999'
+                    content:
+                      media:
+                        type: image/jpeg
+                        source: https://example.com/picture.jpeg
+              viber_card_openurl:
+                summary: 'Viber: card with image and OpenUrl button'
+                value:
+                  messages:
+                  - channelId: viber
+                    userId: '33699999999'
+                    content:
+                      card:
+                        text: Chalet in Bernese Oberland, Switzerland
+                        media:
+                          type: image/jpeg
+                          source: https://www.example.com/picture.jpg
+                        buttons:
+                        - caption: Book the chalet
+                          openUrl:
+                            url: https://www.example.com
+              viber_card_dial:
+                summary: 'Viber: card with image and Dial button'
+                value:
+                  messages:
+                  - channelId: viber
+                    userId: '33699999999'
+                    content:
+                      card:
+                        text: Chalet du Grand Cle, Switzerland
+                        media:
+                          type: image/jpeg
+                          source: https://www.example.com/picture.jpg
+                        buttons:
+                        - caption: Call us
+                          dial:
+                            phoneNumber: '+33677777777'
+              whatsapp_fromtemplate_card:
+                summary: 'WhatsApp: fromTemplate with card (title, text, subtitle, variable)'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      fromTemplate:
+                        templateId: tpl6Ph5qYMW648kLYUQwT1CW6
+                        variables:
+                          firstName: Georges
+              whatsapp_fromtemplate_alt_phone:
+                summary: 'WhatsApp: fromTemplate via non-default phone number'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      fromTemplate:
+                        templateId: tpl6Ph5qYMW648kLYUQwT1CW6
+                        variables:
+                          firstName: Georges
+                    options:
+                      whatsapp.phoneNumber: '33188888888'
+              whatsapp_fromtemplate_video:
+                summary: 'WhatsApp: fromTemplate with video header'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      fromTemplate:
+                        templateId: tpl5MtuvZGcOifFMP3o28FxZ6
+                        variables:
+                          firstName: Alice
+                          title: Palette Knife Techniques
+                          previewVideoUrl: https://www.example.com/pkt-preview.mp4
+                          fileName: palette-knife-techniques.mp4
+              whatsapp_fromtemplate_pdf:
+                summary: 'WhatsApp: fromTemplate with PDF document header'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      fromTemplate:
+                        templateId: tpl56vi4N45M26rYxXvCsrEpY
+                        variables:
+                          firstName: Ignatius
+                          title: German Expressionism
+                          catalogueUrl: https://www.example.com/germanexpr.pdf
+                          documentType: application/pdf
+              whatsapp_fromtemplate_location:
+                summary: 'WhatsApp: fromTemplate with location header'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      fromTemplate:
+                        templateId: tpl5InQgdIBv2VW17OeNIAxTL
+                        variables:
+                          firstName: Ignatius
+                          paintingName: Regreso de la pesca (1894) by Joaquin Sorolla
+                          museumName: Musee d'Orsay
+                          museumAddress: 1 Rue de la Legion d'Honneur, 75007 Paris
+                          museumLat: '48.85995582954446'
+                          museumLon: '2.3269656432472803'
+              whatsapp_session_text:
+                summary: 'WhatsApp: session text with URL'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      text: Thank you for your continued interest, Ignatius! Please visit us at http://www.example.com
+              whatsapp_session_text_preview:
+                summary: 'WhatsApp: session text with URL preview, markdown, emojis, newlines'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      text: '*Thank you* for your continued interest 🤗!
+
+
+                        To reach us:
+
+                        - _Web_: https://www.example.com
+
+                        - _Phone_: +33690909090'
+                    options:
+                      whatsapp.text.previewUrl: 'true'
+              whatsapp_session_image:
+                summary: 'WhatsApp: session image with markdown description'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      media:
+                        source: https://www.example.com/painting.jpg
+                        type: image/jpeg
+                        description: '*_La vuelta de la pesca_* de *Joaquin Sorolla* (1894)'
+              whatsapp_session_document:
+                summary: 'WhatsApp: session PowerPoint file with description'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      media:
+                        source: https://www.example.com/degas2023.pptx
+                        type: application/vnd.openxmlformats-officedocument.presentationml.presentation
+                        description: '*Edgar Degas*
+
+                          *Exhibition brochure 2023*'
+              whatsapp_session_sticker:
+                summary: 'WhatsApp: session sticker (WebP)'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      media:
+                        source: https://www.example.com/sticker.webp
+                        type: image/webp
+              whatsapp_session_audio:
+                summary: 'WhatsApp: session audio'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      media:
+                        source: https://www.example.com/audio_guide.mp3
+                        type: audio/mpeg
+              whatsapp_session_location:
+                summary: 'WhatsApp: session location'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      location:
+                        title: Musee d'Orsay
+                        description: Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris
+                        latitude: 48.86015347854819
+                        longitude: 2.326568685144047
+              whatsapp_session_card_buttons:
+                summary: 'WhatsApp: session card with title, subtitle, 3 reply buttons'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      card:
+                        title: Edvard Munch
+                        text: Edvard Munch was a Norwegian painter...
+                        subtitle: 'Source: wikipedia.org'
+                        buttons:
+                        - caption: More info
+                          postback: MORE_INFO
+                        - caption: Random article
+                          postback: RANDOM_FACT
+                        - caption: Start a quizz
+                          postback: START_QUIZZ
+              whatsapp_session_card_image:
+                summary: 'WhatsApp: session card with image, subtitle, 2 reply buttons'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      card:
+                        media:
+                          source: https://www.example.com/melancholy.jpg
+                          type: image/jpeg
+                        text: Melancholy is a painting by Edvard Munch...
+                        subtitle: 'Source: https://en.wikipedia.org/wiki/...'
+                        buttons:
+                        - caption: Random work of art
+                          postback: RANDOM
+                        - caption: Take a quizz!
+                          postback: QUIZZ
+              whatsapp_session_card_docx:
+                summary: 'WhatsApp: session card with Word document and reply button'
+                value:
+                  messages:
+                  - userId: '33699999999'
+                    channelId: whatsapp
+                    content:
+                      card:
+                        media:
+                          source: https://www.example.com/edvard_munch.docx
+                          type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                        text: '*Edvard Munch Biography* (Microsoft Word document)'
+                        buttons:
+                        - caption: I have read it
+                          postback: DONE_READING
+              fallback_rcs_to_sms:
+                summary: 'Fallback: RCS card falling back to SMS'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33777777777'
+                    content:
+                      card:
+                        title: Private sale
+                        text: Enjoy your personal -30% rebate on all items
+                        media:
+                          source: https://example.com/picture.jpeg
+                          type: image/png
+                        buttons:
+                        - caption: Get me there
+                          openUrl:
+                            url: https://to.page/e9ZxkeAvu
+                    fallback:
+                      channelId: sms
+                      userId: '33777777777'
+                      content:
+                        text: -30% rebate on all items https://to.page/e9ZxkeAvu
+              fallback_rcs_viber_sms:
+                summary: 'Fallback: RCS > Viber > SMS triple chain'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33777777777'
+                    content:
+                      text: Hello on RCS!
+                    fallback:
+                      channelId: viber
+                      userId: '33777777777'
+                      content:
+                        text: Hello on Viber!
+                      fallback:
+                        channelId: sms
+                        userId: '33777777777'
+                        content:
+                          text: Hello on SMS!
+              context_batch:
+                summary: 'Context: batch of 2 messages with correlation IDs'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '33777777777'
+                    content:
+                      text: Test
+                    context:
+                      myMessageId: '1'
+                  - channelId: rcs
+                    userId: '33777777777'
+                    content:
+                      text: Test
+                    context:
+                      myMessageId: '2'
+              context_async:
+                summary: 'Context: message with correlation context for async events'
+                value:
+                  messages:
+                  - channelId: sms
+                    userId: '33777777777'
+                    content:
+                      text: Test
+                    context:
+                      myUserId: georges@example.com
+                      myCampaignId: promo2020
+              context_fallback_inherit:
+                summary: 'Context: fallback inherits parent context'
+                value:
+                  messages:
+                  - channelId: viber
+                    userId: '33777777777'
+                    content:
+                      text: Test on Viber
+                    context:
+                      myUserId: georges@example.com
+                      myCampaignId: promo2020
+                    fallback:
+                      channelId: sms
+                      userId: '33777777777'
+                      content:
+                        text: Test on SMS
+              context_fallback_override:
+                summary: 'Context: fallback overrides/merges parent context'
+                value:
+                  messages:
+                  - channelId: viber
+                    userId: '33777777777'
+                    content:
+                      text: Test on Viber
+                    context:
+                      myUserId: georges@example.com
+                      myCampaignId: promo2020
+                      myMessageId: '1000'
+                    fallback:
+                      channelId: sms
+                      userId: '33777777777'
+                      content:
+                        text: Test on SMS
+                      context:
+                        myMessageId: '2000'
+                        myFallbackId: '90'
+              fromtemplate_sms:
+                summary: 'Template: send SMS from template with variables'
+                value:
+                  messages:
+                  - channelId: sms
+                    userId: '+33678787878'
+                    content:
+                      fromTemplate:
+                        templateId: tple93fe290002...
+                        variables:
+                          firstName: Vincent
+                          lastName: Georges
+              fromtemplate_rcs_fallback_sms:
+                summary: 'Template: RCS from template with SMS template fallback'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '+33678787878'
+                    content:
+                      fromTemplate:
+                        templateId: tplK3jsjJ3...
+                        variables:
+                          firstName: Vincent
+                          lastName: Georges
+                    fallback:
+                      channelId: sms
+                      userId: '+33678787878'
+                      content:
+                        fromTemplate:
+                          templateId: tplJMskA32...
+                          variables:
+                            firstName: Vincent
+                            lastName: Georges
+              schedule_simple:
+                summary: 'Schedule: SMS at specific date/time with timezone'
+                value:
+                  messages:
+                  - channelId: sms
+                    userId: '...'
+                    content:
+                      text: '...'
+                    scheduleAt: 2026-02-16 08:00
+                    timeZone: Europe/Zurich
+              schedule_spread:
+                summary: 'Schedule: WhatsApp spread over 4 hours'
+                value:
+                  messages:
+                  - channelId: whatsapp
+                    userId: '...'
+                    content:
+                      text: '...'
+                    spreadOver: PT4H
+              schedule_spread_allowed_hours:
+                summary: 'Schedule: RCS spread 30 days with allowed hours and exclusions'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '...'
+                    content:
+                      text: '...'
+                    spreadOver: P30D
+                    allowedHours: Mo-Fr 10:00-20:00; Apr 03 off; Apr 06 off
+                    timeZone: Europe/Zurich
+              schedule_dnd_fallback:
+                summary: 'Schedule: RCS immediate with SMS fallback with DND deferral'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '...'
+                    content:
+                      text: '...'
+                    fallback:
+                      channelId: sms
+                      userId: '...'
+                      content:
+                        text: '...'
+                      whenDnd: defer
+                      allowedHours: Mo-Fr 10:00-20:00
+                      timeZone: Europe/Zurich
+                      validFor: P3D
+              schedule_full:
+                summary: 'Schedule: full example with spread, DND, campaign, fallback'
+                value:
+                  messages:
+                  - channelId: rcs
+                    userId: '...'
+                    content:
+                      text: '...'
+                    scheduleAt: 2026-02-16 08:00
+                    allowedHours: Mo-Fr 10:00-20:00
+                    timeZone: Europe/Zurich
+                    whenDnd: defer
+                    spreadOver: P7D
+                    validFor: PT2H
+                    campaignId: winter holidays 2026
+                    fallback:
+                      channelId: sms
+                      userId: '...'
+                      content:
+                        text: '...'
+                      allowedHours: Mo-Fr 10:00-20:00
+                      timeZone: Europe/Zurich
+                      whenDnd: defer
+                      validFor: P3D
+      responses:
+        '202':
+          description: Messages accepted for sending
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptedResponse'
+              examples:
+                simple_accepted:
+                  summary: Single message accepted
+                  value:
+                    requestId: r4SKdf4bake7A
+                    messages:
+                    - messageId: ba0bb25dabdf4ba298
+                      validUntil: '2026-01-23T18:25:43.511Z'
+                      context:
+                        myMessageId: '560605604640'
+                        myUserId: xavier@example.com
+                      fallback:
+                        messageId: 54060564ef405da45
+                batch_with_context:
+                  summary: Batch of 2 messages with context correlation
+                  value:
+                    requestId: req600CkeP7HOeMNxmJj6b9Ut
+                    messages:
+                    - messageId: msg2gOW2ygyte9KtfIrR5EKnc
+                      context:
+                        myMessageId: '2'
+                    - messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      context:
+                        myMessageId: '1'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '405':
+          description: Invalid HTTP method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: Unsupported media type (application/json expected)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /messages/{messageId}/events:
+    get:
+      tags:
+      - Messages
+      operationId: getMessageEvents
+      summary: Get events related to a message
+      description: 'Returns up to 100 latest `messageStatusChanged` and `userMessageReceived` events
+
+        related to a specific message. Pagination is available for up to 500 events.
+
+
+        `templateReviewStatusChanged` events are **not** available through this method;
+
+        use callbacks or traffic files instead.
+
+
+        This method shares API throttling quotas with `POST /messages`. Recommended for
+
+        testing and low-traffic use cases only.
+
+
+        ## Filtering
+
+
+        Any JSON-path property of the returned objects can be used as a query parameter
+
+        to filter results. The value supports the following operators:
+
+
+        | Operator | Syntax | Description |
+
+        |----------|--------|-------------|
+
+        | `eq` | `property=eq:val1,val2` | Case-insensitive equality against any of the values (default if operator omitted) |
+
+        | `in` | `property=in:val1,val2` | Synonym for `eq` |
+
+        | `contains` | `property=contains:text` | Property value contains the text (case-insensitive) |
+
+        | `matches` | `property=matches:regex` | Case-insensitive ECMAScript regex match |
+
+        | `between` | `property=between:start,end` | Inclusive range for dates/numbers; either boundary can be omitted |
+
+        | `exists` | `property=exists:true\|false` | Tests whether a property exists |
+
+
+        **Negation:** prefix any operator (except `exists`) with `!` to negate.
+
+        E.g. `meta.status=!in:APPROVED` returns entries not having that value, or not having that property.
+
+
+        **Nested paths** use dot-notation: `reviews.whatsapp.status=APPROVED`
+
+
+        **Bracket notation** for keys containing dots: `meta[''mtd.designerId'']=exists:true`
+
+
+        Multiple filter parameters are combined with logical AND.
+
+
+        ## Sorting
+
+
+        The `_sort` parameter accepts comma-separated property paths with optional `asc:` / `desc:` prefix.
+
+        Use `!` for null-coalescing: `_sort=desc:updatedOn!createdOn` sorts by `updatedOn`,
+
+        falling back to `createdOn` when undefined.
+
+
+        See response examples for complete query strings with filtering, sorting and pagination.'
+      parameters:
+      - $ref: '#/components/parameters/MessageId'
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageIndex'
+      - name: _sort
+        in: query
+        required: false
+        description: 'Sort by property paths with optional asc:/desc: prefix'
+        schema:
+          type: string
+        examples:
+          newest_first:
+            summary: Newest events first
+            value: desc:on
+      responses:
+        '200':
+          description: Events found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageEventsResponse'
+              examples:
+                delivery_outcomes:
+                  summary: GET /messages/{messageId}/events?messageStatusChanged.status=in:DELIVERED,DELIVERY_FAILED&_sort=desc:on
+                  value:
+                    _totalItemCount: 4
+                    _pageSize: 100
+                    _pageCount: 1
+                    events:
+                    - eventId: emsc5744b2da290d4132
+                      'on': '2024-11-04T15:38:26.182Z'
+                      accountId: customer-account-id
+                      messageStatusChanged:
+                        messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                        requestId: req600CkeP7HOeMNxmJj6b9Ut
+                        channelId: sms
+                        userId: '33699999999'
+                        status: DELIVERED
+                        channelData:
+                          sms.segmentCount: '2'
+                          sms.originatingAddress: MYBRAND
+                sms_errors_only:
+                  summary: GET /messages/{messageId}/events?messageStatusChanged.channelId=sms&messageStatusChanged.error.code=exists:true
+                  value:
+                    _totalItemCount: 1
+                    _pageSize: 100
+                    _pageCount: 1
+                    events:
+                    - eventId: ems2mtzoOqeYkKAjLbvz3yQ1R
+                      'on': '2024-11-04T17:12:03.737Z'
+                      accountId: customer-account-id
+                      messageStatusChanged:
+                        messageId: msg1XAXgWzR3X27wjMdxrlJyr
+                        requestId: req4fm8jz3GWtERlrWDw1s0xD
+                        channelId: sms
+                        userId: '33699999999'
+                        status: DELIVERY_FAILED
+                        error:
+                          code: CHANNEL_REJECTED
+                          channelError: Invalid destination address
+                optout_events:
+                  summary: GET /messages/{messageId}/events?userMessageReceived.content.optout=exists:true
+                  value:
+                    _totalItemCount: 1
+                    _pageSize: 100
+                    _pageCount: 1
+                    events:
+                    - eventId: eum3eFfSK3Zoq2gVvcgP7HVvt
+                      'on': '2024-11-04T11:12:28.665Z'
+                      accountId: customer-account-id
+                      userMessageReceived:
+                        channelId: sms
+                        userId: '33699999999'
+                        content:
+                          optout:
+                            text: STOP
+                        replyToMessageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                reply_button_clicks:
+                  summary: GET /messages/{messageId}/events?userMessageReceived.content.postback.buttonType=in:reply,openUrl
+                  value:
+                    _totalItemCount: 2
+                    _pageSize: 100
+                    _pageCount: 1
+                    events:
+                    - eventId: eumAg77ExuCtUyGB0m4VVYZc0
+                      'on': '2024-11-04T11:20:58.527Z'
+                      accountId: customer-account-id
+                      userMessageReceived:
+                        channelId: rcs
+                        userId: '33699999999'
+                        content:
+                          postback:
+                            payload: LOVE
+                            text: J'aime
+                            buttonType: reply
+                        replyToMessageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                    - eventId: eumAUO65Z6IQwIri03xJu3Yf0
+                      'on': '2024-11-04T11:24:09.626Z'
+                      accountId: customer-account-id
+                      userMessageReceived:
+                        channelId: rcs
+                        userId: '33699999999'
+                        content:
+                          postback:
+                            payload: VISIT_US
+                            text: Visit us
+                            buttonType: openUrl
+                        replyToMessageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                time_range_paginated:
+                  summary: GET /messages/{messageId}/events?on=between:2024-11-04T15:00:00Z,2024-11-04T16:00:00Z&_pageSize=50
+                  value:
+                    _totalItemCount: 3
+                    _pageSize: 50
+                    _pageCount: 1
+                    events:
+                    - eventId: ems7GmGxURd2rQ8BFIEAhiL09
+                      'on': '2024-11-04T15:12:03.195Z'
+                      accountId: customer-account-id
+                      messageStatusChanged:
+                        messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                        requestId: req17nxsvc0w9IwrBIirL5wCq
+                        channelId: rcs
+                        userId: '33699999999'
+                        status: SENT
+                    - eventId: ems7GmGxURd2rQ8BFIEAhiL10
+                      'on': '2024-11-04T15:12:04.231Z'
+                      accountId: customer-account-id
+                      messageStatusChanged:
+                        messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                        requestId: req17nxsvc0w9IwrBIirL5wCq
+                        channelId: rcs
+                        userId: '33699999999'
+                        status: DELIVERED
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+  /messages/{messageId}/schedule:
+    get:
+      tags:
+      - Messages
+      operationId: getMessageSchedule
+      summary: Get message schedule information
+      description: Retrieves basic information about a message schedule, if it exists.
+      parameters:
+      - $ref: '#/components/parameters/MessageId'
+      responses:
+        '200':
+          description: Schedule found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - schedule
+                properties:
+                  schedule:
+                    $ref: '#/components/schemas/MessageSchedule'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    delete:
+      tags:
+      - Messages
+      operationId: deleteMessageSchedule
+      summary: Delete a message schedule
+      description: 'Deletes a message schedule synchronously, canceling sending at the scheduled time.
+
+        Consumes the same API rate limits as message sending. Not optimized for bulk deletion.
+
+        For bulk deletion, use DELETE /schedules.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/MessageId'
+      responses:
+        '204':
+          description: Schedule deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+  /schedules:count:
+    get:
+      tags:
+      - Schedules
+      operationId: getScheduleCount
+      summary: Get count of active schedules
+      description: Gets the count of active message schedules belonging to the account, with optional filters.
+      parameters:
+      - name: campaignId
+        in: query
+        required: false
+        description: Schedule grouping identifier
+        schema:
+          type: string
+      - name: between
+        in: query
+        required: false
+        description: Time range as pair of ISO 8601 timestamps separated by comma (inclusive)
+        schema:
+          type: string
+        examples:
+          default:
+            value: 2026-02-01T10:00,2026-02-16T20:00
+      - name: timeZone
+        in: query
+        required: false
+        description: IANA TZ for interpreting the between parameter
+        schema:
+          type: string
+        examples:
+          default:
+            value: Europe/Zurich
+      responses:
+        '200':
+          description: Count returned
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - count
+                properties:
+                  count:
+                    type: integer
+                    description: Number of active schedules
+  /schedules:
+    delete:
+      tags:
+      - Schedules
+      operationId: bulkDeleteSchedules
+      summary: Bulk delete active schedules
+      description: 'Asynchronously deletes active message schedules belonging to the account, with optional filters.
+
+        Optimized for bulk deletion. Returns 409 Conflict if another bulk deletion is already in progress.
+
+        '
+      parameters:
+      - name: campaignId
+        in: query
+        required: false
+        description: Schedule grouping identifier
+        schema:
+          type: string
+      - name: between
+        in: query
+        required: false
+        description: Time range as pair of ISO 8601 timestamps separated by comma (inclusive)
+        schema:
+          type: string
+      - name: timeZone
+        in: query
+        required: false
+        description: IANA TZ for interpreting the between parameter
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Deletion initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - count
+                properties:
+                  count:
+                    type: integer
+                    description: Number of schedules at the moment deletion was requested
+        '409':
+          description: Another bulk deletion is already in progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalError'
+  /templates:
+    get:
+      tags:
+      - Templates
+      operationId: listTemplates
+      summary: List templates
+      description: 'Returns up to 1000 partial template objects (without `content`, `options`, `variables`).
+
+        Supports pagination (up to 5000 total), filtering and sorting via query parameters.
+
+
+        ## Filtering
+
+
+        Any JSON-path property of the returned objects can be used as a query parameter
+
+        to filter results. The value supports the following operators:
+
+
+        | Operator | Syntax | Description |
+
+        |----------|--------|-------------|
+
+        | `eq` | `property=eq:val1,val2` | Case-insensitive equality against any of the values (default if operator omitted) |
+
+        | `in` | `property=in:val1,val2` | Synonym for `eq` |
+
+        | `contains` | `property=contains:text` | Property value contains the text (case-insensitive) |
+
+        | `matches` | `property=matches:regex` | Case-insensitive ECMAScript regex match |
+
+        | `between` | `property=between:start,end` | Inclusive range for dates/numbers; either boundary can be omitted |
+
+        | `exists` | `property=exists:true\|false` | Tests whether a property exists |
+
+
+        **Negation:** prefix any operator (except `exists`) with `!` to negate.
+
+        E.g. `meta.status=!in:APPROVED` returns entries not having that value, or not having that property.
+
+
+        **Nested paths** use dot-notation: `reviews.whatsapp.status=APPROVED`
+
+
+        **Bracket notation** for keys containing dots: `meta[''mtd.designerId'']=exists:true`
+
+
+        Multiple filter parameters are combined with logical AND.
+
+
+        ## Sorting
+
+
+        The `_sort` parameter accepts comma-separated property paths with optional `asc:` / `desc:` prefix.
+
+        Use `!` for null-coalescing: `_sort=desc:updatedOn!createdOn` sorts by `updatedOn`,
+
+        falling back to `createdOn` when undefined.
+
+
+        See response examples for complete query strings with filtering, sorting and pagination.'
+      parameters:
+      - name: _pageSize
+        in: query
+        required: false
+        description: Page size for pagination (max 1000)
+        schema:
+          type: integer
+          maximum: 1000
+      - name: _pageIndex
+        in: query
+        required: false
+        description: Zero-based page index
+        schema:
+          type: integer
+      - name: _sort
+        in: query
+        required: false
+        description: 'Sort by property paths with optional asc:/desc: prefix and ! null-coalescing'
+        schema:
+          type: string
+        examples:
+          by_updated:
+            summary: By last update, newest first
+            value: desc:updatedOn!createdOn
+          by_meta_and_review:
+            summary: By author then review status
+            value: asc:meta.author,desc:reviews.whatsapp.status
+      responses:
+        '200':
+          description: Template list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateListResponse'
+              examples:
+                approved_whatsapp_sorted:
+                  summary: GET /templates?reviews.whatsapp.status=APPROVED&_sort=desc:updatedOn!createdOn
+                  value:
+                    _totalItemCount: 450
+                    _filteredItemCount: 12
+                    _pageSize: 50
+                    _pageCount: 1
+                    templates:
+                    - templateId: tpl680045989c4...
+                      createdOn: '2024-06-15T10:12:33.511Z'
+                      updatedOn: '2024-11-23T14:05:43.511Z'
+                      meta:
+                        title: Winter Sale 2024
+                      reviews:
+                        whatsapp:
+                          status: APPROVED
+                    - templateId: tpl9382ef19390...
+                      createdOn: '2024-03-01T09:26:43.511Z'
+                      updatedOn: '2024-09-12T11:40:22.301Z'
+                      meta:
+                        title: OTP Authentication
+                      reviews:
+                        whatsapp:
+                          status: APPROVED
+                filtered_by_meta_paginated:
+                  summary: GET /templates?meta.author=eq:Alice&meta.title=contains:Summer&_pageSize=2&_pageIndex=0
+                  value:
+                    _totalItemCount: 450
+                    _filteredItemCount: 5
+                    _pageSize: 2
+                    _pageCount: 3
+                    templates:
+                    - templateId: tplA1b2c3d4e5f...
+                      createdOn: '2024-07-01T08:00:00.000Z'
+                      meta:
+                        title: Summer Flash Sale
+                        author: Alice
+                    - templateId: tplF6g7h8i9j0k...
+                      createdOn: '2024-07-15T14:30:00.000Z'
+                      updatedOn: '2024-08-01T09:00:00.000Z'
+                      meta:
+                        title: Summer Newsletter
+                        author: Alice
+                      reviews:
+                        whatsapp:
+                          status: REJECTED
+                created_after_date_not_rejected:
+                  summary: GET /templates?createdOn=between:2024-05-01,&reviews.whatsapp.status=!in:REJECTED
+                  value:
+                    _totalItemCount: 450
+                    _filteredItemCount: 87
+                    _pageSize: 50
+                    _pageCount: 2
+                    templates:
+                    - templateId: tplC4d5e6f7g8h...
+                      createdOn: '2024-05-10T16:20:00.000Z'
+                      meta:
+                        title: Loyalty Program Welcome
+                    - templateId: tplD5e6f7g8h9i...
+                      createdOn: '2024-06-02T11:45:00.000Z'
+                      meta:
+                        title: Order Confirmation
+                      reviews:
+                        whatsapp:
+                          status: APPROVED
+                designer_id_exists:
+                  summary: GET /templates?meta['mtd.designerId']=exists:true&meta['mtd.title']=contains:Sales
+                  value:
+                    _totalItemCount: 450
+                    _filteredItemCount: 3
+                    _pageSize: 50
+                    _pageCount: 1
+                    templates:
+                    - templateId: tplE6f7g8h9i0j...
+                      createdOn: '2024-04-20T08:30:00.000Z'
+                      meta:
+                        mtd.designerId: des_abc123
+                        mtd.title: Black Friday Sales
+                      designerUrl: https://my.linkmobility.solutions/designers/whatsapp/des_abc123/tplE6f7g8h9i0j...
+    post:
+      tags:
+      - Templates
+      operationId: createTemplate
+      summary: Create a template
+      description: Creates a new template. Maximum 5000 templates per account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - template
+              properties:
+                template:
+                  $ref: '#/components/schemas/TemplateCreation'
+            examples:
+              sms_text_template:
+                summary: Simple SMS text template
+                value:
+                  template:
+                    content:
+                      text: Hello {{firstName}} {{lastName}}!
+                    variables:
+                    - name: firstName
+                    - name: lastName
+              sms_template_oadc:
+                summary: SMS text template with OADC option
+                value:
+                  template:
+                    content:
+                      text: Hello {{firstName}} {{lastName}}!
+                    options:
+                      sms.originatingAddress: MyBrand
+                    variables:
+                    - name: firstName
+                    - name: lastName
+              rcs_card_template:
+                summary: RCS card template with buttons and typed variables
+                value:
+                  template:
+                    meta:
+                      title: Soldes 2022
+                    content:
+                      card:
+                        title: Hello there!
+                        text: Hello {{firstName}} {{lastName}}!
+                        buttons:
+                        - caption: Tell me more
+                          reply:
+                            text: Tell me more
+                          postback: DETAILS_{{countryCode}}
+                        - caption: Call us
+                          dial:
+                            phoneNumber: '{{callUsPhoneNumber}}'
+                        - caption: Visit us
+                          openUrl:
+                            url: https://{{countryCode}}.company.com
+                    options:
+                      rcs.card.orientation: HORIZONTAL
+                    variables:
+                    - name: firstName
+                      examples:
+                      - Georges
+                    - name: lastName
+                      examples:
+                      - Abitbol
+                    - name: countryCode
+                      examples:
+                      - GB
+                      - FR
+                      - ES
+                      description: To get country-specific details or website
+                    - name: callUsPhoneNumber
+                      examples:
+                      - '+3312456789'
+                      description: Country-specific customer service number
+              wa_text_template:
+                summary: 'WhatsApp: simple text template'
+                value:
+                  template:
+                    content:
+                      text: Hello, this is a simple text message.
+              wa_text_variables:
+                summary: 'WhatsApp: text template with variables'
+                value:
+                  template:
+                    content:
+                      text: Hello {{firstName}} {{lastName}}, this is a text message.
+                    variables:
+                    - name: firstName
+                      examples:
+                      - Ignatius
+                    - name: lastName
+                      examples:
+                      - Reilly
+              wa_card_reply_buttons:
+                summary: 'WhatsApp: card with 3 reply buttons'
+                value:
+                  template:
+                    content:
+                      card:
+                        title: Energy level
+                        text: '{{firstName}}, how is your energy level today?'
+                        subtitle: Please choose
+                        buttons:
+                        - caption: Amazing!
+                          postback: '3'
+                        - caption: Normal
+                          postback: '2'
+                        - caption: Sleepy..
+                          postback: '1'
+                    variables:
+                    - name: firstName
+                      examples:
+                      - Ignatius
+              wa_card_url_dial:
+                summary: 'WhatsApp: card with OpenUrl and Dial buttons'
+                value:
+                  template:
+                    content:
+                      card:
+                        text: '{{firstName}}, long time no see!'
+                        subtitle: Let's get in touch again
+                        buttons:
+                        - caption: Check your message box
+                          openUrl:
+                            url: https://www.example.com/{{accountId}}
+                        - caption: Call us
+                          dial:
+                            phoneNumber: '+33655555555'
+                    variables:
+                    - name: firstName
+                      examples:
+                      - Ignatius
+                    - name: accountId
+                      examples:
+                      - ignatius42
+              wa_card_image:
+                summary: 'WhatsApp: card with image variable and OpenUrl button'
+                value:
+                  template:
+                    content:
+                      card:
+                        media:
+                          source: '{{paintingUrl}}'
+                          type: image/jpeg
+                        text: 'New painting: *{{title}}* _({{year}})_, by *{{author}}*. Enjoy!'
+                        buttons:
+                        - caption: View
+                          openUrl:
+                            url: https://www.example.com/{{paintingId}}
+                    variables:
+                    - name: title
+                      examples:
+                      - Montagnes a Tahiti
+                    - name: year
+                      examples:
+                      - '1891'
+                    - name: author
+                      examples:
+                      - Paul Gauguin
+                    - name: paintingUrl
+                      examples:
+                      - https://www.example.com/tahiti.jpg
+                    - name: paintingId
+                      examples:
+                      - '120100'
+              wa_card_location:
+                summary: 'WhatsApp: card with location and UTILITY category'
+                value:
+                  template:
+                    content:
+                      card:
+                        location:
+                          title: '{{museumName}}'
+                          description: '{{museumAddress}}'
+                          latitude: '{{museumLat}}'
+                          longitude: '{{museumLon}}'
+                        text: Hi {{firstName}}! We located *{{paintingName}}*. It is on exhibit at {{museumName}}.
+                    variables:
+                    - name: firstName
+                      examples:
+                      - Alice
+                    - name: paintingName
+                      examples:
+                      - La Orana Maria (1891) by Paul Gauguin
+                    - name: museumName
+                      examples:
+                      - Metropolitan Museum of Art, New York
+                    - name: museumAddress
+                      examples:
+                      - 1000 5th Ave, New York, NY 10028, USA
+                    - name: museumLat
+                      examples:
+                      - '40.77956653326709'
+                    - name: museumLon
+                      examples:
+                      - '-73.96265390639267'
+                    options:
+                      whatsapp.template.category: UTILITY
+              wa_auth_copycode:
+                summary: 'WhatsApp: authentication template with CopyCode, Spanish language'
+                value:
+                  template:
+                    content:
+                      card:
+                        text: '{{code}}'
+                        buttons:
+                        - caption: Copiar codigo
+                          copyCode:
+                            value: '{{code}}'
+                    variables:
+                    - name: code
+                      examples:
+                      - '123456'
+                    options:
+                      whatsapp.template.category: AUTHENTICATION
+                      whatsapp.template.language: es
+                      whatsapp.template.messageSendTtlSeconds: '120'
+                      whatsapp.template.authentication.codeExpirationMinutes: '2'
+                      whatsapp.template.authentication.addSecurityRecommendation: 'true'
+      responses:
+        '201':
+          description: Template created
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - template
+                properties:
+                  template:
+                    $ref: '#/components/schemas/Template'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /templates/{templateId}:
+    get:
+      tags:
+      - Templates
+      operationId: getTemplate
+      summary: Get a template
+      description: Returns the complete template object.
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      responses:
+        '200':
+          description: Template found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - template
+                properties:
+                  template:
+                    $ref: '#/components/schemas/Template'
+              examples:
+                getTemplate:
+                  value:
+                    template:
+                      templateId: tplc680045989c4...
+                      createdOn: '2019-04-23T18:25:43.511Z'
+                      updatedOn: '2019-04-23T18:25:43.511Z'
+                      meta:
+                        title: Soldes 2022
+                      content:
+                        card:
+                          title: Hello there!
+                          text: Hello {{firstName}} {{lastName}}!
+                      variables:
+                      - name: firstName
+                        examples:
+                        - Georges
+                      - name: lastName
+                        examples:
+                        - Abitbol
+                      options:
+                        sms.originatorTON: Promo
+                        rcs.card.orientation: HORIZONTAL
+                        whatsapp.template.category: MARKETING
+                      reviews:
+                        whatsapp:
+                          occurredOn: '2023-02-21T18:25:43.942Z'
+                          status: APPROVED
+                          channelData:
+                            whatsapp.template.id: '213270854988610'
+                            whatsapp.template.name: acme_tplc680_soldes2022_a3f1
+                            whatsapp.template.category: MARKETING
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+      - Templates
+      operationId: deleteTemplate
+      summary: Delete a template
+      description: 'Permanently deletes a template. If a channel-native template was created via review,
+
+        it will be deleted as well. This operation is NOT reversible.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      responses:
+        '204':
+          description: Template deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /templates/{templateId}/meta:
+    get:
+      tags:
+      - Templates
+      operationId: getTemplateMeta
+      summary: Get template meta properties
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      responses:
+        '200':
+          description: Meta returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetaWrapper'
+    post:
+      tags:
+      - Templates
+      operationId: overwriteTemplateMeta
+      summary: Update template metas (overwrite)
+      description: Overwrites the complete collection of meta properties. Fails with 423 if template is locked by an active review.
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MetaWrapper'
+      responses:
+        '200':
+          description: Meta updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetaWrapper'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '423':
+          $ref: '#/components/responses/Locked'
+    patch:
+      tags:
+      - Templates
+      operationId: mergeTemplateMeta
+      summary: Update template metas (merge)
+      description: Merges provided meta properties with existing ones. Fails with 423 if template is locked by an active review.
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MetaWrapper'
+      responses:
+        '200':
+          description: Meta updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetaWrapper'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '423':
+          $ref: '#/components/responses/Locked'
+  /templates/{templateId}/variables:
+    get:
+      tags:
+      - Templates
+      operationId: getTemplateVariables
+      summary: Get template variables
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      responses:
+        '200':
+          description: Variables returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariablesWrapper'
+    post:
+      tags:
+      - Templates
+      operationId: overwriteTemplateVariables
+      summary: Update template variables (overwrite)
+      description: Overwrites the entire list of variables. Fails with 423 if template is locked by an active review.
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariablesWrapper'
+      responses:
+        '200':
+          description: Variables updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariablesWrapper'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '423':
+          $ref: '#/components/responses/Locked'
+    patch:
+      tags:
+      - Templates
+      operationId: mergeTemplateVariables
+      summary: Update template variables (merge)
+      description: 'Merges provided variables with existing ones. Variable identity is matched by ref (if present) or name.
+
+        Fails with 423 if template is locked by an active review.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariablesWrapper'
+      responses:
+        '200':
+          description: Variables updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariablesWrapper'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '423':
+          $ref: '#/components/responses/Locked'
+  /templates/{templateId}/content:
+    get:
+      tags:
+      - Templates
+      operationId: getTemplateContent
+      summary: Get template content
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      responses:
+        '200':
+          description: Content returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentWrapper'
+    post:
+      tags:
+      - Templates
+      operationId: overwriteTemplateContent
+      summary: Update template content (overwrite)
+      description: Overwrites the template content. Fails with 423 if template is locked by an active review.
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentWrapper'
+      responses:
+        '200':
+          description: Content updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentWrapper'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '423':
+          $ref: '#/components/responses/Locked'
+  /templates/{templateId}/options:
+    get:
+      tags:
+      - Templates
+      operationId: getTemplateOptions
+      summary: Get template options
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      responses:
+        '200':
+          description: Options returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OptionsWrapper'
+    post:
+      tags:
+      - Templates
+      operationId: overwriteTemplateOptions
+      summary: Update template options (overwrite)
+      description: Overwrites the list of channel-specific options. Fails with 423 if template is locked by an active review.
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionsWrapper'
+      responses:
+        '200':
+          description: Options updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OptionsWrapper'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '423':
+          $ref: '#/components/responses/Locked'
+    patch:
+      tags:
+      - Templates
+      operationId: mergeTemplateOptions
+      summary: Update template options (merge)
+      description: Merges provided options with existing ones. Fails with 423 if template is locked by an active review.
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptionsWrapper'
+      responses:
+        '200':
+          description: Options updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OptionsWrapper'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '423':
+          $ref: '#/components/responses/Locked'
+  /templates/{templateId}/reviews:
+    get:
+      tags:
+      - Templates
+      operationId: getTemplateReviews
+      summary: Get all template reviews
+      description: Returns all channel-specific reviews for the template.
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      responses:
+        '200':
+          description: Reviews returned
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - reviews
+                properties:
+                  reviews:
+                    type: object
+                    additionalProperties:
+                      $ref: '#/components/schemas/Review'
+                    description: Dictionary of channelId to Review
+              examples:
+                getTemplateReviews:
+                  value:
+                    reviews:
+                      whatsapp:
+                        occurredOn: '2023-02-21T18:25:43.301Z'
+                        status: REJECTED
+                        details: ToS violation
+                      mock:
+                        occurredOn: '2023-01-21T11:33:18.581Z'
+                        status: APPROVED
+                        channelData:
+                          mock.template.id: '...'
+                          mock.template.name: '...'
+                          mock.template.reviewedBy: '...'
+  /templates/{templateId}/reviews/{channelId}:
+    get:
+      tags:
+      - Templates
+      operationId: getTemplateReview
+      summary: Get channel-specific template review
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      - $ref: '#/components/parameters/ChannelId'
+      responses:
+        '200':
+          description: Review returned
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Review'
+              examples:
+                getTemplateReview:
+                  value:
+                    whatsapp:
+                      occurredOn: '2023-02-21T18:25:43.542Z'
+                      status: SUSPENDED
+                      details: Suspicious content
+                      channelData:
+                        whatsapp.template.id: '213270854988610'
+                        whatsapp.template.name: acme_tplaf938...
+                        whatsapp.template.category: MARKETING
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags:
+      - Templates
+      operationId: submitTemplateReview
+      summary: Submit template for channel review
+      description: 'Submits the template for review by a channel provider (e.g. WhatsApp).
+
+        Accepted only if no prior review exists, or last review status is REJECTED or DELETED.
+
+        Once submitted/approved, the template is locked for editing.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      - $ref: '#/components/parameters/ChannelId'
+      responses:
+        '202':
+          description: Submitted for review
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Review'
+              examples:
+                submitTemplateReview:
+                  value:
+                    whatsapp:
+                      occurredOn: '2023-02-21T18:25:43.542Z'
+                      status: SUBMITTING
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          description: Current review state does not allow this action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+      - Templates
+      operationId: deleteTemplateReview
+      summary: Delete channel-specific template review
+      description: 'Deletes a channel-specific template review on the channel''s end.
+
+        Sets status to DELETING, then DELETED once confirmed.
+
+        Accepted only if current status is APPROVED or SUSPENDED.
+
+        '
+      parameters:
+      - $ref: '#/components/parameters/TemplateId'
+      - $ref: '#/components/parameters/ChannelId'
+      responses:
+        '202':
+          description: Deletion initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Review'
+              examples:
+                deleteTemplateReview:
+                  value:
+                    whatsapp:
+                      occurredOn: '2023-02-21T18:25:43.542Z'
+                      status: DELETING
+                      channelData:
+                        whatsapp.template.id: '213270854988610'
+                        whatsapp.template.name: acme_tplaf938...
+                        whatsapp.template.category: MARKETING
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Current review state does not allow deletion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /traffic/files:
+    get:
+      tags:
+      - Traffic
+      operationId: listTrafficFilesRoot
+      summary: List all traffic files
+      description: 'Recursively lists all traffic files from the root. Returns max 1000 entries (oldest first).
+
+        Files contain JSONL events (same semantics as callback events) and are available for 30 days.
+
+        File URLs contain a security token expiring after 15 minutes.
+
+
+        To list files under a specific folder, append the folder path to the URL,
+
+        e.g. GET /traffic/files/events/2024/11/10/09
+
+
+        To delete a file, use DELETE with the full file path,
+
+        e.g. DELETE /traffic/files/events/2024/11/04/15/xxx.zip
+
+        '
+      responses:
+        '200':
+          description: Files listed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficFilesResponse'
+  /traffic/files/{path}:
+    get:
+      tags:
+      - Traffic
+      operationId: listTrafficFilesInFolder
+      summary: List traffic files under a folder path
+      description: 'Lists files recursively under a specified folder path. Returns max 1000 entries (oldest first).
+
+        Path format: events/{year}/{month}/{day}/{hour}
+
+        '
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Relative folder path (e.g. events/2024 or events/2024/11/10/09) or file path for DELETE
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Files listed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficFilesResponse'
+    delete:
+      tags:
+      - Traffic
+      operationId: deleteTrafficFile
+      summary: Delete a traffic file
+      description: Deletes a specific traffic file by its relative path.
+      parameters:
+      - name: path
+        in: path
+        required: true
+        description: Relative file path (e.g. events/2024/11/04/15/sequence.zip)
+        schema:
+          type: string
+      responses:
+        '204':
+          description: File deleted
+  /self:
+    get:
+      tags:
+      - Self Admin
+      operationId: getAccountInfo
+      summary: Get account information and settings
+      responses:
+        '200':
+          description: Account info returned
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - account
+                properties:
+                  account:
+                    $ref: '#/components/schemas/Account'
+  /self/settings:
+    patch:
+      tags:
+      - Self Admin
+      operationId: updateAccountSettings
+      summary: Update account settings
+      description: 'Sets or updates account settings partially or completely.
+
+        New settings take effect after 2-3 minutes. Callback setting changes
+
+        apply to new messages only; keep both old and new endpoints available during transition.
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - settings
+              properties:
+                settings:
+                  $ref: '#/components/schemas/Settings'
+            examples:
+              updateAccountSettings:
+                value:
+                  settings:
+                    callback:
+                      url: https://acme.com/ocm
+                      auth:
+                        type: httpBasic
+                        login: someuser
+                        password: secret
+      responses:
+        '200':
+          description: Settings updated
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - settings
+                properties:
+                  settings:
+                    $ref: '#/components/schemas/Settings'
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key for /v1 endpoints
+    oauth2:
+      type: oauth2
+      description: OAuth2 client credentials for /v2 endpoints
+      flows:
+        clientCredentials:
+          tokenUrl: https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token
+          scopes: {}
+  parameters:
+    MessageId:
+      name: messageId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique message identifier
+    TemplateId:
+      name: templateId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique template identifier
+    ChannelId:
+      name: channelId
+      in: path
+      required: true
+      schema:
+        type: string
+        enum:
+        - sms
+        - rcs
+        - viber
+        - whatsapp
+        - mock
+      description: Channel identifier
+    PageSize:
+      name: _pageSize
+      in: query
+      required: false
+      schema:
+        type: integer
+      description: Page size for pagination
+    PageIndex:
+      name: _pageIndex
+      in: query
+      required: false
+      schema:
+        type: integer
+      description: Zero-based page index
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Authorization failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Locked:
+      description: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error details
+    Context:
+      type: object
+      description: Free-form client-specific correlation values (max 50 entries, keys 1-50 chars, values max 500 chars)
+      maxProperties: 50
+      additionalProperties:
+        type: string
+      examples:
+      - myCampaignId: christmas-560650
+        myUserId: vincent@example.com
+    StringStringMap:
+      type: object
+      additionalProperties:
+        type: string
+      examples:
+      - sms.originatingAddress: MYBRAND
+        rcs.card.orientation: HORIZONTAL
+    SendMessagesRequest:
+      type: object
+      required:
+      - messages
+      properties:
+        messages:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/Message'
+      examples:
+      - messages:
+        - channelId: sms
+          userId: '33699999999'
+          content:
+            text: This is a simple text sent by SMS!
+    Message:
+      type: object
+      required:
+      - channelId
+      - userId
+      - content
+      description: Message definition container
+      properties:
+        channelId:
+          type: string
+          description: 'Supported channel identifier: sms, rcs, viber, whatsapp, mock'
+          enum:
+          - sms
+          - rcs
+          - viber
+          - whatsapp
+          - mock
+        userId:
+          type: string
+          description: Channel-native user identifier (e.g. phone number)
+        content:
+          $ref: '#/components/schemas/Content'
+        context:
+          $ref: '#/components/schemas/Context'
+        validUntil:
+          type: string
+          format: date-time
+          description: Absolute message expiration (ISO 8601). Cannot be combined with validFor.
+        validFor:
+          type: string
+          description: Relative message expiration (ISO 8601 duration, e.g. PT8H). Cannot be combined with validUntil.
+        scheduleAt:
+          type: string
+          format: date-time
+          description: Message sending time or start of spreading (ISO 8601). Requires scheduling feature.
+        allowedHours:
+          type: string
+          description: Allowed messaging hours (OpenStreetMap Opening Hours format). Required when whenDnd is specified.
+        whenDnd:
+          type: string
+          enum:
+          - ignore
+          - defer
+          - reject
+          description: Behavior during disallowed hours (DND). defer requires scheduling feature.
+        spreadOver:
+          type: string
+          description: Random scheduling period (ISO 8601 duration, e.g. P7D). Requires scheduling feature.
+        timeZone:
+          type: string
+          description: IANA time zone for scheduleAt, allowedHours and validUntil (e.g. Europe/Zurich)
+        campaignId:
+          type: string
+          description: Schedule grouping identifier for bulk counting/deletion
+        options:
+          $ref: '#/components/schemas/StringStringMap'
+        fallback:
+          $ref: '#/components/schemas/Message'
+      examples:
+      - channelId: rcs
+        userId: '33699999999'
+        content:
+          text: Hello, this is a simple text...
+          suggestions:
+          - caption: Yes!
+            postback: 'YES'
+          - caption: No!
+            postback: 'NO'
+        context:
+          myCampaignId: christmas-560650
+          myUserId: vincent@example.com
+    Content:
+      description: 'Message content. Exactly one of the content type properties must be provided:
+
+        text, media, location, card, carousel, or fromTemplate.
+
+        Suggestions (quick replies) can be added to primitive content types.
+
+        '
+      type: object
+      properties:
+        text:
+          type: string
+          description: Simple text content
+        media:
+          $ref: '#/components/schemas/Media'
+        location:
+          $ref: '#/components/schemas/Location'
+        card:
+          $ref: '#/components/schemas/Card'
+        carousel:
+          $ref: '#/components/schemas/Carousel'
+        fromTemplate:
+          $ref: '#/components/schemas/FromTemplate'
+        suggestions:
+          type: array
+          description: Quick replies / suggestion buttons (not applicable to fromTemplate)
+          items:
+            $ref: '#/components/schemas/Button'
+      examples:
+      - card:
+          title: Private sale
+          text: Enjoy your personal -30% rebate on all items
+          media:
+            source: https://example.com/picture.jpeg
+            type: image/png
+          buttons:
+          - caption: Get me there
+            openUrl:
+              url: https://to.page/e9ZxkeAvu
+    Media:
+      type: object
+      required:
+      - type
+      - source
+      properties:
+        type:
+          type: string
+          description: MIME type (e.g. image/gif, video/mp4)
+        source:
+          type: string
+          description: Media resource URI
+        thumbnail:
+          type: string
+          description: Thumbnail image URI
+        description:
+          type: string
+          description: Caption / media description
+      examples:
+      - type: image/jpeg
+        source: https://example.com/picture.jpeg
+        thumbnail: https://example.com/thumbnail.jpg
+        description: An awesome picture!
+    Location:
+      type: object
+      required:
+      - latitude
+      - longitude
+      properties:
+        latitude:
+          type: number
+          format: double
+          description: Latitude in degrees (plus/minus 90)
+        longitude:
+          type: number
+          format: double
+          description: Longitude in degrees (plus/minus 180)
+        title:
+          type: string
+          description: Short name of the location
+        description:
+          type: string
+          description: Accompanying text description
+      examples:
+      - latitude: 48.86015347854819
+        longitude: 2.326568685144047
+        title: Musee d'Orsay
+        description: Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris
+    Card:
+      type: object
+      description: Rich card containing media, text and/or buttons
+      properties:
+        media:
+          $ref: '#/components/schemas/Media'
+        location:
+          $ref: '#/components/schemas/Location'
+        title:
+          type: string
+        subtitle:
+          type: string
+        text:
+          type: string
+        buttons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Button'
+      examples:
+      - title: Still Life with Teapot and Fruit (1896)
+        text: Still Life with Teapot...
+        media:
+          source: https://example.com/picture.jpeg
+          type: image/jpeg
+        buttons:
+        - caption: Tell me more
+          postback: DETAILS
+        - caption: Call us
+          postback: CALL
+          dial:
+            phoneNumber: '+33600000000'
+        - caption: Visit us
+          postback: WEB
+          openUrl:
+            url: https://www.example.com
+    Carousel:
+      type: object
+      required:
+      - cards
+      properties:
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+      examples:
+      - cards:
+        - title: Gustave Boyer in a Straw Hat
+          text: Early twentieth-century scholars....
+          media:
+            source: https://example.com/picture1.jpeg
+            type: image/jpeg
+          buttons:
+          - caption: View online
+            openUrl:
+              url: https://example.com
+        - title: Seated Peasant
+          text: The mood and palette...
+          media:
+            source: https://example.com/picture2.jpeg
+            type: image/jpeg
+          buttons:
+          - caption: View online
+            openUrl:
+              url: https://example.com
+    FromTemplate:
+      type: object
+      required:
+      - templateId
+      description: Content generated from a pre-defined template
+      properties:
+        templateId:
+          type: string
+          description: Template identifier
+        variables:
+          type: object
+          additionalProperties:
+            type: string
+          description: Variable name-value pairs to inject into template placeholders
+      examples:
+      - templateId: tple93fe290002...
+        variables:
+          firstName: Vincent
+          lastName: Georges
+    Button:
+      type: object
+      required:
+      - caption
+      description: 'Interactive button / suggestion. Exactly one action property should be provided:
+
+        reply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.
+
+        If no action property is provided, the button defaults to a reply using the caption as text.
+
+        '
+      properties:
+        caption:
+          type: string
+          description: Button display text
+        postback:
+          type: string
+          description: Hidden value sent back for server-side tracking
+        options:
+          $ref: '#/components/schemas/StringStringMap'
+        reply:
+          $ref: '#/components/schemas/ReplyAction'
+        dial:
+          $ref: '#/components/schemas/DialAction'
+        openUrl:
+          $ref: '#/components/schemas/OpenUrlAction'
+        createCalendarEvent:
+          $ref: '#/components/schemas/CreateCalendarEventAction'
+        shareLocation:
+          $ref: '#/components/schemas/ShareLocationAction'
+        viewLocation:
+          $ref: '#/components/schemas/ViewLocationAction'
+        copyCode:
+          $ref: '#/components/schemas/CopyCodeAction'
+      examples:
+      - caption: Visit us
+        postback: WEB
+        openUrl:
+          url: https://www.example.com
+    ReplyAction:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          description: Text sent on behalf of the end-user
+      examples:
+      - text: Show more
+    DialAction:
+      type: object
+      required:
+      - phoneNumber
+      properties:
+        phoneNumber:
+          type: string
+          description: Phone number to dial
+      examples:
+      - phoneNumber: '+33600000000'
+    OpenUrlAction:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          description: URL to open
+      examples:
+      - url: https://www.example.com
+    CreateCalendarEventAction:
+      type: object
+      required:
+      - startTime
+      - endTime
+      - title
+      - description
+      properties:
+        startTime:
+          type: string
+          format: date-time
+          description: Event start time (ISO 8601 UTC)
+        endTime:
+          type: string
+          format: date-time
+          description: Event end time (ISO 8601 UTC)
+        title:
+          type: string
+          description: Calendar event title
+        description:
+          type: string
+          description: Calendar event description
+      examples:
+      - startTime: '2020-04-23T18:25:43.511Z'
+        endTime: '2020-05-23T18:25:43.511Z'
+        title: Cezanne Exhibit 2020
+        description: Visit the exhibition
+    ShareLocationAction:
+      type: object
+      description: Opens the device location picker (no properties)
+      examples:
+      - {}
+    ViewLocationAction:
+      type: object
+      description: Opens device location app to show a specific location. Provide latitude+longitude or query.
+      properties:
+        latitude:
+          type: string
+          description: Latitude in degrees
+        longitude:
+          type: string
+          description: Longitude in degrees
+        query:
+          type: string
+          description: Location search query
+        description:
+          type: string
+          description: Location description
+      examples:
+      - latitude: '43.5249046'
+        longitude: '5.4033345'
+        description: Jas de Bouffan
+    CopyCodeAction:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Value to copy to clipboard (e.g. promo code, OTP)
+      examples:
+      - value: PROMO1234
+    AcceptedResponse:
+      type: object
+      required:
+      - requestId
+      - messages
+      properties:
+        requestId:
+          type: string
+          description: Unique request identifier
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageResult'
+      examples:
+      - requestId: r4SKdf4bake7A
+        messages:
+        - messageId: ba0bb25dabdf4ba298
+          validUntil: '2026-01-23T18:25:43.511Z'
+          context:
+            myMessageId: '560605604640'
+            myUserId: xavier@example.com
+            myCampaignId: christmas-001
+          fallback:
+            messageId: 54060564ef405da45
+    MessageResult:
+      type: object
+      required:
+      - messageId
+      properties:
+        messageId:
+          type: string
+          description: Generated message identifier
+        validUntil:
+          type: string
+          format: date-time
+          description: Absolute expiration date-time
+        validFor:
+          type: string
+          description: Relative expiration (ISO 8601 duration) when absolute cannot be determined
+        scheduleAt:
+          type: string
+          format: date-time
+          description: Actual schedule time (may differ from request due to spreading/deferral)
+        context:
+          $ref: '#/components/schemas/Context'
+        fallback:
+          $ref: '#/components/schemas/MessageResult'
+      examples:
+      - messageId: ba0bb25dabdf4ba298
+        validUntil: '2026-01-23T18:25:43.511Z'
+        scheduleAt: '2026-01-16T10:00:00.000Z'
+        context:
+          myCampaignId: christmas-001
+        fallback:
+          messageId: 54060564ef405da45
+    MessageEventsResponse:
+      type: object
+      required:
+      - events
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        _totalItemCount:
+          type: integer
+        _pageSize:
+          type: integer
+        _pageCount:
+          type: integer
+      examples:
+      - _totalItemCount: 2
+        _pageSize: 50
+        _pageCount: 1
+        events:
+        - eventId: ems7GmGxURd2rQ8BFIEAhiL09
+          'on': '2020-03-06T11:12:03.195Z'
+          accountId: client-account-id
+          messageStatusChanged:
+            messageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+            requestId: req17nxsvc0w9IwrBIirL5wCq
+            channelId: rcs
+            userId: '33699999999'
+            status: SENT
+        - eventId: ems7GmGxURd2rQ8BFIEAhiL09
+          'on': '2020-03-06T11:12:04.231Z'
+          accountId: client-account-id
+          messageStatusChanged:
+            messageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+            requestId: req17nxsvc0w9IwrBIirL5wCq
+            channelId: rcs
+            userId: '33699999999'
+            status: DELIVERED
+      description: Paginated list of messageStatusChanged and userMessageReceived events for a specific message. Does not include templateReviewStatusChanged events.
+    MessageSchedule:
+      type: object
+      required:
+      - scheduleAt
+      properties:
+        scheduleAt:
+          type: string
+          format: date-time
+          description: Scheduled sending time
+        campaignId:
+          type: string
+          description: Schedule grouping identifier
+      examples:
+      - scheduleAt: '2026-03-12T13:27:00.000+01:00'
+        campaignId: summerCampaign2026
+    Template:
+      type: object
+      required:
+      - templateId
+      - createdOn
+      properties:
+        templateId:
+          type: string
+          description: Unique template identifier (generated by the service)
+        createdOn:
+          type: string
+          format: date-time
+          description: Date of template creation
+        updatedOn:
+          type: string
+          format: date-time
+          description: Date of last template update
+        meta:
+          $ref: '#/components/schemas/StringStringMap'
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
+        content:
+          $ref: '#/components/schemas/Content'
+        options:
+          $ref: '#/components/schemas/StringStringMap'
+        reviews:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Review'
+          description: Channel-specific template reviews (keyed by channelId)
+          examples:
+          - whatsapp:
+              occurredOn: '2023-02-21T18:25:43.942Z'
+              status: APPROVED
+              channelData:
+                whatsapp.template.id: '213270854988610'
+                whatsapp.template.name: acme_tplaf938_summer_sale
+                whatsapp.template.category: MARKETING
+        designerUrl:
+          type: string
+          description: URL to the external template designer (dynamically generated if enabled)
+      examples:
+      - templateId: tplc680045989c4...
+        createdOn: '2019-04-23T18:25:43.511Z'
+        updatedOn: '2019-04-23T18:25:43.511Z'
+        meta:
+          title: Soldes 2022
+        content:
+          card:
+            title: Hello there!
+            text: Hello {{firstName}} {{lastName}}!
+        variables:
+        - name: firstName
+          examples:
+          - Georges
+        - name: lastName
+          examples:
+          - Abitbol
+        options:
+          sms.originatorTON: Promo
+          rcs.card.orientation: HORIZONTAL
+          whatsapp.template.category: MARKETING
+        reviews:
+          whatsapp:
+            occurredOn: '2023-02-21T18:25:43.942Z'
+            status: APPROVED
+            channelData:
+              whatsapp.template.id: '213270854988610'
+              whatsapp.template.name: acme_tplc680_soldes2022_a3f1
+              whatsapp.template.category: MARKETING
+    TemplateCreation:
+      type: object
+      description: Properties for creating a new template
+      properties:
+        meta:
+          $ref: '#/components/schemas/StringStringMap'
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
+        content:
+          $ref: '#/components/schemas/Content'
+        options:
+          $ref: '#/components/schemas/StringStringMap'
+      examples:
+      - meta:
+          title: Summer Sales
+        content:
+          text: Hello {{firstName}} {{lastName}}!
+        variables:
+        - name: firstName
+        - name: lastName
+        options:
+          sms.originatingAddress: MyBrand
+    TemplateListResponse:
+      type: object
+      required:
+      - templates
+      properties:
+        templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListItem'
+        _totalItemCount:
+          type: integer
+          description: Total templates before filtering
+        _filteredItemCount:
+          type: integer
+          description: Total templates after filtering
+        _pageSize:
+          type: integer
+        _pageCount:
+          type: integer
+      examples:
+      - _totalItemCount: 450
+        _filteredItemCount: 350
+        _pageSize: 50
+        _pageCount: 7
+        templates:
+        - templateId: tpl680045989c4...
+          createdOn: '2019-04-23T18:25:43.511Z'
+          meta:
+            title: Soldes ete 2022
+        - templateId: tpl9382ef19390...
+          createdOn: '2019-04-23T18:26:43.511Z'
+          meta:
+            title: Soldes automne 2022
+          reviews:
+            whatsapp:
+              status: APPROVED
+    TemplateListItem:
+      type: object
+      required:
+      - templateId
+      - createdOn
+      description: Partial template object (no content, options, or variables)
+      properties:
+        templateId:
+          type: string
+        createdOn:
+          type: string
+          format: date-time
+        updatedOn:
+          type: string
+          format: date-time
+        meta:
+          $ref: '#/components/schemas/StringStringMap'
+        reviews:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ReviewListItem'
+          examples:
+          - whatsapp:
+              status: APPROVED
+        designerUrl:
+          type: string
+      examples:
+      - templateId: tpl680045989c4...
+        createdOn: '2019-04-23T18:25:43.511Z'
+        updatedOn: '2019-04-23T18:25:43.511Z'
+        meta:
+          title: Soldes ete 2022
+        reviews:
+          whatsapp:
+            status: APPROVED
+    Variable:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: 'Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)'
+        type:
+          type: string
+          enum:
+          - text
+          - dateTime
+          - number
+          - phoneNumber
+          - url
+          - emailAddress
+          - custom
+          description: Optional type descriptor for validation constraints
+        formats:
+          type: array
+          items:
+            type: string
+          description: Type-specific constraint formats (e.g. culture codes, regex patterns)
+        description:
+          type: string
+          description: Variable description
+        examples:
+          type: array
+          items:
+            type: string
+          description: Example values
+        ref:
+          type: string
+          maxLength: 50
+          description: Optional immutable identifier for the variable (used for merge identity)
+      examples:
+      - name: firstName
+        type: text
+        formats:
+        - unicode
+        description: Customer first name
+        examples:
+        - Georges
+        - Alice
+        ref: MY_FIELD_1
+    Review:
+      type: object
+      required:
+      - occurredOn
+      - status
+      properties:
+        occurredOn:
+          type: string
+          format: date-time
+          description: Date and time of last review status change
+        status:
+          $ref: '#/components/schemas/TemplateReviewStatus'
+        details:
+          type: string
+          description: Additional details about the latest status
+        channelData:
+          $ref: '#/components/schemas/StringStringMap'
+      examples:
+      - occurredOn: '2023-02-21T18:25:43.942Z'
+        status: APPROVED
+        channelData:
+          whatsapp.template.id: '213270854988610'
+          whatsapp.template.name: acme_tplaf938_summer_sale
+          whatsapp.template.category: MARKETING
+    ReviewListItem:
+      type: object
+      required:
+      - status
+      description: Minimal review object for template list
+      properties:
+        status:
+          $ref: '#/components/schemas/TemplateReviewStatus'
+      examples:
+      - status: APPROVED
+    MetaWrapper:
+      type: object
+      required:
+      - meta
+      properties:
+        meta:
+          $ref: '#/components/schemas/StringStringMap'
+      examples:
+      - meta:
+          author: gabitbol
+          scope: sales
+          state: published
+          version: '3'
+    VariablesWrapper:
+      type: object
+      required:
+      - variables
+      properties:
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
+      examples:
+      - variables:
+        - name: firstName
+        - name: lastName
+          description: Family name
+    ContentWrapper:
+      type: object
+      required:
+      - content
+      properties:
+        content:
+          $ref: '#/components/schemas/Content'
+      examples:
+      - content:
+          card:
+            title: Hello there!
+            text: Hello {{firstName}} {{lastName}}!
+    OptionsWrapper:
+      type: object
+      required:
+      - options
+      properties:
+        options:
+          $ref: '#/components/schemas/StringStringMap'
+      examples:
+      - options:
+          rcs.card.orientation: HORIZONTAL
+          rcs.media.height: TALL
+    TrafficFilesResponse:
+      type: object
+      required:
+      - files
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrafficFile'
+      examples:
+      - files:
+        - path: /events/2024/11/03/15/xxx.zip
+          url: https://ocp-traffic-files-....s3...
+        - path: /events/2024/11/04/15/yyy.zip
+          url: https://ocp-traffic-files-....s3...
+        - path: /events/2024/11/04/16/zzz.zip
+          url: https://ocp-traffic-files-....s3...
+    TrafficFile:
+      type: object
+      required:
+      - path
+      - url
+      properties:
+        path:
+          type: string
+          description: 'Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip'
+        url:
+          type: string
+          description: Absolute download URL with security token (expires after 15 minutes)
+      examples:
+      - path: /events/2024/11/04/15/events-1-2024-11-04-15-11-05-567b90ac.zip
+        url: https://ocp-traffic-files-544418618271.s3.eu-central-1.amazonaws.com/events/2024/11/06/14/events-1-...zip?...
+    Account:
+      type: object
+      required:
+      - accountId
+      - settings
+      properties:
+        accountId:
+          type: string
+          description: Unique technical account identifier
+        settings:
+          $ref: '#/components/schemas/Settings'
+      examples:
+      - accountId: acme
+        settings:
+          callback:
+            url: https://acme.com
+            auth:
+              type: httpBasic
+              login: someuser
+              password: secret-ref:acme_...
+            tls:
+              certificate: secret-ref:acme_...
+              password: secret-ref:acme_...
+    Settings:
+      type: object
+      properties:
+        callback:
+          $ref: '#/components/schemas/CallbackSettings'
+      examples:
+      - callback:
+          url: https://acme.com
+          auth:
+            type: httpBasic
+            login: someuser
+            password: secret-ref:acme_...
+    CallbackSettings:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          description: HTTPS callback endpoint URL
+        auth:
+          $ref: '#/components/schemas/CallbackAuth'
+        tls:
+          $ref: '#/components/schemas/CallbackTls'
+        enableCompression:
+          type: boolean
+          description: Enable GZIP compression for callback requests (default false)
+      examples:
+      - url: https://acme.com/ocm
+        auth:
+          type: customHttpHeader
+          headerName: x-api-key
+          password: secret
+        enableCompression: true
+    CallbackAuth:
+      type: object
+      required:
+      - type
+      - password
+      properties:
+        type:
+          type: string
+          enum:
+          - httpBasic
+          - bearerToken
+          - customHttpHeader
+          description: Authentication type
+        login:
+          type: string
+          description: Login for httpBasic type
+        password:
+          type: string
+          description: Secret value (write-only, replaced by reference after storage)
+        headerName:
+          type: string
+          description: Custom header name for customHttpHeader type
+      examples:
+      - type: httpBasic
+        login: someuser
+        password: secret
+    CallbackTls:
+      type: object
+      required:
+      - certificate
+      - password
+      description: Client SSL certificate authentication
+      properties:
+        certificate:
+          type: string
+          description: Base64-encoded PEM (with embedded private key) or PFX/PKCS#12 certificate
+        password:
+          type: string
+          description: Private key password
+      examples:
+      - certificate: LS0tLS1CRUdJTiBF...
+        password: secret
+    CallbackRequest:
+      type: object
+      required:
+      - events
+      properties:
+        events:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/Event'
+      examples:
+      - events:
+        - eventId: ems74NDD5xftsgnpddyipbFmv
+          'on': '2020-03-06T16:38:25.090Z'
+          accountId: customer-account-id
+          messageStatusChanged:
+            messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+            requestId: req600CkeP7HOeMNxmJj6b9Ut
+            channelId: sms
+            userId: '33699999999'
+            status: SENT
+            channelData:
+              sms.segmentCount: '4'
+              sms.originatingAddress: MYBRAND
+        - eventId: eum5E995GIeZeJDAekbOvlaIY
+          'on': '2020-03-06T11:17:14.771Z'
+          accountId: customer-account-id
+          userMessageReceived:
+            channelId: rcs
+            userId: '33699999999'
+            content:
+              text: Hello
+            replyToMessageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+        - eventId: ets7YK43OsPw6h4JdoypoT7jJ
+          'on': '2023-06-13T15:42:04Z'
+          accountId: customer-account-id
+          templateReviewStatusChanged:
+            templateId: tplpoteCV6gCaXQ3WbAyHXS90
+            channelId: whatsapp
+            meta:
+              name: Art Sales
+            status: APPROVED
+            channelData:
+              whatsapp.account.id: '199999999999999'
+              whatsapp.template.id: '213270854988611'
+              whatsapp.template.category: MARKETING
+    Event:
+      type: object
+      required:
+      - eventId
+      - 'on'
+      - accountId
+      description: 'Common event envelope. Exactly one of messageStatusChanged, userMessageReceived,
+
+        or templateReviewStatusChanged will be present.
+
+        '
+      properties:
+        eventId:
+          type: string
+          description: Unique event identifier (for idempotent processing / deduplication)
+        'on':
+          type: string
+          format: date-time
+          description: UTC date-time when the event occurred
+        accountId:
+          type: string
+          description: Account identifier
+        messageStatusChanged:
+          $ref: '#/components/schemas/MessageStatusChangedEvent'
+        userMessageReceived:
+          $ref: '#/components/schemas/UserMessageReceivedEvent'
+        templateReviewStatusChanged:
+          $ref: '#/components/schemas/TemplateReviewStatusChangedEvent'
+      examples:
+      - eventId: emsc5744b2da290d4132
+        'on': '2018-12-23T18:25:43.511Z'
+        accountId: vincent-inc
+        messageStatusChanged:
+          messageId: mfc5c734f85e650
+          requestId: r4505e54055e450
+          channelId: sms
+          channelOperatorId: '20801'
+          userId: '33607285022'
+          status: DELIVERED
+          channelStatus: '1'
+          context:
+            myWhateverId: aef5040
+    MessageStatusChangedEvent:
+      type: object
+      required:
+      - channelId
+      - userId
+      - messageId
+      - requestId
+      - status
+      properties:
+        channelId:
+          type: string
+        channelOperatorId:
+          type: string
+          description: Mobile operator ID (MNO) if applicable
+        userId:
+          type: string
+        messageId:
+          type: string
+        requestId:
+          type: string
+        fallbackOrder:
+          type: integer
+          description: Position in fallback tree (0 = topmost)
+        fallbackMessageId:
+          type: string
+          description: ID of the fallback message attached to this message
+        parentMessageId:
+          type: string
+          description: ID of the failed parent message (for fallback messages)
+        scheduledAt:
+          type: string
+          format: date-time
+          description: Actual schedule time
+        campaignId:
+          type: string
+        status:
+          $ref: '#/components/schemas/MessageStatus'
+        channelStatus:
+          type: string
+          description: Channel-native status code
+        channelData:
+          $ref: '#/components/schemas/StringStringMap'
+        error:
+          $ref: '#/components/schemas/DeliveryError'
+        context:
+          $ref: '#/components/schemas/Context'
+      examples:
+      - messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+        requestId: req600CkeP7HOeMNxmJj6b9Ut
+        channelId: sms
+        channelOperatorId: '20801'
+        userId: '33699999999'
+        status: DELIVERED
+        channelData:
+          sms.segmentCount: '4'
+          sms.originatingAddress: MYBRAND
+        context:
+          myCampaignId: christmas-560650
+          myUserId: vincent@example.com
+    UserMessageReceivedEvent:
+      type: object
+      required:
+      - channelId
+      - userId
+      - content
+      properties:
+        channelId:
+          type: string
+        channelOperatorId:
+          type: string
+        channelData:
+          $ref: '#/components/schemas/StringStringMap'
+        userId:
+          type: string
+        content:
+          $ref: '#/components/schemas/UserMessageContent'
+        replyToMessageId:
+          type: string
+          description: Original messageId this is a reply to
+        context:
+          $ref: '#/components/schemas/Context'
+      examples:
+      - channelId: rcs
+        userId: '33699999999'
+        content:
+          postback:
+            payload: LOVE
+            text: J'aime
+            buttonType: reply
+        replyToMessageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+        channelData:
+          whatsapp.phoneNumber: '33155555555'
+          whatsapp.user.name: Ignatius Reilly
+    UserMessageContent:
+      type: object
+      description: 'Content from the user. Exactly one of: text, postback, media, location, optin, optout, typing.
+
+        '
+      properties:
+        text:
+          type: string
+        isReaction:
+          type: boolean
+          description: Whether the text (often emoji) is a reaction to a message
+        postback:
+          $ref: '#/components/schemas/Postback'
+        media:
+          $ref: '#/components/schemas/Media'
+        location:
+          $ref: '#/components/schemas/Location'
+        optin:
+          $ref: '#/components/schemas/OptIn'
+        optout:
+          $ref: '#/components/schemas/OptOut'
+        typing:
+          $ref: '#/components/schemas/Typing'
+      examples:
+      - text: Hello, what are your opening hours?
+    Postback:
+      type: object
+      required:
+      - payload
+      properties:
+        payload:
+          type: string
+          description: Custom postback value from button press
+        text:
+          type: string
+          description: Visible text displayed to/by the user
+        buttonType:
+          type: string
+          enum:
+          - reply
+          - openUrl
+          - dial
+          - createCalendarEvent
+          - shareLocation
+          - viewLocation
+          description: Type of button that triggered the postback
+      examples:
+      - payload: QUIZZ
+        text: Take a quizz!
+        buttonType: reply
+    OptIn:
+      type: object
+      description: User opted in to receive messages
+      properties:
+        text:
+          type: string
+        payload:
+          type: string
+          description: Channel-specific tracking data
+      examples:
+      - text: Get Started
+        payload: '{"ref": "460650465065"}'
+    OptOut:
+      type: object
+      description: User opted out from receiving messages
+      properties:
+        text:
+          type: string
+      examples:
+      - text: STOP
+    Typing:
+      type: object
+      description: User is typing (no properties)
+      examples:
+      - {}
+    TemplateReviewStatusChangedEvent:
+      type: object
+      required:
+      - templateId
+      - channelId
+      - status
+      properties:
+        templateId:
+          type: string
+        channelId:
+          type: string
+        meta:
+          $ref: '#/components/schemas/StringStringMap'
+        status:
+          $ref: '#/components/schemas/TemplateReviewStatus'
+        details:
+          type: string
+        channelData:
+          $ref: '#/components/schemas/StringStringMap'
+      examples:
+      - templateId: tpl3J9dcH2HslZKNXssz
+        channelId: whatsapp
+        meta:
+          myTemplateId: 2023AZ3
+          category: promotion
+          tags: youngsters,sports,soccer
+        status: REJECTED
+        details: ToS violation
+        channelData:
+          whatsapp.business.accountId: '199999999999999'
+          whatsapp.template.id: '213270854988610'
+          whatsapp.template.name: acme_tpl3j9dc_promotion_ft92
+          whatsapp.template.category: MARKETING
+    DeliveryError:
+      type: object
+      required:
+      - code
+      description: Error details for DELIVERY_FAILED or DELIVERY_RETRIED statuses
+      properties:
+        code:
+          $ref: '#/components/schemas/DeliveryErrorCode'
+        details:
+          type: string
+          description: Additional information about the error
+        channelError:
+          type: string
+          description: Channel-native error code/message
+      examples:
+      - code: USER_UKNOWN
+        channelError: '404'
+        details: Requested entity was not found.
+    MessageStatus:
+      type: string
+      description: Message lifecycle status
+      enum:
+      - SCHEDULE_QUEUED
+      - SCHEDULED
+      - SCHEDULE_DELETED
+      - SCHEDULE_DELETION_FAILED
+      - QUEUED
+      - SENT
+      - DELIVERED
+      - READ
+      - DELIVERY_RETRIED
+      - DELIVERY_FAILED
+      x-enum-descriptions:
+        SCHEDULE_QUEUED: Message queued for scheduling (triggered by scheduling, spreading, or DND deferral)
+        SCHEDULED: Message was scheduled
+        SCHEDULE_DELETED: Message schedule was deleted
+        SCHEDULE_DELETION_FAILED: Message schedule deletion failed
+        QUEUED: Message created and queued for sending
+        SENT: Message sent to the channel (delivery may still fail asynchronously)
+        DELIVERED: Message delivered to the end-user
+        READ: Message read by the end-user (certain channels only)
+        DELIVERY_RETRIED: Delivery failed, system is retrying
+        DELIVERY_FAILED: Delivery fatally failed (no retries possible or max retries reached)
+    DeliveryErrorCode:
+      type: string
+      description: Message delivery error code
+      enum:
+      - CLIENT_MESSAGE_INVALID
+      - CLIENT_CONFIGURATION_INVALID
+      - CLIENT_MESSAGE_EXPIRED
+      - CLIENT_QUOTA_EXCEEDED
+      - CLIENT_MESSAGE_FORBIDDEN
+      - CHANNEL_REJECTED
+      - CHANNEL_UNAVAILABLE
+      - CHANNEL_INTERNAL_ISSUE
+      - CHANNEL_OTHER_ISSUE
+      - USER_UKNOWN
+      - USER_BLOCKED
+      - USER_UNAVAILABLE
+      - INTERNAL_NOT_IMPLEMENTED
+      - INTERNAL_OTHER_ISSUE
+      x-enum-descriptions:
+        CLIENT_MESSAGE_INVALID: Message content or parameters are invalid
+        CLIENT_CONFIGURATION_INVALID: Account settings are invalid
+        CLIENT_MESSAGE_EXPIRED: Delivery canceled (TTL reached)
+        CLIENT_QUOTA_EXCEEDED: Account quota exceeded (e.g. schedule quota)
+        CLIENT_MESSAGE_FORBIDDEN: Message not allowed due to platform restriction (e.g. DND policy)
+        CHANNEL_REJECTED: Channel rejected the operation
+        CHANNEL_UNAVAILABLE: Channel busy (timeout, throttling, connection issues)
+        CHANNEL_INTERNAL_ISSUE: Channel internal issue
+        CHANNEL_OTHER_ISSUE: Unspecified channel issue
+        USER_UKNOWN: 'User is invalid or unknown (note: historical typo in code name)'
+        USER_BLOCKED: User is blocked
+        USER_UNAVAILABLE: User temporarily unavailable
+        INTERNAL_NOT_IMPLEMENTED: Feature not yet implemented
+        INTERNAL_OTHER_ISSUE: Service internal issue
+    TemplateReviewStatus:
+      type: string
+      description: Template review lifecycle status
+      enum:
+      - SUBMITTING
+      - SUBMITTED
+      - APPROVED
+      - REJECTED
+      - SUSPENDED
+      - DELETING
+      - DELETED
+      x-enum-descriptions:
+        SUBMITTING: Template is about to be submitted (cannot be used yet)
+        SUBMITTED: Template submitted for review or being re-evaluated (cannot be used yet)
+        APPROVED: Template approved and usable with the channel
+        REJECTED: Template rejected (can be modified and resubmitted)
+        SUSPENDED: Template temporarily suspended by channel provider
+        DELETING: Template is being deleted on channel side (cannot be used)
+        DELETED: Template deleted on channel provider side (new review needed to recreate)
+webhooks:
+  eventCallback:
+    post:
+      summary: Event callback
+      description: 'OCM pushes events to customer-configured callback endpoints via HTTP POST.
+
+
+        ## Event types
+
+
+        - `messageStatusChanged` — message lifecycle updates (QUEUED, SENT, DELIVERED, READ, DELIVERY_FAILED, etc.)
+
+        - `userMessageReceived` — inbound user messages (text, postback, media, location, opt-in, opt-out, typing)
+
+        - `templateReviewStatusChanged` — template review lifecycle updates (SUBMITTING, SUBMITTED, APPROVED, REJECTED, etc.)
+
+
+        ## Batching
+
+
+        Each callback request carries a batch of up to **100 events**.
+
+
+        ## Expected response
+
+
+        Clients must respond with any **2xx** status code within **30 seconds**.
+
+        Any other response (or timeout) triggers retries.
+
+
+        ## Retry policy
+
+
+        On timeout, `429` or `5xx` responses, OCM retries delivery for up to **4 hours** with exponential backoff.
+
+
+        ## Configuration
+
+
+        The callback URL and authentication are configured via `PATCH /self/settings`.
+
+        Setting changes apply to new messages only — keep both old and new endpoints available during transition.
+
+
+        ## Traffic files alternative
+
+
+        Events are also available as downloadable JSONL files via `GET /traffic/files` (retained for 30 days).'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallbackRequest'
+            examples:
+              sms_delivery_failed:
+                summary: 'SMS: delivery failed (invalid destination)'
+                value:
+                  events:
+                  - eventId: ems2mtzoOqeYkKAjLbvz3yQ1R
+                    'on': '2020-03-06T17:12:03.737Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      messageId: msg1XAXgWzR3X27wjMdxrlJyr
+                      requestId: req4fm8jz3GWtERlrWDw1s0xD
+                      channelId: sms
+                      userId: '99999999'
+                      status: DELIVERY_FAILED
+                      error:
+                        code: CHANNEL_REJECTED
+                        channelError: Invalid destination address
+              sms_sent:
+                summary: 'SMS: message sent with segment count'
+                value:
+                  events:
+                  - eventId: ems74NDD5xftsgnpddyipbFmv
+                    'on': '2020-03-06T16:38:25.090Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: sms
+                      userId: '33699999999'
+                      status: SENT
+                      channelData:
+                        sms.segmentCount: '4'
+                        sms.originatingAddress: MYBRAND
+              sms_delivered:
+                summary: 'SMS: message delivered'
+                value:
+                  events:
+                  - eventId: ems74NDD5xftsgnpddyipbFmv
+                    'on': '2020-03-06T16:38:26.182Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: sms
+                      userId: '33699999999'
+                      status: DELIVERED
+                      channelData:
+                        sms.segmentCount: '4'
+                        sms.originatingAddress: MYBRAND
+              sms_user_reply:
+                summary: 'SMS: user sends text reply'
+                value:
+                  events:
+                  - eventId: eum4eFfSH3Zqo2gVvcgP6HVvs
+                    'on': '2020-03-06T16:46:49.639Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: sms
+                      userId: '33699999999'
+                      content:
+                        text: Hello?
+                      replyToMessageId: msgTQQ7kLzMRtAnp2xeNHcm00
+              sms_user_optout:
+                summary: 'SMS: user opts out with STOP'
+                value:
+                  events:
+                  - eventId: eum3eFfSK3Zoq2gVvcgP7HVvt
+                    'on': '2020-03-06T11:12:28.665Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: sms
+                      userId: '33699999999'
+                      content:
+                        optout:
+                          text: STOP
+                      replyToMessageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+              rcs_delivery_failed:
+                summary: 'RCS: delivery failed (user unknown)'
+                value:
+                  events:
+                  - eventId: ems7NtxiRDINW4wxGEAiRXMSk
+                    'on': '2020-03-06T11:19:17.384Z'
+                    accountId: client-account-id
+                    messageStatusChanged:
+                      messageId: msg6CcV7HlWw2BNqfRnkg8IFY
+                      requestId: reqcbI6l2zXXnoyDONwzBT6i0
+                      channelId: rcs
+                      userId: '33677777777'
+                      status: DELIVERY_FAILED
+                      error:
+                        code: USER_UKNOWN
+                        channelError: '404'
+                        details: Requested entity was not found.
+              rcs_sent:
+                summary: 'RCS: message sent'
+                value:
+                  events:
+                  - eventId: ems7GmGxURd2rQ8BFIEAhiL09
+                    'on': '2020-03-06T11:12:03.195Z'
+                    accountId: client-account-id
+                    messageStatusChanged:
+                      messageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+                      requestId: req17nxsvc0w9IwrBIirL5wCq
+                      channelId: rcs
+                      userId: '33699999999'
+                      status: SENT
+              rcs_delivered:
+                summary: 'RCS: message delivered'
+                value:
+                  events:
+                  - eventId: ems7GmGxURd2rQ8BFIEAhiL09
+                    'on': '2020-03-06T11:12:04.231Z'
+                    accountId: client-account-id
+                    messageStatusChanged:
+                      messageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+                      requestId: req17nxsvc0w9IwrBIirL5wCq
+                      channelId: rcs
+                      userId: '33699999999'
+                      status: DELIVERED
+              rcs_read:
+                summary: 'RCS: message read'
+                value:
+                  events:
+                  - eventId: ems7GmGxURd2rQ8BFIEAhiL09
+                    'on': '2020-03-06T11:15:33.581Z'
+                    accountId: client-account-id
+                    messageStatusChanged:
+                      messageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+                      requestId: req17nxsvc0w9IwrBIirL5wCq
+                      channelId: rcs
+                      userId: '33699999999'
+                      status: READ
+              rcs_user_typing_then_text:
+                summary: 'RCS: user typing then sends text'
+                value:
+                  events:
+                  - eventId: eum7EuCCghyxGTsGs2t5yJzOC
+                    'on': '2020-03-06T11:12:20.081Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        typing: {}
+                      replyToMessageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+                  - eventId: eum5E995GIeZeJDAekbOvlaIY
+                    'on': '2020-03-06T11:17:14.771Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        text: Hello
+                      replyToMessageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+              rcs_user_optout:
+                summary: 'RCS: user opts out with STOP'
+                value:
+                  events:
+                  - eventId: eumtNFbCvlRLawavXem1oKNp0
+                    'on': '2020-03-06T11:12:28.665Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        optout:
+                          text: STOP
+                      replyToMessageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+              rcs_user_reply_button:
+                summary: 'RCS: user clicks reply button (postback)'
+                value:
+                  events:
+                  - eventId: eumAg77ExuCtUyGB0m4VVYZc0
+                    'on': '2020-03-06T11:20:58.527Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        postback:
+                          payload: LOVE
+                          text: J'aime
+                          buttonType: reply
+                      replyToMessageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+              rcs_user_share_location:
+                summary: 'RCS: user shares location'
+                value:
+                  events:
+                  - eventId: eumR3l93biptihdQNEttGxfh0
+                    'on': '2020-03-06T11:28:26.409Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        postback:
+                          payload: SHARE_LOCATION_CLICKED
+                          text: Share my location
+                          buttonType: shareLocation
+                      replyToMessageId: msg2kYEucx4qcprLhYFmGAQaU
+                  - eventId: eum6NjbjGbHLUGINZEcRpyS3T
+                    'on': '2020-03-06T11:29:04.502Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        location:
+                          latitude: 48.8572426
+                          longitude: 2.296208
+                      replyToMessageId: msg2kYEucx4qcprLhYFmGAQaU
+              rcs_user_view_location:
+                summary: 'RCS: user clicks viewLocation button'
+                value:
+                  events:
+                  - eventId: eum2cytdE9BdhhJn86F9fQJ1X
+                    'on': '2020-03-06T11:27:55.309Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        postback:
+                          payload: JAS_DE_BOUFFAN
+                          text: Locate Jas de Bouffan
+                          buttonType: viewLocation
+                      replyToMessageId: msg2kYEucx4qcprLhYFmGAQaU
+              rcs_user_dial:
+                summary: 'RCS: user clicks dial button'
+                value:
+                  events:
+                  - eventId: eum60mRtWoFecxUbnVVZ0dpkc
+                    'on': '2020-03-06T11:22:49.734Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        postback:
+                          payload: CALL_CLICKED
+                          text: Call us
+                          buttonType: dial
+                      replyToMessageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+              rcs_user_openurl:
+                summary: 'RCS: user clicks openUrl button'
+                value:
+                  events:
+                  - eventId: eumAUO65Z6IQwIri03xJu3Yf0
+                    'on': '2020-03-06T11:24:09.626Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        postback:
+                          payload: VISIT_US
+                          text: Visit us
+                          buttonType: openUrl
+                      replyToMessageId: msgSzNvoD1OyIwWDS5KM0GSJ0
+              rcs_user_sends_png:
+                summary: 'RCS: user sends PNG image'
+                value:
+                  events:
+                  - eventId: eum71lBsPcwflZV9cFuAV5bNf
+                    'on': '2020-03-06T11:50:55.412Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        media:
+                          description: image.png
+                          source: https://rcs-user-content-us.storage.googleapis.com/...
+                          type: image/png
+                      replyToMessageId: msg2kYEucx4qcprLhYFmGAQaU
+              rcs_user_sends_pdf:
+                summary: 'RCS: user sends PDF'
+                value:
+                  events:
+                  - eventId: eum2IKLOkXuoI8UIfQ0jOE000
+                    'on': '2020-03-06T11:51:07.641Z'
+                    accountId: client-account-id
+                    userMessageReceived:
+                      channelId: rcs
+                      userId: '33699999999'
+                      content:
+                        media:
+                          description: document.pdf
+                          source: https://rcs-user-content-us.storage.googleapis.com/...
+                          type: application/pdf
+                      replyToMessageId: msg2kYEucx4qcprLhYFmGAQaU
+              viber_delivery_failed:
+                summary: 'Viber: delivery failed (not a Viber user)'
+                value:
+                  events:
+                  - eventId: ems1SSWf4DSx3qB4SjugGnjiY
+                    'on': '2020-03-06T16:43:35.315Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      messageId: msg2gOW2ygyte9KtfIrR5EKnc
+                      requestId: reqC8wujW2PxOVtXnw0Z6r1X0
+                      channelId: viber
+                      userId: '3333'
+                      status: DELIVERY_FAILED
+                      error:
+                        code: USER_UKNOWN
+                        channelError: SRVC_NOT_VIBER_USER
+              viber_optin:
+                summary: 'Viber: user opts in'
+                value:
+                  events:
+                  - eventId: eum1dgqp8fUgZzI64YG2axRsx
+                    'on': '2020-03-10T15:12:52.298Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: viber
+                      userId: '33673644056'
+                      content:
+                        optin: {}
+              viber_optout:
+                summary: 'Viber: user opts out'
+                value:
+                  events:
+                  - eventId: eum3dM1j64PgqqsAW9J29atKd
+                    'on': '2020-03-10T15:12:49.915Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: viber
+                      userId: '33673644056'
+                      content:
+                        optout: {}
+              viber_sent:
+                summary: 'Viber: message sent'
+                value:
+                  events:
+                  - eventId: ems74NDD5xftsgnpddyipbFmv
+                    'on': '2020-03-06T16:38:25.090Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: viber
+                      userId: '33699999999'
+                      status: SENT
+              viber_delivered:
+                summary: 'Viber: message delivered'
+                value:
+                  events:
+                  - eventId: ems74NDD5xftsgnpddyipbFmv
+                    'on': '2020-03-06T16:38:26.182Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: viber
+                      userId: '33699999999'
+                      status: DELIVERED
+              viber_read:
+                summary: 'Viber: message read'
+                value:
+                  events:
+                  - eventId: ems74NDD5xftsgnpddyipbFmv
+                    'on': '2020-03-06T16:39:01.120Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: viber
+                      userId: '33699999999'
+                      status: READ
+              viber_user_reply:
+                summary: 'Viber: user sends text reply'
+                value:
+                  events:
+                  - eventId: eum4eFfSH3Zqo2gVvcgP6HVvs
+                    'on': '2020-03-06T16:46:49.639Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: viber
+                      userId: '33699999999'
+                      content:
+                        text: Hello?
+                      replyToMessageId: msgTQQ7kLzMRtAnp2xeNHcm00
+              whatsapp_delivery_failed:
+                summary: 'WhatsApp: delivery failed (user unknown)'
+                value:
+                  events:
+                  - eventId: ems2DRj7SqbLqo2Vt6p7I1a63
+                    'on': '2023-05-26T13:33:34.961Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      channelId: whatsapp
+                      userId: '33999999999'
+                      messageId: msg4McVvXl9XKvdEjS3XQMxW0
+                      requestId: req5X9gQ8f46iM9DSxoZ8IbzU
+                      status: DELIVERY_FAILED
+                      error:
+                        channelError: '131030'
+                        code: USER_UKNOWN
+                      channelData:
+                        whatsapp.account.id: '199999999999999'
+              whatsapp_template_sent:
+                summary: 'WhatsApp: template-based message sent with channel data'
+                value:
+                  events:
+                  - eventId: ems6KWouMRkMLvmKXszLfUC6T
+                    'on': '2023-06-13T15:04:42.614Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      channelId: whatsapp
+                      userId: '33699999999'
+                      messageId: msg4qugCLfOpVpyfegiW17c29
+                      requestId: req5CjNmkuyT54aCwzzUnQW63
+                      status: SENT
+                      channelData:
+                        whatsapp.account.id: '199999999999999'
+                        whatsapp.phoneNumber: '33155555555'
+                        whatsapp.phoneNumber.name: Art Museum Bot
+                        whatsapp.phoneNumber.quality: GREEN
+                        whatsapp.template.name: customeraccountid_tpl...
+                        whatsapp.template.quality: GREEN
+              whatsapp_delivered_with_pricing:
+                summary: 'WhatsApp: message delivered with conversation and pricing data'
+                value:
+                  events:
+                  - eventId: ems5v6w7woS2Oz3iUCu8KzArO
+                    'on': '2023-05-26T10:33:06Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      channelId: whatsapp
+                      userId: '33699999999'
+                      messageId: msg28vfVfQ2ir9AtP2aGVrRHz
+                      requestId: req44wgcURziUTO4RyrICebAK
+                      status: DELIVERED
+                      channelData:
+                        whatsapp.account.id: '199999999999999'
+                        whatsapp.phoneNumber: '33155555555'
+                        whatsapp.phoneNumber.name: Art Museum Bot
+                        whatsapp.conversation.id: 3f08df032d88dd8ce0b1e90a122c6252
+                        whatsapp.pricing.category: marketing
+              whatsapp_read:
+                summary: 'WhatsApp: message read by user'
+                value:
+                  events:
+                  - eventId: ems6qm0WjHjkVYxJCKaOWBunb
+                    'on': '2023-05-26T10:53:58Z'
+                    accountId: customer-account-id
+                    messageStatusChanged:
+                      channelId: whatsapp
+                      userId: '33699999999'
+                      messageId: msgIQRSDpzNuVMIszPQz3ais0
+                      requestId: req4ZE03fQR8jo675H4bcsh9u
+                      status: READ
+              whatsapp_user_reply:
+                summary: 'WhatsApp: user sends text reply with user name'
+                value:
+                  events:
+                  - eventId: eum1hr65OwGAbbTmGq3vxbk8s
+                    'on': '2023-05-26T13:35:18Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: whatsapp
+                      userId: '33699999999'
+                      content:
+                        text: Hello, what are your opening hours?
+                      replyToMessageId: msg3pLxf6NVh42uxFg3BNOHFT
+                      channelData:
+                        whatsapp.phoneNumber: '33155555555'
+                        whatsapp.user.name: Ignatius Reilly
+              whatsapp_user_optout:
+                summary: 'WhatsApp: user opts out with Stop'
+                value:
+                  events:
+                  - eventId: eum24KJzvAQciKO0q0crcGp9a
+                    'on': '2023-05-26T13:24:57Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: whatsapp
+                      userId: '33699999999'
+                      content:
+                        optout:
+                          text: Stop
+                      replyToMessageId: msg3pLxf6NVh42uxFg3BNOHFT
+              whatsapp_user_reaction:
+                summary: 'WhatsApp: user reacts with emoji'
+                value:
+                  events:
+                  - eventId: eum4KFY8F1Q2MypC0tvo4p5x6
+                    'on': '2023-05-26T13:50:41Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: whatsapp
+                      userId: '33699999999'
+                      content:
+                        text: 😂
+                        isReaction: true
+                      replyToMessageId: msg3xCkLNaZlM1WsvXQCtSidb
+              whatsapp_user_reply_button:
+                summary: 'WhatsApp: user clicks reply button (postback)'
+                value:
+                  events:
+                  - eventId: eum3ffnZPf46ENXzbsMHQNNs0
+                    'on': '2023-05-26T10:45:41Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: whatsapp
+                      userId: '33699999999'
+                      content:
+                        postback:
+                          payload: QUIZZ
+                          text: Take a quizz!
+                          buttonType: reply
+                      replyToMessageId: msgEbtvEpMRa3L0scwTYdp9h0
+              whatsapp_user_sends_image:
+                summary: 'WhatsApp: user sends JPEG image'
+                value:
+                  events:
+                  - eventId: eummpoR65SPCjCMuKFYydWD80
+                    'on': '2023-05-26T14:39:04Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: whatsapp
+                      userId: '33699999999'
+                      content:
+                        media:
+                          source: https://ns-ocm-media-cache-...
+                          type: image/jpeg
+                      replyToMessageId: msg3cGgf1c7vbekQUM8QVo613
+              whatsapp_user_sends_location:
+                summary: 'WhatsApp: user sends location'
+                value:
+                  events:
+                  - eventId: eum5pd5LwmDRy7eA6l0hxrXMH
+                    'on': '2023-05-26T14:34:37Z'
+                    accountId: customer-account-id
+                    userMessageReceived:
+                      channelId: whatsapp
+                      userId: '33699999999'
+                      content:
+                        location:
+                          title: Link Mobility
+                          description: 62 Avenue Emile Zola
+                          latitude: 48.827808380127
+                          longitude: 2.2391800880432
+                      replyToMessageId: msg3cGgf1c7vbekQUM8QVo613
+              fallback_rcs_fail_sms_deliver:
+                summary: 'Fallback: RCS fails, SMS fallback sent and delivered'
+                value:
+                  events:
+                  - eventId: ems1SSWf4DSx3qB4SjugGnjiY
+                    'on': '2020-03-06T16:43:35.315Z'
+                    accountId: ocm-demo
+                    messageStatusChanged:
+                      messageId: msg2gOW2ygyte9KtfIrR5EKnc
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: rcs
+                      userId: '33777777777'
+                      status: DELIVERY_FAILED
+                      error:
+                        code: USER_UKNOWN
+                        channelError: '404'
+                        details: Requested entity was not found.
+                      fallbackMessageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                  - eventId: ems74NDD5xftsgnpddyipbFmv
+                    'on': '2020-03-06T16:38:25.090Z'
+                    accountId: ocm-demo
+                    messageStatusChanged:
+                      messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: sms
+                      userId: '33777777777'
+                      status: SENT
+                  - eventId: emsc5744b2da290d41zeAq
+                    'on': '2020-03-06T16:38:26.182Z'
+                    accountId: ocm-demo
+                    messageStatusChanged:
+                      messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: sms
+                      userId: '33777777777'
+                      status: DELIVERED
+              context_async_events:
+                summary: 'Context: SENT+DELIVERED events with context correlation'
+                value:
+                  events:
+                  - eventId: ems74NDD5xftsgnpddyipbFmv
+                    'on': '2020-03-06T16:38:25.090Z'
+                    accountId: ocm-demo
+                    messageStatusChanged:
+                      messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: sms
+                      userId: '33777777777'
+                      status: SENT
+                      context:
+                        myUserId: georges@example.com
+                        myCampaignId: promo2020
+                  - eventId: emsc5744b2da290d41zeAq
+                    'on': '2020-03-06T16:38:26.182Z'
+                    accountId: ocm-demo
+                    messageStatusChanged:
+                      messageId: msg1uO2aI1Uwz5RHliBXLlZjM
+                      requestId: req600CkeP7HOeMNxmJj6b9Ut
+                      channelId: sms
+                      userId: '33777777777'
+                      status: DELIVERED
+                      context:
+                        myUserId: georges@example.com
+                        myCampaignId: promo2020
+              wa_template_submitted:
+                summary: 'WhatsApp: template review submitted'
+                value:
+                  events:
+                  - eventId: ets6jsAGrI96gLdoVUUcNScVK
+                    'on': '2023-06-13T15:42:04.233Z'
+                    accountId: customer-account-id
+                    templateReviewStatusChanged:
+                      templateId: tplpoteCV6gCaXQ3WbAyHXS90
+                      channelId: whatsapp
+                      meta:
+                        name: Art Tutorial
+                      status: SUBMITTED
+                      channelData:
+                        whatsapp.account.id: '199999999999999'
+                        whatsapp.template.id: '213270854988610'
+                        whatsapp.template.name: customeraccountid_tplpotecv6gc...
+                        whatsapp.template.category: UTILITY
+              wa_template_rejected:
+                summary: 'WhatsApp: template review rejected'
+                value:
+                  events:
+                  - eventId: ets7YK43OsPw6h4JdoypoT7jJ
+                    'on': '2023-06-13T15:42:04Z'
+                    accountId: customer-account-id
+                    templateReviewStatusChanged:
+                      templateId: tplpoteCV6gCaXQ3WbAyHXS90
+                      channelId: whatsapp
+                      meta:
+                        name: Art Sales
+                      status: REJECTED
+                      details: INCORRECT_CATEGORY
+                      channelData:
+                        whatsapp.account.id: '199999999999999'
+                        whatsapp.template.id: '213270854988610'
+                        whatsapp.template.category: AUTHENTICATION
+              wa_template_approved:
+                summary: 'WhatsApp: template review approved'
+                value:
+                  events:
+                  - eventId: ets7YK43OsPw6h4JdoypoT7jJ
+                    'on': '2023-06-13T15:42:04Z'
+                    accountId: whatsapp-test-1
+                    templateReviewStatusChanged:
+                      templateId: tplpoteCV6gCaXQ3WbAyHXS90
+                      channelId: whatsapp
+                      meta:
+                        name: Art Sales
+                      status: APPROVED
+                      channelData:
+                        whatsapp.account.id: '199999999999999'
+                        whatsapp.template.id: '213270854988611'
+                        whatsapp.template.category: MARKETING
+              wa_template_quality:
+                summary: 'WhatsApp: template quality score update'
+                value:
+                  events:
+                  - eventId: ets7YK43OsPw6h4JdoypoT7jJ
+                    'on': '2023-06-13T15:42:04Z'
+                    accountId: whatsapp-test-1
+                    templateReviewStatusChanged:
+                      templateId: tplpoteCV6gCaXQ3WbAyHXS90
+                      channelId: whatsapp
+                      meta:
+                        name: Art Sales
+                      status: APPROVED
+                      channelData:
+                        whatsapp.account.id: '199999999999999'
+                        whatsapp.template.id: '213270854988611'
+                        whatsapp.template.category: MARKETING
+                        whatsapp.template.quality: YELLOW
+                        whatsapp.template.quality.previous: GREEN
+      responses:
+        '200':
+          description: Callback acknowledged

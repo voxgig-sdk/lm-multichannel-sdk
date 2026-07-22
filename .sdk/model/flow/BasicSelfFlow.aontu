@@ -1,0 +1,28 @@
+# BasicSelfFlow
+
+main: kit: flow: BasicSelfFlow:
+{
+  entity: "self",
+  kind: "basic",
+  name: "BasicSelfFlow",
+  step: [
+    {
+      input: {
+        ref: "self_ref01",
+        srcdatavar: "self_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-self_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicSelfFlow"
+}

@@ -1,0 +1,26 @@
+# BasicMessageEventFlow
+
+main: kit: flow: BasicMessageEventFlow:
+{
+  entity: "message_event",
+  kind: "basic",
+  name: "BasicMessageEventFlow",
+  step: [
+    {
+      match: {
+        message_id: "message01"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "message_event_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicMessageEventFlow"
+}

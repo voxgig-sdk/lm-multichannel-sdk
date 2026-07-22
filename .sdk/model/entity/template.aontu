@@ -1,0 +1,514 @@
+# Entity: template
+
+main: kit: entity: template: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "channel_data"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "created_on"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "designer_url"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "detail"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "meta"
+      op: {
+        list: {
+          req: false
+          type: "`$OBJECT`"
+        }
+      }
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "occurred_on"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "review"
+      op: {
+        list: {
+          req: false
+          type: "`$OBJECT`"
+        }
+      }
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "status"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "template"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "template_id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_on"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "template"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/templates/{templateId}/meta"
+          parts: [
+            "templates"
+            "{id}"
+            "meta"
+          ]
+          rename: {
+            param: {
+              templateId: "id"
+            }
+          }
+          select: {
+            "$action": "meta"
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/templates"
+          parts: [
+            "templates"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body.template`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "page_index"
+                orig: "page_index"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "page_size"
+                orig: "page_size"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: "desc:updatedOn!createdOn"
+                kind: "query"
+                name: "sort"
+                orig: "sort"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/templates"
+          parts: [
+            "templates"
+          ]
+          select: {
+            exist: [
+              "page_index"
+              "page_size"
+              "sort"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "channel_id"
+                orig: "channel_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/templates/{templateId}/reviews/{channelId}"
+          parts: [
+            "templates"
+            "{id}"
+            "reviews"
+            "{channel_id}"
+          ]
+          rename: {
+            param: {
+              channelId: "channel_id"
+              templateId: "id"
+            }
+          }
+          select: {
+            exist: [
+              "channel_id"
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/templates/{templateId}"
+          parts: [
+            "templates"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              templateId: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.template`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/templates/{templateId}/meta"
+          parts: [
+            "templates"
+            "{id}"
+            "meta"
+          ]
+          rename: {
+            param: {
+              templateId: "id"
+            }
+          }
+          select: {
+            "$action": "meta"
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/templates/{templateId}/reviews"
+          parts: [
+            "templates"
+            "{id}"
+            "reviews"
+          ]
+          rename: {
+            param: {
+              templateId: "id"
+            }
+          }
+          select: {
+            "$action": "review"
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    patch: {
+      name: "patch"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/templates/{templateId}/meta"
+          parts: [
+            "templates"
+            "{id}"
+            "meta"
+          ]
+          rename: {
+            param: {
+              templateId: "id"
+            }
+          }
+          select: {
+            "$action": "meta"
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "channel_id"
+                orig: "channel_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/templates/{templateId}/reviews/{channelId}"
+          parts: [
+            "templates"
+            "{id}"
+            "reviews"
+            "{channel_id}"
+          ]
+          rename: {
+            param: {
+              channelId: "channel_id"
+              templateId: "id"
+            }
+          }
+          select: {
+            exist: [
+              "channel_id"
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/templates/{templateId}"
+          parts: [
+            "templates"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              templateId: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "channel_id"
+                orig: "channel_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PUT"
+          orig: "/templates/{templateId}/reviews/{channelId}"
+          parts: [
+            "templates"
+            "{id}"
+            "reviews"
+            "{channel_id}"
+          ]
+          rename: {
+            param: {
+              channelId: "channel_id"
+              templateId: "id"
+            }
+          }
+          select: {
+            exist: [
+              "channel_id"
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "review"
+      ]
+    ]
+  }
+
+
+
+}

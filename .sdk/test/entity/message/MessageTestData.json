@@ -1,0 +1,29 @@
+{
+  "existing": {
+    "message": {
+      "MESSAGE00": {
+        "message": [],
+        "schedule": {},
+        "id": "MESSAGE00"
+      },
+      "MESSAGE01": {
+        "message": [],
+        "schedule": {},
+        "id": "MESSAGE01"
+      },
+      "MESSAGE02": {
+        "message": [],
+        "schedule": {},
+        "id": "MESSAGE02"
+      }
+    }
+  },
+  "new": {
+    "message": {
+      "message_ref01": {
+        "message": [],
+        "schedule": {}
+      }
+    }
+  }
+}

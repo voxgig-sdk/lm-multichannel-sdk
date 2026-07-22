@@ -1,0 +1,44 @@
+# BasicTrafficFileFlow
+
+main: kit: flow: BasicTrafficFileFlow:
+{
+  entity: "traffic_file",
+  kind: "basic",
+  name: "BasicTrafficFileFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "traffic_file_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "traffic_file_ref01",
+        srcdatavar: "traffic_file_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "traffic_file01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-traffic_file_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicTrafficFileFlow"
+}

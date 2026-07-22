@@ -1,0 +1,68 @@
+{
+  "existing": {
+    "template": {
+      "TEMPLATE00": {
+        "channel_data": {},
+        "created_on": "s6f",
+        "designer_url": "s70",
+        "detail": "s71",
+        "meta": {},
+        "occurred_on": "s73",
+        "review": {},
+        "status": "s75",
+        "template": {},
+        "template_id": "TEMPLATE01",
+        "updated_on": "s78",
+        "channel_id": "CHANNEL01",
+        "id": "TEMPLATE00"
+      },
+      "TEMPLATE01": {
+        "channel_data": {},
+        "created_on": "sdd",
+        "designer_url": "sde",
+        "detail": "sdf",
+        "meta": {},
+        "occurred_on": "se1",
+        "review": {},
+        "status": "se3",
+        "template": {},
+        "template_id": "TEMPLATE01",
+        "updated_on": "se6",
+        "channel_id": "CHANNEL01",
+        "id": "TEMPLATE01"
+      },
+      "TEMPLATE02": {
+        "channel_data": {},
+        "created_on": "s14b",
+        "designer_url": "s14c",
+        "detail": "s14d",
+        "meta": {},
+        "occurred_on": "s14f",
+        "review": {},
+        "status": "s151",
+        "template": {},
+        "template_id": "TEMPLATE01",
+        "updated_on": "s154",
+        "channel_id": "CHANNEL01",
+        "id": "TEMPLATE02"
+      }
+    }
+  },
+  "new": {
+    "template": {
+      "template_ref01": {
+        "channel_data": {},
+        "created_on": "s1b9",
+        "designer_url": "s1ba",
+        "detail": "s1bb",
+        "meta": {},
+        "occurred_on": "s1bd",
+        "review": {},
+        "status": "s1bf",
+        "template": {},
+        "template_id": "TEMPLATE01",
+        "updated_on": "s1c2"
+      }
+    }
+  }
+}

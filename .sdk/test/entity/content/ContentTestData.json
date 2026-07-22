@@ -1,0 +1,28 @@
+{
+  "existing": {
+    "content": {
+      "CONTENT00": {
+        "content": {},
+        "template_id": "TEMPLATE01",
+        "id": "CONTENT00"
+      },
+      "CONTENT01": {
+        "content": {},
+        "template_id": "TEMPLATE01",
+        "id": "CONTENT01"
+      },
+      "CONTENT02": {
+        "content": {},
+        "template_id": "TEMPLATE01",
+        "id": "CONTENT02"
+      }
+    }
+  },
+  "new": {
+    "content": {
+      "content_ref01": {
+        "content": {}
+      }
+    }
+  }
+}

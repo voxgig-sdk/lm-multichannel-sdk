@@ -1,0 +1,55 @@
+# Entity: traffic
+
+main: kit: entity: traffic: {
+
+  alias: field: {}
+
+  name: "traffic"
+  op: {
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "path"
+                orig: "path"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/traffic/files/{path}"
+          parts: [
+            "traffic"
+            "files"
+            "{path}"
+          ]
+          select: {
+            exist: [
+              "path"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "file"
+      ]
+    ]
+  }
+
+
+
+}
