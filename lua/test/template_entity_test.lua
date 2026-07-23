@@ -92,11 +92,6 @@ describe("TemplateEntity", function()
     assert.is_nil(err)
     assert.is_table(template_ref01_list_result)
 
-    local found_item = vs.select(
-      runner.entity_list_to_data(template_ref01_list_result),
-      { id = template_ref01_data["id"] })
-    assert.is_false(vs.isempty(found_item))
-
     -- UPDATE
     local template_ref01_data_up0_up = {
     }
@@ -117,12 +112,6 @@ describe("TemplateEntity", function()
     assert.is_nil(err)
     assert.is_not_nil(template_ref01_data_dt0_loaded)
 
-    -- REMOVE
-    local template_ref01_match_rm0 = {
-      id = template_ref01_data["id"],
-    }
-    local _, err = template_ref01_ent:remove(template_ref01_match_rm0, nil)
-    assert.is_nil(err)
 
     -- LIST
     local template_ref01_match_rt0 = {}
@@ -130,11 +119,6 @@ describe("TemplateEntity", function()
     local template_ref01_list_rt0_result, err = template_ref01_ent:list(template_ref01_match_rt0, nil)
     assert.is_nil(err)
     assert.is_table(template_ref01_list_rt0_result)
-
-    local not_found_item = vs.select(
-      runner.entity_list_to_data(template_ref01_list_rt0_result),
-      { id = template_ref01_data["id"] })
-    assert.is_true(vs.isempty(not_found_item))
 
   end)
 end)

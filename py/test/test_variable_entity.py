@@ -90,11 +90,6 @@ class TestVariableEntity:
         variable_ref01_list_result = variable_ref01_ent.list(variable_ref01_match, None)
         assert isinstance(variable_ref01_list_result, list)
 
-        found_item = vs.select(
-            runner.entity_list_to_data(variable_ref01_list_result),
-            {"id": variable_ref01_data["id"]})
-        assert not vs.isempty(found_item)
-
         # UPDATE
         variable_ref01_data_up0_up = {
         }

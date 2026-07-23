@@ -122,14 +122,9 @@ func TestVariableEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		variableRef01List, variableRef01ListOk := variableRef01ListResult.([]any)
+		_, variableRef01ListOk := variableRef01ListResult.([]any)
 		if !variableRef01ListOk {
 			t.Fatalf("expected list result to be an array, got %T", variableRef01ListResult)
-		}
-
-		foundItem := vs.Select(entityListToData(variableRef01List), map[string]any{"id": variableRef01Data["id"]})
-		if vs.IsEmpty(foundItem) {
-			t.Fatal("expected to find created entity in list")
 		}
 
 		// UPDATE

@@ -67,7 +67,7 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    content = client.Content().load()
+    content = client.Content().load({"template_id": "example"})
     print(content)
 except Exception as err:
     print(f"load failed: {err}")
@@ -135,7 +135,7 @@ Create a mock client for unit testing — no server required:
 client = LmMultichannelSDK.test()
 
 # Entity ops return the bare record and raise on error.
-content = client.Content().load()
+content = client.Content().load({"template_id": "example"})
 # content contains the mock response record
 ```
 
@@ -809,7 +809,7 @@ stores the returned data and match criteria internally.
 
 ```python
 content = client.Content()
-content.load()
+content.load({"template_id": "example"})
 
 # content.data_get() now returns the content data from the last load
 # content.match_get() returns the last match criteria

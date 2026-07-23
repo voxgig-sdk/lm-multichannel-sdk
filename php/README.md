@@ -63,7 +63,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $content = $client->Content()->load();
+    $content = $client->Content()->load(["template_id" => "example"]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -136,7 +136,7 @@ Create a mock client for unit testing — no server required:
 $client = LmMultichannelSDK::test();
 
 // Entity ops return the bare mock record (throws on error).
-$content = $client->Content()->load();
+$content = $client->Content()->load(["template_id" => "example"]);
 print_r($content);
 ```
 
@@ -825,7 +825,7 @@ stores the returned data and match criteria internally.
 
 ```php
 $content = $client->Content();
-$content->load();
+$content->load(["template_id" => "example"]);
 
 // $content->data_get() now returns the content data from the last load
 // $content->match_get() returns the last match criteria

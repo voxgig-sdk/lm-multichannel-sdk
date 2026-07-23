@@ -219,79 +219,101 @@ class LmMultichannelSDK {
 
 
   // Entity access: `client.Content().list()` / `client.Content().load({ id })`.
-  Content(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Content(entopts?: Record<string, any>) {
     const self = this
-    return new ContentEntity(self,data)
+    return new ContentEntity(self, entopts)
   }
 
 
   // Entity access: `client.Message().list()` / `client.Message().load({ id })`.
-  Message(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Message(entopts?: Record<string, any>) {
     const self = this
-    return new MessageEntity(self,data)
+    return new MessageEntity(self, entopts)
   }
 
 
   // Entity access: `client.MessageEvent().list()` / `client.MessageEvent().load({ id })`.
-  MessageEvent(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  MessageEvent(entopts?: Record<string, any>) {
     const self = this
-    return new MessageEventEntity(self,data)
+    return new MessageEventEntity(self, entopts)
   }
 
 
   // Entity access: `client.Option().list()` / `client.Option().load({ id })`.
-  Option(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Option(entopts?: Record<string, any>) {
     const self = this
-    return new OptionEntity(self,data)
+    return new OptionEntity(self, entopts)
   }
 
 
   // Entity access: `client.Schedule().list()` / `client.Schedule().load({ id })`.
-  Schedule(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Schedule(entopts?: Record<string, any>) {
     const self = this
-    return new ScheduleEntity(self,data)
+    return new ScheduleEntity(self, entopts)
   }
 
 
   // Entity access: `client.Self().list()` / `client.Self().load({ id })`.
-  Self(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Self(entopts?: Record<string, any>) {
     const self = this
-    return new SelfEntity(self,data)
+    return new SelfEntity(self, entopts)
   }
 
 
   // Entity access: `client.SelfAdmin().list()` / `client.SelfAdmin().load({ id })`.
-  SelfAdmin(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  SelfAdmin(entopts?: Record<string, any>) {
     const self = this
-    return new SelfAdminEntity(self,data)
+    return new SelfAdminEntity(self, entopts)
   }
 
 
   // Entity access: `client.Template().list()` / `client.Template().load({ id })`.
-  Template(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Template(entopts?: Record<string, any>) {
     const self = this
-    return new TemplateEntity(self,data)
+    return new TemplateEntity(self, entopts)
   }
 
 
   // Entity access: `client.Traffic().list()` / `client.Traffic().load({ id })`.
-  Traffic(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Traffic(entopts?: Record<string, any>) {
     const self = this
-    return new TrafficEntity(self,data)
+    return new TrafficEntity(self, entopts)
   }
 
 
   // Entity access: `client.TrafficFile().list()` / `client.TrafficFile().load({ id })`.
-  TrafficFile(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  TrafficFile(entopts?: Record<string, any>) {
     const self = this
-    return new TrafficFileEntity(self,data)
+    return new TrafficFileEntity(self, entopts)
   }
 
 
   // Entity access: `client.Variable().list()` / `client.Variable().load({ id })`.
-  Variable(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Variable(entopts?: Record<string, any>) {
     const self = this
-    return new VariableEntity(self,data)
+    return new VariableEntity(self, entopts)
   }
 
 

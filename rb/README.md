@@ -61,7 +61,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  content = client.Content.load()
+  content = client.Content.load({ "template_id" => "example" })
 rescue => err
   warn "load failed: #{err}"
 end
@@ -130,7 +130,7 @@ Create a mock client for unit testing — no server required:
 client = LmMultichannelSDK.test
 
 # Entity ops return the bare mock record (raises on error).
-content = client.Content.load()
+content = client.Content.load({ "template_id" => "example" })
 puts content
 ```
 
@@ -815,7 +815,7 @@ stores the returned data and match criteria internally.
 
 ```ruby
 content = client.Content
-content.load()
+content.load({ "template_id" => "example" })
 
 # content.data_get now returns the content data from the last load
 # content.match_get returns the last match criteria

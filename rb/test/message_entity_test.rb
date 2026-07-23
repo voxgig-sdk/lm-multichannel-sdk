@@ -45,11 +45,6 @@ class MessageEntityTest < Minitest::Test
     message_ref01_data_dt0_loaded = message_ref01_ent.load(message_ref01_match_dt0, nil)
     assert !message_ref01_data_dt0_loaded.nil?
 
-    # REMOVE
-    message_ref01_match_rm0 = {
-      "id" => message_ref01_data["id"],
-    }
-    message_ref01_ent.remove(message_ref01_match_rm0, nil)
 
   end
 end

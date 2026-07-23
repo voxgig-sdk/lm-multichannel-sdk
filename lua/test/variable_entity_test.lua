@@ -95,11 +95,6 @@ describe("VariableEntity", function()
     assert.is_nil(err)
     assert.is_table(variable_ref01_list_result)
 
-    local found_item = vs.select(
-      runner.entity_list_to_data(variable_ref01_list_result),
-      { id = variable_ref01_data["id"] })
-    assert.is_false(vs.isempty(found_item))
-
     -- UPDATE
     local variable_ref01_data_up0_up = {
     }

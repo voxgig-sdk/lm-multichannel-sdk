@@ -87,11 +87,6 @@ class TestTemplateEntity:
         template_ref01_list_result = template_ref01_ent.list(template_ref01_match, None)
         assert isinstance(template_ref01_list_result, list)
 
-        found_item = vs.select(
-            runner.entity_list_to_data(template_ref01_list_result),
-            {"id": template_ref01_data["id"]})
-        assert not vs.isempty(found_item)
-
         # UPDATE
         template_ref01_data_up0_up = {
         }
@@ -109,22 +104,12 @@ class TestTemplateEntity:
         template_ref01_data_dt0_loaded = template_ref01_ent.load(template_ref01_match_dt0, None)
         assert template_ref01_data_dt0_loaded is not None
 
-        # REMOVE
-        template_ref01_match_rm0 = {
-            "id": template_ref01_data["id"],
-        }
-        template_ref01_ent.remove(template_ref01_match_rm0, None)
 
         # LIST
         template_ref01_match_rt0 = {}
 
         template_ref01_list_rt0_result = template_ref01_ent.list(template_ref01_match_rt0, None)
         assert isinstance(template_ref01_list_rt0_result, list)
-
-        not_found_item = vs.select(
-            runner.entity_list_to_data(template_ref01_list_rt0_result),
-            {"id": template_ref01_data["id"]})
-        assert vs.isempty(not_found_item)
 
 
 

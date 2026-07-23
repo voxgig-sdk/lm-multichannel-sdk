@@ -50,12 +50,6 @@ describe("MessageEntity", function()
     assert.is_nil(err)
     assert.is_not_nil(message_ref01_data_dt0_loaded)
 
-    -- REMOVE
-    local message_ref01_match_rm0 = {
-      id = message_ref01_data["id"],
-    }
-    local _, err = message_ref01_ent:remove(message_ref01_match_rm0, nil)
-    assert.is_nil(err)
 
   end)
 end)

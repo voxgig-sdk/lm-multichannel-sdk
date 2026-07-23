@@ -76,7 +76,7 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-content, err := client.Content(nil).Load(nil, nil)
+content, err := client.Content(nil).Load(map[string]any{"template_id": "example"}, nil)
 if err != nil {
     // handle err
     return
@@ -146,7 +146,7 @@ Create a mock client for unit testing — no server required:
 client := sdk.Test()
 
 content, err := client.Content(nil).Load(
-    nil, nil,
+    map[string]any{"template_id": "example"}, nil,
 )
 if err != nil {
     panic(err)
@@ -888,7 +888,7 @@ stores the returned data and match criteria internally.
 
 ```go
 content := client.Content(nil)
-content.Load(nil, nil)
+content.Load(map[string]any{"template_id": "example"}, nil)
 
 // content.Data() now returns the content data from the last load
 // content.Match() returns the last match criteria

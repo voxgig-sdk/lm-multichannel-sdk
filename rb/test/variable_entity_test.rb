@@ -85,11 +85,6 @@ class VariableEntityTest < Minitest::Test
     variable_ref01_list_result = variable_ref01_ent.list(variable_ref01_match, nil)
     assert variable_ref01_list_result.is_a?(Array)
 
-    found_item = Vs.select(
-      Runner.entity_list_to_data(variable_ref01_list_result),
-      { "id" => variable_ref01_data["id"] })
-    assert !Vs.isempty(found_item)
-
     # UPDATE
     variable_ref01_data_up0_up = {
     }

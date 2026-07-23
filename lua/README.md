@@ -61,7 +61,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local content, err = client:Content():load()
+local content, err = client:Content():load({ template_id = "example" })
 if err then error(err) end
 ```
 
@@ -119,7 +119,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Content():load()
+local result, err = client:Content():load({ template_id = "example" })
 -- result is the returned data; err is set on failure
 ```
 
@@ -797,7 +797,7 @@ stores the returned data and match criteria internally.
 
 ```lua
 local content = client:Content()
-content:load()
+content:load({ template_id = "example" })
 
 -- content:data_get() now returns the content data from the last load
 -- content:match_get() returns the last match criteria

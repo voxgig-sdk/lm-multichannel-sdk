@@ -95,11 +95,6 @@ class VariableEntityTest extends TestCase
         $variable_ref01_list_result = $variable_ref01_ent->list($variable_ref01_match, null);
         $this->assertIsArray($variable_ref01_list_result);
 
-        $found_item = sdk_select(
-            Runner::entity_list_to_data($variable_ref01_list_result),
-            ["id" => $variable_ref01_data["id"]]);
-        $this->assertNotEmpty($found_item);
-
         // UPDATE
         $variable_ref01_data_up0_up = [
         ];

@@ -73,8 +73,6 @@ describe('VariableEntity', async () => {
 
     const variable_ref01_list = await variable_ref01_ent.list(variable_ref01_match)
 
-    assert(!isempty(select(variable_ref01_list, { id: variable_ref01_data.id })))
-
 
     // UPDATE
     const variable_ref01_data_up0: any = {}

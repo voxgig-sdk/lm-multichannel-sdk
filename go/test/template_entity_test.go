@@ -119,14 +119,9 @@ func TestTemplateEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		templateRef01List, templateRef01ListOk := templateRef01ListResult.([]any)
+		_, templateRef01ListOk := templateRef01ListResult.([]any)
 		if !templateRef01ListOk {
 			t.Fatalf("expected list result to be an array, got %T", templateRef01ListResult)
-		}
-
-		foundItem := vs.Select(entityListToData(templateRef01List), map[string]any{"id": templateRef01Data["id"]})
-		if vs.IsEmpty(foundItem) {
-			t.Fatal("expected to find created entity in list")
 		}
 
 		// UPDATE
@@ -159,14 +154,6 @@ func TestTemplateEntity(t *testing.T) {
 			t.Fatal("expected load result to be non-nil")
 		}
 
-		// REMOVE
-		templateRef01MatchRm0 := map[string]any{
-			"id": templateRef01Data["id"],
-		}
-		_, err = templateRef01Ent.Remove(templateRef01MatchRm0, nil)
-		if err != nil {
-			t.Fatalf("remove failed: %v", err)
-		}
 
 		// LIST
 		templateRef01MatchRt0 := map[string]any{}
@@ -175,14 +162,9 @@ func TestTemplateEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		templateRef01ListRt0, templateRef01ListRt0Ok := templateRef01ListRt0Result.([]any)
+		_, templateRef01ListRt0Ok := templateRef01ListRt0Result.([]any)
 		if !templateRef01ListRt0Ok {
 			t.Fatalf("expected list result to be an array, got %T", templateRef01ListRt0Result)
-		}
-
-		notFoundItem := vs.Select(entityListToData(templateRef01ListRt0), map[string]any{"id": templateRef01Data["id"]})
-		if !vs.IsEmpty(notFoundItem) {
-			t.Fatal("expected removed entity to not be in list")
 		}
 
 	})

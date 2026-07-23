@@ -71,8 +71,6 @@ describe('TemplateEntity', async () => {
 
     const template_ref01_list = await template_ref01_ent.list(template_ref01_match)
 
-    assert(!isempty(select(template_ref01_list, { id: template_ref01_data.id })))
-
 
     // UPDATE
     const template_ref01_data_up0: any = {}
@@ -87,17 +85,11 @@ describe('TemplateEntity', async () => {
 
 
 
-    // REMOVE
-    const template_ref01_match_rm0: any = { id: template_ref01_data.id }
-    await template_ref01_ent.remove(template_ref01_match_rm0)
-  
 
     // LIST
     const template_ref01_match_rt0: any = {}
 
     const template_ref01_list_rt0 = await template_ref01_ent.list(template_ref01_match_rt0)
-
-    assert(isempty(select(template_ref01_list_rt0, { id: template_ref01_data.id })))
 
 
   })

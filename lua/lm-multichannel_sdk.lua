@@ -8,6 +8,9 @@ local helpers = require("core.helpers")
 -- Load utility registration (populates Utility._registrar)
 require("utility.register")
 
+-- Typed-model annotations (LuaLS ---@class); empty at runtime.
+require("lm-multichannel_types")
+
 -- Load features
 local BaseFeature = require("feature.base_feature")
 local features_factory = require("features")
@@ -90,7 +93,8 @@ function LmMultichannelSDK.new(options)
 
   utility.feature_hook(self._rootctx, "PostConstruct")
 
-  -- #BuildFeatures
+    -- feature: test
+
 
   return self
 end

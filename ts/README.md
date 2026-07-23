@@ -68,7 +68,7 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const content = await client.Content().load()
+  const content = await client.Content().load({ template_id: "example" })
   console.log(content)
 } catch (err) {
   console.error('load failed:', err)
@@ -135,7 +135,7 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = LmMultichannelSDK.test()
 
-const content = await client.Content().load()
+const content = await client.Content().load({ template_id: 'example_template_id' })
 // content is a bare entity populated with mock response data
 console.log(content)
 ```
@@ -155,7 +155,7 @@ Entity instances remember their last match and data:
 const entity = client.Content()
 
 // First call runs the operation and stores its result
-await entity.load()
+await entity.load({ template_id: 'example_template_id' })
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
@@ -855,7 +855,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const content = client.Content()
-await content.load()
+await content.load({ template_id: "example" })
 
 // content.data() now returns the content data from the last `load`
 // content.match() returns the last match criteria

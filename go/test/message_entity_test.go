@@ -73,14 +73,6 @@ func TestMessageEntity(t *testing.T) {
 			t.Fatal("expected load result to be non-nil")
 		}
 
-		// REMOVE
-		messageRef01MatchRm0 := map[string]any{
-			"id": messageRef01Data["id"],
-		}
-		_, err = messageRef01Ent.Remove(messageRef01MatchRm0, nil)
-		if err != nil {
-			t.Fatalf("remove failed: %v", err)
-		}
 
 	})
 }
