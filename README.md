@@ -21,7 +21,7 @@ support (`list`, `load`, `create`, `update`, `remove`, `patch`):
 
 ```ts
 const client = new LmMultichannelSDK()
-const content = await client.Content().load()
+const content = await client.Content().load({ template_id: "example" })
 ```
 
 Thinking in entities keeps the mental model small — for people and AI agents alike —
@@ -36,18 +36,27 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = LmMultichannelSDK.test()
-const content = await client.Content().load({ template_id: 'example_template_id' })
-// content is a bare Content populated with mock data
-console.log(content)
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = LmMultichannelSDK.test({
+  entity: {
+    message: {
+      test01: { id: 'test01', messages: [], scheduleAt: 'example_scheduleAt' },
+    },
+  },
+})
+const message = await client.Message().load({ id: 'test01' })
+// message is the Message entity, populated with mock data
+// — call message.data() for the record itself
+console.log(message)
 ```
 
 ### Python
 
 ```python
 client = LmMultichannelSDK.test()
-content = client.Content().load({"template_id": "example"})
-print(content)
+message = client.Message().load({"id": "test01"})
+print(message)
 ```
 
 ### PHP
@@ -55,17 +64,17 @@ print(content)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = LmMultichannelSDK::test([
-    "entity" => ["content" => ["test01" => []]],
+    "entity" => ["message" => ["test01" => ["id" => "test01"]]],
 ]);
-$content = $client->Content()->load(["template_id" => "example"]);
+$message = $client->Message()->load(["id" => "test01"]);
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Content(nil).Load(
-    nil, nil,
+result, err := client.Message(nil).Load(
+    map[string]any{"id": "test01"}, nil,
 )
 ```
 
@@ -74,16 +83,16 @@ result, err := client.Content(nil).Load(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = LmMultichannelSDK.test({
-  "entity" => { "content" => { "test01" => {} } },
+  "entity" => { "message" => { "test01" => { "id" => "test01" } } },
 })
-content = client.Content.load({ "template_id" => "example" })
+message = client.Message.load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:Content():load({ template_id = "example" })
+local result, err = client:Message():load({ id = "test01" })
 ```
 
 ## Packages
@@ -157,13 +166,13 @@ The API exposes 11 entities:
 | Entity | Description | API path |
 | --- | --- | --- |
 | **Content** | The Content entity (create, load). | `/templates/{templateId}/content` |
-| **Message** | The Message entity (create, load, remove). | `/messages` |
+| **Message** | The Message entity (create, load, remove). | `/messages/{messageId}/schedule` |
 | **MessageEvent** | The MessageEvent entity (list). | `/messages/{messageId}/events` |
 | **Option** | The Option entity (create, load, update). | `/templates/{templateId}/options` |
 | **Schedule** | The Schedule entity (load, remove). | `/schedules:count` |
 | **Self** | The Self entity (load). | `/self` |
 | **SelfAdmin** | The SelfAdmin entity (update). | `/self/settings` |
-| **Template** | The Template entity (create, list, load, patch, remove, update). | `/templates/{templateId}/meta` |
+| **Template** | The Template entity (create, list, load, patch, remove, update). | `/templates` |
 | **Traffic** | The Traffic entity (remove). | `/traffic/files/{path}` |
 | **TrafficFile** | The TrafficFile entity (list, load). | `/traffic/files` |
 | **Variable** | The Variable entity (create, list, update). | `/templates/{templateId}/variables` |
@@ -200,7 +209,7 @@ $client = new LmMultichannelSDK([
 ]);
 
 
-// Load a specific content (returns the bare record; throws on error)
+// Load a specific content (returns the ENTITY; call data_get() for the record; throws on error)
 $content = $client->Content()->load(["template_id" => "example_template_id"]);
 print_r($content);
 ```
@@ -235,7 +244,7 @@ client = LmMultichannelSDK.new({
 })
 
 
-# Load a specific content (returns the bare record; raises on error)
+# Load a specific content (returns the ENTITY; call data_get for the record)
 content = client.Content.load({ "template_id" => "example_template_id" })
 puts content
 ```
@@ -371,6 +380,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://api.linkmobility.com/v1](https://api.linkmobility.com/v1)
 

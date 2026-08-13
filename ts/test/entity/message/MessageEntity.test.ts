@@ -26,8 +26,8 @@ import {
 describe('MessageEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-  afterEach(liveDelay('LMMULTICHANNEL_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+  afterEach(liveDelay('LM_MULTICHANNEL_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = LmMultichannelSDK.test()
@@ -62,7 +62,7 @@ describe('MessageEntity', async () => {
     const message_ref01_ent = client.Message()
     let message_ref01_data = setup.data.new.message['message_ref01']
 
-    message_ref01_data = await message_ref01_ent.create(message_ref01_data)
+    message_ref01_data = (await message_ref01_ent.create(message_ref01_data)).data()
     assert(null != message_ref01_data)
 
 

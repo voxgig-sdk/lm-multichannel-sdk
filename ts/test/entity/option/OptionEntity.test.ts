@@ -26,8 +26,8 @@ import {
 describe('OptionEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-  afterEach(liveDelay('LMMULTICHANNEL_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+  afterEach(liveDelay('LM_MULTICHANNEL_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = LmMultichannelSDK.test()
@@ -63,14 +63,14 @@ describe('OptionEntity', async () => {
     let option_ref01_data = setup.data.new.option['option_ref01']
     option_ref01_data['template_id'] = setup.idmap['template01']
 
-    option_ref01_data = await option_ref01_ent.create(option_ref01_data)
+    option_ref01_data = (await option_ref01_ent.create(option_ref01_data)).data()
     assert(null != option_ref01_data)
 
 
     // UPDATE
     const option_ref01_data_up0: any = {}
 
-    const option_ref01_resdata_up0 = await option_ref01_ent.update(option_ref01_data_up0)
+    const option_ref01_resdata_up0 = (await option_ref01_ent.update(option_ref01_data_up0)).data()
     assert(null != option_ref01_resdata_up0)
 
 

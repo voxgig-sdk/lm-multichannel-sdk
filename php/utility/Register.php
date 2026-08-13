@@ -23,6 +23,7 @@ require_once __DIR__ . '/MakeUrl.php';
 require_once __DIR__ . '/Param.php';
 require_once __DIR__ . '/PrepareAuth.php';
 require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
 require_once __DIR__ . '/PrepareHeaders.php';
 require_once __DIR__ . '/PrepareMethod.php';
 require_once __DIR__ . '/PrepareParams.php';
@@ -59,6 +60,8 @@ LmMultichannelUtility::setRegistrar(function (LmMultichannelUtility $u): void {
     $u->prepare_params = [LmMultichannelPrepareParams::class, 'call'];
     $u->prepare_path = [LmMultichannelPreparePath::class, 'call'];
     $u->prepare_query = [LmMultichannelPrepareQuery::class, 'call'];
+    $u->graphql_body = [LmMultichannelGraphql::class, 'body'];
+    $u->graphql_errors = [LmMultichannelGraphql::class, 'errors'];
     $u->result_basic = [LmMultichannelResultBasic::class, 'call'];
     $u->result_body = [LmMultichannelResultBody::class, 'call'];
     $u->result_headers = [LmMultichannelResultHeaders::class, 'call'];

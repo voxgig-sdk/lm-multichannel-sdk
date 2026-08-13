@@ -6,7 +6,12 @@ main: kit: entity: self: {
 
   fields: [
     {
-      name: "account"
+      name: "accountId"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "settings"
       req: true
       type: "`$OBJECT`"
     }

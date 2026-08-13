@@ -24,6 +24,7 @@ require_relative 'prepare_method'
 require_relative 'prepare_params'
 require_relative 'prepare_path'
 require_relative 'prepare_query'
+require_relative 'graphql'
 require_relative 'result_basic'
 require_relative 'result_body'
 require_relative 'result_headers'
@@ -55,6 +56,8 @@ LmMultichannelUtility.registrar = ->(u) {
   u.prepare_params = LmMultichannelUtilities::PrepareParams
   u.prepare_path = LmMultichannelUtilities::PreparePath
   u.prepare_query = LmMultichannelUtilities::PrepareQuery
+  u.graphql_body = LmMultichannelUtilities::GraphqlBody
+  u.graphql_errors = LmMultichannelUtilities::GraphqlErrors
   u.result_basic = LmMultichannelUtilities::ResultBasic
   u.result_body = LmMultichannelUtilities::ResultBody
   u.result_headers = LmMultichannelUtilities::ResultHeaders

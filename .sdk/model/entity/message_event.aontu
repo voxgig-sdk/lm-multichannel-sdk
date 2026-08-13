@@ -6,17 +6,17 @@ main: kit: entity: message_event: {
 
   fields: [
     {
-      name: "account_id"
+      name: "accountId"
       req: true
       type: "`$STRING`"
     }
     {
-      name: "event_id"
+      name: "eventId"
       req: true
       type: "`$STRING`"
     }
     {
-      name: "message_status_changed"
+      name: "messageStatusChanged"
       req: true
       type: "`$OBJECT`"
     }
@@ -26,12 +26,12 @@ main: kit: entity: message_event: {
       type: "`$STRING`"
     }
     {
-      name: "template_review_status_changed"
+      name: "templateReviewStatusChanged"
       req: true
       type: "`$OBJECT`"
     }
     {
-      name: "user_message_received"
+      name: "userMessageReceived"
       req: true
       type: "`$OBJECT`"
     }

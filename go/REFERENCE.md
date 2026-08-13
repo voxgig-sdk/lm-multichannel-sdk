@@ -139,7 +139,14 @@ fmt.Println(content.GetName()) // "content"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `card` | `map[string]any` | No |  |
+| `carousel` | `map[string]any` | Yes |  |
 | `content` | `map[string]any` | Yes |  |
+| `fromTemplate` | `map[string]any` | Yes |  |
+| `location` | `map[string]any` | Yes |  |
+| `media` | `map[string]any` | Yes |  |
+| `suggestions` | `[]any` | No |  |
+| `text` | `string` | No |  |
 
 ### Operations
 
@@ -162,6 +169,11 @@ Create a new entity with the given data.
 ```go
 result, err := client.Content(nil).Create(map[string]any{
     "template_id": "example_template_id",
+    "carousel": map[string]any{},
+    "content": map[string]any{},
+    "fromTemplate": map[string]any{},
+    "location": map[string]any{},
+    "media": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
@@ -204,8 +216,9 @@ fmt.Println(message.GetName()) // "message"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message` | `[]any` | Yes |  |
-| `schedule` | `map[string]any` | Yes |  |
+| `campaignId` | `string` | No |  |
+| `messages` | `[]any` | Yes |  |
+| `scheduleAt` | `string` | Yes |  |
 
 ### Operations
 
@@ -227,8 +240,8 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Message(nil).Create(map[string]any{
-    "message": []any{},
-    "schedule": map[string]any{},
+    "messages": []any{},
+    "scheduleAt": "example_scheduleAt",
 }, nil)
 if err != nil {
     panic(err)
@@ -283,12 +296,12 @@ fmt.Println(messageEvent.GetName()) // "message_event"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_id` | `string` | Yes |  |
-| `event_id` | `string` | Yes |  |
-| `message_status_changed` | `map[string]any` | Yes |  |
+| `accountId` | `string` | Yes |  |
+| `eventId` | `string` | Yes |  |
+| `messageStatusChanged` | `map[string]any` | Yes |  |
 | `on` | `string` | Yes |  |
-| `template_review_status_changed` | `map[string]any` | Yes |  |
-| `user_message_received` | `map[string]any` | Yes |  |
+| `templateReviewStatusChanged` | `map[string]any` | Yes |  |
+| `userMessageReceived` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -339,7 +352,7 @@ fmt.Println(option.GetName()) // "option"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `option` | `map[string]any` | Yes |  |
+| `options` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -362,6 +375,7 @@ Create a new entity with the given data.
 ```go
 result, err := client.Option(nil).Create(map[string]any{
     "template_id": "example_template_id",
+    "options": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
@@ -482,7 +496,8 @@ fmt.Println(self.GetName()) // "self"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account` | `map[string]any` | Yes |  |
+| `accountId` | `string` | Yes |  |
+| `settings` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -533,7 +548,8 @@ fmt.Println(selfAdmin.GetName()) // "self_admin"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `setting` | `map[string]any` | Yes |  |
+| `callback` | `map[string]any` | Yes |  |
+| `settings` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -586,33 +602,39 @@ fmt.Println(template.GetName()) // "template"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `channel_data` | `map[string]any` | No |  |
-| `created_on` | `string` | Yes |  |
-| `designer_url` | `string` | No |  |
-| `detail` | `string` | No |  |
-| `meta` | `map[string]any` | Yes |  |
-| `occurred_on` | `string` | Yes |  |
-| `review` | `map[string]any` | Yes |  |
+| `channelData` | `map[string]any` | No |  |
+| `content` | `map[string]any` | No |  |
+| `createdOn` | `string` | Yes |  |
+| `designerUrl` | `string` | No |  |
+| `details` | `string` | No |  |
+| `meta` | `map[string]any` | No |  |
+| `occurredOn` | `string` | Yes |  |
+| `options` | `map[string]any` | No |  |
+| `reviews` | `map[string]any` | No |  |
 | `status` | `string` | Yes |  |
 | `template` | `map[string]any` | Yes |  |
-| `template_id` | `string` | Yes |  |
-| `updated_on` | `string` | No |  |
+| `templateId` | `string` | Yes |  |
+| `updatedOn` | `string` | No |  |
+| `variables` | `[]any` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `channel_data` | - | - | - | - | - |
-| `created_on` | - | - | - | - | - |
-| `designer_url` | - | - | - | - | - |
-| `detail` | - | - | - | - | - |
-| `meta` | - | Yes | - | - | - |
-| `occurred_on` | - | - | - | - | - |
-| `review` | - | Yes | - | - | - |
+| `channelData` | - | - | - | - | - |
+| `content` | - | - | - | - | - |
+| `createdOn` | - | - | - | - | - |
+| `designerUrl` | - | - | - | - | - |
+| `details` | - | - | - | - | - |
+| `meta` | - | - | Yes | - | - |
+| `occurredOn` | - | - | - | - | - |
+| `options` | - | - | - | - | - |
+| `reviews` | - | - | - | - | - |
 | `status` | - | - | - | - | - |
 | `template` | - | - | - | - | - |
-| `template_id` | - | - | - | - | - |
-| `updated_on` | - | - | - | - | - |
+| `templateId` | - | - | - | - | - |
+| `updatedOn` | - | - | - | - | - |
+| `variables` | - | - | - | - | - |
 
 ### Operations
 
@@ -646,13 +668,11 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Template(nil).Create(map[string]any{
-    "created_on": "example_created_on",
-    "meta": map[string]any{},
-    "occurred_on": "example_occurred_on",
-    "review": map[string]any{},
+    "createdOn": "example_createdOn",
+    "occurredOn": "example_occurredOn",
     "status": "example_status",
     "template": map[string]any{},
-    "template_id": "example_template_id",
+    "templateId": "example_templateId",
 }, nil)
 if err != nil {
     panic(err)
@@ -768,7 +788,7 @@ fmt.Println(trafficFile.GetName()) // "traffic_file"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `file` | `[]any` | Yes |  |
+| `files` | `[]any` | Yes |  |
 | `path` | `string` | Yes |  |
 | `url` | `string` | Yes |  |
 
@@ -834,12 +854,12 @@ fmt.Println(variable.GetName()) // "variable"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `description` | `string` | No |  |
-| `example` | `[]any` | No |  |
-| `format` | `[]any` | No |  |
+| `examples` | `[]any` | No |  |
+| `formats` | `[]any` | No |  |
 | `name` | `string` | Yes |  |
 | `ref` | `string` | No |  |
 | `type` | `string` | No |  |
-| `variable` | `[]any` | Yes |  |
+| `variables` | `[]any` | Yes |  |
 
 ### Operations
 
@@ -862,6 +882,8 @@ Create a new entity with the given data.
 ```go
 result, err := client.Variable(nil).Create(map[string]any{
     "template_id": "example_template_id",
+    "name": "example_name",
+    "variables": []any{},
 }, nil)
 if err != nil {
     panic(err)

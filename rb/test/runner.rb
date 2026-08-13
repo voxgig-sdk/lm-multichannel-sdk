@@ -23,8 +23,8 @@ module LmMultichannelTestRunner
   end
 
   def self.env_override(m)
-    live = getenv("LMMULTICHANNEL_TEST_LIVE")
-    override = getenv("LMMULTICHANNEL_TEST_OVERRIDE")
+    live = getenv("LM_MULTICHANNEL_TEST_LIVE")
+    override = getenv("LM_MULTICHANNEL_TEST_OVERRIDE")
 
     if live == "TRUE" || override == "TRUE"
       m.each_key do |key|
@@ -44,8 +44,8 @@ module LmMultichannelTestRunner
       end
     end
 
-    explain = getenv("LMMULTICHANNEL_TEST_EXPLAIN")
-    m["LMMULTICHANNEL_TEST_EXPLAIN"] = explain if explain && !explain.empty?
+    explain = getenv("LM_MULTICHANNEL_TEST_EXPLAIN")
+    m["LM_MULTICHANNEL_TEST_EXPLAIN"] = explain if explain && !explain.empty?
 
     m
   end

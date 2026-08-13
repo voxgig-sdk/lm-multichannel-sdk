@@ -26,8 +26,8 @@ import {
 describe('TemplateEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-  afterEach(liveDelay('LMMULTICHANNEL_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+  afterEach(liveDelay('LM_MULTICHANNEL_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = LmMultichannelSDK.test()
@@ -62,23 +62,23 @@ describe('TemplateEntity', async () => {
     const template_ref01_ent = client.Template()
     let template_ref01_data = setup.data.new.template['template_ref01']
 
-    template_ref01_data = await template_ref01_ent.create(template_ref01_data)
+    template_ref01_data = (await template_ref01_ent.create(template_ref01_data)).data()
     assert(null != template_ref01_data)
 
 
     // LIST
     const template_ref01_match: any = {}
 
-    const template_ref01_list = await template_ref01_ent.list(template_ref01_match)
+    const template_ref01_list = (await template_ref01_ent.list(template_ref01_match)).map((e: any) => e.data())
 
 
     // UPDATE
     const template_ref01_data_up0: any = {}
 
-    const template_ref01_markdef_up0 = { name: 'created_on', value: 'Mark01-template_ref01_' + setup.now }
+    const template_ref01_markdef_up0 = { name: 'createdOn', value: 'Mark01-template_ref01_' + setup.now }
     ;(template_ref01_data_up0 as any)[template_ref01_markdef_up0.name] = template_ref01_markdef_up0.value
 
-    const template_ref01_resdata_up0 = await template_ref01_ent.update(template_ref01_data_up0)
+    const template_ref01_resdata_up0 = (await template_ref01_ent.update(template_ref01_data_up0)).data()
     assert(null != template_ref01_resdata_up0)
 
     assert((template_ref01_resdata_up0 as any)[template_ref01_markdef_up0.name] === template_ref01_markdef_up0.value)
@@ -89,7 +89,7 @@ describe('TemplateEntity', async () => {
     // LIST
     const template_ref01_match_rt0: any = {}
 
-    const template_ref01_list_rt0 = await template_ref01_ent.list(template_ref01_match_rt0)
+    const template_ref01_list_rt0 = (await template_ref01_ent.list(template_ref01_match_rt0)).map((e: any) => e.data())
 
 
   })

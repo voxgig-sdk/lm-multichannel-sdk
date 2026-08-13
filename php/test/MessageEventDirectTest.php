@@ -80,16 +80,16 @@ function message_event_direct_setup($mockres)
     $calls = new \ArrayObject();
 
     $env = Runner::env_override([
-        "LMMULTICHANNEL_TEST_MESSAGE_EVENT_ENTID" => [],
-        "LMMULTICHANNEL_TEST_LIVE" => "FALSE",
-        "LMMULTICHANNEL_APIKEY" => "NONE",
+        "LM_MULTICHANNEL_TEST_MESSAGE_EVENT_ENTID" => [],
+        "LM_MULTICHANNEL_TEST_LIVE" => "FALSE",
+        "LM_MULTICHANNEL_APIKEY" => "NONE",
     ]);
 
-    $live = $env["LMMULTICHANNEL_TEST_LIVE"] === "TRUE";
+    $live = $env["LM_MULTICHANNEL_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [
-            "apikey" => $env["LMMULTICHANNEL_APIKEY"],
+            "apikey" => $env["LM_MULTICHANNEL_APIKEY"],
         ];
         $client = new LmMultichannelSDK($merged_opts);
         return [

@@ -39,7 +39,7 @@ Content is nested under template, so provide the `template_id`.
 
 ```php
 try {
-    // load() returns the bare Content record (throws on error).
+    // load() returns the ENTITY — call data_get() for the Content record (throws on error).
     $content = $client->Content()->load(["template_id" => "example_template_id"]);
     print_r($content);
 } catch (\Throwable $err) {
@@ -50,8 +50,8 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// create() returns the bare created Content record.
-$created = $client->Content()->create(["template_id" => "example_template_id"]);
+// create() returns the ENTITY — call data_get() for the created Content record.
+$created = $client->Content()->create(["template_id" => "example_template_id", "carousel" => [], "content" => [], "fromTemplate" => [], "location" => [], "media" => []]);
 
 ```
 
@@ -63,7 +63,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $content = $client->Content()->load(["template_id" => "example"]);
+    $message = $client->Message()->load(["id" => "example_id"]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -130,14 +130,18 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```php
-$client = LmMultichannelSDK::test();
+$client = LmMultichannelSDK::test([
+    "entity" => ["message" => ["test01" => ["id" => "test01"]]],
+]);
 
-// Entity ops return the bare mock record (throws on error).
-$content = $client->Content()->load(["template_id" => "example"]);
-print_r($content);
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
+$message = $client->Message()->load(["id" => "test01"]);
+print_r($message);
 ```
 
 ### Use a custom fetch function
@@ -250,7 +254,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -272,7 +276,14 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
+| `card` |  |
+| `carousel` |  |
 | `content` |  |
+| `fromTemplate` |  |
+| `location` |  |
+| `media` |  |
+| `suggestions` |  |
+| `text` |  |
 
 Operations: Create, Load.
 
@@ -282,8 +293,9 @@ API path: `/templates/{templateId}/content`
 
 | Field | Description |
 | --- | --- |
-| `message` |  |
-| `schedule` |  |
+| `campaignId` |  |
+| `messages` |  |
+| `scheduleAt` |  |
 
 Operations: Create, Load, Remove.
 
@@ -293,12 +305,12 @@ API path: `/messages`
 
 | Field | Description |
 | --- | --- |
-| `account_id` |  |
-| `event_id` |  |
-| `message_status_changed` |  |
+| `accountId` |  |
+| `eventId` |  |
+| `messageStatusChanged` |  |
 | `on` |  |
-| `template_review_status_changed` |  |
-| `user_message_received` |  |
+| `templateReviewStatusChanged` |  |
+| `userMessageReceived` |  |
 
 Operations: List.
 
@@ -308,7 +320,7 @@ API path: `/messages/{messageId}/events`
 
 | Field | Description |
 | --- | --- |
-| `option` |  |
+| `options` |  |
 
 Operations: Create, Load, Update.
 
@@ -328,7 +340,8 @@ API path: `/schedules:count`
 
 | Field | Description |
 | --- | --- |
-| `account` |  |
+| `accountId` |  |
+| `settings` |  |
 
 Operations: Load.
 
@@ -338,7 +351,8 @@ API path: `/self`
 
 | Field | Description |
 | --- | --- |
-| `setting` |  |
+| `callback` |  |
+| `settings` |  |
 
 Operations: Update.
 
@@ -348,17 +362,20 @@ API path: `/self/settings`
 
 | Field | Description |
 | --- | --- |
-| `channel_data` |  |
-| `created_on` |  |
-| `designer_url` |  |
-| `detail` |  |
+| `channelData` |  |
+| `content` |  |
+| `createdOn` |  |
+| `designerUrl` |  |
+| `details` |  |
 | `meta` |  |
-| `occurred_on` |  |
-| `review` |  |
+| `occurredOn` |  |
+| `options` |  |
+| `reviews` |  |
 | `status` |  |
 | `template` |  |
-| `template_id` |  |
-| `updated_on` |  |
+| `templateId` |  |
+| `updatedOn` |  |
+| `variables` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -377,7 +394,7 @@ API path: `/traffic/files/{path}`
 
 | Field | Description |
 | --- | --- |
-| `file` |  |
+| `files` |  |
 | `path` |  |
 | `url` |  |
 
@@ -390,12 +407,12 @@ API path: `/traffic/files`
 | Field | Description |
 | --- | --- |
 | `description` |  |
-| `example` |  |
-| `format` |  |
+| `examples` |  |
+| `formats` |  |
 | `name` |  |
 | `ref` |  |
 | `type` |  |
-| `variable` |  |
+| `variables` |  |
 
 Operations: Create, List, Update.
 
@@ -421,12 +438,19 @@ Create an instance: `$content = $client->Content();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `card` | `array` |  |
+| `carousel` | `array` |  |
 | `content` | `array` |  |
+| `fromTemplate` | `array` |  |
+| `location` | `array` |  |
+| `media` | `array` |  |
+| `suggestions` | `array` |  |
+| `text` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Content record (throws on error).
+// load() returns the ENTITY — call data_get() for the Content record (throws on error).
 $content = $client->Content()->load(["template_id" => "template_id"]);
 ```
 
@@ -435,6 +459,11 @@ $content = $client->Content()->load(["template_id" => "template_id"]);
 ```php
 $content = $client->Content()->create([
     "template_id" => null, // string
+    "carousel" => null, // array
+    "content" => null, // array
+    "fromTemplate" => null, // array
+    "location" => null, // array
+    "media" => null, // array
 ]);
 ```
 
@@ -455,13 +484,14 @@ Create an instance: `$message = $client->Message();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message` | `array` |  |
-| `schedule` | `array` |  |
+| `campaignId` | `string` |  |
+| `messages` | `array` |  |
+| `scheduleAt` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Message record (throws on error).
+// load() returns the ENTITY — call data_get() for the Message record (throws on error).
 $message = $client->Message()->load(["id" => "message_id"]);
 ```
 
@@ -469,8 +499,8 @@ $message = $client->Message()->load(["id" => "message_id"]);
 
 ```php
 $message = $client->Message()->create([
-    "message" => null, // array
-    "schedule" => null, // array
+    "messages" => null, // array
+    "scheduleAt" => null, // string
 ]);
 ```
 
@@ -489,12 +519,12 @@ Create an instance: `$message_event = $client->MessageEvent();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_id` | `string` |  |
-| `event_id` | `string` |  |
-| `message_status_changed` | `array` |  |
+| `accountId` | `string` |  |
+| `eventId` | `string` |  |
+| `messageStatusChanged` | `array` |  |
 | `on` | `string` |  |
-| `template_review_status_changed` | `array` |  |
-| `user_message_received` | `array` |  |
+| `templateReviewStatusChanged` | `array` |  |
+| `userMessageReceived` | `array` |  |
 
 #### Example: List
 
@@ -520,12 +550,12 @@ Create an instance: `$option = $client->Option();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `option` | `array` |  |
+| `options` | `array` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Option record (throws on error).
+// load() returns the ENTITY — call data_get() for the Option record (throws on error).
 $option = $client->Option()->load(["template_id" => "template_id"]);
 ```
 
@@ -534,6 +564,7 @@ $option = $client->Option()->load(["template_id" => "template_id"]);
 ```php
 $option = $client->Option()->create([
     "template_id" => null, // string
+    "options" => null, // array
 ]);
 ```
 
@@ -558,7 +589,7 @@ Create an instance: `$schedule = $client->Schedule();`
 #### Example: Load
 
 ```php
-// load() returns the bare Schedule record (throws on error).
+// load() returns the ENTITY — call data_get() for the Schedule record (throws on error).
 $schedule = $client->Schedule()->load();
 ```
 
@@ -577,12 +608,13 @@ Create an instance: `$self = $client->Self();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account` | `array` |  |
+| `accountId` | `string` |  |
+| `settings` | `array` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Self record (throws on error).
+// load() returns the ENTITY — call data_get() for the Self record (throws on error).
 $self = $client->Self()->load();
 ```
 
@@ -601,7 +633,8 @@ Create an instance: `$self_admin = $client->SelfAdmin();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `setting` | `array` |  |
+| `callback` | `array` |  |
+| `settings` | `array` |  |
 
 
 ### Template
@@ -622,22 +655,25 @@ Create an instance: `$template = $client->Template();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `channel_data` | `array` |  |
-| `created_on` | `string` |  |
-| `designer_url` | `string` |  |
-| `detail` | `string` |  |
+| `channelData` | `array` |  |
+| `content` | `array` |  |
+| `createdOn` | `string` |  |
+| `designerUrl` | `string` |  |
+| `details` | `string` |  |
 | `meta` | `array` |  |
-| `occurred_on` | `string` |  |
-| `review` | `array` |  |
+| `occurredOn` | `string` |  |
+| `options` | `array` |  |
+| `reviews` | `array` |  |
 | `status` | `string` |  |
 | `template` | `array` |  |
-| `template_id` | `string` |  |
-| `updated_on` | `string` |  |
+| `templateId` | `string` |  |
+| `updatedOn` | `string` |  |
+| `variables` | `array` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Template record (throws on error).
+// load() returns the ENTITY — call data_get() for the Template record (throws on error).
 $template = $client->Template()->load(["id" => "template_id"]);
 ```
 
@@ -652,13 +688,11 @@ $templates = $client->Template()->list();
 
 ```php
 $template = $client->Template()->create([
-    "created_on" => null, // string
-    "meta" => null, // array
-    "occurred_on" => null, // string
-    "review" => null, // array
+    "createdOn" => null, // string
+    "occurredOn" => null, // string
     "status" => null, // string
     "template" => null, // array
-    "template_id" => null, // string
+    "templateId" => null, // string
 ]);
 ```
 
@@ -689,14 +723,14 @@ Create an instance: `$traffic_file = $client->TrafficFile();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `file` | `array` |  |
+| `files` | `array` |  |
 | `path` | `string` |  |
 | `url` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare TrafficFile record (throws on error).
+// load() returns the ENTITY — call data_get() for the TrafficFile record (throws on error).
 $traffic_file = $client->TrafficFile()->load(["id" => "traffic_file_id"]);
 ```
 
@@ -725,12 +759,12 @@ Create an instance: `$variable = $client->Variable();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `description` | `string` |  |
-| `example` | `array` |  |
-| `format` | `array` |  |
+| `examples` | `array` |  |
+| `formats` | `array` |  |
 | `name` | `string` |  |
 | `ref` | `string` |  |
 | `type` | `string` |  |
-| `variable` | `array` |  |
+| `variables` | `array` |  |
 
 #### Example: List
 
@@ -744,6 +778,8 @@ $variables = $client->Variable()->list();
 ```php
 $variable = $client->Variable()->create([
     "template_id" => null, // string
+    "name" => null, // string
+    "variables" => null, // array
 ]);
 ```
 
@@ -824,11 +860,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$content = $client->Content();
-$content->load(["template_id" => "example"]);
+$message = $client->Message();
+$message->load(["id" => "example_id"]);
 
-// $content->data_get() now returns the content data from the last load
-// $content->match_get() returns the last match criteria
+// $message->data_get() now returns the message data from the last load
+// $message->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

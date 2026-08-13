@@ -6,7 +6,14 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
 export interface Content {
+  card?: Record<string, any>
+  carousel: Record<string, any>
   content: Record<string, any>
+  fromTemplate: Record<string, any>
+  location: Record<string, any>
+  media: Record<string, any>
+  suggestions?: any[]
+  text?: string
 }
 
 export interface ContentLoadMatch {
@@ -15,33 +22,55 @@ export interface ContentLoadMatch {
 
 export interface ContentCreateData {
   template_id: string
+  card?: Record<string, any>
+  carousel: Record<string, any>
+  content: Record<string, any>
+  fromTemplate: Record<string, any>
+  location: Record<string, any>
+  media: Record<string, any>
+  suggestions?: any[]
+  text?: string
 }
 
 export interface Message {
-  message: any[]
-  schedule: Record<string, any>
+  campaignId?: string
+  messages: any[]
+  scheduleAt: string
 }
 
 export interface MessageLoadMatch {
   id: string
+
+  // Selects a custom action instead of the plain load:
+  //   'schedule'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface MessageCreateData {
-  message: any[]
-  schedule: Record<string, any>
+  campaignId?: string
+  messages: any[]
+  scheduleAt: string
 }
 
 export interface MessageRemoveMatch {
   id: string
+
+  // Selects a custom action instead of the plain remove:
+  //   'schedule'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface MessageEvent {
-  account_id: string
-  event_id: string
-  message_status_changed: Record<string, any>
+  accountId: string
+  eventId: string
+  messageStatusChanged: Record<string, any>
   on: string
-  template_review_status_changed: Record<string, any>
-  user_message_received: Record<string, any>
+  templateReviewStatusChanged: Record<string, any>
+  userMessageReceived: Record<string, any>
 }
 
 export interface MessageEventListMatch {
@@ -49,7 +78,7 @@ export interface MessageEventListMatch {
 }
 
 export interface Option {
-  option: Record<string, any>
+  options: Record<string, any>
 }
 
 export interface OptionLoadMatch {
@@ -58,10 +87,12 @@ export interface OptionLoadMatch {
 
 export interface OptionCreateData {
   template_id: string
+  options: Record<string, any>
 }
 
 export interface OptionUpdateData {
   template_id: string
+  options?: Record<string, any>
 }
 
 export interface Schedule {
@@ -77,71 +108,110 @@ export interface ScheduleRemoveMatch {
 }
 
 export interface Self {
-  account: Record<string, any>
+  accountId: string
+  settings: Record<string, any>
 }
 
 export interface SelfLoadMatch {
-  account?: Record<string, any>
+  accountId?: string
+  settings?: Record<string, any>
 }
 
 export interface SelfAdmin {
-  setting: Record<string, any>
+  callback: Record<string, any>
+  settings: Record<string, any>
 }
 
 export interface SelfAdminUpdateData {
-  setting?: Record<string, any>
+  callback?: Record<string, any>
+  settings?: Record<string, any>
 }
 
 export interface Template {
-  channel_data?: Record<string, any>
-  created_on: string
-  designer_url?: string
-  detail?: string
-  meta: Record<string, any>
-  occurred_on: string
-  review: Record<string, any>
+  channelData?: Record<string, any>
+  content?: Record<string, any>
+  createdOn: string
+  designerUrl?: string
+  details?: string
+  meta?: Record<string, any>
+  occurredOn: string
+  options?: Record<string, any>
+  reviews?: Record<string, any>
   status: string
   template: Record<string, any>
-  template_id: string
-  updated_on?: string
+  templateId: string
+  updatedOn?: string
+  variables?: any[]
 }
 
 export interface TemplateLoadMatch {
   channel_id?: string
   id: string
+
+  // Selects a custom action instead of the plain load:
+  //   'meta' | 'review'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface TemplateListMatch {
-  channel_data?: Record<string, any>
-  created_on?: string
-  designer_url?: string
-  detail?: string
+  channelData?: Record<string, any>
+  content?: Record<string, any>
+  createdOn?: string
+  designerUrl?: string
+  details?: string
   meta?: Record<string, any>
-  occurred_on?: string
-  review?: Record<string, any>
+  occurredOn?: string
+  options?: Record<string, any>
+  reviews?: Record<string, any>
   status?: string
   template?: Record<string, any>
-  template_id?: string
-  updated_on?: string
+  templateId?: string
+  updatedOn?: string
+  variables?: any[]
 }
 
 export interface TemplateCreateData {
-  channel_data?: Record<string, any>
-  created_on: string
-  designer_url?: string
-  detail?: string
-  meta: Record<string, any>
-  occurred_on: string
-  review: Record<string, any>
+  channelData?: Record<string, any>
+  content?: Record<string, any>
+  createdOn: string
+  designerUrl?: string
+  details?: string
+  meta?: Record<string, any>
+  occurredOn: string
+  options?: Record<string, any>
+  reviews?: Record<string, any>
   status: string
   template: Record<string, any>
-  template_id: string
-  updated_on?: string
+  templateId: string
+  updatedOn?: string
+  variables?: any[]
+
+  // Selects a custom action instead of the plain create:
+  //   'meta'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface TemplateUpdateData {
   channel_id: string
   id: string
+  channelData?: Record<string, any>
+  content?: Record<string, any>
+  createdOn?: string
+  designerUrl?: string
+  details?: string
+  meta?: Record<string, any>
+  occurredOn?: string
+  options?: Record<string, any>
+  reviews?: Record<string, any>
+  status?: string
+  template?: Record<string, any>
+  templateId?: string
+  updatedOn?: string
+  variables?: any[]
 }
 
 export interface TemplateRemoveMatch {
@@ -157,7 +227,7 @@ export interface TrafficRemoveMatch {
 }
 
 export interface TrafficFile {
-  file: any[]
+  files: any[]
   path: string
   url: string
 }
@@ -167,19 +237,19 @@ export interface TrafficFileLoadMatch {
 }
 
 export interface TrafficFileListMatch {
-  file?: any[]
+  files?: any[]
   path?: string
   url?: string
 }
 
 export interface Variable {
   description?: string
-  example?: any[]
-  format?: any[]
+  examples?: any[]
+  formats?: any[]
   name: string
   ref?: string
   type?: string
-  variable: any[]
+  variables: any[]
 }
 
 export interface VariableListMatch {
@@ -188,9 +258,23 @@ export interface VariableListMatch {
 
 export interface VariableCreateData {
   template_id: string
+  description?: string
+  examples?: any[]
+  formats?: any[]
+  name: string
+  ref?: string
+  type?: string
+  variables: any[]
 }
 
 export interface VariableUpdateData {
   template_id: string
+  description?: string
+  examples?: any[]
+  formats?: any[]
+  name?: string
+  ref?: string
+  type?: string
+  variables?: any[]
 }
 

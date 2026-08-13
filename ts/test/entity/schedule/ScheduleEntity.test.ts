@@ -26,8 +26,8 @@ import {
 describe('ScheduleEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-  afterEach(liveDelay('LMMULTICHANNEL_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+  afterEach(liveDelay('LM_MULTICHANNEL_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = LmMultichannelSDK.test()
@@ -62,7 +62,7 @@ describe('ScheduleEntity', async () => {
     // LOAD
     const schedule_ref01_ent = client.Schedule()
     const schedule_ref01_match_dt0: any = {}
-    const schedule_ref01_data_dt0 = await schedule_ref01_ent.load(schedule_ref01_match_dt0)
+    const schedule_ref01_data_dt0 = (await schedule_ref01_ent.load(schedule_ref01_match_dt0)).data()
     assert(null != schedule_ref01_data_dt0)
 
 

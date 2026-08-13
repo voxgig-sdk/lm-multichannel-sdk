@@ -6,50 +6,58 @@ main: kit: entity: template: {
 
   fields: [
     {
-      name: "channel_data"
+      name: "channelData"
       req: false
       type: "`$OBJECT`"
     }
     {
-      name: "created_on"
+      name: "content"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "createdOn"
       req: true
       type: "`$STRING`"
     }
     {
-      name: "designer_url"
+      name: "designerUrl"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "detail"
+      name: "details"
       req: false
       type: "`$STRING`"
     }
     {
       name: "meta"
       op: {
-        list: {
-          req: false
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+        patch: {
+          req: true
           type: "`$OBJECT`"
         }
       }
-      req: true
+      req: false
       type: "`$OBJECT`"
     }
     {
-      name: "occurred_on"
+      name: "occurredOn"
       req: true
       type: "`$STRING`"
     }
     {
-      name: "review"
-      op: {
-        list: {
-          req: false
-          type: "`$OBJECT`"
-        }
-      }
-      req: true
+      name: "options"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "reviews"
+      req: false
       type: "`$OBJECT`"
     }
     {
@@ -63,14 +71,19 @@ main: kit: entity: template: {
       type: "`$OBJECT`"
     }
     {
-      name: "template_id"
+      name: "templateId"
       req: true
       type: "`$STRING`"
     }
     {
-      name: "updated_on"
+      name: "updatedOn"
       req: false
       type: "`$STRING`"
+    }
+    {
+      name: "variables"
+      req: false
+      type: "`$ARRAY`"
     }
   ]
 

@@ -61,7 +61,7 @@ func main() {
     fmt.Println(content)
 
     // Create a content.
-    created, err := client.Content(nil).Create(map[string]any{"template_id": "example_template_id"}, nil)
+    created, err := client.Content(nil).Create(map[string]any{"template_id": "example_template_id", "carousel": map[string]any{}, "content": map[string]any{}, "fromTemplate": map[string]any{}, "location": map[string]any{}, "media": map[string]any{}}, nil)
     if err != nil {
         panic(err)
     }
@@ -76,12 +76,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-content, err := client.Content(nil).Load(map[string]any{"template_id": "example"}, nil)
+message, err := client.Message(nil).Load(map[string]any{"id": "example_id"}, nil)
 if err != nil {
     // handle err
     return
 }
-_ = content
+_ = message
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -145,13 +145,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-content, err := client.Content(nil).Load(
-    map[string]any{"template_id": "example"}, nil,
+message, err := client.Message(nil).Load(
+    map[string]any{"id": "test01"}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(content) // the returned mock data
+fmt.Println(message) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -285,7 +285,14 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
+| `"card"` |  |
+| `"carousel"` |  |
 | `"content"` |  |
+| `"fromTemplate"` |  |
+| `"location"` |  |
+| `"media"` |  |
+| `"suggestions"` |  |
+| `"text"` |  |
 
 Operations: Create, Load.
 
@@ -295,8 +302,9 @@ API path: `/templates/{templateId}/content`
 
 | Field | Description |
 | --- | --- |
-| `"message"` |  |
-| `"schedule"` |  |
+| `"campaignId"` |  |
+| `"messages"` |  |
+| `"scheduleAt"` |  |
 
 Operations: Create, Load, Remove.
 
@@ -306,12 +314,12 @@ API path: `/messages`
 
 | Field | Description |
 | --- | --- |
-| `"account_id"` |  |
-| `"event_id"` |  |
-| `"message_status_changed"` |  |
+| `"accountId"` |  |
+| `"eventId"` |  |
+| `"messageStatusChanged"` |  |
 | `"on"` |  |
-| `"template_review_status_changed"` |  |
-| `"user_message_received"` |  |
+| `"templateReviewStatusChanged"` |  |
+| `"userMessageReceived"` |  |
 
 Operations: List.
 
@@ -321,7 +329,7 @@ API path: `/messages/{messageId}/events`
 
 | Field | Description |
 | --- | --- |
-| `"option"` |  |
+| `"options"` |  |
 
 Operations: Create, Load, Update.
 
@@ -341,7 +349,8 @@ API path: `/schedules:count`
 
 | Field | Description |
 | --- | --- |
-| `"account"` |  |
+| `"accountId"` |  |
+| `"settings"` |  |
 
 Operations: Load.
 
@@ -351,7 +360,8 @@ API path: `/self`
 
 | Field | Description |
 | --- | --- |
-| `"setting"` |  |
+| `"callback"` |  |
+| `"settings"` |  |
 
 Operations: Update.
 
@@ -361,17 +371,20 @@ API path: `/self/settings`
 
 | Field | Description |
 | --- | --- |
-| `"channel_data"` |  |
-| `"created_on"` |  |
-| `"designer_url"` |  |
-| `"detail"` |  |
+| `"channelData"` |  |
+| `"content"` |  |
+| `"createdOn"` |  |
+| `"designerUrl"` |  |
+| `"details"` |  |
 | `"meta"` |  |
-| `"occurred_on"` |  |
-| `"review"` |  |
+| `"occurredOn"` |  |
+| `"options"` |  |
+| `"reviews"` |  |
 | `"status"` |  |
 | `"template"` |  |
-| `"template_id"` |  |
-| `"updated_on"` |  |
+| `"templateId"` |  |
+| `"updatedOn"` |  |
+| `"variables"` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -390,7 +403,7 @@ API path: `/traffic/files/{path}`
 
 | Field | Description |
 | --- | --- |
-| `"file"` |  |
+| `"files"` |  |
 | `"path"` |  |
 | `"url"` |  |
 
@@ -403,12 +416,12 @@ API path: `/traffic/files`
 | Field | Description |
 | --- | --- |
 | `"description"` |  |
-| `"example"` |  |
-| `"format"` |  |
+| `"examples"` |  |
+| `"formats"` |  |
 | `"name"` |  |
 | `"ref"` |  |
 | `"type"` |  |
-| `"variable"` |  |
+| `"variables"` |  |
 
 Operations: Create, List, Update.
 
@@ -434,7 +447,14 @@ Create an instance: `content := client.Content(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `card` | `map[string]any` |  |
+| `carousel` | `map[string]any` |  |
 | `content` | `map[string]any` |  |
+| `fromTemplate` | `map[string]any` |  |
+| `location` | `map[string]any` |  |
+| `media` | `map[string]any` |  |
+| `suggestions` | `[]any` |  |
+| `text` | `string` |  |
 
 #### Example: Load
 
@@ -451,6 +471,11 @@ fmt.Println(content) // the loaded record
 ```go
 result, err := client.Content(nil).Create(map[string]any{
     "template_id": "example_template_id",
+    "carousel": map[string]any{},
+    "content": map[string]any{},
+    "fromTemplate": map[string]any{},
+    "location": map[string]any{},
+    "media": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
@@ -475,8 +500,9 @@ Create an instance: `message := client.Message(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message` | `[]any` |  |
-| `schedule` | `map[string]any` |  |
+| `campaignId` | `string` |  |
+| `messages` | `[]any` |  |
+| `scheduleAt` | `string` |  |
 
 #### Example: Load
 
@@ -492,8 +518,8 @@ fmt.Println(message) // the loaded record
 
 ```go
 result, err := client.Message(nil).Create(map[string]any{
-    "message": []any{},
-    "schedule": map[string]any{},
+    "messages": []any{},
+    "scheduleAt": "example_scheduleAt",
 }, nil)
 if err != nil {
     panic(err)
@@ -516,12 +542,12 @@ Create an instance: `messageEvent := client.MessageEvent(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_id` | `string` |  |
-| `event_id` | `string` |  |
-| `message_status_changed` | `map[string]any` |  |
+| `accountId` | `string` |  |
+| `eventId` | `string` |  |
+| `messageStatusChanged` | `map[string]any` |  |
 | `on` | `string` |  |
-| `template_review_status_changed` | `map[string]any` |  |
-| `user_message_received` | `map[string]any` |  |
+| `templateReviewStatusChanged` | `map[string]any` |  |
+| `userMessageReceived` | `map[string]any` |  |
 
 #### Example: List
 
@@ -550,7 +576,7 @@ Create an instance: `option := client.Option(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `option` | `map[string]any` |  |
+| `options` | `map[string]any` |  |
 
 #### Example: Load
 
@@ -567,6 +593,7 @@ fmt.Println(option) // the loaded record
 ```go
 result, err := client.Option(nil).Create(map[string]any{
     "template_id": "example_template_id",
+    "options": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
@@ -617,7 +644,8 @@ Create an instance: `self := client.Self(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account` | `map[string]any` |  |
+| `accountId` | `string` |  |
+| `settings` | `map[string]any` |  |
 
 #### Example: Load
 
@@ -644,7 +672,8 @@ Create an instance: `selfAdmin := client.SelfAdmin(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `setting` | `map[string]any` |  |
+| `callback` | `map[string]any` |  |
+| `settings` | `map[string]any` |  |
 
 
 ### Template
@@ -665,17 +694,20 @@ Create an instance: `template := client.Template(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `channel_data` | `map[string]any` |  |
-| `created_on` | `string` |  |
-| `designer_url` | `string` |  |
-| `detail` | `string` |  |
+| `channelData` | `map[string]any` |  |
+| `content` | `map[string]any` |  |
+| `createdOn` | `string` |  |
+| `designerUrl` | `string` |  |
+| `details` | `string` |  |
 | `meta` | `map[string]any` |  |
-| `occurred_on` | `string` |  |
-| `review` | `map[string]any` |  |
+| `occurredOn` | `string` |  |
+| `options` | `map[string]any` |  |
+| `reviews` | `map[string]any` |  |
 | `status` | `string` |  |
 | `template` | `map[string]any` |  |
-| `template_id` | `string` |  |
-| `updated_on` | `string` |  |
+| `templateId` | `string` |  |
+| `updatedOn` | `string` |  |
+| `variables` | `[]any` |  |
 
 #### Example: Load
 
@@ -701,13 +733,11 @@ fmt.Println(templates) // the array of records
 
 ```go
 result, err := client.Template(nil).Create(map[string]any{
-    "created_on": "example_created_on",
-    "meta": map[string]any{},
-    "occurred_on": "example_occurred_on",
-    "review": map[string]any{},
+    "createdOn": "example_createdOn",
+    "occurredOn": "example_occurredOn",
     "status": "example_status",
     "template": map[string]any{},
-    "template_id": "example_template_id",
+    "templateId": "example_templateId",
 }, nil)
 if err != nil {
     panic(err)
@@ -742,7 +772,7 @@ Create an instance: `trafficFile := client.TrafficFile(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `file` | `[]any` |  |
+| `files` | `[]any` |  |
 | `path` | `string` |  |
 | `url` | `string` |  |
 
@@ -784,12 +814,12 @@ Create an instance: `variable := client.Variable(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `description` | `string` |  |
-| `example` | `[]any` |  |
-| `format` | `[]any` |  |
+| `examples` | `[]any` |  |
+| `formats` | `[]any` |  |
 | `name` | `string` |  |
 | `ref` | `string` |  |
 | `type` | `string` |  |
-| `variable` | `[]any` |  |
+| `variables` | `[]any` |  |
 
 #### Example: List
 
@@ -806,6 +836,8 @@ fmt.Println(variables) // the array of records
 ```go
 result, err := client.Variable(nil).Create(map[string]any{
     "template_id": "example_template_id",
+    "name": "example_name",
+    "variables": []any{},
 }, nil)
 if err != nil {
     panic(err)
@@ -887,11 +919,11 @@ Entity instances are stateful. After a successful `Load`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-content := client.Content(nil)
-content.Load(map[string]any{"template_id": "example"}, nil)
+message := client.Message(nil)
+message.Load(map[string]any{"id": "example_id"}, nil)
 
-// content.Data() now returns the content data from the last load
-// content.Match() returns the last match criteria
+// message.Data() now returns the message data from the last load
+// message.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

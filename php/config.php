@@ -45,10 +45,59 @@ class LmMultichannelConfig
           'fields' => [
             [
               'active' => true,
+              'name' => 'card',
+              'req' => false,
+              'type' => '`$OBJECT`',
+              'index$' => 0,
+            ],
+            [
+              'active' => true,
+              'name' => 'carousel',
+              'req' => true,
+              'type' => '`$OBJECT`',
+              'index$' => 1,
+            ],
+            [
+              'active' => true,
               'name' => 'content',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 0,
+              'index$' => 2,
+            ],
+            [
+              'active' => true,
+              'name' => 'fromTemplate',
+              'req' => true,
+              'type' => '`$OBJECT`',
+              'index$' => 3,
+            ],
+            [
+              'active' => true,
+              'name' => 'location',
+              'req' => true,
+              'type' => '`$OBJECT`',
+              'index$' => 4,
+            ],
+            [
+              'active' => true,
+              'name' => 'media',
+              'req' => true,
+              'type' => '`$OBJECT`',
+              'index$' => 5,
+            ],
+            [
+              'active' => true,
+              'name' => 'suggestions',
+              'req' => false,
+              'type' => '`$ARRAY`',
+              'index$' => 6,
+            ],
+            [
+              'active' => true,
+              'name' => 'text',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 7,
             ],
           ],
           'name' => 'content',
@@ -72,6 +121,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates/{templateId}/content',
                   'parts' => [
@@ -117,6 +167,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/content',
                   'parts' => [
@@ -156,17 +207,24 @@ class LmMultichannelConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'message',
-              'req' => true,
-              'type' => '`$ARRAY`',
+              'name' => 'campaignId',
+              'req' => false,
+              'type' => '`$STRING`',
               'index$' => 0,
             ],
             [
               'active' => true,
-              'name' => 'schedule',
+              'name' => 'messages',
               'req' => true,
-              'type' => '`$OBJECT`',
+              'type' => '`$ARRAY`',
               'index$' => 1,
+            ],
+            [
+              'active' => true,
+              'name' => 'scheduleAt',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 2,
             ],
           ],
           'name' => 'message',
@@ -178,6 +236,7 @@ class LmMultichannelConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/messages',
                   'parts' => [
@@ -212,6 +271,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/messages/{messageId}/schedule',
                   'parts' => [
@@ -258,6 +318,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/messages/{messageId}/schedule',
                   'parts' => [
@@ -294,21 +355,21 @@ class LmMultichannelConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'account_id',
+              'name' => 'accountId',
               'req' => true,
               'type' => '`$STRING`',
               'index$' => 0,
             ],
             [
               'active' => true,
-              'name' => 'event_id',
+              'name' => 'eventId',
               'req' => true,
               'type' => '`$STRING`',
               'index$' => 1,
             ],
             [
               'active' => true,
-              'name' => 'message_status_changed',
+              'name' => 'messageStatusChanged',
               'req' => true,
               'type' => '`$OBJECT`',
               'index$' => 2,
@@ -322,14 +383,14 @@ class LmMultichannelConfig
             ],
             [
               'active' => true,
-              'name' => 'template_review_status_changed',
+              'name' => 'templateReviewStatusChanged',
               'req' => true,
               'type' => '`$OBJECT`',
               'index$' => 4,
             ],
             [
               'active' => true,
-              'name' => 'user_message_received',
+              'name' => 'userMessageReceived',
               'req' => true,
               'type' => '`$OBJECT`',
               'index$' => 5,
@@ -383,6 +444,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/messages/{messageId}/events',
                   'parts' => [
@@ -421,7 +483,7 @@ class LmMultichannelConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'option',
+              'name' => 'options',
               'req' => true,
               'type' => '`$OBJECT`',
               'index$' => 0,
@@ -448,6 +510,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates/{templateId}/options',
                   'parts' => [
@@ -493,6 +556,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/options',
                   'parts' => [
@@ -538,6 +602,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/templates/{templateId}/options',
                   'parts' => [
@@ -621,6 +686,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/schedules:count',
                   'parts' => [
@@ -676,6 +742,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/schedules',
                   'parts' => [
@@ -706,10 +773,17 @@ class LmMultichannelConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'account',
+              'name' => 'accountId',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 0,
+            ],
+            [
+              'active' => true,
+              'name' => 'settings',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 0,
+              'index$' => 1,
             ],
           ],
           'name' => 'self',
@@ -721,6 +795,7 @@ class LmMultichannelConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/self',
                   'parts' => [
@@ -745,10 +820,17 @@ class LmMultichannelConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'setting',
+              'name' => 'callback',
               'req' => true,
               'type' => '`$OBJECT`',
               'index$' => 0,
+            ],
+            [
+              'active' => true,
+              'name' => 'settings',
+              'req' => true,
+              'type' => '`$OBJECT`',
+              'index$' => 1,
             ],
           ],
           'name' => 'self_admin',
@@ -760,6 +842,7 @@ class LmMultichannelConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/self/settings',
                   'parts' => [
@@ -785,92 +868,111 @@ class LmMultichannelConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'channel_data',
+              'name' => 'channelData',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 0,
             ],
             [
               'active' => true,
-              'name' => 'created_on',
-              'req' => true,
-              'type' => '`$STRING`',
+              'name' => 'content',
+              'req' => false,
+              'type' => '`$OBJECT`',
               'index$' => 1,
             ],
             [
               'active' => true,
-              'name' => 'designer_url',
-              'req' => false,
+              'name' => 'createdOn',
+              'req' => true,
               'type' => '`$STRING`',
               'index$' => 2,
             ],
             [
               'active' => true,
-              'name' => 'detail',
+              'name' => 'designerUrl',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 3,
             ],
             [
               'active' => true,
-              'name' => 'meta',
-              'op' => [
-                'list' => [
-                  'req' => false,
-                  'type' => '`$OBJECT`',
-                ],
-              ],
-              'req' => true,
-              'type' => '`$OBJECT`',
+              'name' => 'details',
+              'req' => false,
+              'type' => '`$STRING`',
               'index$' => 4,
             ],
             [
               'active' => true,
-              'name' => 'occurred_on',
-              'req' => true,
-              'type' => '`$STRING`',
+              'name' => 'meta',
+              'op' => [
+                'create' => [
+                  'req' => true,
+                  'type' => '`$OBJECT`',
+                ],
+                'patch' => [
+                  'req' => true,
+                  'type' => '`$OBJECT`',
+                ],
+              ],
+              'req' => false,
+              'type' => '`$OBJECT`',
               'index$' => 5,
             ],
             [
               'active' => true,
-              'name' => 'review',
-              'op' => [
-                'list' => [
-                  'req' => false,
-                  'type' => '`$OBJECT`',
-                ],
-              ],
+              'name' => 'occurredOn',
               'req' => true,
-              'type' => '`$OBJECT`',
+              'type' => '`$STRING`',
               'index$' => 6,
+            ],
+            [
+              'active' => true,
+              'name' => 'options',
+              'req' => false,
+              'type' => '`$OBJECT`',
+              'index$' => 7,
+            ],
+            [
+              'active' => true,
+              'name' => 'reviews',
+              'req' => false,
+              'type' => '`$OBJECT`',
+              'index$' => 8,
             ],
             [
               'active' => true,
               'name' => 'status',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 7,
+              'index$' => 9,
             ],
             [
               'active' => true,
               'name' => 'template',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 8,
+              'index$' => 10,
             ],
             [
               'active' => true,
-              'name' => 'template_id',
+              'name' => 'templateId',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 9,
+              'index$' => 11,
             ],
             [
               'active' => true,
-              'name' => 'updated_on',
+              'name' => 'updatedOn',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 10,
+              'index$' => 12,
+            ],
+            [
+              'active' => true,
+              'name' => 'variables',
+              'req' => false,
+              'type' => '`$ARRAY`',
+              'index$' => 13,
             ],
           ],
           'name' => 'template',
@@ -894,6 +996,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates/{templateId}/meta',
                   'parts' => [
@@ -921,6 +1024,7 @@ class LmMultichannelConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates',
                   'parts' => [
@@ -971,6 +1075,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates',
                   'parts' => [
@@ -1020,6 +1125,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/reviews/{channelId}',
                   'parts' => [
@@ -1061,6 +1167,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}',
                   'parts' => [
@@ -1097,6 +1204,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/meta',
                   'parts' => [
@@ -1135,6 +1243,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/reviews',
                   'parts' => [
@@ -1180,6 +1289,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/templates/{templateId}/meta',
                   'parts' => [
@@ -1235,6 +1345,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/templates/{templateId}/reviews/{channelId}',
                   'parts' => [
@@ -1276,6 +1387,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/templates/{templateId}',
                   'parts' => [
@@ -1329,6 +1441,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/templates/{templateId}/reviews/{channelId}',
                   'parts' => [
@@ -1390,6 +1503,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/traffic/files/{path}',
                   'parts' => [
@@ -1424,7 +1538,7 @@ class LmMultichannelConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'file',
+              'name' => 'files',
               'req' => true,
               'type' => '`$ARRAY`',
               'index$' => 0,
@@ -1453,6 +1567,7 @@ class LmMultichannelConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/traffic/files',
                   'parts' => [
@@ -1488,6 +1603,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/traffic/files/{path}',
                   'parts' => [
@@ -1530,14 +1646,14 @@ class LmMultichannelConfig
             ],
             [
               'active' => true,
-              'name' => 'example',
+              'name' => 'examples',
               'req' => false,
               'type' => '`$ARRAY`',
               'index$' => 1,
             ],
             [
               'active' => true,
-              'name' => 'format',
+              'name' => 'formats',
               'req' => false,
               'type' => '`$ARRAY`',
               'index$' => 2,
@@ -1565,7 +1681,7 @@ class LmMultichannelConfig
             ],
             [
               'active' => true,
-              'name' => 'variable',
+              'name' => 'variables',
               'req' => true,
               'type' => '`$ARRAY`',
               'index$' => 6,
@@ -1592,6 +1708,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates/{templateId}/variables',
                   'parts' => [
@@ -1637,6 +1754,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/variables',
                   'parts' => [
@@ -1682,6 +1800,7 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/templates/{templateId}/variables',
                   'parts' => [

@@ -33,7 +33,7 @@ class MessageEntityTest extends TestCase
         // The basic flow consumes synthetic IDs from the fixture. In live mode
         // without an *_ENTID env override, those IDs hit the live API and 4xx.
         if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set LMMULTICHANNEL_TEST_MESSAGE_ENTID JSON to run live");
+            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set LM_MULTICHANNEL_TEST_MESSAGE_ENTID JSON to run live");
             return;
         }
         $client = $setup["client"];
@@ -44,7 +44,7 @@ class MessageEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.message"), "message_ref01"));
 
         $message_ref01_data_result = $message_ref01_ent->create($message_ref01_data, null);
-        $message_ref01_data = Helpers::to_map($message_ref01_data_result);
+        $message_ref01_data = Helpers::to_map(is_object($message_ref01_data_result) && method_exists($message_ref01_data_result, 'data_get') ? $message_ref01_data_result->data_get() : $message_ref01_data_result);
         $this->assertNotNull($message_ref01_data);
 
         // LOAD
@@ -78,39 +78,39 @@ function message_basic_setup($extra)
     // Detect ENTID env override before envOverride consumes it. When live
     // mode is on without a real override, the basic test runs against synthetic
     // IDs from the fixture and 4xx's. Surface this so the test can skip.
-    $entid_env_raw = getenv("LMMULTICHANNEL_TEST_MESSAGE_ENTID");
+    $entid_env_raw = getenv("LM_MULTICHANNEL_TEST_MESSAGE_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 
     $env = Runner::env_override([
-        "LMMULTICHANNEL_TEST_MESSAGE_ENTID" => $idmap,
-        "LMMULTICHANNEL_TEST_LIVE" => "FALSE",
-        "LMMULTICHANNEL_TEST_EXPLAIN" => "FALSE",
-        "LMMULTICHANNEL_APIKEY" => "NONE",
+        "LM_MULTICHANNEL_TEST_MESSAGE_ENTID" => $idmap,
+        "LM_MULTICHANNEL_TEST_LIVE" => "FALSE",
+        "LM_MULTICHANNEL_TEST_EXPLAIN" => "FALSE",
+        "LM_MULTICHANNEL_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
-        $env["LMMULTICHANNEL_TEST_MESSAGE_ENTID"]);
+        $env["LM_MULTICHANNEL_TEST_MESSAGE_ENTID"]);
     if ($idmap_resolved === null) {
         $idmap_resolved = Helpers::to_map($idmap);
     }
 
-    if ($env["LMMULTICHANNEL_TEST_LIVE"] === "TRUE") {
+    if ($env["LM_MULTICHANNEL_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["LMMULTICHANNEL_APIKEY"],
+                "apikey" => $env["LM_MULTICHANNEL_APIKEY"],
             ],
             $extra ?? [],
         ]);
         $client = new LmMultichannelSDK(Helpers::to_map($merged_opts));
     }
 
-    $live = $env["LMMULTICHANNEL_TEST_LIVE"] === "TRUE";
+    $live = $env["LM_MULTICHANNEL_TEST_LIVE"] === "TRUE";
     return [
         "client" => $client,
         "data" => $entity_data,
         "idmap" => $idmap_resolved,
         "env" => $env,
-        "explain" => $env["LMMULTICHANNEL_TEST_EXPLAIN"] === "TRUE",
+        "explain" => $env["LM_MULTICHANNEL_TEST_EXPLAIN"] === "TRUE",
         "live" => $live,
         "synthetic_only" => $live && !$idmap_overridden,
         "now" => (int)(microtime(true) * 1000),

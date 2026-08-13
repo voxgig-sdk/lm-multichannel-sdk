@@ -2,15 +2,18 @@
   "existing": {
     "self": {
       "SELF00": {
-        "account": {},
+        "accountId": "s14",
+        "settings": {},
         "id": "SELF00"
       },
       "SELF01": {
-        "account": {},
+        "accountId": "s28",
+        "settings": {},
         "id": "SELF01"
       },
       "SELF02": {
-        "account": {},
+        "accountId": "s3c",
+        "settings": {},
         "id": "SELF02"
       }
     }
@@ -18,7 +21,8 @@
   "new": {
     "self": {
       "self_ref01": {
-        "account": {}
+        "accountId": "s50",
+        "settings": {}
       }
     }
   }

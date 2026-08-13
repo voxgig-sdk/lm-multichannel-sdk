@@ -26,8 +26,8 @@ import {
 describe('SelfAdminEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-  afterEach(liveDelay('LMMULTICHANNEL_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+  afterEach(liveDelay('LM_MULTICHANNEL_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = LmMultichannelSDK.test()
@@ -63,7 +63,7 @@ describe('SelfAdminEntity', async () => {
     const self_admin_ref01_ent = client.SelfAdmin()
     const self_admin_ref01_data_up0: any = {}
 
-    const self_admin_ref01_resdata_up0 = await self_admin_ref01_ent.update(self_admin_ref01_data_up0)
+    const self_admin_ref01_resdata_up0 = (await self_admin_ref01_ent.update(self_admin_ref01_data_up0)).data()
     assert(null != self_admin_ref01_resdata_up0)
 
 

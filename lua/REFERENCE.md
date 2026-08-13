@@ -131,7 +131,14 @@ local content = client:Content(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `card` | `table` | No |  |
+| `carousel` | `table` | Yes |  |
 | `content` | `table` | Yes |  |
+| `fromTemplate` | `table` | Yes |  |
+| `location` | `table` | Yes |  |
+| `media` | `table` | Yes |  |
+| `suggestions` | `table` | No |  |
+| `text` | `string` | No |  |
 
 ### Operations
 
@@ -142,6 +149,11 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:Content():create({
   template_id = --[[ string ]],
+  carousel = --[[ table ]],
+  content = --[[ table ]],
+  fromTemplate = --[[ table ]],
+  location = --[[ table ]],
+  media = --[[ table ]],
 })
 ```
 
@@ -193,8 +205,9 @@ local message = client:Message(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message` | `table` | Yes |  |
-| `schedule` | `table` | Yes |  |
+| `campaignId` | `string` | No |  |
+| `messages` | `table` | Yes |  |
+| `scheduleAt` | `string` | Yes |  |
 
 ### Operations
 
@@ -204,8 +217,8 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Message():create({
-  message = --[[ table ]],
-  schedule = --[[ table ]],
+  messages = --[[ table ]],
+  scheduleAt = --[[ string ]],
 })
 ```
 
@@ -265,12 +278,12 @@ local message_event = client:MessageEvent(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_id` | `string` | Yes |  |
-| `event_id` | `string` | Yes |  |
-| `message_status_changed` | `table` | Yes |  |
+| `accountId` | `string` | Yes |  |
+| `eventId` | `string` | Yes |  |
+| `messageStatusChanged` | `table` | Yes |  |
 | `on` | `string` | Yes |  |
-| `template_review_status_changed` | `table` | Yes |  |
-| `user_message_received` | `table` | Yes |  |
+| `templateReviewStatusChanged` | `table` | Yes |  |
+| `userMessageReceived` | `table` | Yes |  |
 
 ### Operations
 
@@ -322,7 +335,7 @@ local option = client:Option(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `option` | `table` | Yes |  |
+| `options` | `table` | Yes |  |
 
 ### Operations
 
@@ -333,6 +346,7 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:Option():create({
   template_id = --[[ string ]],
+  options = --[[ table ]],
 })
 ```
 
@@ -455,7 +469,8 @@ local self = client:Self(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account` | `table` | Yes |  |
+| `accountId` | `string` | Yes |  |
+| `settings` | `table` | Yes |  |
 
 ### Operations
 
@@ -507,7 +522,8 @@ local self_admin = client:SelfAdmin(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `setting` | `table` | Yes |  |
+| `callback` | `table` | Yes |  |
+| `settings` | `table` | Yes |  |
 
 ### Operations
 
@@ -561,33 +577,39 @@ local template = client:Template(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `channel_data` | `table` | No |  |
-| `created_on` | `string` | Yes |  |
-| `designer_url` | `string` | No |  |
-| `detail` | `string` | No |  |
-| `meta` | `table` | Yes |  |
-| `occurred_on` | `string` | Yes |  |
-| `review` | `table` | Yes |  |
+| `channelData` | `table` | No |  |
+| `content` | `table` | No |  |
+| `createdOn` | `string` | Yes |  |
+| `designerUrl` | `string` | No |  |
+| `details` | `string` | No |  |
+| `meta` | `table` | No |  |
+| `occurredOn` | `string` | Yes |  |
+| `options` | `table` | No |  |
+| `reviews` | `table` | No |  |
 | `status` | `string` | Yes |  |
 | `template` | `table` | Yes |  |
-| `template_id` | `string` | Yes |  |
-| `updated_on` | `string` | No |  |
+| `templateId` | `string` | Yes |  |
+| `updatedOn` | `string` | No |  |
+| `variables` | `table` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `channel_data` | - | - | - | - | - |
-| `created_on` | - | - | - | - | - |
-| `designer_url` | - | - | - | - | - |
-| `detail` | - | - | - | - | - |
-| `meta` | - | Yes | - | - | - |
-| `occurred_on` | - | - | - | - | - |
-| `review` | - | Yes | - | - | - |
+| `channelData` | - | - | - | - | - |
+| `content` | - | - | - | - | - |
+| `createdOn` | - | - | - | - | - |
+| `designerUrl` | - | - | - | - | - |
+| `details` | - | - | - | - | - |
+| `meta` | - | - | Yes | - | - |
+| `occurredOn` | - | - | - | - | - |
+| `options` | - | - | - | - | - |
+| `reviews` | - | - | - | - | - |
 | `status` | - | - | - | - | - |
 | `template` | - | - | - | - | - |
-| `template_id` | - | - | - | - | - |
-| `updated_on` | - | - | - | - | - |
+| `templateId` | - | - | - | - | - |
+| `updatedOn` | - | - | - | - | - |
+| `variables` | - | - | - | - | - |
 
 ### Operations
 
@@ -597,13 +619,11 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Template():create({
-  created_on = --[[ string ]],
-  meta = --[[ table ]],
-  occurred_on = --[[ string ]],
-  review = --[[ table ]],
+  createdOn = --[[ string ]],
+  occurredOn = --[[ string ]],
   status = --[[ string ]],
   template = --[[ table ]],
-  template_id = --[[ string ]],
+  templateId = --[[ string ]],
 })
 ```
 
@@ -729,7 +749,7 @@ local traffic_file = client:TrafficFile(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `file` | `table` | Yes |  |
+| `files` | `table` | Yes |  |
 | `path` | `string` | Yes |  |
 | `url` | `string` | Yes |  |
 
@@ -792,12 +812,12 @@ local variable = client:Variable(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `description` | `string` | No |  |
-| `example` | `table` | No |  |
-| `format` | `table` | No |  |
+| `examples` | `table` | No |  |
+| `formats` | `table` | No |  |
 | `name` | `string` | Yes |  |
 | `ref` | `string` | No |  |
 | `type` | `string` | No |  |
-| `variable` | `table` | Yes |  |
+| `variables` | `table` | Yes |  |
 
 ### Operations
 
@@ -808,6 +828,8 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:Variable():create({
   template_id = --[[ string ]],
+  name = --[[ string ]],
+  variables = --[[ table ]],
 })
 ```
 

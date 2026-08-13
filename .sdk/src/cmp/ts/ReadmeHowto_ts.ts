@@ -1,5 +1,5 @@
 
-import { cmp, Content, isAuthActive, envName, entityIdField, entityDataIdField, pickExampleEntity, opRequestShape, safeVarName, jsKey } from '@voxgig/sdkgen'
+import { cmp, Content, isAuthActive, envName, entityIdField, entityDataIdField, pickExampleEntity, opRequestShape, safeVarName, exampleVarName, jsKey } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -20,7 +20,7 @@ const ReadmeHowto = cmp(function ReadmeHowto(props: any) {
   const { entity: exampleEntity, primaryOp } = pickExampleEntity(entity)
   const eName = exampleEntity ? nom(exampleEntity, 'Name') : 'Entity'
   // Variable-safe lowercase name (a `Delete` entity must not bind `delete`).
-  const eVar = safeVarName(eName.toLowerCase(), 'ts')
+  const eVar = exampleVarName(eName.toLowerCase(), 'ts')
 
   const primaryOpDef = exampleEntity && primaryOp && exampleEntity.op && exampleEntity.op[primaryOp]
   const isMatchOp = 'load' === primaryOp || 'remove' === primaryOp
@@ -67,7 +67,8 @@ const ReadmeHowto = cmp(function ReadmeHowto(props: any) {
   // A direct()-only SDK (no ops anywhere) shows a direct() test call instead.
   const testModeExample = primaryOp
     ? `const ${eVar} = await client.${eName}().${primaryOp}(${testCallArg})
-// ${eVar} is a bare entity populated with mock response data
+// ${eVar} is the entity, populated with mock response data
+// — call ${eVar}.data() for the record itself
 console.log(${eVar})`
     : `const result = await client.direct({ path: '/api/resource', method: 'GET' })
 console.log(result)`

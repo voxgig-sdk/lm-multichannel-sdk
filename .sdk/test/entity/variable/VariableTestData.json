@@ -3,34 +3,34 @@
     "variable": {
       "VARIABLE00": {
         "description": "s46",
-        "example": [],
-        "format": [],
+        "examples": [],
+        "formats": [],
         "name": "s49",
         "ref": "s4a",
         "type": "s4b",
-        "variable": [],
+        "variables": [],
         "template_id": "TEMPLATE01",
         "id": "VARIABLE00"
       },
       "VARIABLE01": {
         "description": "s8c",
-        "example": [],
-        "format": [],
+        "examples": [],
+        "formats": [],
         "name": "s8f",
         "ref": "s90",
         "type": "s91",
-        "variable": [],
+        "variables": [],
         "template_id": "TEMPLATE01",
         "id": "VARIABLE01"
       },
       "VARIABLE02": {
         "description": "sd2",
-        "example": [],
-        "format": [],
+        "examples": [],
+        "formats": [],
         "name": "sd5",
         "ref": "sd6",
         "type": "sd7",
-        "variable": [],
+        "variables": [],
         "template_id": "TEMPLATE01",
         "id": "VARIABLE02"
       }
@@ -40,12 +40,12 @@
     "variable": {
       "variable_ref01": {
         "description": "s118",
-        "example": [],
-        "format": [],
+        "examples": [],
+        "formats": [],
         "name": "s11b",
         "ref": "s11c",
         "type": "s11d",
-        "variable": []
+        "variables": []
       }
     }
   }

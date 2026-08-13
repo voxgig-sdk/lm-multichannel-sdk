@@ -237,7 +237,14 @@ const content = client.Content()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `card` | `Record<string, any>` | No |  |
+| `carousel` | `Record<string, any>` | Yes |  |
 | `content` | `Record<string, any>` | Yes |  |
+| `fromTemplate` | `Record<string, any>` | Yes |  |
+| `location` | `Record<string, any>` | Yes |  |
+| `media` | `Record<string, any>` | Yes |  |
+| `suggestions` | `any[]` | No |  |
+| `text` | `string` | No |  |
 
 ### Operations
 
@@ -248,6 +255,11 @@ Create a new entity with the given data.
 ```ts
 const result = await client.Content().create({
   template_id: 'example_template_id',
+  carousel: {},
+  content: {},
+  fromTemplate: {},
+  location: {},
+  media: {},
 })
 ```
 
@@ -297,8 +309,30 @@ const message = client.Message()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message` | `any[]` | Yes |  |
-| `schedule` | `Record<string, any>` | Yes |  |
+| `campaignId` | `string` | No |  |
+| `messages` | `any[]` | Yes |  |
+| `scheduleAt` | `string` | Yes |  |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `schedule` | `/messages/{messageId}/schedule` | `client.Message().load({ $action: 'schedule', ... })` |
+| `schedule` | `/messages/{messageId}/schedule` | `client.Message().remove({ $action: 'schedule', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Message record — check the API definition for its shape.
+
+```ts
+const result = await client.Message().load({
+  $action: 'schedule',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -308,8 +342,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Message().create({
-  message: [],
-  schedule: {},
+  messages: [],
+  scheduleAt: 'example_scheduleAt',
 })
 ```
 
@@ -367,12 +401,12 @@ const message_event = client.MessageEvent()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_id` | `string` | Yes |  |
-| `event_id` | `string` | Yes |  |
-| `message_status_changed` | `Record<string, any>` | Yes |  |
+| `accountId` | `string` | Yes |  |
+| `eventId` | `string` | Yes |  |
+| `messageStatusChanged` | `Record<string, any>` | Yes |  |
 | `on` | `string` | Yes |  |
-| `template_review_status_changed` | `Record<string, any>` | Yes |  |
-| `user_message_received` | `Record<string, any>` | Yes |  |
+| `templateReviewStatusChanged` | `Record<string, any>` | Yes |  |
+| `userMessageReceived` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -381,7 +415,7 @@ const message_event = client.MessageEvent()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.MessageEvent().list()
+const results = await client.MessageEvent().list({ id: "example" })
 ```
 
 ### Common Methods
@@ -422,7 +456,7 @@ const option = client.Option()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `option` | `Record<string, any>` | Yes |  |
+| `options` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -433,6 +467,7 @@ Create a new entity with the given data.
 ```ts
 const result = await client.Option().create({
   template_id: 'example_template_id',
+  options: {},
 })
 ```
 
@@ -551,7 +586,8 @@ const self = client.Self()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account` | `Record<string, any>` | Yes |  |
+| `accountId` | `string` | Yes |  |
+| `settings` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -601,7 +637,8 @@ const self_admin = client.SelfAdmin()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `setting` | `Record<string, any>` | Yes |  |
+| `callback` | `Record<string, any>` | Yes |  |
+| `settings` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -653,33 +690,62 @@ const template = client.Template()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `channel_data` | `Record<string, any>` | No |  |
-| `created_on` | `string` | Yes |  |
-| `designer_url` | `string` | No |  |
-| `detail` | `string` | No |  |
-| `meta` | `Record<string, any>` | Yes |  |
-| `occurred_on` | `string` | Yes |  |
-| `review` | `Record<string, any>` | Yes |  |
+| `channelData` | `Record<string, any>` | No |  |
+| `content` | `Record<string, any>` | No |  |
+| `createdOn` | `string` | Yes |  |
+| `designerUrl` | `string` | No |  |
+| `details` | `string` | No |  |
+| `meta` | `Record<string, any>` | No |  |
+| `occurredOn` | `string` | Yes |  |
+| `options` | `Record<string, any>` | No |  |
+| `reviews` | `Record<string, any>` | No |  |
 | `status` | `string` | Yes |  |
 | `template` | `Record<string, any>` | Yes |  |
-| `template_id` | `string` | Yes |  |
-| `updated_on` | `string` | No |  |
+| `templateId` | `string` | Yes |  |
+| `updatedOn` | `string` | No |  |
+| `variables` | `any[]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `channel_data` | - | - | - | - | - |
-| `created_on` | - | - | - | - | - |
-| `designer_url` | - | - | - | - | - |
-| `detail` | - | - | - | - | - |
-| `meta` | - | Yes | - | - | - |
-| `occurred_on` | - | - | - | - | - |
-| `review` | - | Yes | - | - | - |
+| `channelData` | - | - | - | - | - |
+| `content` | - | - | - | - | - |
+| `createdOn` | - | - | - | - | - |
+| `designerUrl` | - | - | - | - | - |
+| `details` | - | - | - | - | - |
+| `meta` | - | - | Yes | - | - |
+| `occurredOn` | - | - | - | - | - |
+| `options` | - | - | - | - | - |
+| `reviews` | - | - | - | - | - |
 | `status` | - | - | - | - | - |
 | `template` | - | - | - | - | - |
-| `template_id` | - | - | - | - | - |
-| `updated_on` | - | - | - | - | - |
+| `templateId` | - | - | - | - | - |
+| `updatedOn` | - | - | - | - | - |
+| `variables` | - | - | - | - | - |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `meta` | `/templates/{templateId}/meta` | `client.Template().create({ $action: 'meta', ... })` |
+| `meta` | `/templates/{templateId}/meta` | `client.Template().load({ $action: 'meta', ... })` |
+| `review` | `/templates/{templateId}/reviews` | `client.Template().load({ $action: 'review', ... })` |
+| `meta` | `/templates/{templateId}/meta` | `client.Template().patch({ $action: 'meta', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Template record — check the API definition for its shape.
+
+```ts
+const result = await client.Template().create({
+  $action: 'meta',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -689,13 +755,11 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Template().create({
-  created_on: 'example_created_on',
-  meta: {},
-  occurred_on: 'example_occurred_on',
-  review: {},
+  createdOn: 'example_createdOn',
+  occurredOn: 'example_occurredOn',
   status: 'example_status',
   template: {},
-  template_id: 'example_template_id',
+  templateId: 'example_templateId',
 })
 ```
 
@@ -817,7 +881,7 @@ const traffic_file = client.TrafficFile()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `file` | `any[]` | Yes |  |
+| `files` | `any[]` | Yes |  |
 | `path` | `string` | Yes |  |
 | `url` | `string` | Yes |  |
 
@@ -878,12 +942,12 @@ const variable = client.Variable()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `description` | `string` | No |  |
-| `example` | `any[]` | No |  |
-| `format` | `any[]` | No |  |
+| `examples` | `any[]` | No |  |
+| `formats` | `any[]` | No |  |
 | `name` | `string` | Yes |  |
 | `ref` | `string` | No |  |
 | `type` | `string` | No |  |
-| `variable` | `any[]` | Yes |  |
+| `variables` | `any[]` | Yes |  |
 
 ### Operations
 
@@ -894,6 +958,8 @@ Create a new entity with the given data.
 ```ts
 const result = await client.Variable().create({
   template_id: 'example_template_id',
+  name: 'example_name',
+  variables: [],
 })
 ```
 
@@ -902,7 +968,7 @@ const result = await client.Variable().create({
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Variable().list()
+const results = await client.Variable().list({ template_id: "example" })
 ```
 
 #### `update(data: object, ctrl?: object)`

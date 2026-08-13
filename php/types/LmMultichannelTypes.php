@@ -15,7 +15,14 @@ declare(strict_types=1);
 /** Content entity data model. */
 class Content
 {
+    public ?array $card = null;
+    public array $carousel;
     public array $content;
+    public array $fromTemplate;
+    public array $location;
+    public array $media;
+    public ?array $suggestions = null;
+    public ?string $text = null;
 }
 
 /** Request payload for Content#load. */
@@ -28,13 +35,22 @@ class ContentLoadMatch
 class ContentCreateData
 {
     public string $template_id;
+    public ?array $card = null;
+    public array $carousel;
+    public array $content;
+    public array $fromTemplate;
+    public array $location;
+    public array $media;
+    public ?array $suggestions = null;
+    public ?string $text = null;
 }
 
 /** Message entity data model. */
 class Message
 {
-    public array $message;
-    public array $schedule;
+    public ?string $campaignId = null;
+    public array $messages;
+    public string $scheduleAt;
 }
 
 /** Request payload for Message#load. */
@@ -46,8 +62,9 @@ class MessageLoadMatch
 /** Request payload for Message#create. */
 class MessageCreateData
 {
-    public array $message;
-    public array $schedule;
+    public ?string $campaignId = null;
+    public array $messages;
+    public string $scheduleAt;
 }
 
 /** Request payload for Message#remove. */
@@ -59,12 +76,12 @@ class MessageRemoveMatch
 /** MessageEvent entity data model. */
 class MessageEvent
 {
-    public string $account_id;
-    public string $event_id;
-    public array $message_status_changed;
+    public string $accountId;
+    public string $eventId;
+    public array $messageStatusChanged;
     public string $on;
-    public array $template_review_status_changed;
-    public array $user_message_received;
+    public array $templateReviewStatusChanged;
+    public array $userMessageReceived;
 }
 
 /** Request payload for MessageEvent#list. */
@@ -76,7 +93,7 @@ class MessageEventListMatch
 /** Option entity data model. */
 class Option
 {
-    public array $option;
+    public array $options;
 }
 
 /** Request payload for Option#load. */
@@ -89,12 +106,14 @@ class OptionLoadMatch
 class OptionCreateData
 {
     public string $template_id;
+    public array $options;
 }
 
 /** Request payload for Option#update. */
 class OptionUpdateData
 {
     public string $template_id;
+    public ?array $options = null;
 }
 
 /** Schedule entity data model. */
@@ -118,41 +137,48 @@ class ScheduleRemoveMatch
 /** Self entity data model. */
 class Self
 {
-    public array $account;
+    public string $accountId;
+    public array $settings;
 }
 
 /** Request payload for Self#load. */
 class SelfLoadMatch
 {
-    public ?array $account = null;
+    public ?string $accountId = null;
+    public ?array $settings = null;
 }
 
 /** SelfAdmin entity data model. */
 class SelfAdmin
 {
-    public array $setting;
+    public array $callback;
+    public array $settings;
 }
 
 /** Request payload for SelfAdmin#update. */
 class SelfAdminUpdateData
 {
-    public ?array $setting = null;
+    public ?array $callback = null;
+    public ?array $settings = null;
 }
 
 /** Template entity data model. */
 class Template
 {
-    public ?array $channel_data = null;
-    public string $created_on;
-    public ?string $designer_url = null;
-    public ?string $detail = null;
-    public array $meta;
-    public string $occurred_on;
-    public array $review;
+    public ?array $channelData = null;
+    public ?array $content = null;
+    public string $createdOn;
+    public ?string $designerUrl = null;
+    public ?string $details = null;
+    public ?array $meta = null;
+    public string $occurredOn;
+    public ?array $options = null;
+    public ?array $reviews = null;
     public string $status;
     public array $template;
-    public string $template_id;
-    public ?string $updated_on = null;
+    public string $templateId;
+    public ?string $updatedOn = null;
+    public ?array $variables = null;
 }
 
 /** Request payload for Template#load. */
@@ -165,33 +191,39 @@ class TemplateLoadMatch
 /** Request payload for Template#list. */
 class TemplateListMatch
 {
-    public ?array $channel_data = null;
-    public ?string $created_on = null;
-    public ?string $designer_url = null;
-    public ?string $detail = null;
+    public ?array $channelData = null;
+    public ?array $content = null;
+    public ?string $createdOn = null;
+    public ?string $designerUrl = null;
+    public ?string $details = null;
     public ?array $meta = null;
-    public ?string $occurred_on = null;
-    public ?array $review = null;
+    public ?string $occurredOn = null;
+    public ?array $options = null;
+    public ?array $reviews = null;
     public ?string $status = null;
     public ?array $template = null;
-    public ?string $template_id = null;
-    public ?string $updated_on = null;
+    public ?string $templateId = null;
+    public ?string $updatedOn = null;
+    public ?array $variables = null;
 }
 
 /** Request payload for Template#create. */
 class TemplateCreateData
 {
-    public ?array $channel_data = null;
-    public string $created_on;
-    public ?string $designer_url = null;
-    public ?string $detail = null;
-    public array $meta;
-    public string $occurred_on;
-    public array $review;
+    public ?array $channelData = null;
+    public ?array $content = null;
+    public string $createdOn;
+    public ?string $designerUrl = null;
+    public ?string $details = null;
+    public ?array $meta = null;
+    public string $occurredOn;
+    public ?array $options = null;
+    public ?array $reviews = null;
     public string $status;
     public array $template;
-    public string $template_id;
-    public ?string $updated_on = null;
+    public string $templateId;
+    public ?string $updatedOn = null;
+    public ?array $variables = null;
 }
 
 /** Request payload for Template#update. */
@@ -199,6 +231,20 @@ class TemplateUpdateData
 {
     public string $channel_id;
     public string $id;
+    public ?array $channelData = null;
+    public ?array $content = null;
+    public ?string $createdOn = null;
+    public ?string $designerUrl = null;
+    public ?string $details = null;
+    public ?array $meta = null;
+    public ?string $occurredOn = null;
+    public ?array $options = null;
+    public ?array $reviews = null;
+    public ?string $status = null;
+    public ?array $template = null;
+    public ?string $templateId = null;
+    public ?string $updatedOn = null;
+    public ?array $variables = null;
 }
 
 /** Request payload for Template#remove. */
@@ -222,7 +268,7 @@ class TrafficRemoveMatch
 /** TrafficFile entity data model. */
 class TrafficFile
 {
-    public array $file;
+    public array $files;
     public string $path;
     public string $url;
 }
@@ -236,7 +282,7 @@ class TrafficFileLoadMatch
 /** Request payload for TrafficFile#list. */
 class TrafficFileListMatch
 {
-    public ?array $file = null;
+    public ?array $files = null;
     public ?string $path = null;
     public ?string $url = null;
 }
@@ -245,12 +291,12 @@ class TrafficFileListMatch
 class Variable
 {
     public ?string $description = null;
-    public ?array $example = null;
-    public ?array $format = null;
+    public ?array $examples = null;
+    public ?array $formats = null;
     public string $name;
     public ?string $ref = null;
     public ?string $type = null;
-    public array $variable;
+    public array $variables;
 }
 
 /** Request payload for Variable#list. */
@@ -263,11 +309,25 @@ class VariableListMatch
 class VariableCreateData
 {
     public string $template_id;
+    public ?string $description = null;
+    public ?array $examples = null;
+    public ?array $formats = null;
+    public string $name;
+    public ?string $ref = null;
+    public ?string $type = null;
+    public array $variables;
 }
 
 /** Request payload for Variable#update. */
 class VariableUpdateData
 {
     public string $template_id;
+    public ?string $description = null;
+    public ?array $examples = null;
+    public ?array $formats = null;
+    public ?string $name = null;
+    public ?string $ref = null;
+    public ?string $type = null;
+    public ?array $variables = null;
 }
 

@@ -2,40 +2,40 @@
   "existing": {
     "message_event": {
       "MESSAGE_EVENT00": {
-        "account_id": "ACCOUNT01",
-        "event_id": "EVENT01",
-        "message_status_changed": {},
+        "accountId": "s3c",
+        "eventId": "s3d",
+        "messageStatusChanged": {},
         "on": "s3f",
-        "template_review_status_changed": {},
-        "user_message_received": {}
+        "templateReviewStatusChanged": {},
+        "userMessageReceived": {}
       },
       "MESSAGE_EVENT01": {
-        "account_id": "ACCOUNT01",
-        "event_id": "EVENT01",
-        "message_status_changed": {},
+        "accountId": "s78",
+        "eventId": "s79",
+        "messageStatusChanged": {},
         "on": "s7b",
-        "template_review_status_changed": {},
-        "user_message_received": {}
+        "templateReviewStatusChanged": {},
+        "userMessageReceived": {}
       },
       "MESSAGE_EVENT02": {
-        "account_id": "ACCOUNT01",
-        "event_id": "EVENT01",
-        "message_status_changed": {},
+        "accountId": "sb4",
+        "eventId": "sb5",
+        "messageStatusChanged": {},
         "on": "sb7",
-        "template_review_status_changed": {},
-        "user_message_received": {}
+        "templateReviewStatusChanged": {},
+        "userMessageReceived": {}
       }
     }
   },
   "new": {
     "message_event": {
       "message_event_ref01": {
-        "account_id": "ACCOUNT01",
-        "event_id": "EVENT01",
-        "message_status_changed": {},
+        "accountId": "sf0",
+        "eventId": "sf1",
+        "messageStatusChanged": {},
         "on": "sf3",
-        "template_review_status_changed": {},
-        "user_message_received": {}
+        "templateReviewStatusChanged": {},
+        "userMessageReceived": {}
       }
     }
   }

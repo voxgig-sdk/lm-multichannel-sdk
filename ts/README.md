@@ -54,9 +54,14 @@ try {
 ### 4. Create, update, and remove
 
 ```ts
-// Create — returns the created Content
+// Create — returns the created Content ENTITY (.data() for the record)
 const created = await client.Content().create({
   template_id: 'example_template_id',
+  carousel: {},
+  content: {},
+  fromTemplate: {},
+  location: {},
+  media: {},
 })
 
 ```
@@ -68,8 +73,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const content = await client.Content().load({ template_id: "example" })
-  console.log(content)
+  const message = await client.Message().load({ id: "example_id" })
+  console.log(message)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -135,9 +140,10 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = LmMultichannelSDK.test()
 
-const content = await client.Content().load({ template_id: 'example_template_id' })
-// content is a bare entity populated with mock response data
-console.log(content)
+const message = await client.Message().load({ id: 'test01' })
+// message is the entity, populated with mock response data
+// — call message.data() for the record itself
+console.log(message)
 ```
 
 You can also use the instance method:
@@ -152,10 +158,10 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Content()
+const entity = client.Message()
 
 // First call runs the operation and stores its result
-await entity.load({ template_id: 'example_template_id' })
+await entity.load({ id: 'example' })
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
@@ -320,7 +326,14 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
+| `card` |  |
+| `carousel` |  |
 | `content` |  |
+| `fromTemplate` |  |
+| `location` |  |
+| `media` |  |
+| `suggestions` |  |
+| `text` |  |
 
 Operations: create, load.
 
@@ -330,8 +343,9 @@ API path: `/templates/{templateId}/content`
 
 | Field | Description |
 | --- | --- |
-| `message` |  |
-| `schedule` |  |
+| `campaignId` |  |
+| `messages` |  |
+| `scheduleAt` |  |
 
 Operations: create, load, remove.
 
@@ -341,12 +355,12 @@ API path: `/messages`
 
 | Field | Description |
 | --- | --- |
-| `account_id` |  |
-| `event_id` |  |
-| `message_status_changed` |  |
+| `accountId` |  |
+| `eventId` |  |
+| `messageStatusChanged` |  |
 | `on` |  |
-| `template_review_status_changed` |  |
-| `user_message_received` |  |
+| `templateReviewStatusChanged` |  |
+| `userMessageReceived` |  |
 
 Operations: list.
 
@@ -356,7 +370,7 @@ API path: `/messages/{messageId}/events`
 
 | Field | Description |
 | --- | --- |
-| `option` |  |
+| `options` |  |
 
 Operations: create, load, update.
 
@@ -376,7 +390,8 @@ API path: `/schedules:count`
 
 | Field | Description |
 | --- | --- |
-| `account` |  |
+| `accountId` |  |
+| `settings` |  |
 
 Operations: load.
 
@@ -386,7 +401,8 @@ API path: `/self`
 
 | Field | Description |
 | --- | --- |
-| `setting` |  |
+| `callback` |  |
+| `settings` |  |
 
 Operations: update.
 
@@ -396,17 +412,20 @@ API path: `/self/settings`
 
 | Field | Description |
 | --- | --- |
-| `channel_data` |  |
-| `created_on` |  |
-| `designer_url` |  |
-| `detail` |  |
+| `channelData` |  |
+| `content` |  |
+| `createdOn` |  |
+| `designerUrl` |  |
+| `details` |  |
 | `meta` |  |
-| `occurred_on` |  |
-| `review` |  |
+| `occurredOn` |  |
+| `options` |  |
+| `reviews` |  |
 | `status` |  |
 | `template` |  |
-| `template_id` |  |
-| `updated_on` |  |
+| `templateId` |  |
+| `updatedOn` |  |
+| `variables` |  |
 
 Operations: create, list, load, patch, remove, update.
 
@@ -425,7 +444,7 @@ API path: `/traffic/files/{path}`
 
 | Field | Description |
 | --- | --- |
-| `file` |  |
+| `files` |  |
 | `path` |  |
 | `url` |  |
 
@@ -438,12 +457,12 @@ API path: `/traffic/files`
 | Field | Description |
 | --- | --- |
 | `description` |  |
-| `example` |  |
-| `format` |  |
+| `examples` |  |
+| `formats` |  |
 | `name` |  |
 | `ref` |  |
 | `type` |  |
-| `variable` |  |
+| `variables` |  |
 
 Operations: create, list, update.
 
@@ -469,7 +488,14 @@ Create an instance: `const content = client.Content()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `card` | `Record<string, any>` |  |
+| `carousel` | `Record<string, any>` |  |
 | `content` | `Record<string, any>` |  |
+| `fromTemplate` | `Record<string, any>` |  |
+| `location` | `Record<string, any>` |  |
+| `media` | `Record<string, any>` |  |
+| `suggestions` | `any[]` |  |
+| `text` | `string` |  |
 
 #### Example: Load
 
@@ -482,6 +508,11 @@ const content = await client.Content().load({ template_id: 'template_id' })
 ```ts
 const content = await client.Content().create({
   template_id: 'example_template_id',
+  carousel: {},
+  content: {},
+  fromTemplate: {},
+  location: {},
+  media: {},
 })
 ```
 
@@ -502,8 +533,9 @@ Create an instance: `const message = client.Message()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message` | `any[]` |  |
-| `schedule` | `Record<string, any>` |  |
+| `campaignId` | `string` |  |
+| `messages` | `any[]` |  |
+| `scheduleAt` | `string` |  |
 
 #### Example: Load
 
@@ -515,8 +547,8 @@ const message = await client.Message().load({ id: 'message_id' })
 
 ```ts
 const message = await client.Message().create({
-  message: [],
-  schedule: {},
+  messages: [],
+  scheduleAt: 'example_scheduleAt',
 })
 ```
 
@@ -535,17 +567,17 @@ Create an instance: `const message_event = client.MessageEvent()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_id` | `string` |  |
-| `event_id` | `string` |  |
-| `message_status_changed` | `Record<string, any>` |  |
+| `accountId` | `string` |  |
+| `eventId` | `string` |  |
+| `messageStatusChanged` | `Record<string, any>` |  |
 | `on` | `string` |  |
-| `template_review_status_changed` | `Record<string, any>` |  |
-| `user_message_received` | `Record<string, any>` |  |
+| `templateReviewStatusChanged` | `Record<string, any>` |  |
+| `userMessageReceived` | `Record<string, any>` |  |
 
 #### Example: List
 
 ```ts
-const message_events = await client.MessageEvent().list()
+const message_events = await client.MessageEvent().list({ id: "example" })
 ```
 
 
@@ -565,7 +597,7 @@ Create an instance: `const option = client.Option()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `option` | `Record<string, any>` |  |
+| `options` | `Record<string, any>` |  |
 
 #### Example: Load
 
@@ -578,6 +610,7 @@ const option = await client.Option().load({ template_id: 'template_id' })
 ```ts
 const option = await client.Option().create({
   template_id: 'example_template_id',
+  options: {},
 })
 ```
 
@@ -620,7 +653,8 @@ Create an instance: `const self = client.Self()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account` | `Record<string, any>` |  |
+| `accountId` | `string` |  |
+| `settings` | `Record<string, any>` |  |
 
 #### Example: Load
 
@@ -643,7 +677,8 @@ Create an instance: `const self_admin = client.SelfAdmin()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `setting` | `Record<string, any>` |  |
+| `callback` | `Record<string, any>` |  |
+| `settings` | `Record<string, any>` |  |
 
 
 ### Template
@@ -664,17 +699,20 @@ Create an instance: `const template = client.Template()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `channel_data` | `Record<string, any>` |  |
-| `created_on` | `string` |  |
-| `designer_url` | `string` |  |
-| `detail` | `string` |  |
+| `channelData` | `Record<string, any>` |  |
+| `content` | `Record<string, any>` |  |
+| `createdOn` | `string` |  |
+| `designerUrl` | `string` |  |
+| `details` | `string` |  |
 | `meta` | `Record<string, any>` |  |
-| `occurred_on` | `string` |  |
-| `review` | `Record<string, any>` |  |
+| `occurredOn` | `string` |  |
+| `options` | `Record<string, any>` |  |
+| `reviews` | `Record<string, any>` |  |
 | `status` | `string` |  |
 | `template` | `Record<string, any>` |  |
-| `template_id` | `string` |  |
-| `updated_on` | `string` |  |
+| `templateId` | `string` |  |
+| `updatedOn` | `string` |  |
+| `variables` | `any[]` |  |
 
 #### Example: Load
 
@@ -692,13 +730,11 @@ const templates = await client.Template().list()
 
 ```ts
 const template = await client.Template().create({
-  created_on: 'example_created_on',
-  meta: {},
-  occurred_on: 'example_occurred_on',
-  review: {},
+  createdOn: 'example_createdOn',
+  occurredOn: 'example_occurredOn',
   status: 'example_status',
   template: {},
-  template_id: 'example_template_id',
+  templateId: 'example_templateId',
 })
 ```
 
@@ -729,7 +765,7 @@ Create an instance: `const traffic_file = client.TrafficFile()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `file` | `any[]` |  |
+| `files` | `any[]` |  |
 | `path` | `string` |  |
 | `url` | `string` |  |
 
@@ -763,17 +799,17 @@ Create an instance: `const variable = client.Variable()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `description` | `string` |  |
-| `example` | `any[]` |  |
-| `format` | `any[]` |  |
+| `examples` | `any[]` |  |
+| `formats` | `any[]` |  |
 | `name` | `string` |  |
 | `ref` | `string` |  |
 | `type` | `string` |  |
-| `variable` | `any[]` |  |
+| `variables` | `any[]` |  |
 
 #### Example: List
 
 ```ts
-const variables = await client.Variable().list()
+const variables = await client.Variable().list({ template_id: "example" })
 ```
 
 #### Example: Create
@@ -781,6 +817,8 @@ const variables = await client.Variable().list()
 ```ts
 const variable = await client.Variable().create({
   template_id: 'example_template_id',
+  name: 'example_name',
+  variables: [],
 })
 ```
 
@@ -854,11 +892,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const content = client.Content()
-await content.load({ template_id: "example" })
+const message = client.Message()
+await message.load({ id: "example_id" })
 
-// content.data() now returns the content data from the last `load`
-// content.match() returns the last match criteria
+// message.data() now returns the message data from the last `load`
+// message.match() returns { id: "example_id" }
 ```
 
 Call `make()` to create a fresh instance with the same configuration

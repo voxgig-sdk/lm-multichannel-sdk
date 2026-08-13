@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from lmmultichannel_sdk.utility.voxgig_struct import voxgig_struct as vs
 from lmmultichannel_sdk import LmMultichannelSDK
-from core import helpers
+from lmmultichannel_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -42,7 +42,7 @@ class TestTemplateEntity:
         assert len(seen) == 3
 
         # Inbound: streaming active -> yields each item from the feature.
-        from config import make_config
+        from lmmultichannel_sdk.config import make_config
         cfg = make_config()
         if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
             sdk = LmMultichannelSDK.test(
@@ -70,7 +70,7 @@ class TestTemplateEntity:
         # without an *_ENTID env override, those IDs hit the live API and 4xx.
         if setup.get("synthetic_only"):
             pytest.skip("live entity test uses synthetic IDs from fixture — "
-                        "set LMMULTICHANNEL_TEST_TEMPLATE_ENTID JSON to run live")
+                        "set LM_MULTICHANNEL_TEST_TEMPLATE_ENTID JSON to run live")
         client = setup["client"]
 
         # CREATE
@@ -78,7 +78,7 @@ class TestTemplateEntity:
         template_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.template"), "template_ref01"))
 
-        template_ref01_data = helpers.to_map(template_ref01_ent.create(template_ref01_data, None))
+        template_ref01_data = helpers.to_map(runner.entity_data(template_ref01_ent.create(template_ref01_data, None)))
         assert template_ref01_data is not None
 
         # LIST
@@ -91,11 +91,11 @@ class TestTemplateEntity:
         template_ref01_data_up0_up = {
         }
 
-        template_ref01_markdef_up0_name = "created_on"
+        template_ref01_markdef_up0_name = "createdOn"
         template_ref01_markdef_up0_value = "Mark01-template_ref01_" + str(setup["now"])
         template_ref01_data_up0_up[template_ref01_markdef_up0_name] = template_ref01_markdef_up0_value
 
-        template_ref01_resdata_up0 = helpers.to_map(template_ref01_ent.update(template_ref01_data_up0_up, None))
+        template_ref01_resdata_up0 = helpers.to_map(runner.entity_data(template_ref01_ent.update(template_ref01_data_up0_up, None)))
         assert template_ref01_resdata_up0 is not None
         assert template_ref01_resdata_up0[template_ref01_markdef_up0_name] == template_ref01_markdef_up0_value
 
@@ -142,37 +142,37 @@ def _template_basic_setup(extra):
     # mode is on without a real override, the basic test runs against synthetic
     # IDs from the fixture and 4xx's. We surface this so the test can skip.
     _entid_env_raw = os.environ.get(
-        "LMMULTICHANNEL_TEST_TEMPLATE_ENTID")
+        "LM_MULTICHANNEL_TEST_TEMPLATE_ENTID")
     _idmap_overridden = _entid_env_raw is not None and _entid_env_raw.strip().startswith("{")
 
     env = runner.env_override({
-        "LMMULTICHANNEL_TEST_TEMPLATE_ENTID": idmap,
-        "LMMULTICHANNEL_TEST_LIVE": "FALSE",
-        "LMMULTICHANNEL_TEST_EXPLAIN": "FALSE",
-        "LMMULTICHANNEL_APIKEY": "NONE",
+        "LM_MULTICHANNEL_TEST_TEMPLATE_ENTID": idmap,
+        "LM_MULTICHANNEL_TEST_LIVE": "FALSE",
+        "LM_MULTICHANNEL_TEST_EXPLAIN": "FALSE",
+        "LM_MULTICHANNEL_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
-        env.get("LMMULTICHANNEL_TEST_TEMPLATE_ENTID"))
+        env.get("LM_MULTICHANNEL_TEST_TEMPLATE_ENTID"))
     if idmap_resolved is None:
         idmap_resolved = helpers.to_map(idmap)
 
-    if env.get("LMMULTICHANNEL_TEST_LIVE") == "TRUE":
+    if env.get("LM_MULTICHANNEL_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("LMMULTICHANNEL_APIKEY"),
+                "apikey": env.get("LM_MULTICHANNEL_APIKEY"),
             },
             extra or {},
         ])
         client = LmMultichannelSDK(helpers.to_map(merged_opts))
 
-    _live = env.get("LMMULTICHANNEL_TEST_LIVE") == "TRUE"
+    _live = env.get("LM_MULTICHANNEL_TEST_LIVE") == "TRUE"
     return {
         "client": client,
         "data": entity_data,
         "idmap": idmap_resolved,
         "env": env,
-        "explain": env.get("LMMULTICHANNEL_TEST_EXPLAIN") == "TRUE",
+        "explain": env.get("LM_MULTICHANNEL_TEST_EXPLAIN") == "TRUE",
         "live": _live,
         "synthetic_only": _live and not _idmap_overridden,
         "now": int(time.time() * 1000),

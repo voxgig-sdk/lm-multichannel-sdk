@@ -2,19 +2,19 @@
   "existing": {
     "traffic_file": {
       "TRAFFIC_FILE00": {
-        "file": [],
+        "files": [],
         "path": "s1f",
         "url": "s20",
         "id": "TRAFFIC_FILE00"
       },
       "TRAFFIC_FILE01": {
-        "file": [],
+        "files": [],
         "path": "s3d",
         "url": "s3e",
         "id": "TRAFFIC_FILE01"
       },
       "TRAFFIC_FILE02": {
-        "file": [],
+        "files": [],
         "path": "s5b",
         "url": "s5c",
         "id": "TRAFFIC_FILE02"
@@ -24,7 +24,7 @@
   "new": {
     "traffic_file": {
       "traffic_file_ref01": {
-        "file": [],
+        "files": [],
         "path": "s79",
         "url": "s7a"
       }

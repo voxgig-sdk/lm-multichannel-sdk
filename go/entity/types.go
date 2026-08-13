@@ -6,11 +6,22 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/voxgig-sdk/lm-multichannel-sdk/go/core"
+)
 
 // Content is the typed data model for the content entity.
 type Content struct {
+	Card *map[string]any `json:"card,omitempty"`
+	Carousel map[string]any `json:"carousel"`
 	Content map[string]any `json:"content"`
+	FromTemplate map[string]any `json:"fromTemplate"`
+	Location map[string]any `json:"location"`
+	Media map[string]any `json:"media"`
+	Suggestions *[]any `json:"suggestions,omitempty"`
+	Text *string `json:"text,omitempty"`
 }
 
 // ContentLoadMatch is the typed request payload for Content.LoadTyped.
@@ -21,12 +32,21 @@ type ContentLoadMatch struct {
 // ContentCreateData is the typed request payload for Content.CreateTyped.
 type ContentCreateData struct {
 	TemplateId string `json:"template_id"`
+	Card *map[string]any `json:"card,omitempty"`
+	Carousel map[string]any `json:"carousel"`
+	Content map[string]any `json:"content"`
+	FromTemplate map[string]any `json:"fromTemplate"`
+	Location map[string]any `json:"location"`
+	Media map[string]any `json:"media"`
+	Suggestions *[]any `json:"suggestions,omitempty"`
+	Text *string `json:"text,omitempty"`
 }
 
 // Message is the typed data model for the message entity.
 type Message struct {
-	Message []any `json:"message"`
-	Schedule map[string]any `json:"schedule"`
+	CampaignId *string `json:"campaignId,omitempty"`
+	Messages []any `json:"messages"`
+	ScheduleAt string `json:"scheduleAt"`
 }
 
 // MessageLoadMatch is the typed request payload for Message.LoadTyped.
@@ -36,8 +56,9 @@ type MessageLoadMatch struct {
 
 // MessageCreateData is the typed request payload for Message.CreateTyped.
 type MessageCreateData struct {
-	Message []any `json:"message"`
-	Schedule map[string]any `json:"schedule"`
+	CampaignId *string `json:"campaignId,omitempty"`
+	Messages []any `json:"messages"`
+	ScheduleAt string `json:"scheduleAt"`
 }
 
 // MessageRemoveMatch is the typed request payload for Message.RemoveTyped.
@@ -47,12 +68,12 @@ type MessageRemoveMatch struct {
 
 // MessageEvent is the typed data model for the message_event entity.
 type MessageEvent struct {
-	AccountId string `json:"account_id"`
-	EventId string `json:"event_id"`
-	MessageStatusChanged map[string]any `json:"message_status_changed"`
+	AccountId string `json:"accountId"`
+	EventId string `json:"eventId"`
+	MessageStatusChanged map[string]any `json:"messageStatusChanged"`
 	On string `json:"on"`
-	TemplateReviewStatusChanged map[string]any `json:"template_review_status_changed"`
-	UserMessageReceived map[string]any `json:"user_message_received"`
+	TemplateReviewStatusChanged map[string]any `json:"templateReviewStatusChanged"`
+	UserMessageReceived map[string]any `json:"userMessageReceived"`
 }
 
 // MessageEventListMatch is the typed request payload for MessageEvent.ListTyped.
@@ -62,7 +83,7 @@ type MessageEventListMatch struct {
 
 // Option is the typed data model for the option entity.
 type Option struct {
-	Option map[string]any `json:"option"`
+	Options map[string]any `json:"options"`
 }
 
 // OptionLoadMatch is the typed request payload for Option.LoadTyped.
@@ -73,11 +94,13 @@ type OptionLoadMatch struct {
 // OptionCreateData is the typed request payload for Option.CreateTyped.
 type OptionCreateData struct {
 	TemplateId string `json:"template_id"`
+	Options map[string]any `json:"options"`
 }
 
 // OptionUpdateData is the typed request payload for Option.UpdateTyped.
 type OptionUpdateData struct {
 	TemplateId string `json:"template_id"`
+	Options *map[string]any `json:"options,omitempty"`
 }
 
 // Schedule is the typed data model for the schedule entity.
@@ -97,37 +120,44 @@ type ScheduleRemoveMatch struct {
 
 // Self is the typed data model for the self entity.
 type Self struct {
-	Account map[string]any `json:"account"`
+	AccountId string `json:"accountId"`
+	Settings map[string]any `json:"settings"`
 }
 
 // SelfLoadMatch is the typed request payload for Self.LoadTyped.
 type SelfLoadMatch struct {
-	Account *map[string]any `json:"account,omitempty"`
+	AccountId *string `json:"accountId,omitempty"`
+	Settings *map[string]any `json:"settings,omitempty"`
 }
 
 // SelfAdmin is the typed data model for the self_admin entity.
 type SelfAdmin struct {
-	Setting map[string]any `json:"setting"`
+	Callback map[string]any `json:"callback"`
+	Settings map[string]any `json:"settings"`
 }
 
 // SelfAdminUpdateData is the typed request payload for SelfAdmin.UpdateTyped.
 type SelfAdminUpdateData struct {
-	Setting *map[string]any `json:"setting,omitempty"`
+	Callback *map[string]any `json:"callback,omitempty"`
+	Settings *map[string]any `json:"settings,omitempty"`
 }
 
 // Template is the typed data model for the template entity.
 type Template struct {
-	ChannelData *map[string]any `json:"channel_data,omitempty"`
-	CreatedOn string `json:"created_on"`
-	DesignerUrl *string `json:"designer_url,omitempty"`
-	Detail *string `json:"detail,omitempty"`
-	Meta map[string]any `json:"meta"`
-	OccurredOn string `json:"occurred_on"`
-	Review map[string]any `json:"review"`
+	ChannelData *map[string]any `json:"channelData,omitempty"`
+	Content *map[string]any `json:"content,omitempty"`
+	CreatedOn string `json:"createdOn"`
+	DesignerUrl *string `json:"designerUrl,omitempty"`
+	Details *string `json:"details,omitempty"`
+	Meta *map[string]any `json:"meta,omitempty"`
+	OccurredOn string `json:"occurredOn"`
+	Options *map[string]any `json:"options,omitempty"`
+	Reviews *map[string]any `json:"reviews,omitempty"`
 	Status string `json:"status"`
 	Template map[string]any `json:"template"`
-	TemplateId string `json:"template_id"`
-	UpdatedOn *string `json:"updated_on,omitempty"`
+	TemplateId string `json:"templateId"`
+	UpdatedOn *string `json:"updatedOn,omitempty"`
+	Variables *[]any `json:"variables,omitempty"`
 }
 
 // TemplateLoadMatch is the typed request payload for Template.LoadTyped.
@@ -138,38 +168,58 @@ type TemplateLoadMatch struct {
 
 // TemplateListMatch is the typed request payload for Template.ListTyped.
 type TemplateListMatch struct {
-	ChannelData *map[string]any `json:"channel_data,omitempty"`
-	CreatedOn *string `json:"created_on,omitempty"`
-	DesignerUrl *string `json:"designer_url,omitempty"`
-	Detail *string `json:"detail,omitempty"`
+	ChannelData *map[string]any `json:"channelData,omitempty"`
+	Content *map[string]any `json:"content,omitempty"`
+	CreatedOn *string `json:"createdOn,omitempty"`
+	DesignerUrl *string `json:"designerUrl,omitempty"`
+	Details *string `json:"details,omitempty"`
 	Meta *map[string]any `json:"meta,omitempty"`
-	OccurredOn *string `json:"occurred_on,omitempty"`
-	Review *map[string]any `json:"review,omitempty"`
+	OccurredOn *string `json:"occurredOn,omitempty"`
+	Options *map[string]any `json:"options,omitempty"`
+	Reviews *map[string]any `json:"reviews,omitempty"`
 	Status *string `json:"status,omitempty"`
 	Template *map[string]any `json:"template,omitempty"`
-	TemplateId *string `json:"template_id,omitempty"`
-	UpdatedOn *string `json:"updated_on,omitempty"`
+	TemplateId *string `json:"templateId,omitempty"`
+	UpdatedOn *string `json:"updatedOn,omitempty"`
+	Variables *[]any `json:"variables,omitempty"`
 }
 
 // TemplateCreateData is the typed request payload for Template.CreateTyped.
 type TemplateCreateData struct {
-	ChannelData *map[string]any `json:"channel_data,omitempty"`
-	CreatedOn string `json:"created_on"`
-	DesignerUrl *string `json:"designer_url,omitempty"`
-	Detail *string `json:"detail,omitempty"`
-	Meta map[string]any `json:"meta"`
-	OccurredOn string `json:"occurred_on"`
-	Review map[string]any `json:"review"`
+	ChannelData *map[string]any `json:"channelData,omitempty"`
+	Content *map[string]any `json:"content,omitempty"`
+	CreatedOn string `json:"createdOn"`
+	DesignerUrl *string `json:"designerUrl,omitempty"`
+	Details *string `json:"details,omitempty"`
+	Meta *map[string]any `json:"meta,omitempty"`
+	OccurredOn string `json:"occurredOn"`
+	Options *map[string]any `json:"options,omitempty"`
+	Reviews *map[string]any `json:"reviews,omitempty"`
 	Status string `json:"status"`
 	Template map[string]any `json:"template"`
-	TemplateId string `json:"template_id"`
-	UpdatedOn *string `json:"updated_on,omitempty"`
+	TemplateId string `json:"templateId"`
+	UpdatedOn *string `json:"updatedOn,omitempty"`
+	Variables *[]any `json:"variables,omitempty"`
 }
 
 // TemplateUpdateData is the typed request payload for Template.UpdateTyped.
 type TemplateUpdateData struct {
 	ChannelId string `json:"channel_id"`
 	Id string `json:"id"`
+	ChannelData *map[string]any `json:"channelData,omitempty"`
+	Content *map[string]any `json:"content,omitempty"`
+	CreatedOn *string `json:"createdOn,omitempty"`
+	DesignerUrl *string `json:"designerUrl,omitempty"`
+	Details *string `json:"details,omitempty"`
+	Meta *map[string]any `json:"meta,omitempty"`
+	OccurredOn *string `json:"occurredOn,omitempty"`
+	Options *map[string]any `json:"options,omitempty"`
+	Reviews *map[string]any `json:"reviews,omitempty"`
+	Status *string `json:"status,omitempty"`
+	Template *map[string]any `json:"template,omitempty"`
+	TemplateId *string `json:"templateId,omitempty"`
+	UpdatedOn *string `json:"updatedOn,omitempty"`
+	Variables *[]any `json:"variables,omitempty"`
 }
 
 // TemplateRemoveMatch is the typed request payload for Template.RemoveTyped.
@@ -189,7 +239,7 @@ type TrafficRemoveMatch struct {
 
 // TrafficFile is the typed data model for the traffic_file entity.
 type TrafficFile struct {
-	File []any `json:"file"`
+	Files []any `json:"files"`
 	Path string `json:"path"`
 	Url string `json:"url"`
 }
@@ -201,7 +251,7 @@ type TrafficFileLoadMatch struct {
 
 // TrafficFileListMatch is the typed request payload for TrafficFile.ListTyped.
 type TrafficFileListMatch struct {
-	File *[]any `json:"file,omitempty"`
+	Files *[]any `json:"files,omitempty"`
 	Path *string `json:"path,omitempty"`
 	Url *string `json:"url,omitempty"`
 }
@@ -209,12 +259,12 @@ type TrafficFileListMatch struct {
 // Variable is the typed data model for the variable entity.
 type Variable struct {
 	Description *string `json:"description,omitempty"`
-	Example *[]any `json:"example,omitempty"`
-	Format *[]any `json:"format,omitempty"`
+	Examples *[]any `json:"examples,omitempty"`
+	Formats *[]any `json:"formats,omitempty"`
 	Name string `json:"name"`
 	Ref *string `json:"ref,omitempty"`
 	Type *string `json:"type,omitempty"`
-	Variable []any `json:"variable"`
+	Variables []any `json:"variables"`
 }
 
 // VariableListMatch is the typed request payload for Variable.ListTyped.
@@ -225,11 +275,25 @@ type VariableListMatch struct {
 // VariableCreateData is the typed request payload for Variable.CreateTyped.
 type VariableCreateData struct {
 	TemplateId string `json:"template_id"`
+	Description *string `json:"description,omitempty"`
+	Examples *[]any `json:"examples,omitempty"`
+	Formats *[]any `json:"formats,omitempty"`
+	Name string `json:"name"`
+	Ref *string `json:"ref,omitempty"`
+	Type *string `json:"type,omitempty"`
+	Variables []any `json:"variables"`
 }
 
 // VariableUpdateData is the typed request payload for Variable.UpdateTyped.
 type VariableUpdateData struct {
 	TemplateId string `json:"template_id"`
+	Description *string `json:"description,omitempty"`
+	Examples *[]any `json:"examples,omitempty"`
+	Formats *[]any `json:"formats,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Ref *string `json:"ref,omitempty"`
+	Type *string `json:"type,omitempty"`
+	Variables *[]any `json:"variables,omitempty"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the
@@ -244,12 +308,26 @@ func asMap(v any) map[string]any {
 	return out
 }
 
-// typedFrom decodes a runtime value (a map[string]any produced by the op
-// pipeline) into a typed model T via a JSON round-trip. On any error it
-// returns the zero value of T; the op's own (value, error) tuple carries the
-// real error.
+// entityData unwraps an entity to its data map.
+//
+// Operations resolve to the ENTITY, not the raw data (see AGENTS.md), and an
+// entity's fields are UNEXPORTED — marshalling one directly yields `{}`, so
+// every typed accessor would silently hand back a zero-valued struct. The
+// typed boundary therefore takes the data hop first.
+func entityData(v any) any {
+	if ent, ok := v.(core.Entity); ok {
+		return ent.Data()
+	}
+	return v
+}
+
+// typedFrom decodes a runtime value (an entity, or the map[string]any the op
+// pipeline produced) into a typed model T via a JSON round-trip. On any error
+// it returns the zero value of T; the op's own (value, error) tuple carries
+// the real error.
 func typedFrom[T any](v any) T {
 	var out T
+	v = entityData(v)
 	if v == nil {
 		return out
 	}
@@ -261,12 +339,20 @@ func typedFrom[T any](v any) T {
 	return out
 }
 
-// typedSliceFrom decodes a runtime list value ([]any of maps) into a typed
-// slice []T via a JSON round-trip, for list ops.
+// typedSliceFrom decodes a runtime list value into a typed slice []T via a
+// JSON round-trip, for list ops. `list` resolves to a slice of ENTITY
+// instances, so each element takes the data hop.
 func typedSliceFrom[T any](v any) []T {
 	var out []T
 	if v == nil {
 		return out
+	}
+	if list, ok := v.([]any); ok {
+		unwrapped := make([]any, 0, len(list))
+		for _, item := range list {
+			unwrapped = append(unwrapped, entityData(item))
+		}
+		v = unwrapped
 	}
 	b, err := json.Marshal(v)
 	if err != nil {

@@ -42,7 +42,7 @@ client = LmMultichannelSDK({
 ### 3. Load a content
 
 Content is nested under template, so provide the `template_id`.
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -55,8 +55,8 @@ except Exception as err:
 ### 4. Create, update, and remove
 
 ```python
-# Create — returns the bare created record (a dict)
-created = client.Content().create({"template_id": "example_template_id"})
+# Create — returns the ENTITY (call data_get() for the record)
+created = client.Content().create({"template_id": "example_template_id", "carousel": {}, "content": {}, "fromTemplate": {}, "location": {}, "media": {}})
 
 ```
 
@@ -67,8 +67,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    content = client.Content().load({"template_id": "example"})
-    print(content)
+    message = client.Message().load({"id": "example_id"})
+    print(message)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -134,9 +134,10 @@ Create a mock client for unit testing — no server required:
 ```python
 client = LmMultichannelSDK.test()
 
-# Entity ops return the bare record and raise on error.
-content = client.Content().load({"template_id": "example"})
-# content contains the mock response record
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
+message = client.Message().load({"id": "test01"})
+# message contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -246,7 +247,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -268,7 +269,14 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
+| `card` |  |
+| `carousel` |  |
 | `content` |  |
+| `fromTemplate` |  |
+| `location` |  |
+| `media` |  |
+| `suggestions` |  |
+| `text` |  |
 
 Operations: Create, Load.
 
@@ -278,8 +286,9 @@ API path: `/templates/{templateId}/content`
 
 | Field | Description |
 | --- | --- |
-| `message` |  |
-| `schedule` |  |
+| `campaignId` |  |
+| `messages` |  |
+| `scheduleAt` |  |
 
 Operations: Create, Load, Remove.
 
@@ -289,12 +298,12 @@ API path: `/messages`
 
 | Field | Description |
 | --- | --- |
-| `account_id` |  |
-| `event_id` |  |
-| `message_status_changed` |  |
+| `accountId` |  |
+| `eventId` |  |
+| `messageStatusChanged` |  |
 | `on` |  |
-| `template_review_status_changed` |  |
-| `user_message_received` |  |
+| `templateReviewStatusChanged` |  |
+| `userMessageReceived` |  |
 
 Operations: List.
 
@@ -304,7 +313,7 @@ API path: `/messages/{messageId}/events`
 
 | Field | Description |
 | --- | --- |
-| `option` |  |
+| `options` |  |
 
 Operations: Create, Load, Update.
 
@@ -324,7 +333,8 @@ API path: `/schedules:count`
 
 | Field | Description |
 | --- | --- |
-| `account` |  |
+| `accountId` |  |
+| `settings` |  |
 
 Operations: Load.
 
@@ -334,7 +344,8 @@ API path: `/self`
 
 | Field | Description |
 | --- | --- |
-| `setting` |  |
+| `callback` |  |
+| `settings` |  |
 
 Operations: Update.
 
@@ -344,17 +355,20 @@ API path: `/self/settings`
 
 | Field | Description |
 | --- | --- |
-| `channel_data` |  |
-| `created_on` |  |
-| `designer_url` |  |
-| `detail` |  |
+| `channelData` |  |
+| `content` |  |
+| `createdOn` |  |
+| `designerUrl` |  |
+| `details` |  |
 | `meta` |  |
-| `occurred_on` |  |
-| `review` |  |
+| `occurredOn` |  |
+| `options` |  |
+| `reviews` |  |
 | `status` |  |
 | `template` |  |
-| `template_id` |  |
-| `updated_on` |  |
+| `templateId` |  |
+| `updatedOn` |  |
+| `variables` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -373,7 +387,7 @@ API path: `/traffic/files/{path}`
 
 | Field | Description |
 | --- | --- |
-| `file` |  |
+| `files` |  |
 | `path` |  |
 | `url` |  |
 
@@ -386,12 +400,12 @@ API path: `/traffic/files`
 | Field | Description |
 | --- | --- |
 | `description` |  |
-| `example` |  |
-| `format` |  |
+| `examples` |  |
+| `formats` |  |
 | `name` |  |
 | `ref` |  |
 | `type` |  |
-| `variable` |  |
+| `variables` |  |
 
 Operations: Create, List, Update.
 
@@ -417,7 +431,14 @@ Create an instance: `content = client.Content()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `card` | `dict` |  |
+| `carousel` | `dict` |  |
 | `content` | `dict` |  |
+| `fromTemplate` | `dict` |  |
+| `location` | `dict` |  |
+| `media` | `dict` |  |
+| `suggestions` | `list` |  |
+| `text` | `str` |  |
 
 #### Example: Load
 
@@ -430,6 +451,11 @@ content = client.Content().load({"template_id": "template_id"})
 ```python
 content = client.Content().create({
     "template_id": "example_template_id",  # str
+    "carousel": {},  # dict
+    "content": {},  # dict
+    "fromTemplate": {},  # dict
+    "location": {},  # dict
+    "media": {},  # dict
 })
 ```
 
@@ -450,8 +476,9 @@ Create an instance: `message = client.Message()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message` | `list` |  |
-| `schedule` | `dict` |  |
+| `campaignId` | `str` |  |
+| `messages` | `list` |  |
+| `scheduleAt` | `str` |  |
 
 #### Example: Load
 
@@ -463,8 +490,8 @@ message = client.Message().load({"id": "message_id"})
 
 ```python
 message = client.Message().create({
-    "message": [],  # list
-    "schedule": {},  # dict
+    "messages": [],  # list
+    "scheduleAt": "example_scheduleAt",  # str
 })
 ```
 
@@ -483,17 +510,17 @@ Create an instance: `message_event = client.MessageEvent()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_id` | `str` |  |
-| `event_id` | `str` |  |
-| `message_status_changed` | `dict` |  |
+| `accountId` | `str` |  |
+| `eventId` | `str` |  |
+| `messageStatusChanged` | `dict` |  |
 | `on` | `str` |  |
-| `template_review_status_changed` | `dict` |  |
-| `user_message_received` | `dict` |  |
+| `templateReviewStatusChanged` | `dict` |  |
+| `userMessageReceived` | `dict` |  |
 
 #### Example: List
 
 ```python
-message_events = client.MessageEvent().list()
+message_events = client.MessageEvent().list({"id": "example"})
 ```
 
 
@@ -513,7 +540,7 @@ Create an instance: `option = client.Option()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `option` | `dict` |  |
+| `options` | `dict` |  |
 
 #### Example: Load
 
@@ -526,6 +553,7 @@ option = client.Option().load({"template_id": "template_id"})
 ```python
 option = client.Option().create({
     "template_id": "example_template_id",  # str
+    "options": {},  # dict
 })
 ```
 
@@ -568,7 +596,8 @@ Create an instance: `self = client.Self()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account` | `dict` |  |
+| `accountId` | `str` |  |
+| `settings` | `dict` |  |
 
 #### Example: Load
 
@@ -591,7 +620,8 @@ Create an instance: `self_admin = client.SelfAdmin()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `setting` | `dict` |  |
+| `callback` | `dict` |  |
+| `settings` | `dict` |  |
 
 
 ### Template
@@ -612,17 +642,20 @@ Create an instance: `template = client.Template()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `channel_data` | `dict` |  |
-| `created_on` | `str` |  |
-| `designer_url` | `str` |  |
-| `detail` | `str` |  |
+| `channelData` | `dict` |  |
+| `content` | `dict` |  |
+| `createdOn` | `str` |  |
+| `designerUrl` | `str` |  |
+| `details` | `str` |  |
 | `meta` | `dict` |  |
-| `occurred_on` | `str` |  |
-| `review` | `dict` |  |
+| `occurredOn` | `str` |  |
+| `options` | `dict` |  |
+| `reviews` | `dict` |  |
 | `status` | `str` |  |
 | `template` | `dict` |  |
-| `template_id` | `str` |  |
-| `updated_on` | `str` |  |
+| `templateId` | `str` |  |
+| `updatedOn` | `str` |  |
+| `variables` | `list` |  |
 
 #### Example: Load
 
@@ -640,13 +673,11 @@ templates = client.Template().list()
 
 ```python
 template = client.Template().create({
-    "created_on": "example_created_on",  # str
-    "meta": {},  # dict
-    "occurred_on": "example_occurred_on",  # str
-    "review": {},  # dict
+    "createdOn": "example_createdOn",  # str
+    "occurredOn": "example_occurredOn",  # str
     "status": "example_status",  # str
     "template": {},  # dict
-    "template_id": "example_template_id",  # str
+    "templateId": "example_templateId",  # str
 })
 ```
 
@@ -677,7 +708,7 @@ Create an instance: `traffic_file = client.TrafficFile()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `file` | `list` |  |
+| `files` | `list` |  |
 | `path` | `str` |  |
 | `url` | `str` |  |
 
@@ -711,17 +742,17 @@ Create an instance: `variable = client.Variable()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `description` | `str` |  |
-| `example` | `list` |  |
-| `format` | `list` |  |
+| `examples` | `list` |  |
+| `formats` | `list` |  |
 | `name` | `str` |  |
 | `ref` | `str` |  |
 | `type` | `str` |  |
-| `variable` | `list` |  |
+| `variables` | `list` |  |
 
 #### Example: List
 
 ```python
-variables = client.Variable().list()
+variables = client.Variable().list({"template_id": "example"})
 ```
 
 #### Example: Create
@@ -729,6 +760,8 @@ variables = client.Variable().list()
 ```python
 variable = client.Variable().create({
     "template_id": "example_template_id",  # str
+    "name": "example_name",  # str
+    "variables": [],  # list
 })
 ```
 
@@ -808,11 +841,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-content = client.Content()
-content.load({"template_id": "example"})
+message = client.Message()
+message.load({"id": "example_id"})
 
-# content.data_get() now returns the content data from the last load
-# content.match_get() returns the last match criteria
+# message.data_get() now returns the message data from the last load
+# message.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

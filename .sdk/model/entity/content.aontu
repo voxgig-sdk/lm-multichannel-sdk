@@ -6,9 +6,44 @@ main: kit: entity: content: {
 
   fields: [
     {
+      name: "card"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "carousel"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
       name: "content"
       req: true
       type: "`$OBJECT`"
+    }
+    {
+      name: "fromTemplate"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "location"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "media"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "suggestions"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "text"
+      req: false
+      type: "`$STRING`"
     }
   ]
 

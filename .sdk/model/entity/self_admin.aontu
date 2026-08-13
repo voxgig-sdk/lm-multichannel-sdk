@@ -6,7 +6,12 @@ main: kit: entity: self_admin: {
 
   fields: [
     {
-      name: "setting"
+      name: "callback"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "settings"
       req: true
       type: "`$OBJECT`"
     }

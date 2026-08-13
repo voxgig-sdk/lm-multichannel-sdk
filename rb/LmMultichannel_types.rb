@@ -10,10 +10,38 @@
 
 # Content entity data model.
 #
+# @!attribute [rw] card
+#   @return [Hash, nil]
+#
+# @!attribute [rw] carousel
+#   @return [Hash]
+#
 # @!attribute [rw] content
 #   @return [Hash]
+#
+# @!attribute [rw] fromTemplate
+#   @return [Hash]
+#
+# @!attribute [rw] location
+#   @return [Hash]
+#
+# @!attribute [rw] media
+#   @return [Hash]
+#
+# @!attribute [rw] suggestions
+#   @return [Array, nil]
+#
+# @!attribute [rw] text
+#   @return [String, nil]
 Content = Struct.new(
+  :card,
+  :carousel,
   :content,
+  :fromTemplate,
+  :location,
+  :media,
+  :suggestions,
+  :text,
   keyword_init: true
 )
 
@@ -30,21 +58,57 @@ ContentLoadMatch = Struct.new(
 #
 # @!attribute [rw] template_id
 #   @return [String]
+#
+# @!attribute [rw] card
+#   @return [Hash, nil]
+#
+# @!attribute [rw] carousel
+#   @return [Hash]
+#
+# @!attribute [rw] content
+#   @return [Hash]
+#
+# @!attribute [rw] fromTemplate
+#   @return [Hash]
+#
+# @!attribute [rw] location
+#   @return [Hash]
+#
+# @!attribute [rw] media
+#   @return [Hash]
+#
+# @!attribute [rw] suggestions
+#   @return [Array, nil]
+#
+# @!attribute [rw] text
+#   @return [String, nil]
 ContentCreateData = Struct.new(
   :template_id,
+  :card,
+  :carousel,
+  :content,
+  :fromTemplate,
+  :location,
+  :media,
+  :suggestions,
+  :text,
   keyword_init: true
 )
 
 # Message entity data model.
 #
-# @!attribute [rw] message
+# @!attribute [rw] campaignId
+#   @return [String, nil]
+#
+# @!attribute [rw] messages
 #   @return [Array]
 #
-# @!attribute [rw] schedule
-#   @return [Hash]
+# @!attribute [rw] scheduleAt
+#   @return [String]
 Message = Struct.new(
-  :message,
-  :schedule,
+  :campaignId,
+  :messages,
+  :scheduleAt,
   keyword_init: true
 )
 
@@ -59,14 +123,18 @@ MessageLoadMatch = Struct.new(
 
 # Request payload for Message#create.
 #
-# @!attribute [rw] message
+# @!attribute [rw] campaignId
+#   @return [String, nil]
+#
+# @!attribute [rw] messages
 #   @return [Array]
 #
-# @!attribute [rw] schedule
-#   @return [Hash]
+# @!attribute [rw] scheduleAt
+#   @return [String]
 MessageCreateData = Struct.new(
-  :message,
-  :schedule,
+  :campaignId,
+  :messages,
+  :scheduleAt,
   keyword_init: true
 )
 
@@ -81,30 +149,30 @@ MessageRemoveMatch = Struct.new(
 
 # MessageEvent entity data model.
 #
-# @!attribute [rw] account_id
+# @!attribute [rw] accountId
 #   @return [String]
 #
-# @!attribute [rw] event_id
+# @!attribute [rw] eventId
 #   @return [String]
 #
-# @!attribute [rw] message_status_changed
+# @!attribute [rw] messageStatusChanged
 #   @return [Hash]
 #
 # @!attribute [rw] on
 #   @return [String]
 #
-# @!attribute [rw] template_review_status_changed
+# @!attribute [rw] templateReviewStatusChanged
 #   @return [Hash]
 #
-# @!attribute [rw] user_message_received
+# @!attribute [rw] userMessageReceived
 #   @return [Hash]
 MessageEvent = Struct.new(
-  :account_id,
-  :event_id,
-  :message_status_changed,
+  :accountId,
+  :eventId,
+  :messageStatusChanged,
   :on,
-  :template_review_status_changed,
-  :user_message_received,
+  :templateReviewStatusChanged,
+  :userMessageReceived,
   keyword_init: true
 )
 
@@ -119,10 +187,10 @@ MessageEventListMatch = Struct.new(
 
 # Option entity data model.
 #
-# @!attribute [rw] option
+# @!attribute [rw] options
 #   @return [Hash]
 Option = Struct.new(
-  :option,
+  :options,
   keyword_init: true
 )
 
@@ -139,8 +207,12 @@ OptionLoadMatch = Struct.new(
 #
 # @!attribute [rw] template_id
 #   @return [String]
+#
+# @!attribute [rw] options
+#   @return [Hash]
 OptionCreateData = Struct.new(
   :template_id,
+  :options,
   keyword_init: true
 )
 
@@ -148,8 +220,12 @@ OptionCreateData = Struct.new(
 #
 # @!attribute [rw] template_id
 #   @return [String]
+#
+# @!attribute [rw] options
+#   @return [Hash, nil]
 OptionUpdateData = Struct.new(
   :template_id,
+  :options,
   keyword_init: true
 )
 
@@ -182,62 +258,84 @@ ScheduleRemoveMatch = Struct.new(
 
 # Self entity data model.
 #
-# @!attribute [rw] account
+# @!attribute [rw] accountId
+#   @return [String]
+#
+# @!attribute [rw] settings
 #   @return [Hash]
 Self = Struct.new(
-  :account,
+  :accountId,
+  :settings,
   keyword_init: true
 )
 
 # Request payload for Self#load.
 #
-# @!attribute [rw] account
+# @!attribute [rw] accountId
+#   @return [String, nil]
+#
+# @!attribute [rw] settings
 #   @return [Hash, nil]
 SelfLoadMatch = Struct.new(
-  :account,
+  :accountId,
+  :settings,
   keyword_init: true
 )
 
 # SelfAdmin entity data model.
 #
-# @!attribute [rw] setting
+# @!attribute [rw] callback
+#   @return [Hash]
+#
+# @!attribute [rw] settings
 #   @return [Hash]
 SelfAdmin = Struct.new(
-  :setting,
+  :callback,
+  :settings,
   keyword_init: true
 )
 
 # Request payload for SelfAdmin#update.
 #
-# @!attribute [rw] setting
+# @!attribute [rw] callback
+#   @return [Hash, nil]
+#
+# @!attribute [rw] settings
 #   @return [Hash, nil]
 SelfAdminUpdateData = Struct.new(
-  :setting,
+  :callback,
+  :settings,
   keyword_init: true
 )
 
 # Template entity data model.
 #
-# @!attribute [rw] channel_data
+# @!attribute [rw] channelData
 #   @return [Hash, nil]
 #
-# @!attribute [rw] created_on
+# @!attribute [rw] content
+#   @return [Hash, nil]
+#
+# @!attribute [rw] createdOn
 #   @return [String]
 #
-# @!attribute [rw] designer_url
+# @!attribute [rw] designerUrl
 #   @return [String, nil]
 #
-# @!attribute [rw] detail
+# @!attribute [rw] details
 #   @return [String, nil]
 #
 # @!attribute [rw] meta
-#   @return [Hash]
+#   @return [Hash, nil]
 #
-# @!attribute [rw] occurred_on
+# @!attribute [rw] occurredOn
 #   @return [String]
 #
-# @!attribute [rw] review
-#   @return [Hash]
+# @!attribute [rw] options
+#   @return [Hash, nil]
+#
+# @!attribute [rw] reviews
+#   @return [Hash, nil]
 #
 # @!attribute [rw] status
 #   @return [String]
@@ -245,23 +343,29 @@ SelfAdminUpdateData = Struct.new(
 # @!attribute [rw] template
 #   @return [Hash]
 #
-# @!attribute [rw] template_id
+# @!attribute [rw] templateId
 #   @return [String]
 #
-# @!attribute [rw] updated_on
+# @!attribute [rw] updatedOn
 #   @return [String, nil]
+#
+# @!attribute [rw] variables
+#   @return [Array, nil]
 Template = Struct.new(
-  :channel_data,
-  :created_on,
-  :designer_url,
-  :detail,
+  :channelData,
+  :content,
+  :createdOn,
+  :designerUrl,
+  :details,
   :meta,
-  :occurred_on,
-  :review,
+  :occurredOn,
+  :options,
+  :reviews,
   :status,
   :template,
-  :template_id,
-  :updated_on,
+  :templateId,
+  :updatedOn,
+  :variables,
   keyword_init: true
 )
 
@@ -280,25 +384,31 @@ TemplateLoadMatch = Struct.new(
 
 # Request payload for Template#list.
 #
-# @!attribute [rw] channel_data
+# @!attribute [rw] channelData
 #   @return [Hash, nil]
 #
-# @!attribute [rw] created_on
+# @!attribute [rw] content
+#   @return [Hash, nil]
+#
+# @!attribute [rw] createdOn
 #   @return [String, nil]
 #
-# @!attribute [rw] designer_url
+# @!attribute [rw] designerUrl
 #   @return [String, nil]
 #
-# @!attribute [rw] detail
+# @!attribute [rw] details
 #   @return [String, nil]
 #
 # @!attribute [rw] meta
 #   @return [Hash, nil]
 #
-# @!attribute [rw] occurred_on
+# @!attribute [rw] occurredOn
 #   @return [String, nil]
 #
-# @!attribute [rw] review
+# @!attribute [rw] options
+#   @return [Hash, nil]
+#
+# @!attribute [rw] reviews
 #   @return [Hash, nil]
 #
 # @!attribute [rw] status
@@ -307,48 +417,60 @@ TemplateLoadMatch = Struct.new(
 # @!attribute [rw] template
 #   @return [Hash, nil]
 #
-# @!attribute [rw] template_id
+# @!attribute [rw] templateId
 #   @return [String, nil]
 #
-# @!attribute [rw] updated_on
+# @!attribute [rw] updatedOn
 #   @return [String, nil]
+#
+# @!attribute [rw] variables
+#   @return [Array, nil]
 TemplateListMatch = Struct.new(
-  :channel_data,
-  :created_on,
-  :designer_url,
-  :detail,
+  :channelData,
+  :content,
+  :createdOn,
+  :designerUrl,
+  :details,
   :meta,
-  :occurred_on,
-  :review,
+  :occurredOn,
+  :options,
+  :reviews,
   :status,
   :template,
-  :template_id,
-  :updated_on,
+  :templateId,
+  :updatedOn,
+  :variables,
   keyword_init: true
 )
 
 # Request payload for Template#create.
 #
-# @!attribute [rw] channel_data
+# @!attribute [rw] channelData
 #   @return [Hash, nil]
 #
-# @!attribute [rw] created_on
+# @!attribute [rw] content
+#   @return [Hash, nil]
+#
+# @!attribute [rw] createdOn
 #   @return [String]
 #
-# @!attribute [rw] designer_url
+# @!attribute [rw] designerUrl
 #   @return [String, nil]
 #
-# @!attribute [rw] detail
+# @!attribute [rw] details
 #   @return [String, nil]
 #
 # @!attribute [rw] meta
-#   @return [Hash]
+#   @return [Hash, nil]
 #
-# @!attribute [rw] occurred_on
+# @!attribute [rw] occurredOn
 #   @return [String]
 #
-# @!attribute [rw] review
-#   @return [Hash]
+# @!attribute [rw] options
+#   @return [Hash, nil]
+#
+# @!attribute [rw] reviews
+#   @return [Hash, nil]
 #
 # @!attribute [rw] status
 #   @return [String]
@@ -356,23 +478,29 @@ TemplateListMatch = Struct.new(
 # @!attribute [rw] template
 #   @return [Hash]
 #
-# @!attribute [rw] template_id
+# @!attribute [rw] templateId
 #   @return [String]
 #
-# @!attribute [rw] updated_on
+# @!attribute [rw] updatedOn
 #   @return [String, nil]
+#
+# @!attribute [rw] variables
+#   @return [Array, nil]
 TemplateCreateData = Struct.new(
-  :channel_data,
-  :created_on,
-  :designer_url,
-  :detail,
+  :channelData,
+  :content,
+  :createdOn,
+  :designerUrl,
+  :details,
   :meta,
-  :occurred_on,
-  :review,
+  :occurredOn,
+  :options,
+  :reviews,
   :status,
   :template,
-  :template_id,
-  :updated_on,
+  :templateId,
+  :updatedOn,
+  :variables,
   keyword_init: true
 )
 
@@ -383,9 +511,65 @@ TemplateCreateData = Struct.new(
 #
 # @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] channelData
+#   @return [Hash, nil]
+#
+# @!attribute [rw] content
+#   @return [Hash, nil]
+#
+# @!attribute [rw] createdOn
+#   @return [String, nil]
+#
+# @!attribute [rw] designerUrl
+#   @return [String, nil]
+#
+# @!attribute [rw] details
+#   @return [String, nil]
+#
+# @!attribute [rw] meta
+#   @return [Hash, nil]
+#
+# @!attribute [rw] occurredOn
+#   @return [String, nil]
+#
+# @!attribute [rw] options
+#   @return [Hash, nil]
+#
+# @!attribute [rw] reviews
+#   @return [Hash, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
+#
+# @!attribute [rw] template
+#   @return [Hash, nil]
+#
+# @!attribute [rw] templateId
+#   @return [String, nil]
+#
+# @!attribute [rw] updatedOn
+#   @return [String, nil]
+#
+# @!attribute [rw] variables
+#   @return [Array, nil]
 TemplateUpdateData = Struct.new(
   :channel_id,
   :id,
+  :channelData,
+  :content,
+  :createdOn,
+  :designerUrl,
+  :details,
+  :meta,
+  :occurredOn,
+  :options,
+  :reviews,
+  :status,
+  :template,
+  :templateId,
+  :updatedOn,
+  :variables,
   keyword_init: true
 )
 
@@ -417,7 +601,7 @@ TrafficRemoveMatch = Struct.new(
 
 # TrafficFile entity data model.
 #
-# @!attribute [rw] file
+# @!attribute [rw] files
 #   @return [Array]
 #
 # @!attribute [rw] path
@@ -426,7 +610,7 @@ TrafficRemoveMatch = Struct.new(
 # @!attribute [rw] url
 #   @return [String]
 TrafficFile = Struct.new(
-  :file,
+  :files,
   :path,
   :url,
   keyword_init: true
@@ -443,7 +627,7 @@ TrafficFileLoadMatch = Struct.new(
 
 # Request payload for TrafficFile#list.
 #
-# @!attribute [rw] file
+# @!attribute [rw] files
 #   @return [Array, nil]
 #
 # @!attribute [rw] path
@@ -452,7 +636,7 @@ TrafficFileLoadMatch = Struct.new(
 # @!attribute [rw] url
 #   @return [String, nil]
 TrafficFileListMatch = Struct.new(
-  :file,
+  :files,
   :path,
   :url,
   keyword_init: true
@@ -463,10 +647,10 @@ TrafficFileListMatch = Struct.new(
 # @!attribute [rw] description
 #   @return [String, nil]
 #
-# @!attribute [rw] example
+# @!attribute [rw] examples
 #   @return [Array, nil]
 #
-# @!attribute [rw] format
+# @!attribute [rw] formats
 #   @return [Array, nil]
 #
 # @!attribute [rw] name
@@ -478,16 +662,16 @@ TrafficFileListMatch = Struct.new(
 # @!attribute [rw] type
 #   @return [String, nil]
 #
-# @!attribute [rw] variable
+# @!attribute [rw] variables
 #   @return [Array]
 Variable = Struct.new(
   :description,
-  :example,
-  :format,
+  :examples,
+  :formats,
   :name,
   :ref,
   :type,
-  :variable,
+  :variables,
   keyword_init: true
 )
 
@@ -504,8 +688,36 @@ VariableListMatch = Struct.new(
 #
 # @!attribute [rw] template_id
 #   @return [String]
+#
+# @!attribute [rw] description
+#   @return [String, nil]
+#
+# @!attribute [rw] examples
+#   @return [Array, nil]
+#
+# @!attribute [rw] formats
+#   @return [Array, nil]
+#
+# @!attribute [rw] name
+#   @return [String]
+#
+# @!attribute [rw] ref
+#   @return [String, nil]
+#
+# @!attribute [rw] type
+#   @return [String, nil]
+#
+# @!attribute [rw] variables
+#   @return [Array]
 VariableCreateData = Struct.new(
   :template_id,
+  :description,
+  :examples,
+  :formats,
+  :name,
+  :ref,
+  :type,
+  :variables,
   keyword_init: true
 )
 
@@ -513,8 +725,36 @@ VariableCreateData = Struct.new(
 #
 # @!attribute [rw] template_id
 #   @return [String]
+#
+# @!attribute [rw] description
+#   @return [String, nil]
+#
+# @!attribute [rw] examples
+#   @return [Array, nil]
+#
+# @!attribute [rw] formats
+#   @return [Array, nil]
+#
+# @!attribute [rw] name
+#   @return [String, nil]
+#
+# @!attribute [rw] ref
+#   @return [String, nil]
+#
+# @!attribute [rw] type
+#   @return [String, nil]
+#
+# @!attribute [rw] variables
+#   @return [Array, nil]
 VariableUpdateData = Struct.new(
   :template_id,
+  :description,
+  :examples,
+  :formats,
+  :name,
+  :ref,
+  :type,
+  :variables,
   keyword_init: true
 )
 

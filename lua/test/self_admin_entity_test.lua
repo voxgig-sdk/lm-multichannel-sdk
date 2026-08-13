@@ -29,7 +29,7 @@ describe("SelfAdminEntity", function()
     -- The basic flow consumes synthetic IDs from the fixture. In live mode
     -- without an *_ENTID env override, those IDs hit the live API and 4xx.
     if setup.synthetic_only then
-      pending("live entity test uses synthetic IDs from fixture — set LMMULTICHANNEL_TEST_SELF_ADMIN_ENTID JSON to run live")
+      pending("live entity test uses synthetic IDs from fixture — set LM_MULTICHANNEL_TEST_SELF_ADMIN_ENTID JSON to run live")
       return
     end
     local client = setup.client
@@ -49,7 +49,7 @@ describe("SelfAdminEntity", function()
 
     local self_admin_ref01_resdata_up0_result, err = self_admin_ref01_ent:update(self_admin_ref01_data_up0_up, nil)
     assert.is_nil(err)
-    local self_admin_ref01_resdata_up0 = helpers.to_map(self_admin_ref01_resdata_up0_result)
+    local self_admin_ref01_resdata_up0 = helpers.to_map(type(self_admin_ref01_resdata_up0_result) == 'table' and self_admin_ref01_resdata_up0_result.data_get and self_admin_ref01_resdata_up0_result:data_get() or self_admin_ref01_resdata_up0_result)
     assert.is_not_nil(self_admin_ref01_resdata_up0)
 
   end)
@@ -87,39 +87,39 @@ function self_admin_basic_setup(extra)
   -- Detect ENTID env override before envOverride consumes it. When live
   -- mode is on without a real override, the basic test runs against synthetic
   -- IDs from the fixture and 4xx's. Surface this so the test can skip.
-  local entid_env_raw = os.getenv("LMMULTICHANNEL_TEST_SELF_ADMIN_ENTID")
+  local entid_env_raw = os.getenv("LM_MULTICHANNEL_TEST_SELF_ADMIN_ENTID")
   local idmap_overridden = entid_env_raw ~= nil and entid_env_raw:match("^%s*{") ~= nil
 
   local env = runner.env_override({
-    ["LMMULTICHANNEL_TEST_SELF_ADMIN_ENTID"] = idmap,
-    ["LMMULTICHANNEL_TEST_LIVE"] = "FALSE",
-    ["LMMULTICHANNEL_TEST_EXPLAIN"] = "FALSE",
-    ["LMMULTICHANNEL_APIKEY"] = "NONE",
+    ["LM_MULTICHANNEL_TEST_SELF_ADMIN_ENTID"] = idmap,
+    ["LM_MULTICHANNEL_TEST_LIVE"] = "FALSE",
+    ["LM_MULTICHANNEL_TEST_EXPLAIN"] = "FALSE",
+    ["LM_MULTICHANNEL_APIKEY"] = "NONE",
   })
 
   local idmap_resolved = helpers.to_map(
-    env["LMMULTICHANNEL_TEST_SELF_ADMIN_ENTID"])
+    env["LM_MULTICHANNEL_TEST_SELF_ADMIN_ENTID"])
   if idmap_resolved == nil then
     idmap_resolved = helpers.to_map(idmap)
   end
 
-  if env["LMMULTICHANNEL_TEST_LIVE"] == "TRUE" then
+  if env["LM_MULTICHANNEL_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
       {
-        apikey = env["LMMULTICHANNEL_APIKEY"],
+        apikey = env["LM_MULTICHANNEL_APIKEY"],
       },
       extra or {},
     })
     client = sdk.new(helpers.to_map(merged_opts))
   end
 
-  local live = env["LMMULTICHANNEL_TEST_LIVE"] == "TRUE"
+  local live = env["LM_MULTICHANNEL_TEST_LIVE"] == "TRUE"
   return {
     client = client,
     data = entity_data,
     idmap = idmap_resolved,
     env = env,
-    explain = env["LMMULTICHANNEL_TEST_EXPLAIN"] == "TRUE",
+    explain = env["LM_MULTICHANNEL_TEST_EXPLAIN"] == "TRUE",
     live = live,
     synthetic_only = live and not idmap_overridden,
     now = os.time() * 1000,

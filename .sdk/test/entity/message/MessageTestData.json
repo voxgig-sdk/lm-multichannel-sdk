@@ -2,18 +2,21 @@
   "existing": {
     "message": {
       "MESSAGE00": {
-        "message": [],
-        "schedule": {},
+        "campaignId": "s1e",
+        "messages": [],
+        "scheduleAt": "s20",
         "id": "MESSAGE00"
       },
       "MESSAGE01": {
-        "message": [],
-        "schedule": {},
+        "campaignId": "s3c",
+        "messages": [],
+        "scheduleAt": "s3e",
         "id": "MESSAGE01"
       },
       "MESSAGE02": {
-        "message": [],
-        "schedule": {},
+        "campaignId": "s5a",
+        "messages": [],
+        "scheduleAt": "s5c",
         "id": "MESSAGE02"
       }
     }
@@ -21,8 +24,9 @@
   "new": {
     "message": {
       "message_ref01": {
-        "message": [],
-        "schedule": {}
+        "campaignId": "s78",
+        "messages": [],
+        "scheduleAt": "s7a"
       }
     }
   }

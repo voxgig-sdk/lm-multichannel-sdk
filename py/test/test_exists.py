@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# LmMultichannel SDK exists test
 
 import pytest
 from lmmultichannel_sdk import LmMultichannelSDK

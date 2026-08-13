@@ -6,14 +6,19 @@ main: kit: entity: message: {
 
   fields: [
     {
-      name: "message"
+      name: "campaignId"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "messages"
       req: true
       type: "`$ARRAY`"
     }
     {
-      name: "schedule"
+      name: "scheduleAt"
       req: true
-      type: "`$OBJECT`"
+      type: "`$STRING`"
     }
   ]
 

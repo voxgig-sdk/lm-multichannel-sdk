@@ -128,7 +128,14 @@ content = client.Content()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `card` | `dict` | No |  |
+| `carousel` | `dict` | Yes |  |
 | `content` | `dict` | Yes |  |
+| `fromTemplate` | `dict` | Yes |  |
+| `location` | `dict` | Yes |  |
+| `media` | `dict` | Yes |  |
+| `suggestions` | `list` | No |  |
+| `text` | `str` | No |  |
 
 ### Operations
 
@@ -139,6 +146,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.Content().create({
     "template_id": "example_template_id",  # str
+    "carousel": {},  # dict
+    "content": {},  # dict
+    "fromTemplate": {},  # dict
+    "location": {},  # dict
+    "media": {},  # dict
 })
 ```
 
@@ -189,8 +201,9 @@ message = client.Message()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message` | `list` | Yes |  |
-| `schedule` | `dict` | Yes |  |
+| `campaignId` | `str` | No |  |
+| `messages` | `list` | Yes |  |
+| `scheduleAt` | `str` | Yes |  |
 
 ### Operations
 
@@ -200,8 +213,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Message().create({
-    "message": [],  # list
-    "schedule": {},  # dict
+    "messages": [],  # list
+    "scheduleAt": "example_scheduleAt",  # str
 })
 ```
 
@@ -260,12 +273,12 @@ message_event = client.MessageEvent()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_id` | `str` | Yes |  |
-| `event_id` | `str` | Yes |  |
-| `message_status_changed` | `dict` | Yes |  |
+| `accountId` | `str` | Yes |  |
+| `eventId` | `str` | Yes |  |
+| `messageStatusChanged` | `dict` | Yes |  |
 | `on` | `str` | Yes |  |
-| `template_review_status_changed` | `dict` | Yes |  |
-| `user_message_received` | `dict` | Yes |  |
+| `templateReviewStatusChanged` | `dict` | Yes |  |
+| `userMessageReceived` | `dict` | Yes |  |
 
 ### Operations
 
@@ -274,7 +287,7 @@ message_event = client.MessageEvent()
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.MessageEvent().list()
+results = client.MessageEvent().list({"id": "example"})
 for message_event in results:
     print(message_event)
 ```
@@ -318,7 +331,7 @@ option = client.Option()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `option` | `dict` | Yes |  |
+| `options` | `dict` | Yes |  |
 
 ### Operations
 
@@ -329,6 +342,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.Option().create({
     "template_id": "example_template_id",  # str
+    "options": {},  # dict
 })
 ```
 
@@ -449,7 +463,8 @@ self = client.Self()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account` | `dict` | Yes |  |
+| `accountId` | `str` | Yes |  |
+| `settings` | `dict` | Yes |  |
 
 ### Operations
 
@@ -500,7 +515,8 @@ self_admin = client.SelfAdmin()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `setting` | `dict` | Yes |  |
+| `callback` | `dict` | Yes |  |
+| `settings` | `dict` | Yes |  |
 
 ### Operations
 
@@ -553,33 +569,39 @@ template = client.Template()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `channel_data` | `dict` | No |  |
-| `created_on` | `str` | Yes |  |
-| `designer_url` | `str` | No |  |
-| `detail` | `str` | No |  |
-| `meta` | `dict` | Yes |  |
-| `occurred_on` | `str` | Yes |  |
-| `review` | `dict` | Yes |  |
+| `channelData` | `dict` | No |  |
+| `content` | `dict` | No |  |
+| `createdOn` | `str` | Yes |  |
+| `designerUrl` | `str` | No |  |
+| `details` | `str` | No |  |
+| `meta` | `dict` | No |  |
+| `occurredOn` | `str` | Yes |  |
+| `options` | `dict` | No |  |
+| `reviews` | `dict` | No |  |
 | `status` | `str` | Yes |  |
 | `template` | `dict` | Yes |  |
-| `template_id` | `str` | Yes |  |
-| `updated_on` | `str` | No |  |
+| `templateId` | `str` | Yes |  |
+| `updatedOn` | `str` | No |  |
+| `variables` | `list` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `channel_data` | - | - | - | - | - |
-| `created_on` | - | - | - | - | - |
-| `designer_url` | - | - | - | - | - |
-| `detail` | - | - | - | - | - |
-| `meta` | - | Yes | - | - | - |
-| `occurred_on` | - | - | - | - | - |
-| `review` | - | Yes | - | - | - |
+| `channelData` | - | - | - | - | - |
+| `content` | - | - | - | - | - |
+| `createdOn` | - | - | - | - | - |
+| `designerUrl` | - | - | - | - | - |
+| `details` | - | - | - | - | - |
+| `meta` | - | - | Yes | - | - |
+| `occurredOn` | - | - | - | - | - |
+| `options` | - | - | - | - | - |
+| `reviews` | - | - | - | - | - |
 | `status` | - | - | - | - | - |
 | `template` | - | - | - | - | - |
-| `template_id` | - | - | - | - | - |
-| `updated_on` | - | - | - | - | - |
+| `templateId` | - | - | - | - | - |
+| `updatedOn` | - | - | - | - | - |
+| `variables` | - | - | - | - | - |
 
 ### Operations
 
@@ -589,13 +611,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Template().create({
-    "created_on": "example_created_on",  # str
-    "meta": {},  # dict
-    "occurred_on": "example_occurred_on",  # str
-    "review": {},  # dict
+    "createdOn": "example_createdOn",  # str
+    "occurredOn": "example_occurredOn",  # str
     "status": "example_status",  # str
     "template": {},  # dict
-    "template_id": "example_template_id",  # str
+    "templateId": "example_templateId",  # str
 })
 ```
 
@@ -721,7 +741,7 @@ traffic_file = client.TrafficFile()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `file` | `list` | Yes |  |
+| `files` | `list` | Yes |  |
 | `path` | `str` | Yes |  |
 | `url` | `str` | Yes |  |
 
@@ -785,12 +805,12 @@ variable = client.Variable()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `description` | `str` | No |  |
-| `example` | `list` | No |  |
-| `format` | `list` | No |  |
+| `examples` | `list` | No |  |
+| `formats` | `list` | No |  |
 | `name` | `str` | Yes |  |
 | `ref` | `str` | No |  |
 | `type` | `str` | No |  |
-| `variable` | `list` | Yes |  |
+| `variables` | `list` | Yes |  |
 
 ### Operations
 
@@ -801,6 +821,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.Variable().create({
     "template_id": "example_template_id",  # str
+    "name": "example_name",  # str
+    "variables": [],  # list
 })
 ```
 
@@ -809,7 +831,7 @@ result = client.Variable().create({
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Variable().list()
+results = client.Variable().list({"template_id": "example"})
 for variable in results:
     print(variable)
 ```

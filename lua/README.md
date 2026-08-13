@@ -49,7 +49,7 @@ print(content)
 
 ```lua
 -- Create
-local created, err = client:Content():create({ template_id = "example_template_id" })
+local created, err = client:Content():create({ template_id = "example_template_id", carousel = {}, content = {}, fromTemplate = {}, location = {}, media = {} })
 if err then error(err) end
 
 ```
@@ -61,7 +61,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local content, err = client:Content():load({ template_id = "example" })
+local message, err = client:Message():load({ id = "example_id" })
 if err then error(err) end
 ```
 
@@ -119,7 +119,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Content():load({ template_id = "example" })
+local result, err = client:Message():load({ id = "test01" })
 -- result is the returned data; err is set on failure
 ```
 
@@ -255,7 +255,14 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
+| `card` |  |
+| `carousel` |  |
 | `content` |  |
+| `fromTemplate` |  |
+| `location` |  |
+| `media` |  |
+| `suggestions` |  |
+| `text` |  |
 
 Operations: Create, Load.
 
@@ -265,8 +272,9 @@ API path: `/templates/{templateId}/content`
 
 | Field | Description |
 | --- | --- |
-| `message` |  |
-| `schedule` |  |
+| `campaignId` |  |
+| `messages` |  |
+| `scheduleAt` |  |
 
 Operations: Create, Load, Remove.
 
@@ -276,12 +284,12 @@ API path: `/messages`
 
 | Field | Description |
 | --- | --- |
-| `account_id` |  |
-| `event_id` |  |
-| `message_status_changed` |  |
+| `accountId` |  |
+| `eventId` |  |
+| `messageStatusChanged` |  |
 | `on` |  |
-| `template_review_status_changed` |  |
-| `user_message_received` |  |
+| `templateReviewStatusChanged` |  |
+| `userMessageReceived` |  |
 
 Operations: List.
 
@@ -291,7 +299,7 @@ API path: `/messages/{messageId}/events`
 
 | Field | Description |
 | --- | --- |
-| `option` |  |
+| `options` |  |
 
 Operations: Create, Load, Update.
 
@@ -311,7 +319,8 @@ API path: `/schedules:count`
 
 | Field | Description |
 | --- | --- |
-| `account` |  |
+| `accountId` |  |
+| `settings` |  |
 
 Operations: Load.
 
@@ -321,7 +330,8 @@ API path: `/self`
 
 | Field | Description |
 | --- | --- |
-| `setting` |  |
+| `callback` |  |
+| `settings` |  |
 
 Operations: Update.
 
@@ -331,17 +341,20 @@ API path: `/self/settings`
 
 | Field | Description |
 | --- | --- |
-| `channel_data` |  |
-| `created_on` |  |
-| `designer_url` |  |
-| `detail` |  |
+| `channelData` |  |
+| `content` |  |
+| `createdOn` |  |
+| `designerUrl` |  |
+| `details` |  |
 | `meta` |  |
-| `occurred_on` |  |
-| `review` |  |
+| `occurredOn` |  |
+| `options` |  |
+| `reviews` |  |
 | `status` |  |
 | `template` |  |
-| `template_id` |  |
-| `updated_on` |  |
+| `templateId` |  |
+| `updatedOn` |  |
+| `variables` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -360,7 +373,7 @@ API path: `/traffic/files/{path}`
 
 | Field | Description |
 | --- | --- |
-| `file` |  |
+| `files` |  |
 | `path` |  |
 | `url` |  |
 
@@ -373,12 +386,12 @@ API path: `/traffic/files`
 | Field | Description |
 | --- | --- |
 | `description` |  |
-| `example` |  |
-| `format` |  |
+| `examples` |  |
+| `formats` |  |
 | `name` |  |
 | `ref` |  |
 | `type` |  |
-| `variable` |  |
+| `variables` |  |
 
 Operations: Create, List, Update.
 
@@ -404,7 +417,14 @@ Create an instance: `local content = client:Content(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `card` | `table` |  |
+| `carousel` | `table` |  |
 | `content` | `table` |  |
+| `fromTemplate` | `table` |  |
+| `location` | `table` |  |
+| `media` | `table` |  |
+| `suggestions` | `table` |  |
+| `text` | `string` |  |
 
 #### Example: Load
 
@@ -417,6 +437,11 @@ local content, err = client:Content():load({ template_id = "template_id" })
 ```lua
 local content, err = client:Content():create({
   template_id = "example_template_id", -- string
+  carousel = {}, -- table
+  content = {}, -- table
+  fromTemplate = {}, -- table
+  location = {}, -- table
+  media = {}, -- table
 })
 ```
 
@@ -437,8 +462,9 @@ Create an instance: `local message = client:Message(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message` | `table` |  |
-| `schedule` | `table` |  |
+| `campaignId` | `string` |  |
+| `messages` | `table` |  |
+| `scheduleAt` | `string` |  |
 
 #### Example: Load
 
@@ -450,8 +476,8 @@ local message, err = client:Message():load({ id = "message_id" })
 
 ```lua
 local message, err = client:Message():create({
-  message = {}, -- table
-  schedule = {}, -- table
+  messages = {}, -- table
+  scheduleAt = "example_scheduleAt", -- string
 })
 ```
 
@@ -470,12 +496,12 @@ Create an instance: `local message_event = client:MessageEvent(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_id` | `string` |  |
-| `event_id` | `string` |  |
-| `message_status_changed` | `table` |  |
+| `accountId` | `string` |  |
+| `eventId` | `string` |  |
+| `messageStatusChanged` | `table` |  |
 | `on` | `string` |  |
-| `template_review_status_changed` | `table` |  |
-| `user_message_received` | `table` |  |
+| `templateReviewStatusChanged` | `table` |  |
+| `userMessageReceived` | `table` |  |
 
 #### Example: List
 
@@ -500,7 +526,7 @@ Create an instance: `local option = client:Option(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `option` | `table` |  |
+| `options` | `table` |  |
 
 #### Example: Load
 
@@ -513,6 +539,7 @@ local option, err = client:Option():load({ template_id = "template_id" })
 ```lua
 local option, err = client:Option():create({
   template_id = "example_template_id", -- string
+  options = {}, -- table
 })
 ```
 
@@ -555,7 +582,8 @@ Create an instance: `local self = client:Self(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account` | `table` |  |
+| `accountId` | `string` |  |
+| `settings` | `table` |  |
 
 #### Example: Load
 
@@ -578,7 +606,8 @@ Create an instance: `local self_admin = client:SelfAdmin(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `setting` | `table` |  |
+| `callback` | `table` |  |
+| `settings` | `table` |  |
 
 
 ### Template
@@ -599,17 +628,20 @@ Create an instance: `local template = client:Template(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `channel_data` | `table` |  |
-| `created_on` | `string` |  |
-| `designer_url` | `string` |  |
-| `detail` | `string` |  |
+| `channelData` | `table` |  |
+| `content` | `table` |  |
+| `createdOn` | `string` |  |
+| `designerUrl` | `string` |  |
+| `details` | `string` |  |
 | `meta` | `table` |  |
-| `occurred_on` | `string` |  |
-| `review` | `table` |  |
+| `occurredOn` | `string` |  |
+| `options` | `table` |  |
+| `reviews` | `table` |  |
 | `status` | `string` |  |
 | `template` | `table` |  |
-| `template_id` | `string` |  |
-| `updated_on` | `string` |  |
+| `templateId` | `string` |  |
+| `updatedOn` | `string` |  |
+| `variables` | `table` |  |
 
 #### Example: Load
 
@@ -627,13 +659,11 @@ local templates, err = client:Template():list()
 
 ```lua
 local template, err = client:Template():create({
-  created_on = "example_created_on", -- string
-  meta = {}, -- table
-  occurred_on = "example_occurred_on", -- string
-  review = {}, -- table
+  createdOn = "example_createdOn", -- string
+  occurredOn = "example_occurredOn", -- string
   status = "example_status", -- string
   template = {}, -- table
-  template_id = "example_template_id", -- string
+  templateId = "example_templateId", -- string
 })
 ```
 
@@ -664,7 +694,7 @@ Create an instance: `local traffic_file = client:TrafficFile(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `file` | `table` |  |
+| `files` | `table` |  |
 | `path` | `string` |  |
 | `url` | `string` |  |
 
@@ -698,12 +728,12 @@ Create an instance: `local variable = client:Variable(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `description` | `string` |  |
-| `example` | `table` |  |
-| `format` | `table` |  |
+| `examples` | `table` |  |
+| `formats` | `table` |  |
 | `name` | `string` |  |
 | `ref` | `string` |  |
 | `type` | `string` |  |
-| `variable` | `table` |  |
+| `variables` | `table` |  |
 
 #### Example: List
 
@@ -716,6 +746,8 @@ local variables, err = client:Variable():list()
 ```lua
 local variable, err = client:Variable():create({
   template_id = "example_template_id", -- string
+  name = "example_name", -- string
+  variables = {}, -- table
 })
 ```
 
@@ -796,11 +828,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local content = client:Content()
-content:load({ template_id = "example" })
+local message = client:Message()
+message:load({ id = "example_id" })
 
--- content:data_get() now returns the content data from the last load
--- content:match_get() returns the last match criteria
+-- message:data_get() now returns the message data from the last load
+-- message:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

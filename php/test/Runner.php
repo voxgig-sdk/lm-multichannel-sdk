@@ -43,8 +43,8 @@ class LmMultichannelTestRunner
 
     public static function env_override(array $m): array
     {
-        $live = self::getenv('LMMULTICHANNEL_TEST_LIVE');
-        $override = self::getenv('LMMULTICHANNEL_TEST_OVERRIDE');
+        $live = self::getenv('LM_MULTICHANNEL_TEST_LIVE');
+        $override = self::getenv('LM_MULTICHANNEL_TEST_OVERRIDE');
 
         if ($live === 'TRUE' || $override === 'TRUE') {
             foreach (array_keys($m) as $key) {
@@ -63,9 +63,9 @@ class LmMultichannelTestRunner
             }
         }
 
-        $explain = self::getenv('LMMULTICHANNEL_TEST_EXPLAIN');
+        $explain = self::getenv('LM_MULTICHANNEL_TEST_EXPLAIN');
         if ($explain !== null && $explain !== '') {
-            $m['LMMULTICHANNEL_TEST_EXPLAIN'] = $explain;
+            $m['LM_MULTICHANNEL_TEST_EXPLAIN'] = $explain;
         }
 
         return $m;

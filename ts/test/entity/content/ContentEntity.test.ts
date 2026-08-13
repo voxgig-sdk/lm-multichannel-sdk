@@ -26,8 +26,8 @@ import {
 describe('ContentEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-  afterEach(liveDelay('LMMULTICHANNEL_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+  afterEach(liveDelay('LM_MULTICHANNEL_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = LmMultichannelSDK.test()
@@ -63,7 +63,7 @@ describe('ContentEntity', async () => {
     let content_ref01_data = setup.data.new.content['content_ref01']
     content_ref01_data['template_id'] = setup.idmap['template01']
 
-    content_ref01_data = await content_ref01_ent.create(content_ref01_data)
+    content_ref01_data = (await content_ref01_ent.create(content_ref01_data)).data()
     assert(null != content_ref01_data)
 
 

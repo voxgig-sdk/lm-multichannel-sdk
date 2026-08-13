@@ -115,16 +115,16 @@ def template_direct_setup(mockres)
   calls = []
 
   env = Runner.env_override({
-    "LMMULTICHANNEL_TEST_TEMPLATE_ENTID" => {},
-    "LMMULTICHANNEL_TEST_LIVE" => "FALSE",
-    "LMMULTICHANNEL_APIKEY" => "NONE",
+    "LM_MULTICHANNEL_TEST_TEMPLATE_ENTID" => {},
+    "LM_MULTICHANNEL_TEST_LIVE" => "FALSE",
+    "LM_MULTICHANNEL_APIKEY" => "NONE",
   })
 
-  live = env["LMMULTICHANNEL_TEST_LIVE"] == "TRUE"
+  live = env["LM_MULTICHANNEL_TEST_LIVE"] == "TRUE"
 
   if live
     merged_opts = {
-      "apikey" => env["LMMULTICHANNEL_APIKEY"],
+      "apikey" => env["LM_MULTICHANNEL_APIKEY"],
     }
     client = LmMultichannelSDK.new(merged_opts)
     return {

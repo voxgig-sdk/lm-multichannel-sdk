@@ -2,17 +2,17 @@
   "existing": {
     "option": {
       "OPTION00": {
-        "option": {},
+        "options": {},
         "template_id": "TEMPLATE01",
         "id": "OPTION00"
       },
       "OPTION01": {
-        "option": {},
+        "options": {},
         "template_id": "TEMPLATE01",
         "id": "OPTION01"
       },
       "OPTION02": {
-        "option": {},
+        "options": {},
         "template_id": "TEMPLATE01",
         "id": "OPTION02"
       }
@@ -21,7 +21,7 @@
   "new": {
     "option": {
       "option_ref01": {
-        "option": {}
+        "options": {}
       }
     }
   }

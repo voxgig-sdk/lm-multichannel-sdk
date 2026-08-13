@@ -26,8 +26,8 @@ import {
 describe('VariableEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-  afterEach(liveDelay('LMMULTICHANNEL_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+  afterEach(liveDelay('LM_MULTICHANNEL_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = LmMultichannelSDK.test()
@@ -63,7 +63,7 @@ describe('VariableEntity', async () => {
     let variable_ref01_data = setup.data.new.variable['variable_ref01']
     variable_ref01_data['template_id'] = setup.idmap['template01']
 
-    variable_ref01_data = await variable_ref01_ent.create(variable_ref01_data)
+    variable_ref01_data = (await variable_ref01_ent.create(variable_ref01_data)).data()
     assert(null != variable_ref01_data)
 
 
@@ -71,7 +71,7 @@ describe('VariableEntity', async () => {
     const variable_ref01_match: any = {}
     variable_ref01_match['template_id'] = setup.idmap['template01']
 
-    const variable_ref01_list = await variable_ref01_ent.list(variable_ref01_match)
+    const variable_ref01_list = (await variable_ref01_ent.list(variable_ref01_match)).map((e: any) => e.data())
 
 
     // UPDATE
@@ -80,7 +80,7 @@ describe('VariableEntity', async () => {
     const variable_ref01_markdef_up0 = { name: 'description', value: 'Mark01-variable_ref01_' + setup.now }
     ;(variable_ref01_data_up0 as any)[variable_ref01_markdef_up0.name] = variable_ref01_markdef_up0.value
 
-    const variable_ref01_resdata_up0 = await variable_ref01_ent.update(variable_ref01_data_up0)
+    const variable_ref01_resdata_up0 = (await variable_ref01_ent.update(variable_ref01_data_up0)).data()
     assert(null != variable_ref01_resdata_up0)
 
     assert((variable_ref01_resdata_up0 as any)[variable_ref01_markdef_up0.name] === variable_ref01_markdef_up0.value)

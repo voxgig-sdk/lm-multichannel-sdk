@@ -6,7 +6,7 @@ main: kit: entity: option: {
 
   fields: [
     {
-      name: "option"
+      name: "options"
       req: true
       type: "`$OBJECT`"
     }

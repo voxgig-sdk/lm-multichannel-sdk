@@ -26,8 +26,8 @@ import {
 describe('TrafficFileEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-  afterEach(liveDelay('LMMULTICHANNEL_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+  afterEach(liveDelay('LM_MULTICHANNEL_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = LmMultichannelSDK.test()
@@ -63,7 +63,7 @@ describe('TrafficFileEntity', async () => {
     const traffic_file_ref01_ent = client.TrafficFile()
     const traffic_file_ref01_match: any = {}
 
-    const traffic_file_ref01_list = await traffic_file_ref01_ent.list(traffic_file_ref01_match)
+    const traffic_file_ref01_list = (await traffic_file_ref01_ent.list(traffic_file_ref01_match)).map((e: any) => e.data())
 
 
 

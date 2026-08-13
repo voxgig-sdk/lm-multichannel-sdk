@@ -2,17 +2,38 @@
   "existing": {
     "content": {
       "CONTENT00": {
+        "card": {},
+        "carousel": {},
         "content": {},
+        "fromTemplate": {},
+        "location": {},
+        "media": {},
+        "suggestions": [],
+        "text": "s57",
         "template_id": "TEMPLATE01",
         "id": "CONTENT00"
       },
       "CONTENT01": {
+        "card": {},
+        "carousel": {},
         "content": {},
+        "fromTemplate": {},
+        "location": {},
+        "media": {},
+        "suggestions": [],
+        "text": "sa7",
         "template_id": "TEMPLATE01",
         "id": "CONTENT01"
       },
       "CONTENT02": {
+        "card": {},
+        "carousel": {},
         "content": {},
+        "fromTemplate": {},
+        "location": {},
+        "media": {},
+        "suggestions": [],
+        "text": "sf7",
         "template_id": "TEMPLATE01",
         "id": "CONTENT02"
       }
@@ -21,7 +42,14 @@
   "new": {
     "content": {
       "content_ref01": {
-        "content": {}
+        "card": {},
+        "carousel": {},
+        "content": {},
+        "fromTemplate": {},
+        "location": {},
+        "media": {},
+        "suggestions": [],
+        "text": "s147"
       }
     }
   }

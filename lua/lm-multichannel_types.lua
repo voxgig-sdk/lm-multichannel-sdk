@@ -7,50 +7,69 @@
 -- edit by hand.
 
 ---@class Content
+---@field card? table
+---@field carousel table
 ---@field content table
+---@field fromTemplate table
+---@field location table
+---@field media table
+---@field suggestions? table
+---@field text? string
 
 ---@class ContentLoadMatch
 ---@field template_id string
 
 ---@class ContentCreateData
 ---@field template_id string
+---@field card? table
+---@field carousel table
+---@field content table
+---@field fromTemplate table
+---@field location table
+---@field media table
+---@field suggestions? table
+---@field text? string
 
 ---@class Message
----@field message table
----@field schedule table
+---@field campaignId? string
+---@field messages table
+---@field scheduleAt string
 
 ---@class MessageLoadMatch
 ---@field id string
 
 ---@class MessageCreateData
----@field message table
----@field schedule table
+---@field campaignId? string
+---@field messages table
+---@field scheduleAt string
 
 ---@class MessageRemoveMatch
 ---@field id string
 
 ---@class MessageEvent
----@field account_id string
----@field event_id string
----@field message_status_changed table
+---@field accountId string
+---@field eventId string
+---@field messageStatusChanged table
 ---@field on string
----@field template_review_status_changed table
----@field user_message_received table
+---@field templateReviewStatusChanged table
+---@field userMessageReceived table
 
 ---@class MessageEventListMatch
 ---@field id string
 
 ---@class Option
----@field option table
+---@field options table
 
 ---@class OptionLoadMatch
 ---@field template_id string
 
 ---@class OptionCreateData
 ---@field template_id string
+---@field options table
 
 ---@class OptionUpdateData
 ---@field template_id string
+---@field options? table
 
 ---@class Schedule
 ---@field count number
@@ -62,63 +81,90 @@
 ---@field count? number
 
 ---@class Self
----@field account table
+---@field accountId string
+---@field settings table
 
 ---@class SelfLoadMatch
----@field account? table
+---@field accountId? string
+---@field settings? table
 
 ---@class SelfAdmin
----@field setting table
+---@field callback table
+---@field settings table
 
 ---@class SelfAdminUpdateData
----@field setting? table
+---@field callback? table
+---@field settings? table
 
 ---@class Template
----@field channel_data? table
----@field created_on string
----@field designer_url? string
----@field detail? string
----@field meta table
----@field occurred_on string
----@field review table
+---@field channelData? table
+---@field content? table
+---@field createdOn string
+---@field designerUrl? string
+---@field details? string
+---@field meta? table
+---@field occurredOn string
+---@field options? table
+---@field reviews? table
 ---@field status string
 ---@field template table
----@field template_id string
----@field updated_on? string
+---@field templateId string
+---@field updatedOn? string
+---@field variables? table
 
 ---@class TemplateLoadMatch
 ---@field channel_id? string
 ---@field id string
 
 ---@class TemplateListMatch
----@field channel_data? table
----@field created_on? string
----@field designer_url? string
----@field detail? string
+---@field channelData? table
+---@field content? table
+---@field createdOn? string
+---@field designerUrl? string
+---@field details? string
 ---@field meta? table
----@field occurred_on? string
----@field review? table
+---@field occurredOn? string
+---@field options? table
+---@field reviews? table
 ---@field status? string
 ---@field template? table
----@field template_id? string
----@field updated_on? string
+---@field templateId? string
+---@field updatedOn? string
+---@field variables? table
 
 ---@class TemplateCreateData
----@field channel_data? table
----@field created_on string
----@field designer_url? string
----@field detail? string
----@field meta table
----@field occurred_on string
----@field review table
+---@field channelData? table
+---@field content? table
+---@field createdOn string
+---@field designerUrl? string
+---@field details? string
+---@field meta? table
+---@field occurredOn string
+---@field options? table
+---@field reviews? table
 ---@field status string
 ---@field template table
----@field template_id string
----@field updated_on? string
+---@field templateId string
+---@field updatedOn? string
+---@field variables? table
 
 ---@class TemplateUpdateData
 ---@field channel_id string
 ---@field id string
+---@field channelData? table
+---@field content? table
+---@field createdOn? string
+---@field designerUrl? string
+---@field details? string
+---@field meta? table
+---@field occurredOn? string
+---@field options? table
+---@field reviews? table
+---@field status? string
+---@field template? table
+---@field templateId? string
+---@field updatedOn? string
+---@field variables? table
 
 ---@class TemplateRemoveMatch
 ---@field channel_id? string
@@ -130,7 +176,7 @@
 ---@field path string
 
 ---@class TrafficFile
----@field file table
+---@field files table
 ---@field path string
 ---@field url string
 
@@ -138,27 +184,41 @@
 ---@field id string
 
 ---@class TrafficFileListMatch
----@field file? table
+---@field files? table
 ---@field path? string
 ---@field url? string
 
 ---@class Variable
 ---@field description? string
----@field example? table
----@field format? table
+---@field examples? table
+---@field formats? table
 ---@field name string
 ---@field ref? string
 ---@field type? string
----@field variable table
+---@field variables table
 
 ---@class VariableListMatch
 ---@field template_id string
 
 ---@class VariableCreateData
 ---@field template_id string
+---@field description? string
+---@field examples? table
+---@field formats? table
+---@field name string
+---@field ref? string
+---@field type? string
+---@field variables table
 
 ---@class VariableUpdateData
 ---@field template_id string
+---@field description? string
+---@field examples? table
+---@field formats? table
+---@field name? string
+---@field ref? string
+---@field type? string
+---@field variables? table
 
 local M = {}
 

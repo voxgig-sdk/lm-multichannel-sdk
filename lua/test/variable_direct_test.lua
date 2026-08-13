@@ -75,16 +75,16 @@ function variable_direct_setup(mockres)
   local calls = {}
 
   local env = runner.env_override({
-    ["LMMULTICHANNEL_TEST_VARIABLE_ENTID"] = {},
-    ["LMMULTICHANNEL_TEST_LIVE"] = "FALSE",
-    ["LMMULTICHANNEL_APIKEY"] = "NONE",
+    ["LM_MULTICHANNEL_TEST_VARIABLE_ENTID"] = {},
+    ["LM_MULTICHANNEL_TEST_LIVE"] = "FALSE",
+    ["LM_MULTICHANNEL_APIKEY"] = "NONE",
   })
 
-  local live = env["LMMULTICHANNEL_TEST_LIVE"] == "TRUE"
+  local live = env["LM_MULTICHANNEL_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {
-      apikey = env["LMMULTICHANNEL_APIKEY"],
+      apikey = env["LM_MULTICHANNEL_APIKEY"],
     }
     local client = sdk.new(merged_opts)
     return {

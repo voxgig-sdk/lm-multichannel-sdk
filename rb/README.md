@@ -38,7 +38,7 @@ Content is nested under template, so provide the `template_id`.
 
 ```ruby
 begin
-  # load returns the bare Content record (raises on error).
+  # load returns the ENTITY — call data_get for the Content record (raises on error).
   content = client.Content.load({ "template_id" => "example_template_id" })
   puts content
 rescue => err
@@ -49,8 +49,8 @@ end
 ### 4. Create, update, and remove
 
 ```ruby
-# create returns the bare created Content record.
-created = client.Content.create({ "template_id" => "example_template_id" })
+# create returns the ENTITY — call data_get for the created Content record.
+created = client.Content.create({ "template_id" => "example_template_id", "carousel" => {}, "content" => {}, "fromTemplate" => {}, "location" => {}, "media" => {} })
 
 ```
 
@@ -61,7 +61,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  content = client.Content.load({ "template_id" => "example" })
+  message = client.Message.load({ "id" => "example_id" })
 rescue => err
   warn "load failed: #{err}"
 end
@@ -124,14 +124,18 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```ruby
-client = LmMultichannelSDK.test
+client = LmMultichannelSDK.test({
+  "entity" => { "message" => { "test01" => { "id" => "test01" } } },
+})
 
-# Entity ops return the bare mock record (raises on error).
-content = client.Content.load({ "template_id" => "example" })
-puts content
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
+message = client.Message.load({ "id" => "test01" })
+puts message
 ```
 
 ### Use a custom fetch function
@@ -262,7 +266,14 @@ returns a result `Hash` with these keys:
 
 | Field | Description |
 | --- | --- |
+| `card` |  |
+| `carousel` |  |
 | `content` |  |
+| `fromTemplate` |  |
+| `location` |  |
+| `media` |  |
+| `suggestions` |  |
+| `text` |  |
 
 Operations: Create, Load.
 
@@ -272,8 +283,9 @@ API path: `/templates/{templateId}/content`
 
 | Field | Description |
 | --- | --- |
-| `message` |  |
-| `schedule` |  |
+| `campaignId` |  |
+| `messages` |  |
+| `scheduleAt` |  |
 
 Operations: Create, Load, Remove.
 
@@ -283,12 +295,12 @@ API path: `/messages`
 
 | Field | Description |
 | --- | --- |
-| `account_id` |  |
-| `event_id` |  |
-| `message_status_changed` |  |
+| `accountId` |  |
+| `eventId` |  |
+| `messageStatusChanged` |  |
 | `on` |  |
-| `template_review_status_changed` |  |
-| `user_message_received` |  |
+| `templateReviewStatusChanged` |  |
+| `userMessageReceived` |  |
 
 Operations: List.
 
@@ -298,7 +310,7 @@ API path: `/messages/{messageId}/events`
 
 | Field | Description |
 | --- | --- |
-| `option` |  |
+| `options` |  |
 
 Operations: Create, Load, Update.
 
@@ -318,7 +330,8 @@ API path: `/schedules:count`
 
 | Field | Description |
 | --- | --- |
-| `account` |  |
+| `accountId` |  |
+| `settings` |  |
 
 Operations: Load.
 
@@ -328,7 +341,8 @@ API path: `/self`
 
 | Field | Description |
 | --- | --- |
-| `setting` |  |
+| `callback` |  |
+| `settings` |  |
 
 Operations: Update.
 
@@ -338,17 +352,20 @@ API path: `/self/settings`
 
 | Field | Description |
 | --- | --- |
-| `channel_data` |  |
-| `created_on` |  |
-| `designer_url` |  |
-| `detail` |  |
+| `channelData` |  |
+| `content` |  |
+| `createdOn` |  |
+| `designerUrl` |  |
+| `details` |  |
 | `meta` |  |
-| `occurred_on` |  |
-| `review` |  |
+| `occurredOn` |  |
+| `options` |  |
+| `reviews` |  |
 | `status` |  |
 | `template` |  |
-| `template_id` |  |
-| `updated_on` |  |
+| `templateId` |  |
+| `updatedOn` |  |
+| `variables` |  |
 
 Operations: Create, List, Load, Patch, Remove, Update.
 
@@ -367,7 +384,7 @@ API path: `/traffic/files/{path}`
 
 | Field | Description |
 | --- | --- |
-| `file` |  |
+| `files` |  |
 | `path` |  |
 | `url` |  |
 
@@ -380,12 +397,12 @@ API path: `/traffic/files`
 | Field | Description |
 | --- | --- |
 | `description` |  |
-| `example` |  |
-| `format` |  |
+| `examples` |  |
+| `formats` |  |
 | `name` |  |
 | `ref` |  |
 | `type` |  |
-| `variable` |  |
+| `variables` |  |
 
 Operations: Create, List, Update.
 
@@ -411,12 +428,19 @@ Create an instance: `content = client.Content`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `card` | `Hash` |  |
+| `carousel` | `Hash` |  |
 | `content` | `Hash` |  |
+| `fromTemplate` | `Hash` |  |
+| `location` | `Hash` |  |
+| `media` | `Hash` |  |
+| `suggestions` | `Array` |  |
+| `text` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Content record (raises on error).
+# load returns the ENTITY — call data_get for the Content record (raises on error).
 content = client.Content.load({ "template_id" => "template_id" })
 ```
 
@@ -425,6 +449,11 @@ content = client.Content.load({ "template_id" => "template_id" })
 ```ruby
 content = client.Content.create({
   "template_id" => "example_template_id", # String
+  "carousel" => {}, # Hash
+  "content" => {}, # Hash
+  "fromTemplate" => {}, # Hash
+  "location" => {}, # Hash
+  "media" => {}, # Hash
 })
 ```
 
@@ -445,13 +474,14 @@ Create an instance: `message = client.Message`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message` | `Array` |  |
-| `schedule` | `Hash` |  |
+| `campaignId` | `String` |  |
+| `messages` | `Array` |  |
+| `scheduleAt` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Message record (raises on error).
+# load returns the ENTITY — call data_get for the Message record (raises on error).
 message = client.Message.load({ "id" => "message_id" })
 ```
 
@@ -459,8 +489,8 @@ message = client.Message.load({ "id" => "message_id" })
 
 ```ruby
 message = client.Message.create({
-  "message" => [], # Array
-  "schedule" => {}, # Hash
+  "messages" => [], # Array
+  "scheduleAt" => "example_scheduleAt", # String
 })
 ```
 
@@ -479,12 +509,12 @@ Create an instance: `message_event = client.MessageEvent`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account_id` | `String` |  |
-| `event_id` | `String` |  |
-| `message_status_changed` | `Hash` |  |
+| `accountId` | `String` |  |
+| `eventId` | `String` |  |
+| `messageStatusChanged` | `Hash` |  |
 | `on` | `String` |  |
-| `template_review_status_changed` | `Hash` |  |
-| `user_message_received` | `Hash` |  |
+| `templateReviewStatusChanged` | `Hash` |  |
+| `userMessageReceived` | `Hash` |  |
 
 #### Example: List
 
@@ -510,12 +540,12 @@ Create an instance: `option = client.Option`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `option` | `Hash` |  |
+| `options` | `Hash` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Option record (raises on error).
+# load returns the ENTITY — call data_get for the Option record (raises on error).
 option = client.Option.load({ "template_id" => "template_id" })
 ```
 
@@ -524,6 +554,7 @@ option = client.Option.load({ "template_id" => "template_id" })
 ```ruby
 option = client.Option.create({
   "template_id" => "example_template_id", # String
+  "options" => {}, # Hash
 })
 ```
 
@@ -548,7 +579,7 @@ Create an instance: `schedule = client.Schedule`
 #### Example: Load
 
 ```ruby
-# load returns the bare Schedule record (raises on error).
+# load returns the ENTITY — call data_get for the Schedule record (raises on error).
 schedule = client.Schedule.load()
 ```
 
@@ -567,12 +598,13 @@ Create an instance: `self_ = client.Self`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `account` | `Hash` |  |
+| `accountId` | `String` |  |
+| `settings` | `Hash` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Self record (raises on error).
+# load returns the ENTITY — call data_get for the Self record (raises on error).
 self_ = client.Self.load()
 ```
 
@@ -591,7 +623,8 @@ Create an instance: `self_admin = client.SelfAdmin`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `setting` | `Hash` |  |
+| `callback` | `Hash` |  |
+| `settings` | `Hash` |  |
 
 
 ### Template
@@ -612,22 +645,25 @@ Create an instance: `template = client.Template`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `channel_data` | `Hash` |  |
-| `created_on` | `String` |  |
-| `designer_url` | `String` |  |
-| `detail` | `String` |  |
+| `channelData` | `Hash` |  |
+| `content` | `Hash` |  |
+| `createdOn` | `String` |  |
+| `designerUrl` | `String` |  |
+| `details` | `String` |  |
 | `meta` | `Hash` |  |
-| `occurred_on` | `String` |  |
-| `review` | `Hash` |  |
+| `occurredOn` | `String` |  |
+| `options` | `Hash` |  |
+| `reviews` | `Hash` |  |
 | `status` | `String` |  |
 | `template` | `Hash` |  |
-| `template_id` | `String` |  |
-| `updated_on` | `String` |  |
+| `templateId` | `String` |  |
+| `updatedOn` | `String` |  |
+| `variables` | `Array` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Template record (raises on error).
+# load returns the ENTITY — call data_get for the Template record (raises on error).
 template = client.Template.load({ "id" => "template_id" })
 ```
 
@@ -642,13 +678,11 @@ templates = client.Template.list
 
 ```ruby
 template = client.Template.create({
-  "created_on" => "example_created_on", # String
-  "meta" => {}, # Hash
-  "occurred_on" => "example_occurred_on", # String
-  "review" => {}, # Hash
+  "createdOn" => "example_createdOn", # String
+  "occurredOn" => "example_occurredOn", # String
   "status" => "example_status", # String
   "template" => {}, # Hash
-  "template_id" => "example_template_id", # String
+  "templateId" => "example_templateId", # String
 })
 ```
 
@@ -679,14 +713,14 @@ Create an instance: `traffic_file = client.TrafficFile`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `file` | `Array` |  |
+| `files` | `Array` |  |
 | `path` | `String` |  |
 | `url` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare TrafficFile record (raises on error).
+# load returns the ENTITY — call data_get for the TrafficFile record (raises on error).
 traffic_file = client.TrafficFile.load({ "id" => "traffic_file_id" })
 ```
 
@@ -715,12 +749,12 @@ Create an instance: `variable = client.Variable`
 | Field | Type | Description |
 | --- | --- | --- |
 | `description` | `String` |  |
-| `example` | `Array` |  |
-| `format` | `Array` |  |
+| `examples` | `Array` |  |
+| `formats` | `Array` |  |
 | `name` | `String` |  |
 | `ref` | `String` |  |
 | `type` | `String` |  |
-| `variable` | `Array` |  |
+| `variables` | `Array` |  |
 
 #### Example: List
 
@@ -734,6 +768,8 @@ variables = client.Variable.list
 ```ruby
 variable = client.Variable.create({
   "template_id" => "example_template_id", # String
+  "name" => "example_name", # String
+  "variables" => [], # Array
 })
 ```
 
@@ -814,11 +850,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-content = client.Content
-content.load({ "template_id" => "example" })
+message = client.Message
+message.load({ "id" => "example_id" })
 
-# content.data_get now returns the content data from the last load
-# content.match_get returns the last match criteria
+# message.data_get now returns the message data from the last load
+# message.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from lmmultichannel_sdk.utility.voxgig_struct import voxgig_struct as vs
 from lmmultichannel_sdk import LmMultichannelSDK
-from core import helpers
+from lmmultichannel_sdk.core import helpers
 from test import runner
 
 
@@ -66,16 +66,16 @@ def _message_direct_setup(mockres):
     calls = []
 
     env = runner.env_override({
-        "LMMULTICHANNEL_TEST_MESSAGE_ENTID": {},
-        "LMMULTICHANNEL_TEST_LIVE": "FALSE",
-        "LMMULTICHANNEL_APIKEY": "NONE",
+        "LM_MULTICHANNEL_TEST_MESSAGE_ENTID": {},
+        "LM_MULTICHANNEL_TEST_LIVE": "FALSE",
+        "LM_MULTICHANNEL_APIKEY": "NONE",
     })
 
-    live = env.get("LMMULTICHANNEL_TEST_LIVE") == "TRUE"
+    live = env.get("LM_MULTICHANNEL_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {
-            "apikey": env.get("LMMULTICHANNEL_APIKEY"),
+            "apikey": env.get("LM_MULTICHANNEL_APIKEY"),
         }
         client = LmMultichannelSDK(merged_opts)
         return {

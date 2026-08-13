@@ -134,7 +134,14 @@ content = client.Content
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `card` | `Hash` | No |  |
+| `carousel` | `Hash` | Yes |  |
 | `content` | `Hash` | Yes |  |
+| `fromTemplate` | `Hash` | Yes |  |
+| `location` | `Hash` | Yes |  |
+| `media` | `Hash` | Yes |  |
+| `suggestions` | `Array` | No |  |
+| `text` | `String` | No |  |
 
 ### Operations
 
@@ -145,6 +152,11 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.Content.create({
   "template_id" => "example_template_id", # String
+  "carousel" => {}, # Hash
+  "content" => {}, # Hash
+  "fromTemplate" => {}, # Hash
+  "location" => {}, # Hash
+  "media" => {}, # Hash
 })
 ```
 
@@ -196,8 +208,9 @@ message = client.Message
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message` | `Array` | Yes |  |
-| `schedule` | `Hash` | Yes |  |
+| `campaignId` | `String` | No |  |
+| `messages` | `Array` | Yes |  |
+| `scheduleAt` | `String` | Yes |  |
 
 ### Operations
 
@@ -207,8 +220,8 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Message.create({
-  "message" => [], # Array
-  "schedule" => {}, # Hash
+  "messages" => [], # Array
+  "scheduleAt" => "example_scheduleAt", # String
 })
 ```
 
@@ -268,12 +281,12 @@ message_event = client.MessageEvent
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_id` | `String` | Yes |  |
-| `event_id` | `String` | Yes |  |
-| `message_status_changed` | `Hash` | Yes |  |
+| `accountId` | `String` | Yes |  |
+| `eventId` | `String` | Yes |  |
+| `messageStatusChanged` | `Hash` | Yes |  |
 | `on` | `String` | Yes |  |
-| `template_review_status_changed` | `Hash` | Yes |  |
-| `user_message_received` | `Hash` | Yes |  |
+| `templateReviewStatusChanged` | `Hash` | Yes |  |
+| `userMessageReceived` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -325,7 +338,7 @@ option = client.Option
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `option` | `Hash` | Yes |  |
+| `options` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -336,6 +349,7 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.Option.create({
   "template_id" => "example_template_id", # String
+  "options" => {}, # Hash
 })
 ```
 
@@ -458,7 +472,8 @@ self_ = client.Self
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account` | `Hash` | Yes |  |
+| `accountId` | `String` | Yes |  |
+| `settings` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -510,7 +525,8 @@ self_admin = client.SelfAdmin
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `setting` | `Hash` | Yes |  |
+| `callback` | `Hash` | Yes |  |
+| `settings` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -564,33 +580,39 @@ template = client.Template
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `channel_data` | `Hash` | No |  |
-| `created_on` | `String` | Yes |  |
-| `designer_url` | `String` | No |  |
-| `detail` | `String` | No |  |
-| `meta` | `Hash` | Yes |  |
-| `occurred_on` | `String` | Yes |  |
-| `review` | `Hash` | Yes |  |
+| `channelData` | `Hash` | No |  |
+| `content` | `Hash` | No |  |
+| `createdOn` | `String` | Yes |  |
+| `designerUrl` | `String` | No |  |
+| `details` | `String` | No |  |
+| `meta` | `Hash` | No |  |
+| `occurredOn` | `String` | Yes |  |
+| `options` | `Hash` | No |  |
+| `reviews` | `Hash` | No |  |
 | `status` | `String` | Yes |  |
 | `template` | `Hash` | Yes |  |
-| `template_id` | `String` | Yes |  |
-| `updated_on` | `String` | No |  |
+| `templateId` | `String` | Yes |  |
+| `updatedOn` | `String` | No |  |
+| `variables` | `Array` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `channel_data` | - | - | - | - | - |
-| `created_on` | - | - | - | - | - |
-| `designer_url` | - | - | - | - | - |
-| `detail` | - | - | - | - | - |
-| `meta` | - | Yes | - | - | - |
-| `occurred_on` | - | - | - | - | - |
-| `review` | - | Yes | - | - | - |
+| `channelData` | - | - | - | - | - |
+| `content` | - | - | - | - | - |
+| `createdOn` | - | - | - | - | - |
+| `designerUrl` | - | - | - | - | - |
+| `details` | - | - | - | - | - |
+| `meta` | - | - | Yes | - | - |
+| `occurredOn` | - | - | - | - | - |
+| `options` | - | - | - | - | - |
+| `reviews` | - | - | - | - | - |
 | `status` | - | - | - | - | - |
 | `template` | - | - | - | - | - |
-| `template_id` | - | - | - | - | - |
-| `updated_on` | - | - | - | - | - |
+| `templateId` | - | - | - | - | - |
+| `updatedOn` | - | - | - | - | - |
+| `variables` | - | - | - | - | - |
 
 ### Operations
 
@@ -600,13 +622,11 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Template.create({
-  "created_on" => "example_created_on", # String
-  "meta" => {}, # Hash
-  "occurred_on" => "example_occurred_on", # String
-  "review" => {}, # Hash
+  "createdOn" => "example_createdOn", # String
+  "occurredOn" => "example_occurredOn", # String
   "status" => "example_status", # String
   "template" => {}, # Hash
-  "template_id" => "example_template_id", # String
+  "templateId" => "example_templateId", # String
 })
 ```
 
@@ -732,7 +752,7 @@ traffic_file = client.TrafficFile
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `file` | `Array` | Yes |  |
+| `files` | `Array` | Yes |  |
 | `path` | `String` | Yes |  |
 | `url` | `String` | Yes |  |
 
@@ -795,12 +815,12 @@ variable = client.Variable
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `description` | `String` | No |  |
-| `example` | `Array` | No |  |
-| `format` | `Array` | No |  |
+| `examples` | `Array` | No |  |
+| `formats` | `Array` | No |  |
 | `name` | `String` | Yes |  |
 | `ref` | `String` | No |  |
 | `type` | `String` | No |  |
-| `variable` | `Array` | Yes |  |
+| `variables` | `Array` | Yes |  |
 
 ### Operations
 
@@ -811,6 +831,8 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.Variable.create({
   "template_id" => "example_template_id", # String
+  "name" => "example_name", # String
+  "variables" => [], # Array
 })
 ```
 

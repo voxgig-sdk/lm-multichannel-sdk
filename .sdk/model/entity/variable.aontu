@@ -11,12 +11,12 @@ main: kit: entity: variable: {
       type: "`$STRING`"
     }
     {
-      name: "example"
+      name: "examples"
       req: false
       type: "`$ARRAY`"
     }
     {
-      name: "format"
+      name: "formats"
       req: false
       type: "`$ARRAY`"
     }
@@ -36,7 +36,7 @@ main: kit: entity: variable: {
       type: "`$STRING`"
     }
     {
-      name: "variable"
+      name: "variables"
       req: true
       type: "`$ARRAY`"
     }

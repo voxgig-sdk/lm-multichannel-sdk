@@ -133,7 +133,14 @@ $content = $client->Content();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `card` | `array` | No |  |
+| `carousel` | `array` | Yes |  |
 | `content` | `array` | Yes |  |
+| `fromTemplate` | `array` | Yes |  |
+| `location` | `array` | Yes |  |
+| `media` | `array` | Yes |  |
+| `suggestions` | `array` | No |  |
+| `text` | `string` | No |  |
 
 ### Operations
 
@@ -144,6 +151,11 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->Content()->create([
   "template_id" => null, // string
+  "carousel" => null, // array
+  "content" => null, // array
+  "fromTemplate" => null, // array
+  "location" => null, // array
+  "media" => null, // array
 ]);
 ```
 
@@ -195,8 +207,9 @@ $message = $client->Message();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message` | `array` | Yes |  |
-| `schedule` | `array` | Yes |  |
+| `campaignId` | `string` | No |  |
+| `messages` | `array` | Yes |  |
+| `scheduleAt` | `string` | Yes |  |
 
 ### Operations
 
@@ -206,8 +219,8 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Message()->create([
-  "message" => null, // array
-  "schedule" => null, // array
+  "messages" => null, // array
+  "scheduleAt" => null, // string
 ]);
 ```
 
@@ -267,12 +280,12 @@ $message_event = $client->MessageEvent();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account_id` | `string` | Yes |  |
-| `event_id` | `string` | Yes |  |
-| `message_status_changed` | `array` | Yes |  |
+| `accountId` | `string` | Yes |  |
+| `eventId` | `string` | Yes |  |
+| `messageStatusChanged` | `array` | Yes |  |
 | `on` | `string` | Yes |  |
-| `template_review_status_changed` | `array` | Yes |  |
-| `user_message_received` | `array` | Yes |  |
+| `templateReviewStatusChanged` | `array` | Yes |  |
+| `userMessageReceived` | `array` | Yes |  |
 
 ### Operations
 
@@ -324,7 +337,7 @@ $option = $client->Option();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `option` | `array` | Yes |  |
+| `options` | `array` | Yes |  |
 
 ### Operations
 
@@ -335,6 +348,7 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->Option()->create([
   "template_id" => null, // string
+  "options" => null, // array
 ]);
 ```
 
@@ -457,7 +471,8 @@ $self = $client->Self();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `account` | `array` | Yes |  |
+| `accountId` | `string` | Yes |  |
+| `settings` | `array` | Yes |  |
 
 ### Operations
 
@@ -509,7 +524,8 @@ $self_admin = $client->SelfAdmin();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `setting` | `array` | Yes |  |
+| `callback` | `array` | Yes |  |
+| `settings` | `array` | Yes |  |
 
 ### Operations
 
@@ -563,33 +579,39 @@ $template = $client->Template();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `channel_data` | `array` | No |  |
-| `created_on` | `string` | Yes |  |
-| `designer_url` | `string` | No |  |
-| `detail` | `string` | No |  |
-| `meta` | `array` | Yes |  |
-| `occurred_on` | `string` | Yes |  |
-| `review` | `array` | Yes |  |
+| `channelData` | `array` | No |  |
+| `content` | `array` | No |  |
+| `createdOn` | `string` | Yes |  |
+| `designerUrl` | `string` | No |  |
+| `details` | `string` | No |  |
+| `meta` | `array` | No |  |
+| `occurredOn` | `string` | Yes |  |
+| `options` | `array` | No |  |
+| `reviews` | `array` | No |  |
 | `status` | `string` | Yes |  |
 | `template` | `array` | Yes |  |
-| `template_id` | `string` | Yes |  |
-| `updated_on` | `string` | No |  |
+| `templateId` | `string` | Yes |  |
+| `updatedOn` | `string` | No |  |
+| `variables` | `array` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
-| `channel_data` | - | - | - | - | - |
-| `created_on` | - | - | - | - | - |
-| `designer_url` | - | - | - | - | - |
-| `detail` | - | - | - | - | - |
-| `meta` | - | Yes | - | - | - |
-| `occurred_on` | - | - | - | - | - |
-| `review` | - | Yes | - | - | - |
+| `channelData` | - | - | - | - | - |
+| `content` | - | - | - | - | - |
+| `createdOn` | - | - | - | - | - |
+| `designerUrl` | - | - | - | - | - |
+| `details` | - | - | - | - | - |
+| `meta` | - | - | Yes | - | - |
+| `occurredOn` | - | - | - | - | - |
+| `options` | - | - | - | - | - |
+| `reviews` | - | - | - | - | - |
 | `status` | - | - | - | - | - |
 | `template` | - | - | - | - | - |
-| `template_id` | - | - | - | - | - |
-| `updated_on` | - | - | - | - | - |
+| `templateId` | - | - | - | - | - |
+| `updatedOn` | - | - | - | - | - |
+| `variables` | - | - | - | - | - |
 
 ### Operations
 
@@ -599,13 +621,11 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Template()->create([
-  "created_on" => null, // string
-  "meta" => null, // array
-  "occurred_on" => null, // string
-  "review" => null, // array
+  "createdOn" => null, // string
+  "occurredOn" => null, // string
   "status" => null, // string
   "template" => null, // array
-  "template_id" => null, // string
+  "templateId" => null, // string
 ]);
 ```
 
@@ -731,7 +751,7 @@ $traffic_file = $client->TrafficFile();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `file` | `array` | Yes |  |
+| `files` | `array` | Yes |  |
 | `path` | `string` | Yes |  |
 | `url` | `string` | Yes |  |
 
@@ -794,12 +814,12 @@ $variable = $client->Variable();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `description` | `string` | No |  |
-| `example` | `array` | No |  |
-| `format` | `array` | No |  |
+| `examples` | `array` | No |  |
+| `formats` | `array` | No |  |
 | `name` | `string` | Yes |  |
 | `ref` | `string` | No |  |
 | `type` | `string` | No |  |
-| `variable` | `array` | Yes |  |
+| `variables` | `array` | Yes |  |
 
 ### Operations
 
@@ -810,6 +830,8 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->Variable()->create([
   "template_id" => null, // string
+  "name" => null, // string
+  "variables" => null, // array
 ]);
 ```
 

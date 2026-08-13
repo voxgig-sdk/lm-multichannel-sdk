@@ -16,11 +16,11 @@
 import pytest
 
 from lmmultichannel_sdk import LmMultichannelSDK
-from core.error import LmMultichannelError
-from core.result import LmMultichannelResult
-from core.response import LmMultichannelResponse
-from core.spec import LmMultichannelSpec
-from feature.base_feature import LmMultichannelBaseFeature
+from lmmultichannel_sdk.core.error import LmMultichannelError
+from lmmultichannel_sdk.core.result import LmMultichannelResult
+from lmmultichannel_sdk.core.response import LmMultichannelResponse
+from lmmultichannel_sdk.core.spec import LmMultichannelSpec
+from lmmultichannel_sdk.feature.base_feature import LmMultichannelBaseFeature
 
 
 def _client():

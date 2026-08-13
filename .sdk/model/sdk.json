@@ -5,6 +5,10 @@
       "desc": ""
     },
     "kit": {
+      "author": {
+        "name": "",
+        "url": ""
+      },
       "config": {
         "docs_order": [
           "ts",
@@ -18,6 +22,7 @@
           "content-type": "application/json"
         }
       },
+      "contributor": {},
       "entity": {
         "content": {
           "active": true,
@@ -27,9 +32,51 @@
           "fields": [
             {
               "active": true,
+              "name": "card",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "carousel",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
               "name": "content",
               "req": true,
               "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "fromTemplate",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "location",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "media",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "suggestions",
+              "req": false,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "text",
+              "req": false,
+              "type": "`$STRING`"
             }
           ],
           "name": "content",
@@ -52,6 +99,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/templates/{templateId}/content",
                   "parts": [
@@ -94,6 +142,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/content",
                   "parts": [
@@ -135,15 +184,21 @@
           "fields": [
             {
               "active": true,
-              "name": "message",
+              "name": "campaignId",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "messages",
               "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "schedule",
+              "name": "scheduleAt",
               "req": true,
-              "type": "`$OBJECT`"
+              "type": "`$STRING`"
             }
           ],
           "name": "message",
@@ -155,6 +210,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/messages",
                   "parts": [
@@ -186,6 +242,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/messages/{messageId}/schedule",
                   "parts": [
@@ -229,6 +286,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/messages/{messageId}/schedule",
                   "parts": [
@@ -267,19 +325,19 @@
           "fields": [
             {
               "active": true,
-              "name": "account_id",
+              "name": "accountId",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "event_id",
+              "name": "eventId",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "message_status_changed",
+              "name": "messageStatusChanged",
               "req": true,
               "type": "`$OBJECT`"
             },
@@ -291,13 +349,13 @@
             },
             {
               "active": true,
-              "name": "template_review_status_changed",
+              "name": "templateReviewStatusChanged",
               "req": true,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "user_message_received",
+              "name": "userMessageReceived",
               "req": true,
               "type": "`$OBJECT`"
             }
@@ -349,6 +407,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/messages/{messageId}/events",
                   "parts": [
@@ -389,7 +448,7 @@
           "fields": [
             {
               "active": true,
-              "name": "option",
+              "name": "options",
               "req": true,
               "type": "`$OBJECT`"
             }
@@ -414,6 +473,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/templates/{templateId}/options",
                   "parts": [
@@ -456,6 +516,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/options",
                   "parts": [
@@ -498,6 +559,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/templates/{templateId}/options",
                   "parts": [
@@ -582,6 +644,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/schedules:count",
                   "parts": [
@@ -635,6 +698,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/schedules",
                   "parts": [
@@ -667,7 +731,13 @@
           "fields": [
             {
               "active": true,
-              "name": "account",
+              "name": "accountId",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "settings",
               "req": true,
               "type": "`$OBJECT`"
             }
@@ -681,6 +751,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/self",
                   "parts": [
@@ -707,7 +778,13 @@
           "fields": [
             {
               "active": true,
-              "name": "setting",
+              "name": "callback",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "settings",
               "req": true,
               "type": "`$OBJECT`"
             }
@@ -721,6 +798,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/self/settings",
                   "parts": [
@@ -748,25 +826,31 @@
           "fields": [
             {
               "active": true,
-              "name": "channel_data",
+              "name": "channelData",
               "req": false,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "created_on",
+              "name": "content",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "createdOn",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "designer_url",
+              "name": "designerUrl",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "detail",
+              "name": "details",
               "req": false,
               "type": "`$STRING`"
             },
@@ -774,30 +858,34 @@
               "active": true,
               "name": "meta",
               "op": {
-                "list": {
-                  "req": false,
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                },
+                "patch": {
+                  "req": true,
                   "type": "`$OBJECT`"
                 }
               },
-              "req": true,
+              "req": false,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "occurred_on",
+              "name": "occurredOn",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "review",
-              "op": {
-                "list": {
-                  "req": false,
-                  "type": "`$OBJECT`"
-                }
-              },
-              "req": true,
+              "name": "options",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "reviews",
+              "req": false,
               "type": "`$OBJECT`"
             },
             {
@@ -814,15 +902,21 @@
             },
             {
               "active": true,
-              "name": "template_id",
+              "name": "templateId",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "updated_on",
+              "name": "updatedOn",
               "req": false,
               "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "variables",
+              "req": false,
+              "type": "`$ARRAY`"
             }
           ],
           "name": "template",
@@ -845,6 +939,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/templates/{templateId}/meta",
                   "parts": [
@@ -871,6 +966,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/templates",
                   "parts": [
@@ -919,6 +1015,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/templates",
                   "parts": [
@@ -964,6 +1061,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/reviews/{channelId}",
                   "parts": [
@@ -1003,6 +1101,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}",
                   "parts": [
@@ -1038,6 +1137,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/meta",
                   "parts": [
@@ -1075,6 +1175,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/reviews",
                   "parts": [
@@ -1118,6 +1219,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/templates/{templateId}/meta",
                   "parts": [
@@ -1169,6 +1271,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/templates/{templateId}/reviews/{channelId}",
                   "parts": [
@@ -1208,6 +1311,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/templates/{templateId}",
                   "parts": [
@@ -1257,6 +1361,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PUT",
                   "orig": "/templates/{templateId}/reviews/{channelId}",
                   "parts": [
@@ -1319,6 +1424,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/traffic/files/{path}",
                   "parts": [
@@ -1355,7 +1461,7 @@
           "fields": [
             {
               "active": true,
-              "name": "file",
+              "name": "files",
               "req": true,
               "type": "`$ARRAY`"
             },
@@ -1381,6 +1487,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/traffic/files",
                   "parts": [
@@ -1413,6 +1520,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/traffic/files/{path}",
                   "parts": [
@@ -1456,13 +1564,13 @@
             },
             {
               "active": true,
-              "name": "example",
+              "name": "examples",
               "req": false,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "format",
+              "name": "formats",
               "req": false,
               "type": "`$ARRAY`"
             },
@@ -1486,7 +1594,7 @@
             },
             {
               "active": true,
-              "name": "variable",
+              "name": "variables",
               "req": true,
               "type": "`$ARRAY`"
             }
@@ -1511,6 +1619,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/templates/{templateId}/variables",
                   "parts": [
@@ -1553,6 +1662,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/variables",
                   "parts": [
@@ -1595,6 +1705,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/templates/{templateId}/variables",
                   "parts": [
@@ -2050,7 +2161,7 @@
                 "ref": "template_ref01",
                 "srcdatavar": "template_ref01_data",
                 "suffix": "_up0",
-                "textfield": "created_on"
+                "textfield": "createdOn"
               },
               "match": {},
               "op": "update",
@@ -2268,18 +2379,41 @@
         "website": "https://linkmobility.com"
       },
       "option": {},
+      "repo": {
+        "host": "github.com",
+        "path": ""
+      },
       "target": {
         "go": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [
+              "test/feature_test.go"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "lm-multichannel"
+            "goversion": "",
+            "name": "lm-multichannel",
+            "package": "",
+            "path": ""
           },
           "name": "go",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2301,22 +2435,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Golang"
         },
         "go-cli": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "lm-multichannel"
+            "goversion": "",
+            "name": "lm-multichannel",
+            "package": "",
+            "path": ""
           },
           "name": "go-cli",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -2355,21 +2507,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go CLI"
         },
         "go-mcp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "lm-multichannel"
+            "goversion": "",
+            "name": "lm-multichannel",
+            "package": "",
+            "path": ""
           },
           "name": "go-mcp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -2408,12 +2578,17 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go MCP server"
         },
         "lua": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
@@ -2425,10 +2600,23 @@
             }
           },
           "ext": "lua",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "lm-multichannel"
+            "goversion": "",
+            "name": "lm-multichannel",
+            "package": "",
+            "path": ""
           },
           "name": "lua",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2450,22 +2638,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Lua"
         },
         "php": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "php",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "lm-multichannel"
+            "goversion": "",
+            "name": "lm-multichannel",
+            "package": "",
+            "path": ""
           },
           "name": "php",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2487,13 +2693,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "PHP"
         },
         "py": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -2505,10 +2716,23 @@
             }
           },
           "ext": "py",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "lm-multichannel"
+            "goversion": "",
+            "name": "lm-multichannel",
+            "package": "",
+            "path": ""
           },
           "name": "py",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2530,13 +2754,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Python"
         },
         "rb": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -2553,10 +2782,23 @@
             }
           },
           "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "lm-multichannel"
+            "goversion": "",
+            "name": "lm-multichannel",
+            "package": "",
+            "path": ""
           },
           "name": "rb",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2578,13 +2820,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Ruby"
         },
         "ts": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
@@ -2607,10 +2854,23 @@
             }
           },
           "ext": "ts",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "lm-multichannel"
+            "goversion": "",
+            "name": "lm-multichannel",
+            "package": "",
+            "path": ""
           },
           "name": "ts",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2632,9 +2892,17 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "TypeScript"
+        }
+      },
+      "test": {
+        "live": {
+          "app": false,
+          "base": "",
+          "strict": false
         }
       }
     }

@@ -37,7 +37,7 @@ class MessageEventEntity extends LmMultichannelEntityBase<MessageEvent> {
 
 
 
-  async list(this: any, reqmatch?: MessageEventListMatch, ctrl?: Control): Promise<MessageEvent[]> {
+  async list(this: any, reqmatch?: MessageEventListMatch, ctrl?: Control): Promise<MessageEventEntity[]> {
 
     const utility = this._utility
 
