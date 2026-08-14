@@ -40,7 +40,7 @@ class TemplateEntityTest extends TestCase
         $this->assertCount(3, $seen);
 
         // Inbound: streaming active -> yields each item from the feature.
-        $cfg = LmMultichannelConfig::make_config();
+        $cfg = LmMultichannelConfig::shared_config();
         if (isset($cfg["feature"]) && is_array($cfg["feature"]) && isset($cfg["feature"]["streaming"])) {
             $sdk = LmMultichannelSDK::test($seed, ["feature" => ["streaming" => ["active" => true]]]);
             $got = [];

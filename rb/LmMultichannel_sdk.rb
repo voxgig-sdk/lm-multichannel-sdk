@@ -28,7 +28,7 @@ class LmMultichannelSDK
     utility = LmMultichannelUtility.new
     @_utility = utility
 
-    config = LmMultichannelConfig.make_config
+    config = LmMultichannelConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

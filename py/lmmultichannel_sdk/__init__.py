@@ -23,8 +23,8 @@ class LmMultichannelSDK:
         utility = LmMultichannelUtility()
         self._utility = utility
 
-        from lmmultichannel_sdk.config import make_config
-        config = make_config()
+        from lmmultichannel_sdk.config import shared_config
+        config = shared_config()
 
         self._rootctx = utility.make_context({
             "client": self,

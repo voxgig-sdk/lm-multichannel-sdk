@@ -40,7 +40,7 @@ class LmMultichannelSDK
         $utility = new LmMultichannelUtility();
         $this->_utility = $utility;
 
-        $config = LmMultichannelConfig::make_config();
+        $config = LmMultichannelConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,
