@@ -8,6 +8,7 @@ main: kit: entity: content: {
     {
       name: "card"
       req: false
+      short: "Rich card containing media, text and/or buttons"
       type: "`$OBJECT`"
     }
     {
@@ -18,11 +19,13 @@ main: kit: entity: content: {
     {
       name: "content"
       req: true
+      short: "Message content."
       type: "`$OBJECT`"
     }
     {
       name: "fromTemplate"
       req: true
+      short: "Content generated from a pre-defined template"
       type: "`$OBJECT`"
     }
     {
@@ -38,11 +41,13 @@ main: kit: entity: content: {
     {
       name: "suggestions"
       req: false
+      short: "Quick replies / suggestion buttons (not applicable to fromTemplate)"
       type: "`$ARRAY`"
     }
     {
       name: "text"
       req: false
+      short: "Simple text content"
       type: "`$STRING`"
     }
   ]

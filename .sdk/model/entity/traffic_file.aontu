@@ -13,11 +13,13 @@ main: kit: entity: traffic_file: {
     {
       name: "path"
       req: true
+      short: "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip"
       type: "`$STRING`"
     }
     {
       name: "url"
       req: true
+      short: "Absolute download URL with security token (expires after 15 minutes)"
       type: "`$STRING`"
     }
   ]

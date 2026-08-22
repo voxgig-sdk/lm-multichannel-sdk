@@ -8,6 +8,7 @@ main: kit: entity: schedule: {
     {
       name: "count"
       req: true
+      short: "Number of active schedules"
       type: "`$INTEGER`"
     }
   ]

@@ -5,7 +5,7 @@ import type { TrafficFile, TrafficFileLoadMatch, TrafficFileListMatch } from '..
 declare class TrafficFileEntity extends LmMultichannelEntityBase<TrafficFile> {
     constructor(client: LmMultichannelSDK, entopts: any);
     make(this: TrafficFileEntity): TrafficFileEntity;
-    load(this: any, reqmatch?: TrafficFileLoadMatch, ctrl?: Control): Promise<TrafficFile>;
-    list(this: any, reqmatch?: TrafficFileListMatch, ctrl?: Control): Promise<TrafficFile[]>;
+    load(this: any, reqmatch?: TrafficFileLoadMatch, ctrl?: Control): Promise<TrafficFileEntity>;
+    list(this: any, reqmatch?: TrafficFileListMatch, ctrl?: Control): Promise<TrafficFileEntity[]>;
 }
 export { TrafficFileEntity };

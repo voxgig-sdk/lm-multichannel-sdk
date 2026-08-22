@@ -5,8 +5,8 @@ import type { Variable, VariableListMatch, VariableCreateData, VariableUpdateDat
 declare class VariableEntity extends LmMultichannelEntityBase<Variable> {
     constructor(client: LmMultichannelSDK, entopts: any);
     make(this: VariableEntity): VariableEntity;
-    list(this: any, reqmatch?: VariableListMatch, ctrl?: Control): Promise<Variable[]>;
-    create(this: any, reqdata?: VariableCreateData, ctrl?: Control): Promise<Variable>;
-    update(this: any, reqdata?: VariableUpdateData, ctrl?: Control): Promise<Variable>;
+    list(this: any, reqmatch?: VariableListMatch, ctrl?: Control): Promise<VariableEntity[]>;
+    create(this: any, reqdata?: VariableCreateData, ctrl?: Control): Promise<VariableEntity>;
+    update(this: any, reqdata?: VariableUpdateData, ctrl?: Control): Promise<VariableEntity>;
 }
 export { VariableEntity };

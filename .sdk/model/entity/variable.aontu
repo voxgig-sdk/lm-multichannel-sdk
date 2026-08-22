@@ -8,31 +8,37 @@ main: kit: entity: variable: {
     {
       name: "description"
       req: false
+      short: "Variable description"
       type: "`$STRING`"
     }
     {
       name: "examples"
       req: false
+      short: "Example values"
       type: "`$ARRAY`"
     }
     {
       name: "formats"
       req: false
+      short: "Type-specific constraint formats (e.g."
       type: "`$ARRAY`"
     }
     {
       name: "name"
       req: true
+      short: "Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)"
       type: "`$STRING`"
     }
     {
       name: "ref"
       req: false
+      short: "Optional immutable identifier for the variable (used for merge identity)"
       type: "`$STRING`"
     }
     {
       name: "type"
       req: false
+      short: "Optional type descriptor for validation constraints"
       type: "`$STRING`"
     }
     {

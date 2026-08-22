@@ -5,7 +5,7 @@ import type { Schedule, ScheduleLoadMatch, ScheduleRemoveMatch } from '../LmMult
 declare class ScheduleEntity extends LmMultichannelEntityBase<Schedule> {
     constructor(client: LmMultichannelSDK, entopts: any);
     make(this: ScheduleEntity): ScheduleEntity;
-    load(this: any, reqmatch?: ScheduleLoadMatch, ctrl?: Control): Promise<Schedule>;
-    remove(this: any, reqmatch?: ScheduleRemoveMatch, ctrl?: Control): Promise<Schedule>;
+    load(this: any, reqmatch?: ScheduleLoadMatch, ctrl?: Control): Promise<ScheduleEntity>;
+    remove(this: any, reqmatch?: ScheduleRemoveMatch, ctrl?: Control): Promise<ScheduleEntity>;
 }
 export { ScheduleEntity };

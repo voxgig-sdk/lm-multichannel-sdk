@@ -8,6 +8,7 @@ main: kit: entity: message: {
     {
       name: "campaignId"
       req: false
+      short: "Schedule grouping identifier"
       type: "`$STRING`"
     }
     {
@@ -18,6 +19,7 @@ main: kit: entity: message: {
     {
       name: "scheduleAt"
       req: true
+      short: "Scheduled sending time"
       type: "`$STRING`"
     }
   ]

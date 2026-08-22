@@ -46,8 +46,8 @@ const __1 = require("../../..");
 const utility_1 = require("../../utility");
 (0, node_test_1.describe)('TrafficFileEntity', async () => {
     // Per-test live pacing. Delay is read from sdk-test-control.json's
-    // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-    (0, node_test_1.afterEach)((0, utility_1.liveDelay)('LMMULTICHANNEL_TEST_LIVE'));
+    // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+    (0, node_test_1.afterEach)((0, utility_1.liveDelay)('LM_MULTICHANNEL_TEST_LIVE'));
     (0, node_test_1.test)('instance', async () => {
         const testsdk = __1.LmMultichannelSDK.test();
         const ent = testsdk.TrafficFile();
@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const traffic_file_ref01_ent = client.TrafficFile();
         const traffic_file_ref01_match = {};
-        const traffic_file_ref01_list = await traffic_file_ref01_ent.list(traffic_file_ref01_match);
+        const traffic_file_ref01_list = (await traffic_file_ref01_ent.list(traffic_file_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

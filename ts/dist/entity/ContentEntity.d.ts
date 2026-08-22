@@ -5,7 +5,7 @@ import type { Content, ContentLoadMatch, ContentCreateData } from '../LmMulticha
 declare class ContentEntity extends LmMultichannelEntityBase<Content> {
     constructor(client: LmMultichannelSDK, entopts: any);
     make(this: ContentEntity): ContentEntity;
-    load(this: any, reqmatch?: ContentLoadMatch, ctrl?: Control): Promise<Content>;
-    create(this: any, reqdata?: ContentCreateData, ctrl?: Control): Promise<Content>;
+    load(this: any, reqmatch?: ContentLoadMatch, ctrl?: Control): Promise<ContentEntity>;
+    create(this: any, reqdata?: ContentCreateData, ctrl?: Control): Promise<ContentEntity>;
 }
 export { ContentEntity };

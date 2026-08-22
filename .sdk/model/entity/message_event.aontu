@@ -8,11 +8,13 @@ main: kit: entity: message_event: {
     {
       name: "accountId"
       req: true
+      short: "Account identifier"
       type: "`$STRING`"
     }
     {
       name: "eventId"
       req: true
+      short: "Unique event identifier (for idempotent processing / deduplication)"
       type: "`$STRING`"
     }
     {
@@ -23,6 +25,7 @@ main: kit: entity: message_event: {
     {
       name: "on"
       req: true
+      short: "UTC date-time when the event occurred"
       type: "`$STRING`"
     }
     {

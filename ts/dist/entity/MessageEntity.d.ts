@@ -5,8 +5,8 @@ import type { Message, MessageLoadMatch, MessageCreateData, MessageRemoveMatch }
 declare class MessageEntity extends LmMultichannelEntityBase<Message> {
     constructor(client: LmMultichannelSDK, entopts: any);
     make(this: MessageEntity): MessageEntity;
-    load(this: any, reqmatch?: MessageLoadMatch, ctrl?: Control): Promise<Message>;
-    create(this: any, reqdata?: MessageCreateData, ctrl?: Control): Promise<Message>;
-    remove(this: any, reqmatch?: MessageRemoveMatch, ctrl?: Control): Promise<Message>;
+    load(this: any, reqmatch?: MessageLoadMatch, ctrl?: Control): Promise<MessageEntity>;
+    create(this: any, reqdata?: MessageCreateData, ctrl?: Control): Promise<MessageEntity>;
+    remove(this: any, reqmatch?: MessageRemoveMatch, ctrl?: Control): Promise<MessageEntity>;
 }
 export { MessageEntity };

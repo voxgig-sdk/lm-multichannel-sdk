@@ -8,6 +8,7 @@ main: kit: entity: self: {
     {
       name: "accountId"
       req: true
+      short: "Unique technical account identifier"
       type: "`$STRING`"
     }
     {

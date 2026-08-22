@@ -12,7 +12,10 @@ declare class LmMultichannelEntityBase<D = any> {
     _data: Partial<D>;
     _match: Partial<D>;
     _entctx: Context;
+    _deleted: boolean;
     constructor(client: LmMultichannelSDK, entopts: any);
+    markDeleted(this: any): void;
+    deleted(this: any): boolean;
     entopts(): any;
     client(): LmMultichannelSDK;
     data(this: any, data?: Partial<D>): D;

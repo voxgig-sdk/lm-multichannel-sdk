@@ -46,8 +46,8 @@ const __1 = require("../../..");
 const utility_1 = require("../../utility");
 (0, node_test_1.describe)('ContentEntity', async () => {
     // Per-test live pacing. Delay is read from sdk-test-control.json's
-    // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-    (0, node_test_1.afterEach)((0, utility_1.liveDelay)('LMMULTICHANNEL_TEST_LIVE'));
+    // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+    (0, node_test_1.afterEach)((0, utility_1.liveDelay)('LM_MULTICHANNEL_TEST_LIVE'));
     (0, node_test_1.test)('instance', async () => {
         const testsdk = __1.LmMultichannelSDK.test();
         const ent = testsdk.Content();
@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         const content_ref01_ent = client.Content();
         let content_ref01_data = setup.data.new.content['content_ref01'];
         content_ref01_data['template_id'] = setup.idmap['template01'];
-        content_ref01_data = await content_ref01_ent.create(content_ref01_data);
+        content_ref01_data = (await content_ref01_ent.create(content_ref01_data)).data();
         (0, node_assert_1.default)(null != content_ref01_data);
     });
 });

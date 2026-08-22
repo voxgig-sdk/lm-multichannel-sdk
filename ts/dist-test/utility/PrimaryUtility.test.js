@@ -17,6 +17,32 @@ const index_1 = require("./index");
             ctx.options = ctx.client.options();
         }
     }
+    // Sections deliberately left empty in the shared corpus
+    // (.sdk/test/primary/<name>.aontu carries a PENDING header). Everything
+    // else MUST contribute cases.
+    const PENDING = new Set([
+        'fetcher', 'makeFetchDef', 'makeResult',
+        'featureAdd', 'featureHook', 'featureInit',
+    ]);
+    // Run one corpus section, failing loudly when it would run ZERO cases.
+    // A renamed section or a fixture that compiled to an empty `set` used to
+    // pass silently, which defeats the point of a shared oracle. (The guard
+    // lives here rather than in runner.ts, which is vendored verbatim from
+    // @voxgig/struct and must stay byte-identical to upstream.)
+    //
+    // EVERY corpus-backed test goes through here — a guard that only some
+    // sections opt into leaves the rest able to run zero assertions, which is
+    // the exact hole it was added to close.
+    async function runsection(name, subject) {
+        const section = spec[name];
+        (0, node_assert_1.ok)(null != section, `test corpus section '${name}' missing — check the name against .sdk/test/primary/`);
+        (0, node_assert_1.ok)(null != section.basic && Array.isArray(section.basic.set), `test corpus section '${name}' has no basic.set list`);
+        if (0 === section.basic.set.length && !PENDING.has(name)) {
+            throw new Error(`test corpus section '${name}' is EMPTY — zero cases would run; ` +
+                `add cases, or mark the fixture PENDING in .sdk/test/primary/`);
+        }
+        return runset(section.basic, subject);
+    }
     (0, node_test_1.before)(async () => {
         const runner = await (0, runner_1.makeRunner)(index_1.TEST_JSON_FILE, await index_1.SDK.test());
         const run = await runner('primary');
@@ -41,43 +67,43 @@ const index_1 = require("./index");
         }
     });
     (0, node_test_1.test)('context-basic', async () => {
-        await runset(spec.makeContext.basic, utility.makeContext);
+        await runsection('makeContext', utility.makeContext);
     });
     (0, node_test_1.test)('method-basic', async () => {
-        await runset(spec.prepareMethod.basic, utility.prepareMethod);
+        await runsection('prepareMethod', utility.prepareMethod);
     });
     (0, node_test_1.test)('headers-basic', async () => {
-        await runset(spec.prepareHeaders.basic, utility.prepareHeaders);
+        await runsection('prepareHeaders', utility.prepareHeaders);
     });
     (0, node_test_1.test)('auth-basic', async () => {
         const sdkopts = spec.prepareAuth?.DEF?.setup?.a || {};
         const authClient = index_1.SDK.test({}, sdkopts);
-        await runset(spec.prepareAuth.basic, (ctx) => {
+        await runsection('prepareAuth', (ctx) => {
             ctx.client = authClient;
             fixctx(ctx);
             return utility.prepareAuth(ctx);
         });
     });
     (0, node_test_1.test)('params-basic', async () => {
-        await runset(spec.prepareParams.basic, utility.prepareParams);
+        await runsection('prepareParams', utility.prepareParams);
     });
     (0, node_test_1.test)('query-basic', async () => {
-        await runset(spec.prepareQuery.basic, utility.prepareQuery);
+        await runsection('prepareQuery', utility.prepareQuery);
     });
     (0, node_test_1.test)('body-basic', async () => {
-        await runset(spec.prepareBody.basic, (ctx) => {
+        await runsection('prepareBody', (ctx) => {
             fixctx(ctx);
             return utility.prepareBody(ctx);
         });
     });
     (0, node_test_1.test)('findparam-basic', async () => {
-        await runset(spec.param.basic, utility.param);
+        await runsection('param', utility.param);
     });
     (0, node_test_1.test)('fullurl-basic', async () => {
-        await runset(spec.makeUrl.basic, utility.makeUrl);
+        await runsection('makeUrl', utility.makeUrl);
     });
     (0, node_test_1.test)('operator-basic', async () => {
-        await runset(spec.operator.basic, (opmap) => ({
+        await runsection('operator', (opmap) => ({
             entity: opmap.entity || '_',
             name: opmap.name || '_',
             input: opmap.input || '_',
@@ -85,7 +111,7 @@ const index_1 = require("./index");
         }));
     });
     (0, node_test_1.test)('options-basic', async () => {
-        await runset(spec.makeOptions.basic, (vin) => {
+        await runsection('makeOptions', (vin) => {
             const ctx = utility.makeContext({ options: vin.options, config: vin.config });
             ctx.client = client;
             ctx.utility = utility;
@@ -95,26 +121,26 @@ const index_1 = require("./index");
     (0, node_test_1.test)('spec-basic', async () => {
         const sdkopts = spec.makeSpec?.DEF?.setup?.a || {};
         const specClient = index_1.SDK.test({}, sdkopts);
-        await runset(spec.makeSpec.basic, (ctx) => {
+        await runsection('makeSpec', (ctx) => {
             ctx.client = specClient;
             ctx.options = specClient.options();
             return utility.makeSpec(ctx);
         });
     });
     (0, node_test_1.test)('reqform-basic', async () => {
-        await runset(spec.transformRequest.basic, utility.transformRequest);
+        await runsection('transformRequest', utility.transformRequest);
     });
     (0, node_test_1.test)('resform-basic', async () => {
-        await runset(spec.transformResponse.basic, utility.transformResponse);
+        await runsection('transformResponse', utility.transformResponse);
     });
     (0, node_test_1.test)('resbasic-basic', async () => {
-        await runset(spec.resultBasic.basic, (ctx) => {
+        await runsection('resultBasic', (ctx) => {
             fixctx(ctx);
             return utility.resultBasic(ctx);
         });
     });
     (0, node_test_1.test)('resheaders-basic', async () => {
-        await runset(spec.resultHeaders.basic, (ctx) => {
+        await runsection('resultHeaders', (ctx) => {
             // Convert plain headers map to forEach-based (browser Response API)
             if (ctx.response?.headers && !ctx.response.headers.forEach) {
                 const h = ctx.response.headers;
@@ -126,7 +152,7 @@ const index_1 = require("./index");
         });
     });
     (0, node_test_1.test)('resbody-basic', async () => {
-        await runset(spec.resultBody.basic, async (ctx) => {
+        await runsection('resultBody', async (ctx) => {
             if (ctx.response && !ctx.response.json) {
                 const body = ctx.response.body;
                 ctx.response.json = async () => body;
@@ -143,10 +169,12 @@ const index_1 = require("./index");
             body: 'present',
         });
         const reqClient = new index_1.SDK({
+            // Concrete base: a live construction must satisfy any server variables a templated base URL declares; a literal base sidesteps the requirement.
+            base: 'http://localhost:8080',
             system: { fetch: mockFetch }
         });
         const reqUtility = reqClient.utility();
-        await runset(spec.makeRequest.basic, async (ctx) => {
+        await runsection('makeRequest', async (ctx) => {
             ctx.client = reqClient;
             ctx.utility = reqUtility;
             ctx.options = reqClient.options();
@@ -154,7 +182,7 @@ const index_1 = require("./index");
         });
     });
     (0, node_test_1.test)('response-basic', async () => {
-        await runset(spec.makeResponse.basic, async (ctx) => {
+        await runsection('makeResponse', async (ctx) => {
             fixctx(ctx);
             // Add json() and forEach to response for proper TS handling
             if (ctx.response && !ctx.response.json) {
@@ -171,33 +199,27 @@ const index_1 = require("./index");
         });
     });
     (0, node_test_1.test)('done-basic', async () => {
-        await runset(spec.done.basic, (ctx) => {
+        await runsection('done', (ctx) => {
             fixctx(ctx);
             return utility.done(ctx);
         });
     });
     (0, node_test_1.test)('error-basic', async () => {
-        await runset(spec.makeError.basic, (...args) => {
+        await runsection('makeError', (...args) => {
             const ctx = args[0];
             fixctx(ctx);
             return utility.makeError(...args);
         });
     });
-    (0, node_test_1.test)('makePoint-single', () => {
-        const ctx = makeCtx();
-        const point = {
-            parts: ['items', '{id}'],
-            args: { params: [] },
-            params: [],
-            alias: {},
-            select: {},
-            active: true,
-            transform: { req: undefined, res: undefined },
-        };
-        ctx.op.points = [point];
-        const result = utility.makePoint(ctx);
-        (0, node_assert_1.ok)(!(result instanceof Error));
-        (0, node_assert_1.equal)(ctx.point, point);
+    // Was one hand-written case (the single-point path) covering one of this
+    // utility's seven branches, which is how the corpus fixture came to be
+    // marked deferred as "needs a real client". It does not: Context rebuilds
+    // `op` from opname + entity + config, and `options` can be supplied
+    // literally, so allow.op, the empty-points error, exist-selection,
+    // $action selection and the invalid-$action error are all expressible.
+    // Driven from the corpus now, so every port asserts the same branches.
+    (0, node_test_1.test)('makePoint-basic', async () => {
+        await runsection('makePoint', utility.makePoint);
     });
     (0, node_test_1.test)('makeFetchDef', () => {
         const ctx = makeFullCtx();
@@ -289,6 +311,7 @@ const index_1 = require("./index");
     (0, node_test_1.test)('fetcher-live', async () => {
         const calls = [];
         const liveClient = new index_1.SDK({
+            base: 'http://localhost:8080',
             system: {
                 fetch: async (url, init) => {
                     calls.push({ url, init });
@@ -307,6 +330,7 @@ const index_1 = require("./index");
     });
     (0, node_test_1.test)('fetcher-blocked-test-mode', async () => {
         const blockedClient = new index_1.SDK({
+            base: 'http://localhost:8080',
             system: { fetch: async () => ({}) }
         });
         blockedClient._mode = 'test';
@@ -324,6 +348,14 @@ const index_1 = require("./index");
         ctx.result = { ok: false, resdata: { id: 'safe01' } };
         const out = utility.makeError(ctx, ctx.error('test_code', 'test message'));
         (0, node_assert_1.deepStrictEqual)(out, { id: 'safe01' });
+    });
+    (0, node_test_1.test)('path-basic', async () => {
+        // preparePath shipped as an empty `set: []` — every port "passed" it while
+        // running zero cases. Now corpus-driven like every other section.
+        await runsection('preparePath', (ctx) => utility.preparePath(ctx));
+    });
+    (0, node_test_1.test)('clean-corpus', async () => {
+        await runsection('clean', (...args) => utility.clean(args[0], args[1]));
     });
     (0, node_test_1.test)('clean', () => {
         const ctx = makeFullCtx();

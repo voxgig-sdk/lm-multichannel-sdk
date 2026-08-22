@@ -40,6 +40,20 @@ declare class LmMultichannelSDK {
         headers?: undefined;
         data?: undefined;
     }>;
+    _rawRequest(fetchargs?: any): Promise<Error | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
+    } | {
+        ok: boolean;
+        err: any;
+        status?: undefined;
+        headers?: undefined;
+        data?: undefined;
+    }>;
+    graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     Content(entopts?: Record<string, any>): ContentEntity;
     Message(entopts?: Record<string, any>): MessageEntity;
     MessageEvent(entopts?: Record<string, any>): MessageEventEntity;

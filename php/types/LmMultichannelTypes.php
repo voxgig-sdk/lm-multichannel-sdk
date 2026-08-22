@@ -135,7 +135,7 @@ class ScheduleRemoveMatch
 }
 
 /** Self entity data model. */
-class Self
+class SelfType
 {
     public string $accountId;
     public array $settings;

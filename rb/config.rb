@@ -19,6 +19,9 @@ module LmMultichannelConfig
     {
       "main" => {
         "name" => "LmMultichannel",
+        "slug" => "lm-multichannel",
+        "version" => "0.0.1",
+        "target" => "rb",
       },
       "feature" => {
         "test" => {
@@ -54,6 +57,7 @@ module LmMultichannelConfig
           "fields" => [
             {
               "name" => "card",
+              "short" => "Rich card containing media, text and/or buttons",
               "type" => "`$OBJECT`",
             },
             {
@@ -64,11 +68,13 @@ module LmMultichannelConfig
             {
               "name" => "content",
               "req" => true,
+              "short" => "Message content.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "fromTemplate",
               "req" => true,
+              "short" => "Content generated from a pre-defined template",
               "type" => "`$OBJECT`",
             },
             {
@@ -83,10 +89,12 @@ module LmMultichannelConfig
             },
             {
               "name" => "suggestions",
+              "short" => "Quick replies / suggestion buttons (not applicable to fromTemplate)",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "text",
+              "short" => "Simple text content",
               "type" => "`$STRING`",
             },
           ],
@@ -187,6 +195,7 @@ module LmMultichannelConfig
           "fields" => [
             {
               "name" => "campaignId",
+              "short" => "Schedule grouping identifier",
               "type" => "`$STRING`",
             },
             {
@@ -197,6 +206,7 @@ module LmMultichannelConfig
             {
               "name" => "scheduleAt",
               "req" => true,
+              "short" => "Scheduled sending time",
               "type" => "`$STRING`",
             },
           ],
@@ -316,11 +326,13 @@ module LmMultichannelConfig
             {
               "name" => "accountId",
               "req" => true,
+              "short" => "Account identifier",
               "type" => "`$STRING`",
             },
             {
               "name" => "eventId",
               "req" => true,
+              "short" => "Unique event identifier (for idempotent processing / deduplication)",
               "type" => "`$STRING`",
             },
             {
@@ -331,6 +343,7 @@ module LmMultichannelConfig
             {
               "name" => "on",
               "req" => true,
+              "short" => "UTC date-time when the event occurred",
               "type" => "`$STRING`",
             },
             {
@@ -563,6 +576,7 @@ module LmMultichannelConfig
             {
               "name" => "count",
               "req" => true,
+              "short" => "Number of active schedules",
               "type" => "`$INTEGER`",
             },
           ],
@@ -674,6 +688,7 @@ module LmMultichannelConfig
             {
               "name" => "accountId",
               "req" => true,
+              "short" => "Unique technical account identifier",
               "type" => "`$STRING`",
             },
             {
@@ -758,19 +773,23 @@ module LmMultichannelConfig
             },
             {
               "name" => "content",
+              "short" => "Message content.",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "createdOn",
               "req" => true,
+              "short" => "Date of template creation",
               "type" => "`$STRING`",
             },
             {
               "name" => "designerUrl",
+              "short" => "URL to the external template designer (dynamically generated if enabled)",
               "type" => "`$STRING`",
             },
             {
               "name" => "details",
+              "short" => "Additional details about the latest status",
               "type" => "`$STRING`",
             },
             {
@@ -790,6 +809,7 @@ module LmMultichannelConfig
             {
               "name" => "occurredOn",
               "req" => true,
+              "short" => "Date and time of last review status change",
               "type" => "`$STRING`",
             },
             {
@@ -798,25 +818,30 @@ module LmMultichannelConfig
             },
             {
               "name" => "reviews",
+              "short" => "Channel-specific template reviews (keyed by channelId)",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "status",
               "req" => true,
+              "short" => "Template review lifecycle status",
               "type" => "`$STRING`",
             },
             {
               "name" => "template",
               "req" => true,
+              "short" => "Properties for creating a new template",
               "type" => "`$OBJECT`",
             },
             {
               "name" => "templateId",
               "req" => true,
+              "short" => "Unique template identifier (generated by the service)",
               "type" => "`$STRING`",
             },
             {
               "name" => "updatedOn",
+              "short" => "Date of last template update",
               "type" => "`$STRING`",
             },
             {
@@ -1333,11 +1358,13 @@ module LmMultichannelConfig
             {
               "name" => "path",
               "req" => true,
+              "short" => "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip",
               "type" => "`$STRING`",
             },
             {
               "name" => "url",
               "req" => true,
+              "short" => "Absolute download URL with security token (expires after 15 minutes)",
               "type" => "`$STRING`",
             },
           ],
@@ -1414,27 +1441,33 @@ module LmMultichannelConfig
           "fields" => [
             {
               "name" => "description",
+              "short" => "Variable description",
               "type" => "`$STRING`",
             },
             {
               "name" => "examples",
+              "short" => "Example values",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "formats",
+              "short" => "Type-specific constraint formats (e.g.",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "name",
               "req" => true,
+              "short" => "Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)",
               "type" => "`$STRING`",
             },
             {
               "name" => "ref",
+              "short" => "Optional immutable identifier for the variable (used for merge identity)",
               "type" => "`$STRING`",
             },
             {
               "name" => "type",
+              "short" => "Optional type descriptor for validation constraints",
               "type" => "`$STRING`",
             },
             {

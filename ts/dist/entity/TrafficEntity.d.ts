@@ -5,6 +5,6 @@ import type { Traffic, TrafficRemoveMatch } from '../LmMultichannelTypes';
 declare class TrafficEntity extends LmMultichannelEntityBase<Traffic> {
     constructor(client: LmMultichannelSDK, entopts: any);
     make(this: TrafficEntity): TrafficEntity;
-    remove(this: any, reqmatch?: TrafficRemoveMatch, ctrl?: Control): Promise<Traffic>;
+    remove(this: any, reqmatch?: TrafficRemoveMatch, ctrl?: Control): Promise<TrafficEntity>;
 }
 export { TrafficEntity };

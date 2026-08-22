@@ -5,8 +5,8 @@ import type { Option, OptionLoadMatch, OptionCreateData, OptionUpdateData } from
 declare class OptionEntity extends LmMultichannelEntityBase<Option> {
     constructor(client: LmMultichannelSDK, entopts: any);
     make(this: OptionEntity): OptionEntity;
-    load(this: any, reqmatch?: OptionLoadMatch, ctrl?: Control): Promise<Option>;
-    create(this: any, reqdata?: OptionCreateData, ctrl?: Control): Promise<Option>;
-    update(this: any, reqdata?: OptionUpdateData, ctrl?: Control): Promise<Option>;
+    load(this: any, reqmatch?: OptionLoadMatch, ctrl?: Control): Promise<OptionEntity>;
+    create(this: any, reqdata?: OptionCreateData, ctrl?: Control): Promise<OptionEntity>;
+    update(this: any, reqdata?: OptionUpdateData, ctrl?: Control): Promise<OptionEntity>;
 }
 export { OptionEntity };

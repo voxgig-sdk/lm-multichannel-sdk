@@ -46,8 +46,8 @@ const __1 = require("../../..");
 const utility_1 = require("../../utility");
 (0, node_test_1.describe)('OptionEntity', async () => {
     // Per-test live pacing. Delay is read from sdk-test-control.json's
-    // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-    (0, node_test_1.afterEach)((0, utility_1.liveDelay)('LMMULTICHANNEL_TEST_LIVE'));
+    // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+    (0, node_test_1.afterEach)((0, utility_1.liveDelay)('LM_MULTICHANNEL_TEST_LIVE'));
     (0, node_test_1.test)('instance', async () => {
         const testsdk = __1.LmMultichannelSDK.test();
         const ent = testsdk.Option();
@@ -75,11 +75,11 @@ const utility_1 = require("../../utility");
         const option_ref01_ent = client.Option();
         let option_ref01_data = setup.data.new.option['option_ref01'];
         option_ref01_data['template_id'] = setup.idmap['template01'];
-        option_ref01_data = await option_ref01_ent.create(option_ref01_data);
+        option_ref01_data = (await option_ref01_ent.create(option_ref01_data)).data();
         (0, node_assert_1.default)(null != option_ref01_data);
         // UPDATE
         const option_ref01_data_up0 = {};
-        const option_ref01_resdata_up0 = await option_ref01_ent.update(option_ref01_data_up0);
+        const option_ref01_resdata_up0 = (await option_ref01_ent.update(option_ref01_data_up0)).data();
         (0, node_assert_1.default)(null != option_ref01_resdata_up0);
     });
 });

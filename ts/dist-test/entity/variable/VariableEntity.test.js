@@ -46,8 +46,8 @@ const __1 = require("../../..");
 const utility_1 = require("../../utility");
 (0, node_test_1.describe)('VariableEntity', async () => {
     // Per-test live pacing. Delay is read from sdk-test-control.json's
-    // `test.live.delayMs`; only sleeps when LMMULTICHANNEL_TEST_LIVE=TRUE.
-    (0, node_test_1.afterEach)((0, utility_1.liveDelay)('LMMULTICHANNEL_TEST_LIVE'));
+    // `test.live.delayMs`; only sleeps when LM_MULTICHANNEL_TEST_LIVE=TRUE.
+    (0, node_test_1.afterEach)((0, utility_1.liveDelay)('LM_MULTICHANNEL_TEST_LIVE'));
     (0, node_test_1.test)('instance', async () => {
         const testsdk = __1.LmMultichannelSDK.test();
         const ent = testsdk.Variable();
@@ -75,17 +75,17 @@ const utility_1 = require("../../utility");
         const variable_ref01_ent = client.Variable();
         let variable_ref01_data = setup.data.new.variable['variable_ref01'];
         variable_ref01_data['template_id'] = setup.idmap['template01'];
-        variable_ref01_data = await variable_ref01_ent.create(variable_ref01_data);
+        variable_ref01_data = (await variable_ref01_ent.create(variable_ref01_data)).data();
         (0, node_assert_1.default)(null != variable_ref01_data);
         // LIST
         const variable_ref01_match = {};
         variable_ref01_match['template_id'] = setup.idmap['template01'];
-        const variable_ref01_list = await variable_ref01_ent.list(variable_ref01_match);
+        const variable_ref01_list = (await variable_ref01_ent.list(variable_ref01_match)).map((e) => e.data());
         // UPDATE
         const variable_ref01_data_up0 = {};
         const variable_ref01_markdef_up0 = { name: 'description', value: 'Mark01-variable_ref01_' + setup.now };
         variable_ref01_data_up0[variable_ref01_markdef_up0.name] = variable_ref01_markdef_up0.value;
-        const variable_ref01_resdata_up0 = await variable_ref01_ent.update(variable_ref01_data_up0);
+        const variable_ref01_resdata_up0 = (await variable_ref01_ent.update(variable_ref01_data_up0)).data();
         (0, node_assert_1.default)(null != variable_ref01_resdata_up0);
         (0, node_assert_1.default)(variable_ref01_resdata_up0[variable_ref01_markdef_up0.name] === variable_ref01_markdef_up0.value);
     });
