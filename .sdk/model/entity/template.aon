@@ -134,7 +134,7 @@ main: kit: entity: template: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.meta`"
           }
         }
         {
@@ -144,7 +144,9 @@ main: kit: entity: template: {
             "templates"
           ]
           transform: {
-            req: "`reqdata`"
+            req: {
+              template: "`reqdata`"
+            }
             res: "`body.template`"
           }
         }
@@ -194,7 +196,7 @@ main: kit: entity: template: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.templates`"
           }
         }
       ]
@@ -311,7 +313,7 @@ main: kit: entity: template: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.meta`"
           }
         }
         {
@@ -346,7 +348,7 @@ main: kit: entity: template: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.reviews`"
           }
         }
       ]
@@ -386,7 +388,7 @@ main: kit: entity: template: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.meta`"
           }
         }
       ]

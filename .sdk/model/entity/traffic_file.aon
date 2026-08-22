@@ -38,7 +38,7 @@ main: kit: entity: traffic_file: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.files`"
           }
         }
       ]

@@ -34,7 +34,7 @@ class LmMultichannelConfig
             "main" => [
                 "name" => "LmMultichannel",
                 "slug" => "lm-multichannel",
-                "version" => "0.0.1",
+                "version" => "0.1.1",
                 "target" => "php",
             ],
             "feature" => [
@@ -149,7 +149,9 @@ class LmMultichannelConfig
                     ],
                   ],
                   'transform' => [
-                    'req' => '`reqdata`',
+                    'req' => [
+                      'content' => '`reqdata`',
+                    ],
                     'res' => '`body.content`',
                   ],
                 ],
@@ -283,7 +285,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.schedule`',
                   ],
                 ],
               ],
@@ -433,7 +435,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.events`',
                   ],
                 ],
               ],
@@ -489,7 +491,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.options`',
                   ],
                 ],
               ],
@@ -530,7 +532,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.options`',
                   ],
                 ],
               ],
@@ -571,7 +573,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.options`',
                   ],
                 ],
               ],
@@ -728,7 +730,7 @@ class LmMultichannelConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.account`',
                   ],
                 ],
               ],
@@ -769,7 +771,7 @@ class LmMultichannelConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.settings`',
                   ],
                 ],
               ],
@@ -902,7 +904,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.meta`',
                   ],
                 ],
                 [
@@ -915,7 +917,9 @@ class LmMultichannelConfig
                   ],
                   'select' => [],
                   'transform' => [
-                    'req' => '`reqdata`',
+                    'req' => [
+                      'template' => '`reqdata`',
+                    ],
                     'res' => '`body.template`',
                   ],
                 ],
@@ -964,7 +968,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.templates`',
                   ],
                 ],
               ],
@@ -1085,7 +1089,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.meta`',
                   ],
                 ],
                 [
@@ -1121,7 +1125,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.reviews`',
                   ],
                 ],
               ],
@@ -1163,7 +1167,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.meta`',
                   ],
                 ],
               ],
@@ -1400,7 +1404,7 @@ class LmMultichannelConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.files`',
                   ],
                 ],
               ],
@@ -1569,7 +1573,7 @@ class LmMultichannelConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.variables`',
                   ],
                 ],
               ],

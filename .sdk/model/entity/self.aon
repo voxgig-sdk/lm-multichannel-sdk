@@ -1,14 +1,15 @@
-# Entity: self_admin
+# Entity: self
 
-main: kit: entity: self_admin: {
+main: kit: entity: self: {
 
   alias: field: {}
 
   fields: [
     {
-      name: "callback"
+      name: "accountId"
       req: true
-      type: "`$OBJECT`"
+      short: "Unique technical account identifier"
+      type: "`$STRING`"
     }
     {
       name: "settings"
@@ -17,21 +18,20 @@ main: kit: entity: self_admin: {
     }
   ]
 
-  name: "self_admin"
+  name: "self"
   op: {
-    update: {
-      name: "update"
+    load: {
+      name: "load"
       points: [
         {
-          method: "PATCH"
-          orig: "/self/settings"
+          method: "GET"
+          orig: "/self"
           parts: [
             "self"
-            "settings"
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.account`"
           }
         }
       ]

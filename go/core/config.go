@@ -12,7 +12,7 @@ func MakeConfig() map[string]any {
 		"main": map[string]any{
 			"name": "LmMultichannel",
 			"slug": "lm-multichannel",
-			"version": "0.0.1",
+			"version": "0.1.1",
 			"target": "go",
 		},
 		"feature": map[string]any{
@@ -127,7 +127,9 @@ func MakeConfig() map[string]any {
 									},
 								},
 								"transform": map[string]any{
-									"req": "`reqdata`",
+									"req": map[string]any{
+										"content": "`reqdata`",
+									},
 									"res": "`body.content`",
 								},
 							},
@@ -261,7 +263,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.schedule`",
 								},
 							},
 						},
@@ -411,7 +413,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.events`",
 								},
 							},
 						},
@@ -467,7 +469,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.options`",
 								},
 							},
 						},
@@ -508,7 +510,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.options`",
 								},
 							},
 						},
@@ -549,7 +551,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.options`",
 								},
 							},
 						},
@@ -706,7 +708,7 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.account`",
 								},
 							},
 						},
@@ -747,7 +749,7 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.settings`",
 								},
 							},
 						},
@@ -880,7 +882,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.meta`",
 								},
 							},
 							map[string]any{
@@ -893,7 +895,9 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
-									"req": "`reqdata`",
+									"req": map[string]any{
+										"template": "`reqdata`",
+									},
 									"res": "`body.template`",
 								},
 							},
@@ -942,7 +946,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.templates`",
 								},
 							},
 						},
@@ -1063,7 +1067,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.meta`",
 								},
 							},
 							map[string]any{
@@ -1099,7 +1103,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.reviews`",
 								},
 							},
 						},
@@ -1141,7 +1145,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.meta`",
 								},
 							},
 						},
@@ -1378,7 +1382,7 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.files`",
 								},
 							},
 						},
@@ -1547,7 +1551,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.variables`",
 								},
 							},
 						},

@@ -103,7 +103,7 @@ main: kit: entity: message_event: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.events`"
           }
         }
       ]

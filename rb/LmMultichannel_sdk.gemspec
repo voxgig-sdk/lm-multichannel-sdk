@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "voxgig-sdk-lm-multichannel"
-  spec.version       = "0.0.1"
+  spec.version       = "0.1.1"
   spec.authors       = ["Voxgig"]
   spec.summary       = "Unofficial generated Ruby SDK for the MyLINK Multichannel public API. Not affiliated with or endorsed by the upstream API provider."
   spec.description   = "Unofficial generated Ruby SDK for the MyLINK Multichannel public API. Not affiliated with or endorsed by the upstream API provider."

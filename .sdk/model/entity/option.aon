@@ -1,58 +1,18 @@
-# Entity: content
+# Entity: option
 
-main: kit: entity: content: {
+main: kit: entity: option: {
 
   alias: field: {}
 
   fields: [
     {
-      name: "card"
-      req: false
-      short: "Rich card containing media, text and/or buttons"
-      type: "`$OBJECT`"
-    }
-    {
-      name: "carousel"
+      name: "options"
       req: true
       type: "`$OBJECT`"
-    }
-    {
-      name: "content"
-      req: true
-      short: "Message content."
-      type: "`$OBJECT`"
-    }
-    {
-      name: "fromTemplate"
-      req: true
-      short: "Content generated from a pre-defined template"
-      type: "`$OBJECT`"
-    }
-    {
-      name: "location"
-      req: true
-      type: "`$OBJECT`"
-    }
-    {
-      name: "media"
-      req: true
-      type: "`$OBJECT`"
-    }
-    {
-      name: "suggestions"
-      req: false
-      short: "Quick replies / suggestion buttons (not applicable to fromTemplate)"
-      type: "`$ARRAY`"
-    }
-    {
-      name: "text"
-      req: false
-      short: "Simple text content"
-      type: "`$STRING`"
     }
   ]
 
-  name: "content"
+  name: "option"
   op: {
     create: {
       name: "create"
@@ -70,11 +30,11 @@ main: kit: entity: content: {
             ]
           }
           method: "POST"
-          orig: "/templates/{templateId}/content"
+          orig: "/templates/{templateId}/options"
           parts: [
             "templates"
             "{template_id}"
-            "content"
+            "options"
           ]
           rename: {
             param: {
@@ -88,7 +48,7 @@ main: kit: entity: content: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body.content`"
+            res: "`body.options`"
           }
         }
       ]
@@ -109,11 +69,11 @@ main: kit: entity: content: {
             ]
           }
           method: "GET"
-          orig: "/templates/{templateId}/content"
+          orig: "/templates/{templateId}/options"
           parts: [
             "templates"
             "{template_id}"
-            "content"
+            "options"
           ]
           rename: {
             param: {
@@ -127,7 +87,46 @@ main: kit: entity: content: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body.content`"
+            res: "`body.options`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "template_id"
+                orig: "template_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/templates/{templateId}/options"
+          parts: [
+            "templates"
+            "{template_id}"
+            "options"
+          ]
+          rename: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          select: {
+            exist: [
+              "template_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.options`"
           }
         }
       ]

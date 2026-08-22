@@ -29,7 +29,7 @@ def make_config():
         "main": {
             "name": "LmMultichannel",
             "slug": "lm-multichannel",
-            "version": "0.0.1",
+            "version": "0.1.1",
             "target": "py",
         },
         "feature": {
@@ -144,7 +144,9 @@ def make_config():
                   ],
                 },
                 "transform": {
-                  "req": "`reqdata`",
+                  "req": {
+                    "content": "`reqdata`",
+                  },
                   "res": "`body.content`",
                 },
               },
@@ -278,7 +280,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.schedule`",
                 },
               },
             ],
@@ -428,7 +430,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.events`",
                 },
               },
             ],
@@ -484,7 +486,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.options`",
                 },
               },
             ],
@@ -525,7 +527,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.options`",
                 },
               },
             ],
@@ -566,7 +568,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.options`",
                 },
               },
             ],
@@ -723,7 +725,7 @@ def make_config():
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.account`",
                 },
               },
             ],
@@ -764,7 +766,7 @@ def make_config():
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.settings`",
                 },
               },
             ],
@@ -897,7 +899,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.meta`",
                 },
               },
               {
@@ -910,7 +912,9 @@ def make_config():
                 ],
                 "select": {},
                 "transform": {
-                  "req": "`reqdata`",
+                  "req": {
+                    "template": "`reqdata`",
+                  },
                   "res": "`body.template`",
                 },
               },
@@ -959,7 +963,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.templates`",
                 },
               },
             ],
@@ -1080,7 +1084,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.meta`",
                 },
               },
               {
@@ -1116,7 +1120,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.reviews`",
                 },
               },
             ],
@@ -1158,7 +1162,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.meta`",
                 },
               },
             ],
@@ -1395,7 +1399,7 @@ def make_config():
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.files`",
                 },
               },
             ],
@@ -1564,7 +1568,7 @@ def make_config():
                 },
                 "transform": {
                   "req": "`reqdata`",
-                  "res": "`body`",
+                  "res": "`body.variables`",
                 },
               },
             ],

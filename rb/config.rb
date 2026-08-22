@@ -20,7 +20,7 @@ module LmMultichannelConfig
       "main" => {
         "name" => "LmMultichannel",
         "slug" => "lm-multichannel",
-        "version" => "0.0.1",
+        "version" => "0.1.1",
         "target" => "rb",
       },
       "feature" => {
@@ -135,7 +135,9 @@ module LmMultichannelConfig
                     ],
                   },
                   "transform" => {
-                    "req" => "`reqdata`",
+                    "req" => {
+                      "content" => "`reqdata`",
+                    },
                     "res" => "`body.content`",
                   },
                 },
@@ -269,7 +271,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.schedule`",
                   },
                 },
               ],
@@ -419,7 +421,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.events`",
                   },
                 },
               ],
@@ -475,7 +477,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.options`",
                   },
                 },
               ],
@@ -516,7 +518,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.options`",
                   },
                 },
               ],
@@ -557,7 +559,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.options`",
                   },
                 },
               ],
@@ -714,7 +716,7 @@ module LmMultichannelConfig
                   "select" => {},
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.account`",
                   },
                 },
               ],
@@ -755,7 +757,7 @@ module LmMultichannelConfig
                   "select" => {},
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.settings`",
                   },
                 },
               ],
@@ -888,7 +890,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.meta`",
                   },
                 },
                 {
@@ -901,7 +903,9 @@ module LmMultichannelConfig
                   ],
                   "select" => {},
                   "transform" => {
-                    "req" => "`reqdata`",
+                    "req" => {
+                      "template" => "`reqdata`",
+                    },
                     "res" => "`body.template`",
                   },
                 },
@@ -950,7 +954,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.templates`",
                   },
                 },
               ],
@@ -1071,7 +1075,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.meta`",
                   },
                 },
                 {
@@ -1107,7 +1111,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.reviews`",
                   },
                 },
               ],
@@ -1149,7 +1153,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.meta`",
                   },
                 },
               ],
@@ -1386,7 +1390,7 @@ module LmMultichannelConfig
                   "select" => {},
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.files`",
                   },
                 },
               ],
@@ -1555,7 +1559,7 @@ module LmMultichannelConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.variables`",
                   },
                 },
               ],

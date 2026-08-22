@@ -125,7 +125,9 @@
                     ]
                   },
                   "transform": {
-                    "req": "`reqdata`",
+                    "req": {
+                      "content": "`reqdata`"
+                    },
                     "res": "`body.content`"
                   }
                 }
@@ -272,7 +274,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.schedule`"
                   }
                 }
               ]
@@ -442,7 +444,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.events`"
                   }
                 }
               ]
@@ -505,7 +507,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.options`"
                   }
                 }
               ]
@@ -548,7 +550,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.options`"
                   }
                 }
               ]
@@ -591,7 +593,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.options`"
                   }
                 }
               ]
@@ -774,7 +776,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.account`"
                   }
                 }
               ]
@@ -822,7 +824,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.settings`"
                   }
                 }
               ]
@@ -984,7 +986,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.meta`"
                   }
                 },
                 {
@@ -998,7 +1000,9 @@
                   ],
                   "select": {},
                   "transform": {
-                    "req": "`reqdata`",
+                    "req": {
+                      "template": "`reqdata`"
+                    },
                     "res": "`body.template`"
                   }
                 }
@@ -1054,7 +1058,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.templates`"
                   }
                 }
               ]
@@ -1182,7 +1186,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.meta`"
                   }
                 },
                 {
@@ -1220,7 +1224,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.reviews`"
                   }
                 }
               ]
@@ -1264,7 +1268,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.meta`"
                   }
                 }
               ]
@@ -1523,7 +1527,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.files`"
                   }
                 }
               ]
@@ -1714,7 +1718,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.variables`"
                   }
                 }
               ]
@@ -2474,7 +2478,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "srcfeature": false,
           "title": "Golang"
@@ -2549,7 +2553,7 @@
               },
               "via": "root"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "title": "Go CLI"
         },
@@ -2623,7 +2627,7 @@
               },
               "via": "root"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "title": "Go MCP server"
         },
@@ -2686,7 +2690,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "srcfeature": false,
           "title": "Lua"
@@ -2744,7 +2748,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "srcfeature": false,
           "title": "PHP"
@@ -2808,7 +2812,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "srcfeature": false,
           "title": "Python"
@@ -2877,7 +2881,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "srcfeature": false,
           "title": "Ruby"
@@ -2951,7 +2955,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "title": "TypeScript"
         }

@@ -10,6 +10,7 @@ guide: {
       rename: param: "templateId": *"template_id"
       op: create: method: *POST
       op: create: transform: res: *("`body.content`")|top
+      op: create: transform: req: "content": *("`reqdata`")|top
       op: load: method: *GET
       op: load: transform: res: *("`body.content`")|top
     }
@@ -23,6 +24,7 @@ guide: {
       action: "schedule": {}
       rename: param: "messageId": *"id"
       op: load: method: *GET
+      op: load: transform: res: *("`body.schedule`")|top
       op: remove: method: *DELETE
     }
   }
@@ -31,6 +33,7 @@ guide: {
     path: "/messages/{messageId}/events": {
       rename: param: "messageId": *"id"
       op: list: method: *GET
+      op: list: transform: res: *("`body.events`")|top
     }
   }
 
@@ -38,8 +41,11 @@ guide: {
     path: "/templates/{templateId}/options": {
       rename: param: "templateId": *"template_id"
       op: create: method: *POST
+      op: create: transform: res: *("`body.options`")|top
       op: load: method: *GET
+      op: load: transform: res: *("`body.options`")|top
       op: patch: method: *PATCH
+      op: patch: transform: res: *("`body.options`")|top
     }
   }
 
@@ -55,12 +61,14 @@ guide: {
   entity: self: {
     path: "/self": {
       op: load: method: *GET
+      op: load: transform: res: *("`body.account`")|top
     }
   }
 
   entity: self_admin: {
     path: "/self/settings": {
       op: patch: method: *PATCH
+      op: patch: transform: res: *("`body.settings`")|top
     }
   }
 
@@ -68,7 +76,9 @@ guide: {
     path: "/templates": {
       op: create: method: *POST
       op: create: transform: res: *("`body.template`")|top
+      op: create: transform: req: "template": *("`reqdata`")|top
       op: list: method: *GET
+      op: list: transform: res: *("`body.templates`")|top
     }
     path: "/templates/{templateId}": {
       rename: param: "templateId": *"id"
@@ -80,13 +90,17 @@ guide: {
       action: "meta": {}
       rename: param: "templateId": *"id"
       op: create: method: *POST
+      op: create: transform: res: *("`body.meta`")|top
       op: load: method: *GET
+      op: load: transform: res: *("`body.meta`")|top
       op: patch: method: *PATCH
+      op: patch: transform: res: *("`body.meta`")|top
     }
     path: "/templates/{templateId}/reviews": {
       action: "review": {}
       rename: param: "templateId": *"id"
       op: load: method: *GET
+      op: load: transform: res: *("`body.reviews`")|top
     }
     path: "/templates/{templateId}/reviews/{channelId}": {
       rename: param: "channelId": *"channel_id"
@@ -106,6 +120,7 @@ guide: {
   entity: traffic_file: {
     path: "/traffic/files": {
       op: list: method: *GET
+      op: list: transform: res: *("`body.files`")|top
     }
     path: "/traffic/files/{path}": {
       rename: param: "path": *"id"
@@ -118,6 +133,7 @@ guide: {
       rename: param: "templateId": *"template_id"
       op: create: method: *POST
       op: list: method: *GET
+      op: list: transform: res: *("`body.variables`")|top
       op: patch: method: *PATCH
     }
   }

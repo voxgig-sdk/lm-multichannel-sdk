@@ -30,7 +30,7 @@ class Config {
   main = {
     name: 'LmMultichannel',
         slug: "lm-multichannel",
-    version: "0.0.1",
+    version: "0.1.1",
     target: "ts",
 
   }
@@ -179,7 +179,9 @@ class Config {
                 ]
               },
               "transform": {
-                "req": "`reqdata`",
+                "req": {
+                  "content": "`reqdata`"
+                },
                 "res": "`body.content`"
               }
             }
@@ -313,7 +315,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.schedule`"
               }
             }
           ]
@@ -463,7 +465,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.events`"
               }
             }
           ]
@@ -519,7 +521,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.options`"
               }
             }
           ]
@@ -560,7 +562,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.options`"
               }
             }
           ]
@@ -601,7 +603,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.options`"
               }
             }
           ]
@@ -758,7 +760,7 @@ class Config {
               "select": {},
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.account`"
               }
             }
           ]
@@ -799,7 +801,7 @@ class Config {
               "select": {},
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.settings`"
               }
             }
           ]
@@ -932,7 +934,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.meta`"
               }
             },
             {
@@ -945,7 +947,9 @@ class Config {
               ],
               "select": {},
               "transform": {
-                "req": "`reqdata`",
+                "req": {
+                  "template": "`reqdata`"
+                },
                 "res": "`body.template`"
               }
             }
@@ -994,7 +998,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.templates`"
               }
             }
           ]
@@ -1115,7 +1119,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.meta`"
               }
             },
             {
@@ -1151,7 +1155,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.reviews`"
               }
             }
           ]
@@ -1193,7 +1197,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.meta`"
               }
             }
           ]
@@ -1430,7 +1434,7 @@ class Config {
               "select": {},
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.files`"
               }
             }
           ]
@@ -1599,7 +1603,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.variables`"
               }
             }
           ]

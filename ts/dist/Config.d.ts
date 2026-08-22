@@ -83,7 +83,9 @@ declare class Config {
                             exist: string[];
                         };
                         transform: {
-                            req: string;
+                            req: {
+                                content: string;
+                            };
                             res: string;
                         };
                     }[];
@@ -612,7 +614,9 @@ declare class Config {
                             exist?: undefined;
                         };
                         transform: {
-                            req: string;
+                            req: {
+                                template: string;
+                            };
                             res: string;
                         };
                         rename?: undefined;

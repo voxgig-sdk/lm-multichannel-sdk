@@ -8,7 +8,7 @@ local function make_config()
     main = {
       name = "LmMultichannel",
       slug = "lm-multichannel",
-      version = "0.0.1",
+      version = "0.1.1",
       target = "lua",
     },
     feature = {
@@ -123,7 +123,9 @@ local function make_config()
                   },
                 },
                 ["transform"] = {
-                  ["req"] = "`reqdata`",
+                  ["req"] = {
+                    ["content"] = "`reqdata`",
+                  },
                   ["res"] = "`body.content`",
                 },
               },
@@ -257,7 +259,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.schedule`",
                 },
               },
             },
@@ -407,7 +409,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.events`",
                 },
               },
             },
@@ -463,7 +465,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.options`",
                 },
               },
             },
@@ -504,7 +506,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.options`",
                 },
               },
             },
@@ -545,7 +547,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.options`",
                 },
               },
             },
@@ -702,7 +704,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.account`",
                 },
               },
             },
@@ -743,7 +745,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.settings`",
                 },
               },
             },
@@ -876,7 +878,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.meta`",
                 },
               },
               {
@@ -889,7 +891,9 @@ local function make_config()
                 },
                 ["select"] = {},
                 ["transform"] = {
-                  ["req"] = "`reqdata`",
+                  ["req"] = {
+                    ["template"] = "`reqdata`",
+                  },
                   ["res"] = "`body.template`",
                 },
               },
@@ -938,7 +942,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.templates`",
                 },
               },
             },
@@ -1059,7 +1063,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.meta`",
                 },
               },
               {
@@ -1095,7 +1099,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.reviews`",
                 },
               },
             },
@@ -1137,7 +1141,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.meta`",
                 },
               },
             },
@@ -1374,7 +1378,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.files`",
                 },
               },
             },
@@ -1543,7 +1547,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.variables`",
                 },
               },
             },
