@@ -42,6 +42,7 @@ class LmMultichannelConfig
           'options' => [
             'active' => false,
           ],
+          'transport' => 'base',
         ],
             ],
             "options" => [
