@@ -46,12 +46,22 @@ class TestMessageEntity:
 
         message_ref01_data = helpers.to_map(runner.entity_data(message_ref01_ent.create(message_ref01_data, None)))
         assert message_ref01_data is not None
+        assert message_ref01_data["id"] is not None
 
         # LOAD
-        message_ref01_match_dt0 = {}
+        message_ref01_match_dt0 = {
+            "id": message_ref01_data["id"],
+        }
         message_ref01_data_dt0_loaded = message_ref01_ent.load(message_ref01_match_dt0, None)
-        assert message_ref01_data_dt0_loaded is not None
+        message_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(message_ref01_data_dt0_loaded))
+        assert message_ref01_data_dt0_load_result is not None
+        assert message_ref01_data_dt0_load_result["id"] == message_ref01_data["id"]
 
+        # REMOVE
+        message_ref01_match_rm0 = {
+            "id": message_ref01_data["id"],
+        }
+        message_ref01_ent.remove(message_ref01_match_rm0, None)
 
 
 

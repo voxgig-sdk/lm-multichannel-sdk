@@ -18,6 +18,11 @@ main: kit: entity: message_event: {
       type: "`$STRING`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "messageStatusChanged"
       req: true
       type: "`$OBJECT`"
@@ -39,6 +44,11 @@ main: kit: entity: message_event: {
       type: "`$OBJECT`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "message_event"
   op: {

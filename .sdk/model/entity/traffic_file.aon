@@ -11,6 +11,11 @@ main: kit: entity: traffic_file: {
       type: "`$ARRAY`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "path"
       req: true
       short: "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip"
@@ -23,6 +28,11 @@ main: kit: entity: traffic_file: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "traffic_file"
   op: {

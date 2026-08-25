@@ -2,31 +2,31 @@
   "existing": {
     "message": {
       "MESSAGE00": {
-        "campaignId": "s1e",
+        "campaignId": "s28",
+        "id": "MESSAGE00",
         "messages": [],
-        "scheduleAt": "s20",
-        "id": "MESSAGE00"
+        "scheduleAt": "s2b"
       },
       "MESSAGE01": {
-        "campaignId": "s3c",
+        "campaignId": "s50",
+        "id": "MESSAGE01",
         "messages": [],
-        "scheduleAt": "s3e",
-        "id": "MESSAGE01"
+        "scheduleAt": "s53"
       },
       "MESSAGE02": {
-        "campaignId": "s5a",
+        "campaignId": "s78",
+        "id": "MESSAGE02",
         "messages": [],
-        "scheduleAt": "s5c",
-        "id": "MESSAGE02"
+        "scheduleAt": "s7b"
       }
     }
   },
   "new": {
     "message": {
       "message_ref01": {
-        "campaignId": "s78",
+        "campaignId": "sa0",
         "messages": [],
-        "scheduleAt": "s7a"
+        "scheduleAt": "sa3"
       }
     }
   }

@@ -24,6 +24,7 @@ export interface ContentCreateData {
 }
 export interface Message {
     campaignId?: string;
+    id?: string;
     messages: any[];
     scheduleAt: string;
 }
@@ -34,6 +35,7 @@ export interface MessageLoadMatch {
 }
 export interface MessageCreateData {
     campaignId?: string;
+    id?: string;
     messages: any[];
     scheduleAt: string;
 }
@@ -45,6 +47,7 @@ export interface MessageRemoveMatch {
 export interface MessageEvent {
     accountId: string;
     eventId: string;
+    id?: string;
     messageStatusChanged: Record<string, any>;
     on: string;
     templateReviewStatusChanged: Record<string, any>;
@@ -98,6 +101,7 @@ export interface Template {
     createdOn: string;
     designerUrl?: string;
     details?: string;
+    id?: string;
     meta?: Record<string, any>;
     occurredOn: string;
     options?: Record<string, any>;
@@ -120,6 +124,7 @@ export interface TemplateListMatch {
     createdOn?: string;
     designerUrl?: string;
     details?: string;
+    id?: string;
     meta?: Record<string, any>;
     occurredOn?: string;
     options?: Record<string, any>;
@@ -136,6 +141,7 @@ export interface TemplateCreateData {
     createdOn: string;
     designerUrl?: string;
     details?: string;
+    id?: string;
     meta?: Record<string, any>;
     occurredOn: string;
     options?: Record<string, any>;
@@ -177,6 +183,7 @@ export interface TrafficRemoveMatch {
 }
 export interface TrafficFile {
     files: any[];
+    id?: string;
     path: string;
     url: string;
 }
@@ -185,6 +192,7 @@ export interface TrafficFileLoadMatch {
 }
 export interface TrafficFileListMatch {
     files?: any[];
+    id?: string;
     path?: string;
     url?: string;
 }

@@ -45,6 +45,7 @@ type ContentCreateData struct {
 // Message is the typed data model for the message entity.
 type Message struct {
 	CampaignId *string `json:"campaignId,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Messages []any `json:"messages"`
 	ScheduleAt string `json:"scheduleAt"`
 }
@@ -57,6 +58,7 @@ type MessageLoadMatch struct {
 // MessageCreateData is the typed request payload for Message.CreateTyped.
 type MessageCreateData struct {
 	CampaignId *string `json:"campaignId,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Messages []any `json:"messages"`
 	ScheduleAt string `json:"scheduleAt"`
 }
@@ -70,6 +72,7 @@ type MessageRemoveMatch struct {
 type MessageEvent struct {
 	AccountId string `json:"accountId"`
 	EventId string `json:"eventId"`
+	Id *string `json:"id,omitempty"`
 	MessageStatusChanged map[string]any `json:"messageStatusChanged"`
 	On string `json:"on"`
 	TemplateReviewStatusChanged map[string]any `json:"templateReviewStatusChanged"`
@@ -149,6 +152,7 @@ type Template struct {
 	CreatedOn string `json:"createdOn"`
 	DesignerUrl *string `json:"designerUrl,omitempty"`
 	Details *string `json:"details,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Meta *map[string]any `json:"meta,omitempty"`
 	OccurredOn string `json:"occurredOn"`
 	Options *map[string]any `json:"options,omitempty"`
@@ -173,6 +177,7 @@ type TemplateListMatch struct {
 	CreatedOn *string `json:"createdOn,omitempty"`
 	DesignerUrl *string `json:"designerUrl,omitempty"`
 	Details *string `json:"details,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Meta *map[string]any `json:"meta,omitempty"`
 	OccurredOn *string `json:"occurredOn,omitempty"`
 	Options *map[string]any `json:"options,omitempty"`
@@ -191,6 +196,7 @@ type TemplateCreateData struct {
 	CreatedOn string `json:"createdOn"`
 	DesignerUrl *string `json:"designerUrl,omitempty"`
 	Details *string `json:"details,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Meta *map[string]any `json:"meta,omitempty"`
 	OccurredOn string `json:"occurredOn"`
 	Options *map[string]any `json:"options,omitempty"`
@@ -240,6 +246,7 @@ type TrafficRemoveMatch struct {
 // TrafficFile is the typed data model for the traffic_file entity.
 type TrafficFile struct {
 	Files []any `json:"files"`
+	Id *string `json:"id,omitempty"`
 	Path string `json:"path"`
 	Url string `json:"url"`
 }
@@ -252,6 +259,7 @@ type TrafficFileLoadMatch struct {
 // TrafficFileListMatch is the typed request payload for TrafficFile.ListTyped.
 type TrafficFileListMatch struct {
 	Files *[]any `json:"files,omitempty"`
+	Id *string `json:"id,omitempty"`
 	Path *string `json:"path,omitempty"`
 	Url *string `json:"url,omitempty"`
 }

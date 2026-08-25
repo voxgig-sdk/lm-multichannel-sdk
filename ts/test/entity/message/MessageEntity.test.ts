@@ -63,10 +63,20 @@ describe('MessageEntity', async () => {
     let message_ref01_data = setup.data.new.message['message_ref01']
 
     message_ref01_data = (await message_ref01_ent.create(message_ref01_data)).data()
-    assert(null != message_ref01_data)
+    assert(null != message_ref01_data.id)
 
 
+    // LOAD
+    const message_ref01_match_dt0: any = {}
+    message_ref01_match_dt0.id = message_ref01_data.id
+    const message_ref01_data_dt0 = (await message_ref01_ent.load(message_ref01_match_dt0)).data()
+    assert(message_ref01_data_dt0.id === message_ref01_data.id)
 
+
+    // REMOVE
+    const message_ref01_match_rm0: any = { id: message_ref01_data.id }
+    await message_ref01_ent.remove(message_ref01_match_rm0)
+  
 
   })
 })

@@ -39,12 +39,22 @@ class MessageEntityTest < Minitest::Test
     message_ref01_data_result = message_ref01_ent.create(message_ref01_data, nil)
     message_ref01_data = Helpers.to_map(message_ref01_data_result.respond_to?(:data_get) ? message_ref01_data_result.data_get : message_ref01_data_result)
     assert !message_ref01_data.nil?
+    assert !message_ref01_data["id"].nil?
 
     # LOAD
-    message_ref01_match_dt0 = {}
+    message_ref01_match_dt0 = {
+      "id" => message_ref01_data["id"],
+    }
     message_ref01_data_dt0_loaded = message_ref01_ent.load(message_ref01_match_dt0, nil)
-    assert !message_ref01_data_dt0_loaded.nil?
+    message_ref01_data_dt0_load_result = Helpers.to_map(message_ref01_data_dt0_loaded.respond_to?(:data_get) ? message_ref01_data_dt0_loaded.data_get : message_ref01_data_dt0_loaded)
+    assert !message_ref01_data_dt0_load_result.nil?
+    assert_equal message_ref01_data_dt0_load_result["id"], message_ref01_data["id"]
 
+    # REMOVE
+    message_ref01_match_rm0 = {
+      "id" => message_ref01_data["id"],
+    }
+    message_ref01_ent.remove(message_ref01_match_rm0, nil)
 
   end
 end

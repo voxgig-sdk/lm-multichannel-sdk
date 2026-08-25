@@ -12,6 +12,11 @@ main: kit: entity: message: {
       type: "`$STRING`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "messages"
       req: true
       type: "`$ARRAY`"
@@ -23,6 +28,11 @@ main: kit: entity: message: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "message"
   op: {

@@ -111,6 +111,9 @@ func TestTemplateEntity(t *testing.T) {
 		if templateRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
+		if templateRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
+		}
 
 		// LIST
 		templateRef01Match := map[string]any{}
@@ -119,13 +122,19 @@ func TestTemplateEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		_, templateRef01ListOk := templateRef01ListResult.([]any)
+		templateRef01List, templateRef01ListOk := templateRef01ListResult.([]any)
 		if !templateRef01ListOk {
 			t.Fatalf("expected list result to be an array, got %T", templateRef01ListResult)
 		}
 
+		foundItem := vs.Select(entityListToData(templateRef01List), map[string]any{"id": templateRef01Data["id"]})
+		if vs.IsEmpty(foundItem) {
+			t.Fatal("expected to find created entity in list")
+		}
+
 		// UPDATE
 		templateRef01DataUp0Up := map[string]any{
+			"id": templateRef01Data["id"],
 		}
 
 		templateRef01MarkdefUp0Name := "createdOn"
@@ -140,20 +149,37 @@ func TestTemplateEntity(t *testing.T) {
 		if templateRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
+		if templateRef01ResdataUp0["id"] != templateRef01DataUp0Up["id"] {
+			t.Fatal("expected update result id to match")
+		}
 		if templateRef01ResdataUp0[templateRef01MarkdefUp0Name] != templateRef01MarkdefUp0Value {
 			t.Fatalf("expected %s to be updated, got %v", templateRef01MarkdefUp0Name, templateRef01ResdataUp0[templateRef01MarkdefUp0Name])
 		}
 
 		// LOAD
-		templateRef01MatchDt0 := map[string]any{}
+		templateRef01MatchDt0 := map[string]any{
+			"id": templateRef01Data["id"],
+		}
 		templateRef01DataDt0Loaded, err := templateRef01Ent.Load(templateRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if templateRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		templateRef01DataDt0LoadResult := core.ToMapAny(entityData(templateRef01DataDt0Loaded))
+		if templateRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if templateRef01DataDt0LoadResult["id"] != templateRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
+		// REMOVE
+		templateRef01MatchRm0 := map[string]any{
+			"id": templateRef01Data["id"],
+		}
+		_, err = templateRef01Ent.Remove(templateRef01MatchRm0, nil)
+		if err != nil {
+			t.Fatalf("remove failed: %v", err)
+		}
 
 		// LIST
 		templateRef01MatchRt0 := map[string]any{}
@@ -162,9 +188,14 @@ func TestTemplateEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		_, templateRef01ListRt0Ok := templateRef01ListRt0Result.([]any)
+		templateRef01ListRt0, templateRef01ListRt0Ok := templateRef01ListRt0Result.([]any)
 		if !templateRef01ListRt0Ok {
 			t.Fatalf("expected list result to be an array, got %T", templateRef01ListRt0Result)
+		}
+
+		notFoundItem := vs.Select(entityListToData(templateRef01ListRt0), map[string]any{"id": templateRef01Data["id"]})
+		if !vs.IsEmpty(notFoundItem) {
+			t.Fatal("expected removed entity to not be in list")
 		}
 
 	})

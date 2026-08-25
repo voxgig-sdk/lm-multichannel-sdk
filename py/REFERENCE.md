@@ -202,6 +202,7 @@ message = client.Message()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `campaignId` | `str` | No | Schedule grouping identifier |
+| `id` | `str` | No |  |
 | `messages` | `list` | Yes |  |
 | `scheduleAt` | `str` | Yes | Scheduled sending time |
 
@@ -275,6 +276,7 @@ message_event = client.MessageEvent()
 | --- | --- | --- | --- |
 | `accountId` | `str` | Yes | Account identifier |
 | `eventId` | `str` | Yes | Unique event identifier (for idempotent processing / deduplication) |
+| `id` | `str` | No |  |
 | `messageStatusChanged` | `dict` | Yes |  |
 | `on` | `str` | Yes | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` | `dict` | Yes |  |
@@ -574,6 +576,7 @@ template = client.Template()
 | `createdOn` | `str` | Yes | Date of template creation |
 | `designerUrl` | `str` | No | URL to the external template designer (dynamically generated if enabled) |
 | `details` | `str` | No | Additional details about the latest status |
+| `id` | `str` | No |  |
 | `meta` | `dict` | No |  |
 | `occurredOn` | `str` | Yes | Date and time of last review status change |
 | `options` | `dict` | No |  |
@@ -593,6 +596,7 @@ template = client.Template()
 | `createdOn` | - | - | - | - | - |
 | `designerUrl` | - | - | - | - | - |
 | `details` | - | - | - | - | - |
+| `id` | - | - | - | - | - |
 | `meta` | - | - | Yes | - | - |
 | `occurredOn` | - | - | - | - | - |
 | `options` | - | - | - | - | - |
@@ -742,6 +746,7 @@ traffic_file = client.TrafficFile()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `files` | `list` | Yes |  |
+| `id` | `str` | No |  |
 | `path` | `str` | Yes | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | `str` | Yes | Absolute download URL with security token (expires after 15 minutes) |
 

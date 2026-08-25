@@ -294,6 +294,7 @@ API path: `/templates/{templateId}/content`
 | Field | Description |
 | --- | --- |
 | `campaignId` | Schedule grouping identifier |
+| `id` |  |
 | `messages` |  |
 | `scheduleAt` | Scheduled sending time |
 
@@ -307,6 +308,7 @@ API path: `/messages`
 | --- | --- |
 | `accountId` | Account identifier |
 | `eventId` | Unique event identifier (for idempotent processing / deduplication) |
+| `id` |  |
 | `messageStatusChanged` |  |
 | `on` | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` |  |
@@ -367,6 +369,7 @@ API path: `/self/settings`
 | `createdOn` | Date of template creation |
 | `designerUrl` | URL to the external template designer (dynamically generated if enabled) |
 | `details` | Additional details about the latest status |
+| `id` |  |
 | `meta` |  |
 | `occurredOn` | Date and time of last review status change |
 | `options` |  |
@@ -395,6 +398,7 @@ API path: `/traffic/files/{path}`
 | Field | Description |
 | --- | --- |
 | `files` |  |
+| `id` |  |
 | `path` | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | Absolute download URL with security token (expires after 15 minutes) |
 
@@ -485,6 +489,7 @@ Create an instance: `$message = $client->Message();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `campaignId` | `string` | Schedule grouping identifier |
+| `id` | `string` |  |
 | `messages` | `array` |  |
 | `scheduleAt` | `string` | Scheduled sending time |
 
@@ -521,6 +526,7 @@ Create an instance: `$message_event = $client->MessageEvent();`
 | --- | --- | --- |
 | `accountId` | `string` | Account identifier |
 | `eventId` | `string` | Unique event identifier (for idempotent processing / deduplication) |
+| `id` | `string` |  |
 | `messageStatusChanged` | `array` |  |
 | `on` | `string` | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` | `array` |  |
@@ -660,6 +666,7 @@ Create an instance: `$template = $client->Template();`
 | `createdOn` | `string` | Date of template creation |
 | `designerUrl` | `string` | URL to the external template designer (dynamically generated if enabled) |
 | `details` | `string` | Additional details about the latest status |
+| `id` | `string` |  |
 | `meta` | `array` |  |
 | `occurredOn` | `string` | Date and time of last review status change |
 | `options` | `array` |  |
@@ -724,6 +731,7 @@ Create an instance: `$traffic_file = $client->TrafficFile();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `files` | `array` |  |
+| `id` | `string` |  |
 | `path` | `string` | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | `string` | Absolute download URL with security token (expires after 15 minutes) |
 

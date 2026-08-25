@@ -85,6 +85,7 @@ class TemplateEntityTest extends TestCase
         $template_ref01_data_result = $template_ref01_ent->create($template_ref01_data, null);
         $template_ref01_data = Helpers::to_map(is_object($template_ref01_data_result) && method_exists($template_ref01_data_result, 'data_get') ? $template_ref01_data_result->data_get() : $template_ref01_data_result);
         $this->assertNotNull($template_ref01_data);
+        $this->assertNotNull($template_ref01_data["id"]);
 
         // LIST
         $template_ref01_match = [];
@@ -92,8 +93,14 @@ class TemplateEntityTest extends TestCase
         $template_ref01_list_result = $template_ref01_ent->list($template_ref01_match, null);
         $this->assertIsArray($template_ref01_list_result);
 
+        $found_item = sdk_select(
+            Runner::entity_list_to_data($template_ref01_list_result),
+            ["id" => $template_ref01_data["id"]]);
+        $this->assertNotEmpty($found_item);
+
         // UPDATE
         $template_ref01_data_up0_up = [
+            "id" => $template_ref01_data["id"],
         ];
 
         $template_ref01_markdef_up0_name = "createdOn";
@@ -103,19 +110,34 @@ class TemplateEntityTest extends TestCase
         $template_ref01_resdata_up0_result = $template_ref01_ent->update($template_ref01_data_up0_up, null);
         $template_ref01_resdata_up0 = Helpers::to_map(is_object($template_ref01_resdata_up0_result) && method_exists($template_ref01_resdata_up0_result, 'data_get') ? $template_ref01_resdata_up0_result->data_get() : $template_ref01_resdata_up0_result);
         $this->assertNotNull($template_ref01_resdata_up0);
+        $this->assertEquals($template_ref01_resdata_up0["id"], $template_ref01_data_up0_up["id"]);
         $this->assertEquals($template_ref01_resdata_up0[$template_ref01_markdef_up0_name], $template_ref01_markdef_up0_value);
 
         // LOAD
-        $template_ref01_match_dt0 = [];
+        $template_ref01_match_dt0 = [
+            "id" => $template_ref01_data["id"],
+        ];
         $template_ref01_data_dt0_loaded = $template_ref01_ent->load($template_ref01_match_dt0, null);
-        $this->assertNotNull($template_ref01_data_dt0_loaded);
+        $template_ref01_data_dt0_load_result = Helpers::to_map(is_object($template_ref01_data_dt0_loaded) && method_exists($template_ref01_data_dt0_loaded, 'data_get') ? $template_ref01_data_dt0_loaded->data_get() : $template_ref01_data_dt0_loaded);
+        $this->assertNotNull($template_ref01_data_dt0_load_result);
+        $this->assertEquals($template_ref01_data_dt0_load_result["id"], $template_ref01_data["id"]);
 
+        // REMOVE
+        $template_ref01_match_rm0 = [
+            "id" => $template_ref01_data["id"],
+        ];
+        $template_ref01_ent->remove($template_ref01_match_rm0, null);
 
         // LIST
         $template_ref01_match_rt0 = [];
 
         $template_ref01_list_rt0_result = $template_ref01_ent->list($template_ref01_match_rt0, null);
         $this->assertIsArray($template_ref01_list_rt0_result);
+
+        $not_found_item = sdk_select(
+            Runner::entity_list_to_data($template_ref01_list_rt0_result),
+            ["id" => $template_ref01_data["id"]]);
+        $this->assertEmpty($not_found_item);
 
     }
 }

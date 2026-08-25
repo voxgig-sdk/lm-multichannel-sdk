@@ -49,6 +49,7 @@ class ContentCreateData
 class Message
 {
     public ?string $campaignId = null;
+    public ?string $id = null;
     public array $messages;
     public string $scheduleAt;
 }
@@ -63,6 +64,7 @@ class MessageLoadMatch
 class MessageCreateData
 {
     public ?string $campaignId = null;
+    public ?string $id = null;
     public array $messages;
     public string $scheduleAt;
 }
@@ -78,6 +80,7 @@ class MessageEvent
 {
     public string $accountId;
     public string $eventId;
+    public ?string $id = null;
     public array $messageStatusChanged;
     public string $on;
     public array $templateReviewStatusChanged;
@@ -170,6 +173,7 @@ class Template
     public string $createdOn;
     public ?string $designerUrl = null;
     public ?string $details = null;
+    public ?string $id = null;
     public ?array $meta = null;
     public string $occurredOn;
     public ?array $options = null;
@@ -196,6 +200,7 @@ class TemplateListMatch
     public ?string $createdOn = null;
     public ?string $designerUrl = null;
     public ?string $details = null;
+    public ?string $id = null;
     public ?array $meta = null;
     public ?string $occurredOn = null;
     public ?array $options = null;
@@ -215,6 +220,7 @@ class TemplateCreateData
     public string $createdOn;
     public ?string $designerUrl = null;
     public ?string $details = null;
+    public ?string $id = null;
     public ?array $meta = null;
     public string $occurredOn;
     public ?array $options = null;
@@ -269,6 +275,7 @@ class TrafficRemoveMatch
 class TrafficFile
 {
     public array $files;
+    public ?string $id = null;
     public string $path;
     public string $url;
 }
@@ -283,6 +290,7 @@ class TrafficFileLoadMatch
 class TrafficFileListMatch
 {
     public ?array $files = null;
+    public ?string $id = null;
     public ?string $path = null;
     public ?string $url = null;
 }

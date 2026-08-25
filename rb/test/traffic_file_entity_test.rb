@@ -83,9 +83,13 @@ class TrafficFileEntityTest < Minitest::Test
     assert traffic_file_ref01_list_result.is_a?(Array)
 
     # LOAD
-    traffic_file_ref01_match_dt0 = {}
+    traffic_file_ref01_match_dt0 = {
+      "id" => traffic_file_ref01_data["id"],
+    }
     traffic_file_ref01_data_dt0_loaded = traffic_file_ref01_ent.load(traffic_file_ref01_match_dt0, nil)
-    assert !traffic_file_ref01_data_dt0_loaded.nil?
+    traffic_file_ref01_data_dt0_load_result = Helpers.to_map(traffic_file_ref01_data_dt0_loaded.respond_to?(:data_get) ? traffic_file_ref01_data_dt0_loaded.data_get : traffic_file_ref01_data_dt0_loaded)
+    assert !traffic_file_ref01_data_dt0_load_result.nil?
+    assert_equal traffic_file_ref01_data_dt0_load_result["id"], traffic_file_ref01_data["id"]
 
   end
 end

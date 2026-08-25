@@ -200,6 +200,12 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "messages",
               "req": true,
               "type": "`$ARRAY`"
@@ -212,6 +218,10 @@
               "type": "`$STRING`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "message",
           "op": {
             "create": {
@@ -350,6 +360,12 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "messageStatusChanged",
               "req": true,
               "type": "`$OBJECT`"
@@ -374,6 +390,10 @@
               "type": "`$OBJECT`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "message_event",
           "op": {
             "list": {
@@ -876,6 +896,12 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "meta",
               "op": {
                 "create": {
@@ -945,6 +971,10 @@
               "type": "`$ARRAY`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "template",
           "op": {
             "create": {
@@ -1495,6 +1525,12 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "path",
               "req": true,
               "short": "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip",
@@ -1508,6 +1544,10 @@
               "type": "`$STRING`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "traffic_file",
           "op": {
             "list": {

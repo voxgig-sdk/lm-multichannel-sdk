@@ -194,6 +194,10 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 					},
 					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
+					},
+					map[string]any{
 						"name": "messages",
 						"req": true,
 						"type": "`$ARRAY`",
@@ -328,6 +332,10 @@ func MakeConfig() map[string]any {
 						"name": "eventId",
 						"req": true,
 						"short": "Unique event identifier (for idempotent processing / deduplication)",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -785,6 +793,10 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "details",
 						"short": "Additional details about the latest status",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -1351,6 +1363,10 @@ func MakeConfig() map[string]any {
 						"name": "files",
 						"req": true,
 						"type": "`$ARRAY`",
+					},
+					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "path",

@@ -284,6 +284,7 @@ API path: `/templates/{templateId}/content`
 | Field | Description |
 | --- | --- |
 | `campaignId` | Schedule grouping identifier |
+| `id` |  |
 | `messages` |  |
 | `scheduleAt` | Scheduled sending time |
 
@@ -297,6 +298,7 @@ API path: `/messages`
 | --- | --- |
 | `accountId` | Account identifier |
 | `eventId` | Unique event identifier (for idempotent processing / deduplication) |
+| `id` |  |
 | `messageStatusChanged` |  |
 | `on` | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` |  |
@@ -357,6 +359,7 @@ API path: `/self/settings`
 | `createdOn` | Date of template creation |
 | `designerUrl` | URL to the external template designer (dynamically generated if enabled) |
 | `details` | Additional details about the latest status |
+| `id` |  |
 | `meta` |  |
 | `occurredOn` | Date and time of last review status change |
 | `options` |  |
@@ -385,6 +388,7 @@ API path: `/traffic/files/{path}`
 | Field | Description |
 | --- | --- |
 | `files` |  |
+| `id` |  |
 | `path` | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | Absolute download URL with security token (expires after 15 minutes) |
 
@@ -475,6 +479,7 @@ Create an instance: `message = client.Message`
 | Field | Type | Description |
 | --- | --- | --- |
 | `campaignId` | `String` | Schedule grouping identifier |
+| `id` | `String` |  |
 | `messages` | `Array` |  |
 | `scheduleAt` | `String` | Scheduled sending time |
 
@@ -511,6 +516,7 @@ Create an instance: `message_event = client.MessageEvent`
 | --- | --- | --- |
 | `accountId` | `String` | Account identifier |
 | `eventId` | `String` | Unique event identifier (for idempotent processing / deduplication) |
+| `id` | `String` |  |
 | `messageStatusChanged` | `Hash` |  |
 | `on` | `String` | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` | `Hash` |  |
@@ -650,6 +656,7 @@ Create an instance: `template = client.Template`
 | `createdOn` | `String` | Date of template creation |
 | `designerUrl` | `String` | URL to the external template designer (dynamically generated if enabled) |
 | `details` | `String` | Additional details about the latest status |
+| `id` | `String` |  |
 | `meta` | `Hash` |  |
 | `occurredOn` | `String` | Date and time of last review status change |
 | `options` | `Hash` |  |
@@ -714,6 +721,7 @@ Create an instance: `traffic_file = client.TrafficFile`
 | Field | Type | Description |
 | --- | --- | --- |
 | `files` | `Array` |  |
+| `id` | `String` |  |
 | `path` | `String` | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | `String` | Absolute download URL with security token (expires after 15 minutes) |
 

@@ -121,13 +121,19 @@ func TestTrafficFileEntity(t *testing.T) {
 		}
 
 		// LOAD
-		trafficFileRef01MatchDt0 := map[string]any{}
+		trafficFileRef01MatchDt0 := map[string]any{
+			"id": trafficFileRef01Data["id"],
+		}
 		trafficFileRef01DataDt0Loaded, err := trafficFileRef01Ent.Load(trafficFileRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if trafficFileRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		trafficFileRef01DataDt0LoadResult := core.ToMapAny(entityData(trafficFileRef01DataDt0Loaded))
+		if trafficFileRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if trafficFileRef01DataDt0LoadResult["id"] != trafficFileRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})

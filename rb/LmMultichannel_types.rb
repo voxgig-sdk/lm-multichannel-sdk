@@ -100,6 +100,9 @@ ContentCreateData = Struct.new(
 # @!attribute [rw] campaignId
 #   @return [String, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] messages
 #   @return [Array]
 #
@@ -107,6 +110,7 @@ ContentCreateData = Struct.new(
 #   @return [String]
 Message = Struct.new(
   :campaignId,
+  :id,
   :messages,
   :scheduleAt,
   keyword_init: true
@@ -126,6 +130,9 @@ MessageLoadMatch = Struct.new(
 # @!attribute [rw] campaignId
 #   @return [String, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] messages
 #   @return [Array]
 #
@@ -133,6 +140,7 @@ MessageLoadMatch = Struct.new(
 #   @return [String]
 MessageCreateData = Struct.new(
   :campaignId,
+  :id,
   :messages,
   :scheduleAt,
   keyword_init: true
@@ -155,6 +163,9 @@ MessageRemoveMatch = Struct.new(
 # @!attribute [rw] eventId
 #   @return [String]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] messageStatusChanged
 #   @return [Hash]
 #
@@ -169,6 +180,7 @@ MessageRemoveMatch = Struct.new(
 MessageEvent = Struct.new(
   :accountId,
   :eventId,
+  :id,
   :messageStatusChanged,
   :on,
   :templateReviewStatusChanged,
@@ -325,6 +337,9 @@ SelfAdminUpdateData = Struct.new(
 # @!attribute [rw] details
 #   @return [String, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] meta
 #   @return [Hash, nil]
 #
@@ -357,6 +372,7 @@ Template = Struct.new(
   :createdOn,
   :designerUrl,
   :details,
+  :id,
   :meta,
   :occurredOn,
   :options,
@@ -399,6 +415,9 @@ TemplateLoadMatch = Struct.new(
 # @!attribute [rw] details
 #   @return [String, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] meta
 #   @return [Hash, nil]
 #
@@ -431,6 +450,7 @@ TemplateListMatch = Struct.new(
   :createdOn,
   :designerUrl,
   :details,
+  :id,
   :meta,
   :occurredOn,
   :options,
@@ -458,6 +478,9 @@ TemplateListMatch = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] details
+#   @return [String, nil]
+#
+# @!attribute [rw] id
 #   @return [String, nil]
 #
 # @!attribute [rw] meta
@@ -492,6 +515,7 @@ TemplateCreateData = Struct.new(
   :createdOn,
   :designerUrl,
   :details,
+  :id,
   :meta,
   :occurredOn,
   :options,
@@ -604,6 +628,9 @@ TrafficRemoveMatch = Struct.new(
 # @!attribute [rw] files
 #   @return [Array]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] path
 #   @return [String]
 #
@@ -611,6 +638,7 @@ TrafficRemoveMatch = Struct.new(
 #   @return [String]
 TrafficFile = Struct.new(
   :files,
+  :id,
   :path,
   :url,
   keyword_init: true
@@ -630,6 +658,9 @@ TrafficFileLoadMatch = Struct.new(
 # @!attribute [rw] files
 #   @return [Array, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] path
 #   @return [String, nil]
 #
@@ -637,6 +668,7 @@ TrafficFileLoadMatch = Struct.new(
 #   @return [String, nil]
 TrafficFileListMatch = Struct.new(
   :files,
+  :id,
   :path,
   :url,
   keyword_init: true

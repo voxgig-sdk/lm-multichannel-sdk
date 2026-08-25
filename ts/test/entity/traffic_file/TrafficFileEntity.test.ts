@@ -66,6 +66,12 @@ describe('TrafficFileEntity', async () => {
     const traffic_file_ref01_list = (await traffic_file_ref01_ent.list(traffic_file_ref01_match)).map((e: any) => e.data())
 
 
+    // LOAD
+    const traffic_file_ref01_match_dt0: any = {}
+    traffic_file_ref01_match_dt0.id = traffic_file_ref01_data.id
+    const traffic_file_ref01_data_dt0 = (await traffic_file_ref01_ent.load(traffic_file_ref01_match_dt0)).data()
+    assert(traffic_file_ref01_data_dt0.id === traffic_file_ref01_data.id)
+
 
   })
 })

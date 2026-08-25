@@ -211,6 +211,10 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "name": "id",
+            "type": "`$STRING`",
+          },
+          {
             "name": "messages",
             "req": True,
             "type": "`$ARRAY`",
@@ -345,6 +349,10 @@ def make_config():
             "name": "eventId",
             "req": True,
             "short": "Unique event identifier (for idempotent processing / deduplication)",
+            "type": "`$STRING`",
+          },
+          {
+            "name": "id",
             "type": "`$STRING`",
           },
           {
@@ -802,6 +810,10 @@ def make_config():
           {
             "name": "details",
             "short": "Additional details about the latest status",
+            "type": "`$STRING`",
+          },
+          {
+            "name": "id",
             "type": "`$STRING`",
           },
           {
@@ -1368,6 +1380,10 @@ def make_config():
             "name": "files",
             "req": True,
             "type": "`$ARRAY`",
+          },
+          {
+            "name": "id",
+            "type": "`$STRING`",
           },
           {
             "name": "path",

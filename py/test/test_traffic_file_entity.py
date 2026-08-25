@@ -88,9 +88,13 @@ class TestTrafficFileEntity:
         assert isinstance(traffic_file_ref01_list_result, list)
 
         # LOAD
-        traffic_file_ref01_match_dt0 = {}
+        traffic_file_ref01_match_dt0 = {
+            "id": traffic_file_ref01_data["id"],
+        }
         traffic_file_ref01_data_dt0_loaded = traffic_file_ref01_ent.load(traffic_file_ref01_match_dt0, None)
-        assert traffic_file_ref01_data_dt0_loaded is not None
+        traffic_file_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(traffic_file_ref01_data_dt0_loaded))
+        assert traffic_file_ref01_data_dt0_load_result is not None
+        assert traffic_file_ref01_data_dt0_load_result["id"] == traffic_file_ref01_data["id"]
 
 
 

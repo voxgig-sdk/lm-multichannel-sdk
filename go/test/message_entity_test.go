@@ -62,17 +62,34 @@ func TestMessageEntity(t *testing.T) {
 		if messageRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
+		if messageRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
+		}
 
 		// LOAD
-		messageRef01MatchDt0 := map[string]any{}
+		messageRef01MatchDt0 := map[string]any{
+			"id": messageRef01Data["id"],
+		}
 		messageRef01DataDt0Loaded, err := messageRef01Ent.Load(messageRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if messageRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		messageRef01DataDt0LoadResult := core.ToMapAny(entityData(messageRef01DataDt0Loaded))
+		if messageRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if messageRef01DataDt0LoadResult["id"] != messageRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
+		// REMOVE
+		messageRef01MatchRm0 := map[string]any{
+			"id": messageRef01Data["id"],
+		}
+		_, err = messageRef01Ent.Remove(messageRef01MatchRm0, nil)
+		if err != nil {
+			t.Fatalf("remove failed: %v", err)
+		}
 
 	})
 }

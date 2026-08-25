@@ -80,6 +80,7 @@ class TestTemplateEntity:
 
         template_ref01_data = helpers.to_map(runner.entity_data(template_ref01_ent.create(template_ref01_data, None)))
         assert template_ref01_data is not None
+        assert template_ref01_data["id"] is not None
 
         # LIST
         template_ref01_match = {}
@@ -87,8 +88,14 @@ class TestTemplateEntity:
         template_ref01_list_result = template_ref01_ent.list(template_ref01_match, None)
         assert isinstance(template_ref01_list_result, list)
 
+        found_item = vs.select(
+            runner.entity_list_to_data(template_ref01_list_result),
+            {"id": template_ref01_data["id"]})
+        assert not vs.isempty(found_item)
+
         # UPDATE
         template_ref01_data_up0_up = {
+            "id": template_ref01_data["id"],
         }
 
         template_ref01_markdef_up0_name = "createdOn"
@@ -97,19 +104,34 @@ class TestTemplateEntity:
 
         template_ref01_resdata_up0 = helpers.to_map(runner.entity_data(template_ref01_ent.update(template_ref01_data_up0_up, None)))
         assert template_ref01_resdata_up0 is not None
+        assert template_ref01_resdata_up0["id"] == template_ref01_data_up0_up["id"]
         assert template_ref01_resdata_up0[template_ref01_markdef_up0_name] == template_ref01_markdef_up0_value
 
         # LOAD
-        template_ref01_match_dt0 = {}
+        template_ref01_match_dt0 = {
+            "id": template_ref01_data["id"],
+        }
         template_ref01_data_dt0_loaded = template_ref01_ent.load(template_ref01_match_dt0, None)
-        assert template_ref01_data_dt0_loaded is not None
+        template_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(template_ref01_data_dt0_loaded))
+        assert template_ref01_data_dt0_load_result is not None
+        assert template_ref01_data_dt0_load_result["id"] == template_ref01_data["id"]
 
+        # REMOVE
+        template_ref01_match_rm0 = {
+            "id": template_ref01_data["id"],
+        }
+        template_ref01_ent.remove(template_ref01_match_rm0, None)
 
         # LIST
         template_ref01_match_rt0 = {}
 
         template_ref01_list_rt0_result = template_ref01_ent.list(template_ref01_match_rt0, None)
         assert isinstance(template_ref01_list_rt0_result, list)
+
+        not_found_item = vs.select(
+            runner.entity_list_to_data(template_ref01_list_rt0_result),
+            {"id": template_ref01_data["id"]})
+        assert vs.isempty(not_found_item)
 
 
 

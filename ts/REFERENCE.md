@@ -310,6 +310,7 @@ const message = client.Message()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `campaignId` | `string` | No | Schedule grouping identifier |
+| `id` | `string` | No |  |
 | `messages` | `any[]` | Yes |  |
 | `scheduleAt` | `string` | Yes | Scheduled sending time |
 
@@ -403,6 +404,7 @@ const message_event = client.MessageEvent()
 | --- | --- | --- | --- |
 | `accountId` | `string` | Yes | Account identifier |
 | `eventId` | `string` | Yes | Unique event identifier (for idempotent processing / deduplication) |
+| `id` | `string` | No |  |
 | `messageStatusChanged` | `Record<string, any>` | Yes |  |
 | `on` | `string` | Yes | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` | `Record<string, any>` | Yes |  |
@@ -695,6 +697,7 @@ const template = client.Template()
 | `createdOn` | `string` | Yes | Date of template creation |
 | `designerUrl` | `string` | No | URL to the external template designer (dynamically generated if enabled) |
 | `details` | `string` | No | Additional details about the latest status |
+| `id` | `string` | No |  |
 | `meta` | `Record<string, any>` | No |  |
 | `occurredOn` | `string` | Yes | Date and time of last review status change |
 | `options` | `Record<string, any>` | No |  |
@@ -714,6 +717,7 @@ const template = client.Template()
 | `createdOn` | - | - | - | - | - |
 | `designerUrl` | - | - | - | - | - |
 | `details` | - | - | - | - | - |
+| `id` | - | - | - | - | - |
 | `meta` | - | - | Yes | - | - |
 | `occurredOn` | - | - | - | - | - |
 | `options` | - | - | - | - | - |
@@ -882,6 +886,7 @@ const traffic_file = client.TrafficFile()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `files` | `any[]` | Yes |  |
+| `id` | `string` | No |  |
 | `path` | `string` | Yes | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | `string` | Yes | Absolute download URL with security token (expires after 15 minutes) |
 

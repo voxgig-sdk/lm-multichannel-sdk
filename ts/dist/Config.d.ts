@@ -135,6 +135,11 @@ declare class Config {
                 req?: undefined;
             } | {
                 name: string;
+                type: string;
+                short?: undefined;
+                req?: undefined;
+            } | {
+                name: string;
                 req: boolean;
                 type: string;
                 short?: undefined;
@@ -237,6 +242,11 @@ declare class Config {
                 req: boolean;
                 short: string;
                 type: string;
+            } | {
+                name: string;
+                type: string;
+                req?: undefined;
+                short?: undefined;
             } | {
                 name: string;
                 req: boolean;
@@ -912,6 +922,11 @@ declare class Config {
                 name: string;
                 req: boolean;
                 type: string;
+                short?: undefined;
+            } | {
+                name: string;
+                type: string;
+                req?: undefined;
                 short?: undefined;
             } | {
                 name: string;

@@ -35,6 +35,11 @@ main: kit: entity: template: {
       type: "`$STRING`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "meta"
       op: {
         create: {
@@ -96,6 +101,11 @@ main: kit: entity: template: {
       type: "`$ARRAY`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "template"
   op: {

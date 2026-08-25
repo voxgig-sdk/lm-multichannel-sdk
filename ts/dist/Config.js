@@ -203,6 +203,10 @@ class Config {
                     "type": "`$STRING`"
                 },
                 {
+                    "name": "id",
+                    "type": "`$STRING`"
+                },
+                {
                     "name": "messages",
                     "req": true,
                     "type": "`$ARRAY`"
@@ -337,6 +341,10 @@ class Config {
                     "name": "eventId",
                     "req": true,
                     "short": "Unique event identifier (for idempotent processing / deduplication)",
+                    "type": "`$STRING`"
+                },
+                {
+                    "name": "id",
                     "type": "`$STRING`"
                 },
                 {
@@ -794,6 +802,10 @@ class Config {
                 {
                     "name": "details",
                     "short": "Additional details about the latest status",
+                    "type": "`$STRING`"
+                },
+                {
+                    "name": "id",
                     "type": "`$STRING`"
                 },
                 {
@@ -1360,6 +1372,10 @@ class Config {
                     "name": "files",
                     "req": true,
                     "type": "`$ARRAY`"
+                },
+                {
+                    "name": "id",
+                    "type": "`$STRING`"
                 },
                 {
                     "name": "path",

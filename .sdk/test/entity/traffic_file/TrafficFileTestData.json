@@ -3,21 +3,21 @@
     "traffic_file": {
       "TRAFFIC_FILE00": {
         "files": [],
-        "path": "s1f",
-        "url": "s20",
-        "id": "TRAFFIC_FILE00"
+        "id": "TRAFFIC_FILE00",
+        "path": "s2a",
+        "url": "s2b"
       },
       "TRAFFIC_FILE01": {
         "files": [],
-        "path": "s3d",
-        "url": "s3e",
-        "id": "TRAFFIC_FILE01"
+        "id": "TRAFFIC_FILE01",
+        "path": "s52",
+        "url": "s53"
       },
       "TRAFFIC_FILE02": {
         "files": [],
-        "path": "s5b",
-        "url": "s5c",
-        "id": "TRAFFIC_FILE02"
+        "id": "TRAFFIC_FILE02",
+        "path": "s7a",
+        "url": "s7b"
       }
     }
   },
@@ -25,8 +25,8 @@
     "traffic_file": {
       "traffic_file_ref01": {
         "files": [],
-        "path": "s79",
-        "url": "s7a"
+        "path": "sa2",
+        "url": "sa3"
       }
     }
   }

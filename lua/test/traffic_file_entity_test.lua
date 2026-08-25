@@ -92,10 +92,14 @@ describe("TrafficFileEntity", function()
     assert.is_table(traffic_file_ref01_list_result)
 
     -- LOAD
-    local traffic_file_ref01_match_dt0 = {}
+    local traffic_file_ref01_match_dt0 = {
+      id = traffic_file_ref01_data["id"],
+    }
     local traffic_file_ref01_data_dt0_loaded, err = traffic_file_ref01_ent:load(traffic_file_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(traffic_file_ref01_data_dt0_loaded)
+    local traffic_file_ref01_data_dt0_load_result = helpers.to_map(type(traffic_file_ref01_data_dt0_loaded) == 'table' and traffic_file_ref01_data_dt0_loaded.data_get and traffic_file_ref01_data_dt0_loaded:data_get() or traffic_file_ref01_data_dt0_loaded)
+    assert.is_not_nil(traffic_file_ref01_data_dt0_load_result)
+    assert.are.equal(traffic_file_ref01_data_dt0_load_result["id"], traffic_file_ref01_data["id"])
 
   end)
 end)

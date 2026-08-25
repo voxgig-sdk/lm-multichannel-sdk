@@ -56,6 +56,7 @@ class MessageRequired(TypedDict):
 
 class Message(MessageRequired, total=False):
     campaignId: str
+    id: str
 
 
 class MessageLoadMatch(TypedDict):
@@ -69,19 +70,24 @@ class MessageCreateDataRequired(TypedDict):
 
 class MessageCreateData(MessageCreateDataRequired, total=False):
     campaignId: str
+    id: str
 
 
 class MessageRemoveMatch(TypedDict):
     id: str
 
 
-class MessageEvent(TypedDict):
+class MessageEventRequired(TypedDict):
     accountId: str
     eventId: str
     messageStatusChanged: dict
     on: str
     templateReviewStatusChanged: dict
     userMessageReceived: dict
+
+
+class MessageEvent(MessageEventRequired, total=False):
+    id: str
 
 
 class MessageEventListMatch(TypedDict):
@@ -154,6 +160,7 @@ class Template(TemplateRequired, total=False):
     content: dict
     designerUrl: str
     details: str
+    id: str
     meta: dict
     options: dict
     reviews: dict
@@ -175,6 +182,7 @@ class TemplateListMatch(TypedDict, total=False):
     createdOn: str
     designerUrl: str
     details: str
+    id: str
     meta: dict
     occurredOn: str
     options: dict
@@ -199,6 +207,7 @@ class TemplateCreateData(TemplateCreateDataRequired, total=False):
     content: dict
     designerUrl: str
     details: str
+    id: str
     meta: dict
     options: dict
     reviews: dict
@@ -244,10 +253,14 @@ class TrafficRemoveMatch(TypedDict):
     path: str
 
 
-class TrafficFile(TypedDict):
+class TrafficFileRequired(TypedDict):
     files: list
     path: str
     url: str
+
+
+class TrafficFile(TrafficFileRequired, total=False):
+    id: str
 
 
 class TrafficFileLoadMatch(TypedDict):
@@ -256,6 +269,7 @@ class TrafficFileLoadMatch(TypedDict):
 
 class TrafficFileListMatch(TypedDict, total=False):
     files: list
+    id: str
     path: str
     url: str
 

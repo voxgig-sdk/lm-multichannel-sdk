@@ -93,9 +93,13 @@ class TrafficFileEntityTest extends TestCase
         $this->assertIsArray($traffic_file_ref01_list_result);
 
         // LOAD
-        $traffic_file_ref01_match_dt0 = [];
+        $traffic_file_ref01_match_dt0 = [
+            "id" => $traffic_file_ref01_data["id"],
+        ];
         $traffic_file_ref01_data_dt0_loaded = $traffic_file_ref01_ent->load($traffic_file_ref01_match_dt0, null);
-        $this->assertNotNull($traffic_file_ref01_data_dt0_loaded);
+        $traffic_file_ref01_data_dt0_load_result = Helpers::to_map(is_object($traffic_file_ref01_data_dt0_loaded) && method_exists($traffic_file_ref01_data_dt0_loaded, 'data_get') ? $traffic_file_ref01_data_dt0_loaded->data_get() : $traffic_file_ref01_data_dt0_loaded);
+        $this->assertNotNull($traffic_file_ref01_data_dt0_load_result);
+        $this->assertEquals($traffic_file_ref01_data_dt0_load_result["id"], $traffic_file_ref01_data["id"]);
 
     }
 }

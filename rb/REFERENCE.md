@@ -209,6 +209,7 @@ message = client.Message
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `campaignId` | `String` | No | Schedule grouping identifier |
+| `id` | `String` | No |  |
 | `messages` | `Array` | Yes |  |
 | `scheduleAt` | `String` | Yes | Scheduled sending time |
 
@@ -283,6 +284,7 @@ message_event = client.MessageEvent
 | --- | --- | --- | --- |
 | `accountId` | `String` | Yes | Account identifier |
 | `eventId` | `String` | Yes | Unique event identifier (for idempotent processing / deduplication) |
+| `id` | `String` | No |  |
 | `messageStatusChanged` | `Hash` | Yes |  |
 | `on` | `String` | Yes | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` | `Hash` | Yes |  |
@@ -585,6 +587,7 @@ template = client.Template
 | `createdOn` | `String` | Yes | Date of template creation |
 | `designerUrl` | `String` | No | URL to the external template designer (dynamically generated if enabled) |
 | `details` | `String` | No | Additional details about the latest status |
+| `id` | `String` | No |  |
 | `meta` | `Hash` | No |  |
 | `occurredOn` | `String` | Yes | Date and time of last review status change |
 | `options` | `Hash` | No |  |
@@ -604,6 +607,7 @@ template = client.Template
 | `createdOn` | - | - | - | - | - |
 | `designerUrl` | - | - | - | - | - |
 | `details` | - | - | - | - | - |
+| `id` | - | - | - | - | - |
 | `meta` | - | - | Yes | - | - |
 | `occurredOn` | - | - | - | - | - |
 | `options` | - | - | - | - | - |
@@ -753,6 +757,7 @@ traffic_file = client.TrafficFile
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `files` | `Array` | Yes |  |
+| `id` | `String` | No |  |
 | `path` | `String` | Yes | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | `String` | Yes | Absolute download URL with security token (expires after 15 minutes) |
 

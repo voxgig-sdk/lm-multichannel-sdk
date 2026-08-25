@@ -32,6 +32,7 @@
 
 ---@class Message
 ---@field campaignId? string
+---@field id? string
 ---@field messages table
 ---@field scheduleAt string
 
@@ -40,6 +41,7 @@
 
 ---@class MessageCreateData
 ---@field campaignId? string
+---@field id? string
 ---@field messages table
 ---@field scheduleAt string
 
@@ -49,6 +51,7 @@
 ---@class MessageEvent
 ---@field accountId string
 ---@field eventId string
+---@field id? string
 ---@field messageStatusChanged table
 ---@field on string
 ---@field templateReviewStatusChanged table
@@ -102,6 +105,7 @@
 ---@field createdOn string
 ---@field designerUrl? string
 ---@field details? string
+---@field id? string
 ---@field meta? table
 ---@field occurredOn string
 ---@field options? table
@@ -122,6 +126,7 @@
 ---@field createdOn? string
 ---@field designerUrl? string
 ---@field details? string
+---@field id? string
 ---@field meta? table
 ---@field occurredOn? string
 ---@field options? table
@@ -138,6 +143,7 @@
 ---@field createdOn string
 ---@field designerUrl? string
 ---@field details? string
+---@field id? string
 ---@field meta? table
 ---@field occurredOn string
 ---@field options? table
@@ -177,6 +183,7 @@
 
 ---@class TrafficFile
 ---@field files table
+---@field id? string
 ---@field path string
 ---@field url string
 
@@ -185,6 +192,7 @@
 
 ---@class TrafficFileListMatch
 ---@field files? table
+---@field id? string
 ---@field path? string
 ---@field url? string
 

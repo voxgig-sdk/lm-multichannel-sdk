@@ -287,6 +287,7 @@ API path: `/templates/{templateId}/content`
 | Field | Description |
 | --- | --- |
 | `campaignId` | Schedule grouping identifier |
+| `id` |  |
 | `messages` |  |
 | `scheduleAt` | Scheduled sending time |
 
@@ -300,6 +301,7 @@ API path: `/messages`
 | --- | --- |
 | `accountId` | Account identifier |
 | `eventId` | Unique event identifier (for idempotent processing / deduplication) |
+| `id` |  |
 | `messageStatusChanged` |  |
 | `on` | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` |  |
@@ -360,6 +362,7 @@ API path: `/self/settings`
 | `createdOn` | Date of template creation |
 | `designerUrl` | URL to the external template designer (dynamically generated if enabled) |
 | `details` | Additional details about the latest status |
+| `id` |  |
 | `meta` |  |
 | `occurredOn` | Date and time of last review status change |
 | `options` |  |
@@ -388,6 +391,7 @@ API path: `/traffic/files/{path}`
 | Field | Description |
 | --- | --- |
 | `files` |  |
+| `id` |  |
 | `path` | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | Absolute download URL with security token (expires after 15 minutes) |
 
@@ -477,6 +481,7 @@ Create an instance: `message = client.Message()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `campaignId` | `str` | Schedule grouping identifier |
+| `id` | `str` |  |
 | `messages` | `list` |  |
 | `scheduleAt` | `str` | Scheduled sending time |
 
@@ -512,6 +517,7 @@ Create an instance: `message_event = client.MessageEvent()`
 | --- | --- | --- |
 | `accountId` | `str` | Account identifier |
 | `eventId` | `str` | Unique event identifier (for idempotent processing / deduplication) |
+| `id` | `str` |  |
 | `messageStatusChanged` | `dict` |  |
 | `on` | `str` | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` | `dict` |  |
@@ -647,6 +653,7 @@ Create an instance: `template = client.Template()`
 | `createdOn` | `str` | Date of template creation |
 | `designerUrl` | `str` | URL to the external template designer (dynamically generated if enabled) |
 | `details` | `str` | Additional details about the latest status |
+| `id` | `str` |  |
 | `meta` | `dict` |  |
 | `occurredOn` | `str` | Date and time of last review status change |
 | `options` | `dict` |  |
@@ -709,6 +716,7 @@ Create an instance: `traffic_file = client.TrafficFile()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `files` | `list` |  |
+| `id` | `str` |  |
 | `path` | `str` | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | `str` | Absolute download URL with security token (expires after 15 minutes) |
 

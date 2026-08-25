@@ -206,6 +206,7 @@ local message = client:Message(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `campaignId` | `string` | No | Schedule grouping identifier |
+| `id` | `string` | No |  |
 | `messages` | `table` | Yes |  |
 | `scheduleAt` | `string` | Yes | Scheduled sending time |
 
@@ -280,6 +281,7 @@ local message_event = client:MessageEvent(nil)
 | --- | --- | --- | --- |
 | `accountId` | `string` | Yes | Account identifier |
 | `eventId` | `string` | Yes | Unique event identifier (for idempotent processing / deduplication) |
+| `id` | `string` | No |  |
 | `messageStatusChanged` | `table` | Yes |  |
 | `on` | `string` | Yes | UTC date-time when the event occurred |
 | `templateReviewStatusChanged` | `table` | Yes |  |
@@ -582,6 +584,7 @@ local template = client:Template(nil)
 | `createdOn` | `string` | Yes | Date of template creation |
 | `designerUrl` | `string` | No | URL to the external template designer (dynamically generated if enabled) |
 | `details` | `string` | No | Additional details about the latest status |
+| `id` | `string` | No |  |
 | `meta` | `table` | No |  |
 | `occurredOn` | `string` | Yes | Date and time of last review status change |
 | `options` | `table` | No |  |
@@ -601,6 +604,7 @@ local template = client:Template(nil)
 | `createdOn` | - | - | - | - | - |
 | `designerUrl` | - | - | - | - | - |
 | `details` | - | - | - | - | - |
+| `id` | - | - | - | - | - |
 | `meta` | - | - | Yes | - | - |
 | `occurredOn` | - | - | - | - | - |
 | `options` | - | - | - | - | - |
@@ -750,6 +754,7 @@ local traffic_file = client:TrafficFile(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `files` | `table` | Yes |  |
+| `id` | `string` | No |  |
 | `path` | `string` | Yes | Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip |
 | `url` | `string` | Yes | Absolute download URL with security token (expires after 15 minutes) |
 
