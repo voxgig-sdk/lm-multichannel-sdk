@@ -134,14 +134,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates/{templateId}/content',
-                  'parts' => [
-                    'templates',
-                    '{template_id}',
-                    'content',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'template_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'template_id',
+                    ],
+                    [
+                      'lit' => 'content',
                     ],
                   ],
                   'select' => [
@@ -154,6 +160,11 @@ class LmMultichannelConfig
                       'content' => '`reqdata`',
                     ],
                     'res' => '`body.content`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{template_id}',
+                    'content',
                   ],
                 ],
               ],
@@ -177,14 +188,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/content',
-                  'parts' => [
-                    'templates',
-                    '{template_id}',
-                    'content',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'template_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'template_id',
+                    ],
+                    [
+                      'lit' => 'content',
                     ],
                   ],
                   'select' => [
@@ -195,6 +212,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.content`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{template_id}',
+                    'content',
                   ],
                 ],
               ],
@@ -225,11 +247,16 @@ class LmMultichannelConfig
               'type' => '`$ARRAY`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'scheduleAt',
               'req' => true,
               'short' => 'Scheduled sending time',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'message',
           'op' => [
@@ -242,13 +269,18 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/messages',
-                  'parts' => [
-                    'messages',
+                  'segments' => [
+                    [
+                      'lit' => 'messages',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'messages',
                   ],
                 ],
               ],
@@ -272,14 +304,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/messages/{messageId}/schedule',
-                  'parts' => [
-                    'messages',
-                    '{id}',
-                    'schedule',
-                  ],
                   'rename' => [
                     'param' => [
                       'messageId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'messages',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'schedule',
                     ],
                   ],
                   'select' => [
@@ -291,6 +329,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.schedule`',
+                  ],
+                  'parts' => [
+                    'messages',
+                    '{id}',
+                    'schedule',
                   ],
                 ],
               ],
@@ -314,14 +357,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/messages/{messageId}/schedule',
-                  'parts' => [
-                    'messages',
-                    '{id}',
-                    'schedule',
-                  ],
                   'rename' => [
                     'param' => [
                       'messageId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'messages',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'schedule',
                     ],
                   ],
                   'select' => [
@@ -333,6 +382,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'messages',
+                    '{id}',
+                    'schedule',
                   ],
                 ],
               ],
@@ -366,6 +420,7 @@ class LmMultichannelConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'on',
               'req' => true,
               'short' => 'UTC date-time when the event occurred',
@@ -381,6 +436,10 @@ class LmMultichannelConfig
               'req' => true,
               'type' => '`$OBJECT`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'message_event',
           'op' => [
@@ -424,14 +483,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/messages/{messageId}/events',
-                  'parts' => [
-                    'messages',
-                    '{id}',
-                    'events',
-                  ],
                   'rename' => [
                     'param' => [
                       'messageId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'messages',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'events',
                     ],
                   ],
                   'select' => [
@@ -445,6 +510,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.events`',
+                  ],
+                  'parts' => [
+                    'messages',
+                    '{id}',
+                    'events',
                   ],
                 ],
               ],
@@ -483,14 +553,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates/{templateId}/options',
-                  'parts' => [
-                    'templates',
-                    '{template_id}',
-                    'options',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'template_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'template_id',
+                    ],
+                    [
+                      'lit' => 'options',
                     ],
                   ],
                   'select' => [
@@ -501,6 +577,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.options`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{template_id}',
+                    'options',
                   ],
                 ],
               ],
@@ -524,14 +605,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/options',
-                  'parts' => [
-                    'templates',
-                    '{template_id}',
-                    'options',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'template_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'template_id',
+                    ],
+                    [
+                      'lit' => 'options',
                     ],
                   ],
                   'select' => [
@@ -542,6 +629,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.options`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{template_id}',
+                    'options',
                   ],
                 ],
               ],
@@ -565,14 +657,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/templates/{templateId}/options',
-                  'parts' => [
-                    'templates',
-                    '{template_id}',
-                    'options',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'template_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'template_id',
+                    ],
+                    [
+                      'lit' => 'options',
                     ],
                   ],
                   'select' => [
@@ -583,6 +681,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.options`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{template_id}',
+                    'options',
                   ],
                 ],
               ],
@@ -639,8 +742,10 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/schedules:count',
-                  'parts' => [
-                    'schedules:count',
+                  'segments' => [
+                    [
+                      'lit' => 'schedules:count',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -652,6 +757,9 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'schedules:count',
                   ],
                 ],
               ],
@@ -686,8 +794,10 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/schedules',
-                  'parts' => [
-                    'schedules',
+                  'segments' => [
+                    [
+                      'lit' => 'schedules',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -699,6 +809,9 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'schedules',
                   ],
                 ],
               ],
@@ -733,13 +846,18 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/self',
-                  'parts' => [
-                    'self',
+                  'segments' => [
+                    [
+                      'lit' => 'self',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.account`',
+                  ],
+                  'parts' => [
+                    'self',
                   ],
                 ],
               ],
@@ -773,14 +891,22 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/self/settings',
-                  'parts' => [
-                    'self',
-                    'settings',
+                  'segments' => [
+                    [
+                      'lit' => 'self',
+                    ],
+                    [
+                      'lit' => 'settings',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.settings`',
+                  ],
+                  'parts' => [
+                    'self',
+                    'settings',
                   ],
                 ],
               ],
@@ -802,6 +928,7 @@ class LmMultichannelConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'createdOn',
               'req' => true,
               'short' => 'Date of template creation',
@@ -836,6 +963,7 @@ class LmMultichannelConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'occurredOn',
               'req' => true,
               'short' => 'Date and time of last review status change',
@@ -869,6 +997,7 @@ class LmMultichannelConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'updatedOn',
               'short' => 'Date of last template update',
               'type' => '`$STRING`',
@@ -877,6 +1006,10 @@ class LmMultichannelConfig
               'name' => 'variables',
               'type' => '`$ARRAY`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'template',
           'op' => [
@@ -899,14 +1032,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates/{templateId}/meta',
-                  'parts' => [
-                    'templates',
-                    '{id}',
-                    'meta',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'meta',
                     ],
                   ],
                   'select' => [
@@ -919,14 +1058,21 @@ class LmMultichannelConfig
                     'req' => '`reqdata`',
                     'res' => '`body.meta`',
                   ],
+                  'parts' => [
+                    'templates',
+                    '{id}',
+                    'meta',
+                  ],
                 ],
                 [
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates',
-                  'parts' => [
-                    'templates',
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
@@ -934,6 +1080,9 @@ class LmMultichannelConfig
                       'template' => '`reqdata`',
                     ],
                     'res' => '`body.template`',
+                  ],
+                  'parts' => [
+                    'templates',
                   ],
                 ],
               ],
@@ -969,8 +1118,10 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates',
-                  'parts' => [
-                    'templates',
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -982,6 +1133,9 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.templates`',
+                  ],
+                  'parts' => [
+                    'templates',
                   ],
                 ],
               ],
@@ -1012,16 +1166,24 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/reviews/{channelId}',
-                  'parts' => [
-                    'templates',
-                    '{id}',
-                    'reviews',
-                    '{channel_id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'channelId' => 'channel_id',
                       'templateId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'reviews',
+                    ],
+                    [
+                      'var' => 'channel_id',
                     ],
                   ],
                   'select' => [
@@ -1033,6 +1195,12 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{id}',
+                    'reviews',
+                    '{channel_id}',
                   ],
                 ],
                 [
@@ -1050,13 +1218,17 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}',
-                  'parts' => [
-                    'templates',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1067,6 +1239,10 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.template`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{id}',
                   ],
                 ],
                 [
@@ -1084,14 +1260,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/meta',
-                  'parts' => [
-                    'templates',
-                    '{id}',
-                    'meta',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'meta',
                     ],
                   ],
                   'select' => [
@@ -1103,6 +1285,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.meta`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{id}',
+                    'meta',
                   ],
                 ],
                 [
@@ -1120,14 +1307,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/reviews',
-                  'parts' => [
-                    'templates',
-                    '{id}',
-                    'reviews',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'reviews',
                     ],
                   ],
                   'select' => [
@@ -1139,6 +1332,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.reviews`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{id}',
+                    'reviews',
                   ],
                 ],
               ],
@@ -1162,14 +1360,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/templates/{templateId}/meta',
-                  'parts' => [
-                    'templates',
-                    '{id}',
-                    'meta',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'meta',
                     ],
                   ],
                   'select' => [
@@ -1181,6 +1385,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.meta`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{id}',
+                    'meta',
                   ],
                 ],
               ],
@@ -1211,16 +1420,24 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/templates/{templateId}/reviews/{channelId}',
-                  'parts' => [
-                    'templates',
-                    '{id}',
-                    'reviews',
-                    '{channel_id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'channelId' => 'channel_id',
                       'templateId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'reviews',
+                    ],
+                    [
+                      'var' => 'channel_id',
                     ],
                   ],
                   'select' => [
@@ -1232,6 +1449,12 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{id}',
+                    'reviews',
+                    '{channel_id}',
                   ],
                 ],
                 [
@@ -1249,13 +1472,17 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/templates/{templateId}',
-                  'parts' => [
-                    'templates',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1266,6 +1493,10 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1296,16 +1527,24 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/templates/{templateId}/reviews/{channelId}',
-                  'parts' => [
-                    'templates',
-                    '{id}',
-                    'reviews',
-                    '{channel_id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'channelId' => 'channel_id',
                       'templateId' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'reviews',
+                    ],
+                    [
+                      'var' => 'channel_id',
                     ],
                   ],
                   'select' => [
@@ -1317,6 +1556,12 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{id}',
+                    'reviews',
+                    '{channel_id}',
                   ],
                 ],
               ],
@@ -1353,10 +1598,16 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/traffic/files/{path}',
-                  'parts' => [
-                    'traffic',
-                    'files',
-                    '{path}',
+                  'segments' => [
+                    [
+                      'lit' => 'traffic',
+                    ],
+                    [
+                      'lit' => 'files',
+                    ],
+                    [
+                      'var' => 'path',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1366,6 +1617,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'traffic',
+                    'files',
+                    '{path}',
                   ],
                 ],
               ],
@@ -1403,6 +1659,10 @@ class LmMultichannelConfig
               'type' => '`$STRING`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'traffic_file',
           'op' => [
             'list' => [
@@ -1414,14 +1674,22 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/traffic/files',
-                  'parts' => [
-                    'traffic',
-                    'files',
+                  'segments' => [
+                    [
+                      'lit' => 'traffic',
+                    ],
+                    [
+                      'lit' => 'files',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.files`',
+                  ],
+                  'parts' => [
+                    'traffic',
+                    'files',
                   ],
                 ],
               ],
@@ -1445,14 +1713,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/traffic/files/{path}',
-                  'parts' => [
-                    'traffic',
-                    'files',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'path' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'traffic',
+                    ],
+                    [
+                      'lit' => 'files',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1463,6 +1737,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'traffic',
+                    'files',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1532,14 +1811,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/templates/{templateId}/variables',
-                  'parts' => [
-                    'templates',
-                    '{template_id}',
-                    'variables',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'template_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'template_id',
+                    ],
+                    [
+                      'lit' => 'variables',
                     ],
                   ],
                   'select' => [
@@ -1550,6 +1835,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{template_id}',
+                    'variables',
                   ],
                 ],
               ],
@@ -1573,14 +1863,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/templates/{templateId}/variables',
-                  'parts' => [
-                    'templates',
-                    '{template_id}',
-                    'variables',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'template_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'template_id',
+                    ],
+                    [
+                      'lit' => 'variables',
                     ],
                   ],
                   'select' => [
@@ -1591,6 +1887,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.variables`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{template_id}',
+                    'variables',
                   ],
                 ],
               ],
@@ -1614,14 +1915,20 @@ class LmMultichannelConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/templates/{templateId}/variables',
-                  'parts' => [
-                    'templates',
-                    '{template_id}',
-                    'variables',
-                  ],
                   'rename' => [
                     'param' => [
                       'templateId' => 'template_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'templates',
+                    ],
+                    [
+                      'var' => 'template_id',
+                    ],
+                    [
+                      'lit' => 'variables',
                     ],
                   ],
                   'select' => [
@@ -1632,6 +1939,11 @@ class LmMultichannelConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'templates',
+                    '{template_id}',
+                    'variables',
                   ],
                 ],
               ],

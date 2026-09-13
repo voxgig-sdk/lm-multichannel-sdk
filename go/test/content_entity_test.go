@@ -52,7 +52,7 @@ func TestContentEntity(t *testing.T) {
 		// CREATE
 		contentRef01Ent := client.Content(nil)
 		contentRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "content"}, setup.data), "content_ref01"))
+			vs.GetPath(setup.data, []any{"new", "content"}), "content_ref01"))
 		contentRef01Data["template_id"] = setup.idmap["template01"]
 
 		contentRef01DataResult, err := contentRef01Ent.Create(contentRef01Data, nil)
@@ -101,7 +101,7 @@ func contentBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"content01", "content02", "content03", "template01", "template02", "template03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -121,7 +121,7 @@ func contentBasicSetup(extra map[string]any) *entityTestSetup {
 		"LM_MULTICHANNEL_TEST_CONTENT_ENTID": idmap,
 		"LM_MULTICHANNEL_TEST_LIVE":      "FALSE",
 		"LM_MULTICHANNEL_TEST_EXPLAIN":   "FALSE",
-		"LM_MULTICHANNEL_APIKEY":         "NONE",
+		"LM_MULTICHANNEL_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["LM_MULTICHANNEL_TEST_CONTENT_ENTID"])
@@ -130,11 +130,23 @@ func contentBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["LM_MULTICHANNEL_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["LM_MULTICHANNEL_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewLmMultichannelSDK(core.ToMapAny(mergedOpts))
 	}

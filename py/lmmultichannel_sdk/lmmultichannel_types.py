@@ -90,8 +90,14 @@ class MessageEvent(MessageEventRequired, total=False):
     id: str
 
 
-class MessageEventListMatch(TypedDict):
+class MessageEventListMatchRequired(TypedDict):
     id: str
+
+
+class MessageEventListMatch(MessageEventListMatchRequired, total=False):
+    page_index: int
+    page_size: int
+    sort: str
 
 
 class Option(TypedDict):
@@ -120,11 +126,15 @@ class Schedule(TypedDict):
 
 
 class ScheduleLoadMatch(TypedDict, total=False):
-    count: int
+    between: str
+    campaign_id: str
+    time_zone: str
 
 
 class ScheduleRemoveMatch(TypedDict, total=False):
-    count: int
+    between: str
+    campaign_id: str
+    time_zone: str
 
 
 class Self(TypedDict):
@@ -177,21 +187,9 @@ class TemplateLoadMatch(TemplateLoadMatchRequired, total=False):
 
 
 class TemplateListMatch(TypedDict, total=False):
-    channelData: dict
-    content: dict
-    createdOn: str
-    designerUrl: str
-    details: str
-    id: str
-    meta: dict
-    occurredOn: str
-    options: dict
-    reviews: dict
-    status: str
-    template: dict
-    templateId: str
-    updatedOn: str
-    variables: list
+    page_index: int
+    page_size: int
+    sort: str
 
 
 class TemplateCreateDataRequired(TypedDict):

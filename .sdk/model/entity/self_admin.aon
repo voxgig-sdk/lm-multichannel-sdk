@@ -25,9 +25,13 @@ main: kit: entity: self_admin: {
         {
           method: "PATCH"
           orig: "/self/settings"
-          parts: [
-            "self"
-            "settings"
+          segments: [
+            {
+              lit: "self"
+            }
+            {
+              lit: "settings"
+            }
           ]
           transform: {
             req: "`reqdata`"

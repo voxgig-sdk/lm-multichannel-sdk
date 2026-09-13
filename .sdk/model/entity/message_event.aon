@@ -28,6 +28,7 @@ main: kit: entity: message_event: {
       type: "`$OBJECT`"
     }
     {
+      format: "date-time"
       name: "on"
       req: true
       short: "UTC date-time when the event occurred"
@@ -93,16 +94,22 @@ main: kit: entity: message_event: {
           }
           method: "GET"
           orig: "/messages/{messageId}/events"
-          parts: [
-            "messages"
-            "{id}"
-            "events"
-          ]
           rename: {
             param: {
               messageId: "id"
             }
           }
+          segments: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "events"
+            }
+          ]
           select: {
             exist: [
               "id"

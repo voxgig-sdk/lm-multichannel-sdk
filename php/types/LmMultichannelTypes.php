@@ -91,6 +91,9 @@ class MessageEvent
 class MessageEventListMatch
 {
     public string $id;
+    public ?int $page_index = null;
+    public ?int $page_size = null;
+    public ?string $sort = null;
 }
 
 /** Option entity data model. */
@@ -128,13 +131,17 @@ class Schedule
 /** Request payload for Schedule#load. */
 class ScheduleLoadMatch
 {
-    public ?int $count = null;
+    public ?string $between = null;
+    public ?string $campaign_id = null;
+    public ?string $time_zone = null;
 }
 
 /** Request payload for Schedule#remove. */
 class ScheduleRemoveMatch
 {
-    public ?int $count = null;
+    public ?string $between = null;
+    public ?string $campaign_id = null;
+    public ?string $time_zone = null;
 }
 
 /** Self entity data model. */
@@ -195,21 +202,9 @@ class TemplateLoadMatch
 /** Request payload for Template#list. */
 class TemplateListMatch
 {
-    public ?array $channelData = null;
-    public ?array $content = null;
-    public ?string $createdOn = null;
-    public ?string $designerUrl = null;
-    public ?string $details = null;
-    public ?string $id = null;
-    public ?array $meta = null;
-    public ?string $occurredOn = null;
-    public ?array $options = null;
-    public ?array $reviews = null;
-    public ?string $status = null;
-    public ?array $template = null;
-    public ?string $templateId = null;
-    public ?string $updatedOn = null;
-    public ?array $variables = null;
+    public ?int $page_index = null;
+    public ?int $page_size = null;
+    public ?string $sort = null;
 }
 
 /** Request payload for Template#create. */

@@ -26,8 +26,10 @@ main: kit: entity: self: {
         {
           method: "GET"
           orig: "/self"
-          parts: [
-            "self"
+          segments: [
+            {
+              lit: "self"
+            }
           ]
           transform: {
             req: "`reqdata`"

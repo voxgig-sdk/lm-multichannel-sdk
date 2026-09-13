@@ -67,16 +67,22 @@ main: kit: entity: variable: {
           }
           method: "POST"
           orig: "/templates/{templateId}/variables"
-          parts: [
-            "templates"
-            "{template_id}"
-            "variables"
-          ]
           rename: {
             param: {
               templateId: "template_id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "variables"
+            }
+          ]
           select: {
             exist: [
               "template_id"
@@ -106,16 +112,22 @@ main: kit: entity: variable: {
           }
           method: "GET"
           orig: "/templates/{templateId}/variables"
-          parts: [
-            "templates"
-            "{template_id}"
-            "variables"
-          ]
           rename: {
             param: {
               templateId: "template_id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "variables"
+            }
+          ]
           select: {
             exist: [
               "template_id"
@@ -145,16 +157,22 @@ main: kit: entity: variable: {
           }
           method: "PATCH"
           orig: "/templates/{templateId}/variables"
-          parts: [
-            "templates"
-            "{template_id}"
-            "variables"
-          ]
           rename: {
             param: {
               templateId: "template_id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "variables"
+            }
+          ]
           select: {
             exist: [
               "template_id"

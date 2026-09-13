@@ -22,6 +22,7 @@ main: kit: entity: message: {
       type: "`$ARRAY`"
     }
     {
+      format: "date-time"
       name: "scheduleAt"
       req: true
       short: "Scheduled sending time"
@@ -42,8 +43,10 @@ main: kit: entity: message: {
         {
           method: "POST"
           orig: "/messages"
-          parts: [
-            "messages"
+          segments: [
+            {
+              lit: "messages"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -69,16 +72,22 @@ main: kit: entity: message: {
           }
           method: "GET"
           orig: "/messages/{messageId}/schedule"
-          parts: [
-            "messages"
-            "{id}"
-            "schedule"
-          ]
           rename: {
             param: {
               messageId: "id"
             }
           }
+          segments: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "schedule"
+            }
+          ]
           select: {
             "$action": "schedule"
             exist: [
@@ -109,16 +118,22 @@ main: kit: entity: message: {
           }
           method: "DELETE"
           orig: "/messages/{messageId}/schedule"
-          parts: [
-            "messages"
-            "{id}"
-            "schedule"
-          ]
           rename: {
             param: {
               messageId: "id"
             }
           }
+          segments: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "schedule"
+            }
+          ]
           select: {
             "$action": "schedule"
             exist: [

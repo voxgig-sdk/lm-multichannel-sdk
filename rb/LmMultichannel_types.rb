@@ -192,8 +192,20 @@ MessageEvent = Struct.new(
 #
 # @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] page_index
+#   @return [Integer, nil]
+#
+# @!attribute [rw] page_size
+#   @return [Integer, nil]
+#
+# @!attribute [rw] sort
+#   @return [String, nil]
 MessageEventListMatch = Struct.new(
   :id,
+  :page_index,
+  :page_size,
+  :sort,
   keyword_init: true
 )
 
@@ -252,19 +264,35 @@ Schedule = Struct.new(
 
 # Request payload for Schedule#load.
 #
-# @!attribute [rw] count
-#   @return [Integer, nil]
+# @!attribute [rw] between
+#   @return [String, nil]
+#
+# @!attribute [rw] campaign_id
+#   @return [String, nil]
+#
+# @!attribute [rw] time_zone
+#   @return [String, nil]
 ScheduleLoadMatch = Struct.new(
-  :count,
+  :between,
+  :campaign_id,
+  :time_zone,
   keyword_init: true
 )
 
 # Request payload for Schedule#remove.
 #
-# @!attribute [rw] count
-#   @return [Integer, nil]
+# @!attribute [rw] between
+#   @return [String, nil]
+#
+# @!attribute [rw] campaign_id
+#   @return [String, nil]
+#
+# @!attribute [rw] time_zone
+#   @return [String, nil]
 ScheduleRemoveMatch = Struct.new(
-  :count,
+  :between,
+  :campaign_id,
+  :time_zone,
   keyword_init: true
 )
 
@@ -400,66 +428,18 @@ TemplateLoadMatch = Struct.new(
 
 # Request payload for Template#list.
 #
-# @!attribute [rw] channelData
-#   @return [Hash, nil]
+# @!attribute [rw] page_index
+#   @return [Integer, nil]
 #
-# @!attribute [rw] content
-#   @return [Hash, nil]
+# @!attribute [rw] page_size
+#   @return [Integer, nil]
 #
-# @!attribute [rw] createdOn
+# @!attribute [rw] sort
 #   @return [String, nil]
-#
-# @!attribute [rw] designerUrl
-#   @return [String, nil]
-#
-# @!attribute [rw] details
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] meta
-#   @return [Hash, nil]
-#
-# @!attribute [rw] occurredOn
-#   @return [String, nil]
-#
-# @!attribute [rw] options
-#   @return [Hash, nil]
-#
-# @!attribute [rw] reviews
-#   @return [Hash, nil]
-#
-# @!attribute [rw] status
-#   @return [String, nil]
-#
-# @!attribute [rw] template
-#   @return [Hash, nil]
-#
-# @!attribute [rw] templateId
-#   @return [String, nil]
-#
-# @!attribute [rw] updatedOn
-#   @return [String, nil]
-#
-# @!attribute [rw] variables
-#   @return [Array, nil]
 TemplateListMatch = Struct.new(
-  :channelData,
-  :content,
-  :createdOn,
-  :designerUrl,
-  :details,
-  :id,
-  :meta,
-  :occurredOn,
-  :options,
-  :reviews,
-  :status,
-  :template,
-  :templateId,
-  :updatedOn,
-  :variables,
+  :page_index,
+  :page_size,
+  :sort,
   keyword_init: true
 )
 

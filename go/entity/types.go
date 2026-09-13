@@ -82,6 +82,9 @@ type MessageEvent struct {
 // MessageEventListMatch is the typed request payload for MessageEvent.ListTyped.
 type MessageEventListMatch struct {
 	Id string `json:"id"`
+	PageIndex *int `json:"page_index,omitempty"`
+	PageSize *int `json:"page_size,omitempty"`
+	Sort *string `json:"sort,omitempty"`
 }
 
 // Option is the typed data model for the option entity.
@@ -113,12 +116,16 @@ type Schedule struct {
 
 // ScheduleLoadMatch is the typed request payload for Schedule.LoadTyped.
 type ScheduleLoadMatch struct {
-	Count *int `json:"count,omitempty"`
+	Between *string `json:"between,omitempty"`
+	CampaignId *string `json:"campaign_id,omitempty"`
+	TimeZone *string `json:"time_zone,omitempty"`
 }
 
 // ScheduleRemoveMatch is the typed request payload for Schedule.RemoveTyped.
 type ScheduleRemoveMatch struct {
-	Count *int `json:"count,omitempty"`
+	Between *string `json:"between,omitempty"`
+	CampaignId *string `json:"campaign_id,omitempty"`
+	TimeZone *string `json:"time_zone,omitempty"`
 }
 
 // Self is the typed data model for the self entity.
@@ -172,21 +179,9 @@ type TemplateLoadMatch struct {
 
 // TemplateListMatch is the typed request payload for Template.ListTyped.
 type TemplateListMatch struct {
-	ChannelData *map[string]any `json:"channelData,omitempty"`
-	Content *map[string]any `json:"content,omitempty"`
-	CreatedOn *string `json:"createdOn,omitempty"`
-	DesignerUrl *string `json:"designerUrl,omitempty"`
-	Details *string `json:"details,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Meta *map[string]any `json:"meta,omitempty"`
-	OccurredOn *string `json:"occurredOn,omitempty"`
-	Options *map[string]any `json:"options,omitempty"`
-	Reviews *map[string]any `json:"reviews,omitempty"`
-	Status *string `json:"status,omitempty"`
-	Template *map[string]any `json:"template,omitempty"`
-	TemplateId *string `json:"templateId,omitempty"`
-	UpdatedOn *string `json:"updatedOn,omitempty"`
-	Variables *[]any `json:"variables,omitempty"`
+	PageIndex *int `json:"page_index,omitempty"`
+	PageSize *int `json:"page_size,omitempty"`
+	Sort *string `json:"sort,omitempty"`
 }
 
 // TemplateCreateData is the typed request payload for Template.CreateTyped.

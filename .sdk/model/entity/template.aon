@@ -17,6 +17,7 @@ main: kit: entity: template: {
       type: "`$OBJECT`"
     }
     {
+      format: "date-time"
       name: "createdOn"
       req: true
       short: "Date of template creation"
@@ -55,6 +56,7 @@ main: kit: entity: template: {
       type: "`$OBJECT`"
     }
     {
+      format: "date-time"
       name: "occurredOn"
       req: true
       short: "Date and time of last review status change"
@@ -90,6 +92,7 @@ main: kit: entity: template: {
       type: "`$STRING`"
     }
     {
+      format: "date-time"
       name: "updatedOn"
       req: false
       short: "Date of last template update"
@@ -126,16 +129,22 @@ main: kit: entity: template: {
           }
           method: "POST"
           orig: "/templates/{templateId}/meta"
-          parts: [
-            "templates"
-            "{id}"
-            "meta"
-          ]
           rename: {
             param: {
               templateId: "id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "meta"
+            }
+          ]
           select: {
             "$action": "meta"
             exist: [
@@ -150,8 +159,10 @@ main: kit: entity: template: {
         {
           method: "POST"
           orig: "/templates"
-          parts: [
-            "templates"
+          segments: [
+            {
+              lit: "templates"
+            }
           ]
           transform: {
             req: {
@@ -194,8 +205,10 @@ main: kit: entity: template: {
           }
           method: "GET"
           orig: "/templates"
-          parts: [
-            "templates"
+          segments: [
+            {
+              lit: "templates"
+            }
           ]
           select: {
             exist: [
@@ -235,18 +248,26 @@ main: kit: entity: template: {
           }
           method: "GET"
           orig: "/templates/{templateId}/reviews/{channelId}"
-          parts: [
-            "templates"
-            "{id}"
-            "reviews"
-            "{channel_id}"
-          ]
           rename: {
             param: {
               channelId: "channel_id"
               templateId: "id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "reviews"
+            }
+            {
+              var: "channel_id"
+            }
+          ]
           select: {
             exist: [
               "channel_id"
@@ -272,15 +293,19 @@ main: kit: entity: template: {
           }
           method: "GET"
           orig: "/templates/{templateId}"
-          parts: [
-            "templates"
-            "{id}"
-          ]
           rename: {
             param: {
               templateId: "id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -305,16 +330,22 @@ main: kit: entity: template: {
           }
           method: "GET"
           orig: "/templates/{templateId}/meta"
-          parts: [
-            "templates"
-            "{id}"
-            "meta"
-          ]
           rename: {
             param: {
               templateId: "id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "meta"
+            }
+          ]
           select: {
             "$action": "meta"
             exist: [
@@ -340,16 +371,22 @@ main: kit: entity: template: {
           }
           method: "GET"
           orig: "/templates/{templateId}/reviews"
-          parts: [
-            "templates"
-            "{id}"
-            "reviews"
-          ]
           rename: {
             param: {
               templateId: "id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "reviews"
+            }
+          ]
           select: {
             "$action": "review"
             exist: [
@@ -380,16 +417,22 @@ main: kit: entity: template: {
           }
           method: "PATCH"
           orig: "/templates/{templateId}/meta"
-          parts: [
-            "templates"
-            "{id}"
-            "meta"
-          ]
           rename: {
             param: {
               templateId: "id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "meta"
+            }
+          ]
           select: {
             "$action": "meta"
             exist: [
@@ -427,18 +470,26 @@ main: kit: entity: template: {
           }
           method: "DELETE"
           orig: "/templates/{templateId}/reviews/{channelId}"
-          parts: [
-            "templates"
-            "{id}"
-            "reviews"
-            "{channel_id}"
-          ]
           rename: {
             param: {
               channelId: "channel_id"
               templateId: "id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "reviews"
+            }
+            {
+              var: "channel_id"
+            }
+          ]
           select: {
             exist: [
               "channel_id"
@@ -464,15 +515,19 @@ main: kit: entity: template: {
           }
           method: "DELETE"
           orig: "/templates/{templateId}"
-          parts: [
-            "templates"
-            "{id}"
-          ]
           rename: {
             param: {
               templateId: "id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -509,18 +564,26 @@ main: kit: entity: template: {
           }
           method: "PUT"
           orig: "/templates/{templateId}/reviews/{channelId}"
-          parts: [
-            "templates"
-            "{id}"
-            "reviews"
-            "{channel_id}"
-          ]
           rename: {
             param: {
               channelId: "channel_id"
               templateId: "id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "reviews"
+            }
+            {
+              var: "channel_id"
+            }
+          ]
           select: {
             exist: [
               "channel_id"

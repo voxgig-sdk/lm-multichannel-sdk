@@ -42,9 +42,13 @@ main: kit: entity: traffic_file: {
         {
           method: "GET"
           orig: "/traffic/files"
-          parts: [
-            "traffic"
-            "files"
+          segments: [
+            {
+              lit: "traffic"
+            }
+            {
+              lit: "files"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -70,16 +74,22 @@ main: kit: entity: traffic_file: {
           }
           method: "GET"
           orig: "/traffic/files/{path}"
-          parts: [
-            "traffic"
-            "files"
-            "{id}"
-          ]
           rename: {
             param: {
               path: "id"
             }
           }
+          segments: [
+            {
+              lit: "traffic"
+            }
+            {
+              lit: "files"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

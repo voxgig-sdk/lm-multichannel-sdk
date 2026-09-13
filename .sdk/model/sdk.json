@@ -109,16 +109,22 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/templates/{templateId}/content",
-                  "parts": [
-                    "templates",
-                    "{template_id}",
-                    "content"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "template_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "template_id"
+                    },
+                    {
+                      "lit": "content"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "template_id"
@@ -154,16 +160,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/content",
-                  "parts": [
-                    "templates",
-                    "{template_id}",
-                    "content"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "template_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "template_id"
+                    },
+                    {
+                      "lit": "content"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "template_id"
@@ -212,6 +224,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "scheduleAt",
               "req": true,
               "short": "Scheduled sending time",
@@ -234,8 +247,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/messages",
-                  "parts": [
-                    "messages"
+                  "segments": [
+                    {
+                      "lit": "messages"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -266,16 +281,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/messages/{messageId}/schedule",
-                  "parts": [
-                    "messages",
-                    "{id}",
-                    "schedule"
-                  ],
                   "rename": {
                     "param": {
                       "messageId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "messages"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "schedule"
+                    }
+                  ],
                   "select": {
                     "$action": "schedule",
                     "exist": [
@@ -310,16 +331,22 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/messages/{messageId}/schedule",
-                  "parts": [
-                    "messages",
-                    "{id}",
-                    "schedule"
-                  ],
                   "rename": {
                     "param": {
                       "messageId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "messages"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "schedule"
+                    }
+                  ],
                   "select": {
                     "$action": "schedule",
                     "exist": [
@@ -372,6 +399,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "on",
               "req": true,
               "short": "UTC date-time when the event occurred",
@@ -444,16 +472,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/messages/{messageId}/events",
-                  "parts": [
-                    "messages",
-                    "{id}",
-                    "events"
-                  ],
                   "rename": {
                     "param": {
                       "messageId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "messages"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "events"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id",
@@ -510,16 +544,22 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/templates/{templateId}/options",
-                  "parts": [
-                    "templates",
-                    "{template_id}",
-                    "options"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "template_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "template_id"
+                    },
+                    {
+                      "lit": "options"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "template_id"
@@ -553,16 +593,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/options",
-                  "parts": [
-                    "templates",
-                    "{template_id}",
-                    "options"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "template_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "template_id"
+                    },
+                    {
+                      "lit": "options"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "template_id"
@@ -596,16 +642,22 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/templates/{templateId}/options",
-                  "parts": [
-                    "templates",
-                    "{template_id}",
-                    "options"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "template_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "template_id"
+                    },
+                    {
+                      "lit": "options"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "template_id"
@@ -682,8 +734,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/schedules:count",
-                  "parts": [
-                    "schedules:count"
+                  "segments": [
+                    {
+                      "lit": "schedules:count"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -736,8 +790,10 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/schedules",
-                  "parts": [
-                    "schedules"
+                  "segments": [
+                    {
+                      "lit": "schedules"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -790,8 +846,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/self",
-                  "parts": [
-                    "self"
+                  "segments": [
+                    {
+                      "lit": "self"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -837,9 +895,13 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/self/settings",
-                  "parts": [
-                    "self",
-                    "settings"
+                  "segments": [
+                    {
+                      "lit": "self"
+                    },
+                    {
+                      "lit": "settings"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -875,6 +937,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "createdOn",
               "req": true,
               "short": "Date of template creation",
@@ -918,6 +981,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "occurredOn",
               "req": true,
               "short": "Date and time of last review status change",
@@ -959,6 +1023,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "updatedOn",
               "req": false,
               "short": "Date of last template update",
@@ -998,16 +1063,22 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/templates/{templateId}/meta",
-                  "parts": [
-                    "templates",
-                    "{id}",
-                    "meta"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "meta"
+                    }
+                  ],
                   "select": {
                     "$action": "meta",
                     "exist": [
@@ -1025,8 +1096,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/templates",
-                  "parts": [
-                    "templates"
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1076,8 +1149,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/templates",
-                  "parts": [
-                    "templates"
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1122,18 +1197,26 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/reviews/{channelId}",
-                  "parts": [
-                    "templates",
-                    "{id}",
-                    "reviews",
-                    "{channel_id}"
-                  ],
                   "rename": {
                     "param": {
                       "channelId": "channel_id",
                       "templateId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "reviews"
+                    },
+                    {
+                      "var": "channel_id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "channel_id",
@@ -1162,15 +1245,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}",
-                  "parts": [
-                    "templates",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1198,16 +1285,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/meta",
-                  "parts": [
-                    "templates",
-                    "{id}",
-                    "meta"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "meta"
+                    }
+                  ],
                   "select": {
                     "$action": "meta",
                     "exist": [
@@ -1236,16 +1329,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/reviews",
-                  "parts": [
-                    "templates",
-                    "{id}",
-                    "reviews"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "reviews"
+                    }
+                  ],
                   "select": {
                     "$action": "review",
                     "exist": [
@@ -1280,16 +1379,22 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/templates/{templateId}/meta",
-                  "parts": [
-                    "templates",
-                    "{id}",
-                    "meta"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "meta"
+                    }
+                  ],
                   "select": {
                     "$action": "meta",
                     "exist": [
@@ -1332,18 +1437,26 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/templates/{templateId}/reviews/{channelId}",
-                  "parts": [
-                    "templates",
-                    "{id}",
-                    "reviews",
-                    "{channel_id}"
-                  ],
                   "rename": {
                     "param": {
                       "channelId": "channel_id",
                       "templateId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "reviews"
+                    },
+                    {
+                      "var": "channel_id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "channel_id",
@@ -1372,15 +1485,19 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/templates/{templateId}",
-                  "parts": [
-                    "templates",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1422,18 +1539,26 @@
                   "kind": "http",
                   "method": "PUT",
                   "orig": "/templates/{templateId}/reviews/{channelId}",
-                  "parts": [
-                    "templates",
-                    "{id}",
-                    "reviews",
-                    "{channel_id}"
-                  ],
                   "rename": {
                     "param": {
                       "channelId": "channel_id",
                       "templateId": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "reviews"
+                    },
+                    {
+                      "var": "channel_id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "channel_id",
@@ -1485,10 +1610,16 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/traffic/files/{path}",
-                  "parts": [
-                    "traffic",
-                    "files",
-                    "{path}"
+                  "segments": [
+                    {
+                      "lit": "traffic"
+                    },
+                    {
+                      "lit": "files"
+                    },
+                    {
+                      "var": "path"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1560,9 +1691,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/traffic/files",
-                  "parts": [
-                    "traffic",
-                    "files"
+                  "segments": [
+                    {
+                      "lit": "traffic"
+                    },
+                    {
+                      "lit": "files"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1593,16 +1728,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/traffic/files/{path}",
-                  "parts": [
-                    "traffic",
-                    "files",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "path": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "traffic"
+                    },
+                    {
+                      "lit": "files"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1698,16 +1839,22 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/templates/{templateId}/variables",
-                  "parts": [
-                    "templates",
-                    "{template_id}",
-                    "variables"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "template_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "template_id"
+                    },
+                    {
+                      "lit": "variables"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "template_id"
@@ -1741,16 +1888,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/templates/{templateId}/variables",
-                  "parts": [
-                    "templates",
-                    "{template_id}",
-                    "variables"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "template_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "template_id"
+                    },
+                    {
+                      "lit": "variables"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "template_id"
@@ -1784,16 +1937,22 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/templates/{templateId}/variables",
-                  "parts": [
-                    "templates",
-                    "{template_id}",
-                    "variables"
-                  ],
                   "rename": {
                     "param": {
                       "templateId": "template_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "template_id"
+                    },
+                    {
+                      "lit": "variables"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "template_id"
@@ -1880,8 +2039,11 @@
             }
           },
           "name": "test",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "go": {
               "deps": {}
@@ -2498,6 +2660,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2523,6 +2688,10 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/runner_test.go",
+            "test/struct_runner_test.go"
+          ],
           "title": "Golang"
         },
         "go-cli": {
@@ -2574,6 +2743,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -2598,6 +2768,7 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go CLI"
         },
         "go-mcp": {
@@ -2649,6 +2820,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -2673,6 +2845,7 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go MCP server"
         },
         "lua": {
@@ -2713,6 +2886,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2738,6 +2914,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.lua"
+          ],
           "title": "Lua"
         },
         "php": {
@@ -2772,6 +2951,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2797,6 +2979,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.php"
+          ],
           "title": "PHP"
         },
         "py": {
@@ -2837,6 +3022,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2862,6 +3050,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.py"
+          ],
           "title": "Python"
         },
         "rb": {
@@ -2907,6 +3098,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2932,6 +3126,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.rb"
+          ],
           "title": "Ruby"
         },
         "ts": {
@@ -2949,11 +3146,6 @@
               "active": true,
               "kind": "dev",
               "version": "^25.6.0"
-            },
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
             },
             "typescript": {
               "active": true,
@@ -2982,6 +3174,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3006,6 +3201,14 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [
+            "test/runner.ts",
+            "test/vendor/omni/compat.ts",
+            "src/feature/secrets/sekreto/Providers.ts",
+            "src/feature/secrets/sekreto/Sigv4.ts",
+            "src/feature/secrets/sekreto/provider/Registry.ts",
+            "src/feature/secrets/sekreto/provider/http.ts"
+          ],
           "title": "TypeScript"
         }
       },

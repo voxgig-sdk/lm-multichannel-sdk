@@ -31,16 +31,22 @@ main: kit: entity: option: {
           }
           method: "POST"
           orig: "/templates/{templateId}/options"
-          parts: [
-            "templates"
-            "{template_id}"
-            "options"
-          ]
           rename: {
             param: {
               templateId: "template_id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "options"
+            }
+          ]
           select: {
             exist: [
               "template_id"
@@ -70,16 +76,22 @@ main: kit: entity: option: {
           }
           method: "GET"
           orig: "/templates/{templateId}/options"
-          parts: [
-            "templates"
-            "{template_id}"
-            "options"
-          ]
           rename: {
             param: {
               templateId: "template_id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "options"
+            }
+          ]
           select: {
             exist: [
               "template_id"
@@ -109,16 +121,22 @@ main: kit: entity: option: {
           }
           method: "PATCH"
           orig: "/templates/{templateId}/options"
-          parts: [
-            "templates"
-            "{template_id}"
-            "options"
-          ]
           rename: {
             param: {
               templateId: "template_id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "options"
+            }
+          ]
           select: {
             exist: [
               "template_id"

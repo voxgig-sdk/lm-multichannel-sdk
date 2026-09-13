@@ -185,7 +185,7 @@ function template_basic_setup(extra)
     ["LM_MULTICHANNEL_TEST_TEMPLATE_ENTID"] = idmap,
     ["LM_MULTICHANNEL_TEST_LIVE"] = "FALSE",
     ["LM_MULTICHANNEL_TEST_EXPLAIN"] = "FALSE",
-    ["LM_MULTICHANNEL_APIKEY"] = "NONE",
+    ["LM_MULTICHANNEL_APIKEY"] = "",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -196,6 +196,9 @@ function template_basic_setup(extra)
 
   if env["LM_MULTICHANNEL_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
+      -- FIRST, so the generated fields below win: sdk-test-control.json's
+      -- test.client.options adds to the live client, it does not redirect it.
+      runner.live_client_options(),
       {
         apikey = env["LM_MULTICHANNEL_APIKEY"],
       },

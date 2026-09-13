@@ -101,7 +101,7 @@ func TestTemplateEntity(t *testing.T) {
 		// CREATE
 		templateRef01Ent := client.Template(nil)
 		templateRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "template"}, setup.data), "template_ref01"))
+			vs.GetPath(setup.data, []any{"new", "template"}), "template_ref01"))
 
 		templateRef01DataResult, err := templateRef01Ent.Create(templateRef01Data, nil)
 		if err != nil {
@@ -225,7 +225,7 @@ func templateBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"template01", "template02", "template03", "review01", "review02", "review03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -245,7 +245,7 @@ func templateBasicSetup(extra map[string]any) *entityTestSetup {
 		"LM_MULTICHANNEL_TEST_TEMPLATE_ENTID": idmap,
 		"LM_MULTICHANNEL_TEST_LIVE":      "FALSE",
 		"LM_MULTICHANNEL_TEST_EXPLAIN":   "FALSE",
-		"LM_MULTICHANNEL_APIKEY":         "NONE",
+		"LM_MULTICHANNEL_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["LM_MULTICHANNEL_TEST_TEMPLATE_ENTID"])
@@ -254,11 +254,23 @@ func templateBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["LM_MULTICHANNEL_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["LM_MULTICHANNEL_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewLmMultichannelSDK(core.ToMapAny(mergedOpts))
 	}

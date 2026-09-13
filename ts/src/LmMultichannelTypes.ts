@@ -78,6 +78,9 @@ export interface MessageEvent {
 
 export interface MessageEventListMatch {
   id: string
+  page_index?: number
+  page_size?: number
+  sort?: string
 }
 
 export interface Option {
@@ -103,11 +106,15 @@ export interface Schedule {
 }
 
 export interface ScheduleLoadMatch {
-  count?: number
+  between?: string
+  campaign_id?: string
+  time_zone?: string
 }
 
 export interface ScheduleRemoveMatch {
-  count?: number
+  between?: string
+  campaign_id?: string
+  time_zone?: string
 }
 
 export interface Self {
@@ -160,21 +167,9 @@ export interface TemplateLoadMatch {
 }
 
 export interface TemplateListMatch {
-  channelData?: Record<string, any>
-  content?: Record<string, any>
-  createdOn?: string
-  designerUrl?: string
-  details?: string
-  id?: string
-  meta?: Record<string, any>
-  occurredOn?: string
-  options?: Record<string, any>
-  reviews?: Record<string, any>
-  status?: string
-  template?: Record<string, any>
-  templateId?: string
-  updatedOn?: string
-  variables?: any[]
+  page_index?: number
+  page_size?: number
+  sort?: string
 }
 
 export interface TemplateCreateData {

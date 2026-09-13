@@ -1,6 +1,14 @@
 # LmMultichannel SDK configuration
 
 
+# The sekreto plugin DEFINITIONS the model selected per feature, imported
+# above by name from the modules the catalogue's active `plugin.def`
+# entries declare. Handed to each feature (secrets builds its Sekreto
+# with them): a provider kind not listed here is unknown to that SDK.
+FEATURE_PLUGINS = {
+}
+
+
 _shared_config = None
 
 
@@ -129,16 +137,22 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/templates/{templateId}/content",
-                "parts": [
-                  "templates",
-                  "{template_id}",
-                  "content",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "template_id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "template_id",
+                  },
+                  {
+                    "lit": "content",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "template_id",
@@ -150,6 +164,11 @@ def make_config():
                   },
                   "res": "`body.content`",
                 },
+                "parts": [
+                  "templates",
+                  "{template_id}",
+                  "content",
+                ],
               },
             ],
           },
@@ -172,16 +191,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/templates/{templateId}/content",
-                "parts": [
-                  "templates",
-                  "{template_id}",
-                  "content",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "template_id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "template_id",
+                  },
+                  {
+                    "lit": "content",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "template_id",
@@ -191,6 +216,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.content`",
                 },
+                "parts": [
+                  "templates",
+                  "{template_id}",
+                  "content",
+                ],
               },
             ],
           },
@@ -220,12 +250,17 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "date-time",
             "name": "scheduleAt",
             "req": True,
             "short": "Scheduled sending time",
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "message",
         "op": {
           "create": {
@@ -237,14 +272,19 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/messages",
-                "parts": [
-                  "messages",
+                "segments": [
+                  {
+                    "lit": "messages",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "messages",
+                ],
               },
             ],
           },
@@ -267,16 +307,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/messages/{messageId}/schedule",
-                "parts": [
-                  "messages",
-                  "{id}",
-                  "schedule",
-                ],
                 "rename": {
                   "param": {
                     "messageId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "messages",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "schedule",
+                  },
+                ],
                 "select": {
                   "$action": "schedule",
                   "exist": [
@@ -287,6 +333,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.schedule`",
                 },
+                "parts": [
+                  "messages",
+                  "{id}",
+                  "schedule",
+                ],
               },
             ],
           },
@@ -309,16 +360,22 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/messages/{messageId}/schedule",
-                "parts": [
-                  "messages",
-                  "{id}",
-                  "schedule",
-                ],
                 "rename": {
                   "param": {
                     "messageId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "messages",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "schedule",
+                  },
+                ],
                 "select": {
                   "$action": "schedule",
                   "exist": [
@@ -329,6 +386,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "messages",
+                  "{id}",
+                  "schedule",
+                ],
               },
             ],
           },
@@ -361,6 +423,7 @@ def make_config():
             "type": "`$OBJECT`",
           },
           {
+            "format": "date-time",
             "name": "on",
             "req": True,
             "short": "UTC date-time when the event occurred",
@@ -377,6 +440,10 @@ def make_config():
             "type": "`$OBJECT`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "message_event",
         "op": {
           "list": {
@@ -419,16 +486,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/messages/{messageId}/events",
-                "parts": [
-                  "messages",
-                  "{id}",
-                  "events",
-                ],
                 "rename": {
                   "param": {
                     "messageId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "messages",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "events",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -441,6 +514,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.events`",
                 },
+                "parts": [
+                  "messages",
+                  "{id}",
+                  "events",
+                ],
               },
             ],
           },
@@ -478,16 +556,22 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/templates/{templateId}/options",
-                "parts": [
-                  "templates",
-                  "{template_id}",
-                  "options",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "template_id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "template_id",
+                  },
+                  {
+                    "lit": "options",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "template_id",
@@ -497,6 +581,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.options`",
                 },
+                "parts": [
+                  "templates",
+                  "{template_id}",
+                  "options",
+                ],
               },
             ],
           },
@@ -519,16 +608,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/templates/{templateId}/options",
-                "parts": [
-                  "templates",
-                  "{template_id}",
-                  "options",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "template_id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "template_id",
+                  },
+                  {
+                    "lit": "options",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "template_id",
@@ -538,6 +633,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.options`",
                 },
+                "parts": [
+                  "templates",
+                  "{template_id}",
+                  "options",
+                ],
               },
             ],
           },
@@ -560,16 +660,22 @@ def make_config():
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/templates/{templateId}/options",
-                "parts": [
-                  "templates",
-                  "{template_id}",
-                  "options",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "template_id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "template_id",
+                  },
+                  {
+                    "lit": "options",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "template_id",
@@ -579,6 +685,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.options`",
                 },
+                "parts": [
+                  "templates",
+                  "{template_id}",
+                  "options",
+                ],
               },
             ],
           },
@@ -634,8 +745,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/schedules:count",
-                "parts": [
-                  "schedules:count",
+                "segments": [
+                  {
+                    "lit": "schedules:count",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -648,6 +761,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "schedules:count",
+                ],
               },
             ],
           },
@@ -681,8 +797,10 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/schedules",
-                "parts": [
-                  "schedules",
+                "segments": [
+                  {
+                    "lit": "schedules",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -695,6 +813,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "schedules",
+                ],
               },
             ],
           },
@@ -728,14 +849,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/self",
-                "parts": [
-                  "self",
+                "segments": [
+                  {
+                    "lit": "self",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body.account`",
                 },
+                "parts": [
+                  "self",
+                ],
               },
             ],
           },
@@ -768,15 +894,23 @@ def make_config():
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/self/settings",
-                "parts": [
-                  "self",
-                  "settings",
+                "segments": [
+                  {
+                    "lit": "self",
+                  },
+                  {
+                    "lit": "settings",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body.settings`",
                 },
+                "parts": [
+                  "self",
+                  "settings",
+                ],
               },
             ],
           },
@@ -797,6 +931,7 @@ def make_config():
             "type": "`$OBJECT`",
           },
           {
+            "format": "date-time",
             "name": "createdOn",
             "req": True,
             "short": "Date of template creation",
@@ -831,6 +966,7 @@ def make_config():
             "type": "`$OBJECT`",
           },
           {
+            "format": "date-time",
             "name": "occurredOn",
             "req": True,
             "short": "Date and time of last review status change",
@@ -864,6 +1000,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "date-time",
             "name": "updatedOn",
             "short": "Date of last template update",
             "type": "`$STRING`",
@@ -873,6 +1010,10 @@ def make_config():
             "type": "`$ARRAY`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "template",
         "op": {
           "create": {
@@ -894,16 +1035,22 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/templates/{templateId}/meta",
-                "parts": [
-                  "templates",
-                  "{id}",
-                  "meta",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "meta",
+                  },
+                ],
                 "select": {
                   "$action": "meta",
                   "exist": [
@@ -914,14 +1061,21 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.meta`",
                 },
+                "parts": [
+                  "templates",
+                  "{id}",
+                  "meta",
+                ],
               },
               {
                 "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/templates",
-                "parts": [
-                  "templates",
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
                 ],
                 "select": {},
                 "transform": {
@@ -930,6 +1084,9 @@ def make_config():
                   },
                   "res": "`body.template`",
                 },
+                "parts": [
+                  "templates",
+                ],
               },
             ],
           },
@@ -964,8 +1121,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/templates",
-                "parts": [
-                  "templates",
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -978,6 +1137,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.templates`",
                 },
+                "parts": [
+                  "templates",
+                ],
               },
             ],
           },
@@ -1007,18 +1169,26 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/templates/{templateId}/reviews/{channelId}",
-                "parts": [
-                  "templates",
-                  "{id}",
-                  "reviews",
-                  "{channel_id}",
-                ],
                 "rename": {
                   "param": {
                     "channelId": "channel_id",
                     "templateId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "reviews",
+                  },
+                  {
+                    "var": "channel_id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "channel_id",
@@ -1029,6 +1199,12 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "templates",
+                  "{id}",
+                  "reviews",
+                  "{channel_id}",
+                ],
               },
               {
                 "args": {
@@ -1045,15 +1221,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/templates/{templateId}",
-                "parts": [
-                  "templates",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -1063,6 +1243,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.template`",
                 },
+                "parts": [
+                  "templates",
+                  "{id}",
+                ],
               },
               {
                 "args": {
@@ -1079,16 +1263,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/templates/{templateId}/meta",
-                "parts": [
-                  "templates",
-                  "{id}",
-                  "meta",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "meta",
+                  },
+                ],
                 "select": {
                   "$action": "meta",
                   "exist": [
@@ -1099,6 +1289,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.meta`",
                 },
+                "parts": [
+                  "templates",
+                  "{id}",
+                  "meta",
+                ],
               },
               {
                 "args": {
@@ -1115,16 +1310,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/templates/{templateId}/reviews",
-                "parts": [
-                  "templates",
-                  "{id}",
-                  "reviews",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "reviews",
+                  },
+                ],
                 "select": {
                   "$action": "review",
                   "exist": [
@@ -1135,6 +1336,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.reviews`",
                 },
+                "parts": [
+                  "templates",
+                  "{id}",
+                  "reviews",
+                ],
               },
             ],
           },
@@ -1157,16 +1363,22 @@ def make_config():
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/templates/{templateId}/meta",
-                "parts": [
-                  "templates",
-                  "{id}",
-                  "meta",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "meta",
+                  },
+                ],
                 "select": {
                   "$action": "meta",
                   "exist": [
@@ -1177,6 +1389,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.meta`",
                 },
+                "parts": [
+                  "templates",
+                  "{id}",
+                  "meta",
+                ],
               },
             ],
           },
@@ -1206,18 +1423,26 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/templates/{templateId}/reviews/{channelId}",
-                "parts": [
-                  "templates",
-                  "{id}",
-                  "reviews",
-                  "{channel_id}",
-                ],
                 "rename": {
                   "param": {
                     "channelId": "channel_id",
                     "templateId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "reviews",
+                  },
+                  {
+                    "var": "channel_id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "channel_id",
@@ -1228,6 +1453,12 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "templates",
+                  "{id}",
+                  "reviews",
+                  "{channel_id}",
+                ],
               },
               {
                 "args": {
@@ -1244,15 +1475,19 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/templates/{templateId}",
-                "parts": [
-                  "templates",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -1262,6 +1497,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "templates",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -1291,18 +1530,26 @@ def make_config():
                 "kind": "http",
                 "method": "PUT",
                 "orig": "/templates/{templateId}/reviews/{channelId}",
-                "parts": [
-                  "templates",
-                  "{id}",
-                  "reviews",
-                  "{channel_id}",
-                ],
                 "rename": {
                   "param": {
                     "channelId": "channel_id",
                     "templateId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "reviews",
+                  },
+                  {
+                    "var": "channel_id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "channel_id",
@@ -1313,6 +1560,12 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "templates",
+                  "{id}",
+                  "reviews",
+                  "{channel_id}",
+                ],
               },
             ],
           },
@@ -1348,10 +1601,16 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/traffic/files/{path}",
-                "parts": [
-                  "traffic",
-                  "files",
-                  "{path}",
+                "segments": [
+                  {
+                    "lit": "traffic",
+                  },
+                  {
+                    "lit": "files",
+                  },
+                  {
+                    "var": "path",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1362,6 +1621,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "traffic",
+                  "files",
+                  "{path}",
+                ],
               },
             ],
           },
@@ -1398,6 +1662,10 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "traffic_file",
         "op": {
           "list": {
@@ -1409,15 +1677,23 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/traffic/files",
-                "parts": [
-                  "traffic",
-                  "files",
+                "segments": [
+                  {
+                    "lit": "traffic",
+                  },
+                  {
+                    "lit": "files",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body.files`",
                 },
+                "parts": [
+                  "traffic",
+                  "files",
+                ],
               },
             ],
           },
@@ -1440,16 +1716,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/traffic/files/{path}",
-                "parts": [
-                  "traffic",
-                  "files",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "path": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "traffic",
+                  },
+                  {
+                    "lit": "files",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -1459,6 +1741,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "traffic",
+                  "files",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -1527,16 +1814,22 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/templates/{templateId}/variables",
-                "parts": [
-                  "templates",
-                  "{template_id}",
-                  "variables",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "template_id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "template_id",
+                  },
+                  {
+                    "lit": "variables",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "template_id",
@@ -1546,6 +1839,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "templates",
+                  "{template_id}",
+                  "variables",
+                ],
               },
             ],
           },
@@ -1568,16 +1866,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/templates/{templateId}/variables",
-                "parts": [
-                  "templates",
-                  "{template_id}",
-                  "variables",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "template_id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "template_id",
+                  },
+                  {
+                    "lit": "variables",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "template_id",
@@ -1587,6 +1891,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.variables`",
                 },
+                "parts": [
+                  "templates",
+                  "{template_id}",
+                  "variables",
+                ],
               },
             ],
           },
@@ -1609,16 +1918,22 @@ def make_config():
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/templates/{templateId}/variables",
-                "parts": [
-                  "templates",
-                  "{template_id}",
-                  "variables",
-                ],
                 "rename": {
                   "param": {
                     "templateId": "template_id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "templates",
+                  },
+                  {
+                    "var": "template_id",
+                  },
+                  {
+                    "lit": "variables",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "template_id",
@@ -1628,6 +1943,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "templates",
+                  "{template_id}",
+                  "variables",
+                ],
               },
             ],
           },

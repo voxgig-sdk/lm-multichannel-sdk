@@ -98,7 +98,7 @@ func TestMessageEventEntity(t *testing.T) {
 		client := setup.client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
-		messageEventRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath("existing.message_event", setup.data)))
+		messageEventRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.message_event")))
 		var messageEventRef01Data map[string]any
 		if len(messageEventRef01DataRaw) > 0 {
 			messageEventRef01Data = core.ToMapAny(messageEventRef01DataRaw[0][1])
@@ -149,7 +149,7 @@ func message_eventBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"message_event01", "message_event02", "message_event03", "message01"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -169,7 +169,7 @@ func message_eventBasicSetup(extra map[string]any) *entityTestSetup {
 		"LM_MULTICHANNEL_TEST_MESSAGE_EVENT_ENTID": idmap,
 		"LM_MULTICHANNEL_TEST_LIVE":      "FALSE",
 		"LM_MULTICHANNEL_TEST_EXPLAIN":   "FALSE",
-		"LM_MULTICHANNEL_APIKEY":         "NONE",
+		"LM_MULTICHANNEL_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["LM_MULTICHANNEL_TEST_MESSAGE_EVENT_ENTID"])
@@ -178,11 +178,23 @@ func message_eventBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["LM_MULTICHANNEL_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["LM_MULTICHANNEL_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewLmMultichannelSDK(core.ToMapAny(mergedOpts))
 	}

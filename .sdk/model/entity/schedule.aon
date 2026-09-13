@@ -48,8 +48,10 @@ main: kit: entity: schedule: {
           }
           method: "GET"
           orig: "/schedules:count"
-          parts: [
-            "schedules:count"
+          segments: [
+            {
+              lit: "schedules:count"
+            }
           ]
           select: {
             exist: [
@@ -96,8 +98,10 @@ main: kit: entity: schedule: {
           }
           method: "DELETE"
           orig: "/schedules"
-          parts: [
-            "schedules"
+          segments: [
+            {
+              lit: "schedules"
+            }
           ]
           select: {
             exist: [

@@ -165,7 +165,7 @@ def template_basic_setup(extra)
     "LM_MULTICHANNEL_TEST_TEMPLATE_ENTID" => idmap,
     "LM_MULTICHANNEL_TEST_LIVE" => "FALSE",
     "LM_MULTICHANNEL_TEST_EXPLAIN" => "FALSE",
-    "LM_MULTICHANNEL_APIKEY" => "NONE",
+    "LM_MULTICHANNEL_APIKEY" => "",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -176,6 +176,9 @@ def template_basic_setup(extra)
 
   if env["LM_MULTICHANNEL_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
+      # FIRST, so the generated fields below win: sdk-test-control.json's
+      # test.client.options adds to the live client, it does not redirect it.
+      Runner.live_client_options,
       {
         "apikey" => env["LM_MULTICHANNEL_APIKEY"],
       },

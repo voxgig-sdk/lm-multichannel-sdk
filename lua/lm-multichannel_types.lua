@@ -59,6 +59,9 @@
 
 ---@class MessageEventListMatch
 ---@field id string
+---@field page_index? number
+---@field page_size? number
+---@field sort? string
 
 ---@class Option
 ---@field options table
@@ -78,10 +81,14 @@
 ---@field count number
 
 ---@class ScheduleLoadMatch
----@field count? number
+---@field between? string
+---@field campaign_id? string
+---@field time_zone? string
 
 ---@class ScheduleRemoveMatch
----@field count? number
+---@field between? string
+---@field campaign_id? string
+---@field time_zone? string
 
 ---@class Self
 ---@field accountId string
@@ -121,21 +128,9 @@
 ---@field id string
 
 ---@class TemplateListMatch
----@field channelData? table
----@field content? table
----@field createdOn? string
----@field designerUrl? string
----@field details? string
----@field id? string
----@field meta? table
----@field occurredOn? string
----@field options? table
----@field reviews? table
----@field status? string
----@field template? table
----@field templateId? string
----@field updatedOn? string
----@field variables? table
+---@field page_index? number
+---@field page_size? number
+---@field sort? string
 
 ---@class TemplateCreateData
 ---@field channelData? table

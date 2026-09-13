@@ -71,16 +71,22 @@ main: kit: entity: content: {
           }
           method: "POST"
           orig: "/templates/{templateId}/content"
-          parts: [
-            "templates"
-            "{template_id}"
-            "content"
-          ]
           rename: {
             param: {
               templateId: "template_id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "content"
+            }
+          ]
           select: {
             exist: [
               "template_id"
@@ -112,16 +118,22 @@ main: kit: entity: content: {
           }
           method: "GET"
           orig: "/templates/{templateId}/content"
-          parts: [
-            "templates"
-            "{template_id}"
-            "content"
-          ]
           rename: {
             param: {
               templateId: "template_id"
             }
           }
+          segments: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "content"
+            }
+          ]
           select: {
             exist: [
               "template_id"
