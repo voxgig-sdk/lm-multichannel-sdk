@@ -1,6 +1,15 @@
 {
+  "NAME": "LM-MULTICHANNEL",
+  "Name": "LmMultichannel",
   "def": "multichannel-openapi.yaml",
   "main": {
+    "api": {
+      "entity": {},
+      "guide": {}
+    },
+    "custom": {
+      "plurals": {}
+    },
     "def": {
       "desc": ""
     },
@@ -3222,5 +3231,8 @@
     }
   },
   "name": "lm-multichannel",
+  "name-": "lm-multichannel",
+  "name_": "lm_multichannel",
+  "name__orig": "lm-multichannel",
   "origin": "voxgig-sdk"
 }
