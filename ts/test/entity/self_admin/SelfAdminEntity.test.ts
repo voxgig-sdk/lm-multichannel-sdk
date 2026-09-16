@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { LmMultichannelSDK, BaseFeature, stdutil } from '../../..'
@@ -47,16 +49,13 @@ describe('SelfAdminEntity', async () => {
 
     const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE
     for (const op of ['update']) {
-      if (maybeSkipControl(t, 'entityOp', 'self_admin.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'self_admin.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set LM_MULTICHANNEL_TEST_SELF_ADMIN_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[{"active":true,"name":"callback","req":true,"type":"`$OBJECT`","index$":0},{"active":true,"name":"settings","req":true,"type":"`$OBJECT`","index$":1}],"name":"self_admin","op":{"update":{"input":"data","name":"update","points":[{"active":true,"args":{},"contract":{"id":"PATCH /self/settings","json":"{\"operationId\":\"updateAccountSettings\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"examples\":{\"updateAccountSettings\":{\"value\":{\"settings\":{\"callback\":{\"auth\":{\"login\":\"someuser\",\"password\":\"secret\",\"type\":\"httpBasic\"},\"url\":\"https://acme.com/ocm\"}}}}},\"schema\":{\"properties\":{\"settings\":{\"examples\":[{\"callback\":{\"auth\":{\"login\":\"someuser\",\"password\":\"secret-ref:acme_...\",\"type\":\"httpBasic\"},\"url\":\"https://acme.com\"}}],\"properties\":{\"callback\":{\"examples\":[{\"auth\":{\"headerName\":\"x-api-key\",\"password\":\"secret\",\"type\":\"customHttpHeader\"},\"enableCompression\":true,\"url\":\"https://acme.com/ocm\"}],\"properties\":{\"auth\":{\"examples\":[{\"login\":\"someuser\",\"password\":\"secret\",\"type\":\"httpBasic\"}],\"properties\":{\"headerName\":{\"description\":\"Custom header name for customHttpHeader type\",\"type\":\"string\"},\"login\":{\"description\":\"Login for httpBasic type\",\"type\":\"string\"},\"password\":{\"description\":\"Secret value (write-only, replaced by reference after storage)\",\"type\":\"string\"},\"type\":{\"description\":\"Authentication type\",\"enum\":[\"httpBasic\",\"bearerToken\",\"customHttpHeader\"],\"type\":\"string\"}},\"required\":[\"type\",\"password\"],\"type\":\"object\"},\"enableCompression\":{\"description\":\"Enable GZIP compression for callback requests (default false)\",\"type\":\"boolean\"},\"tls\":{\"description\":\"Client SSL certificate authentication\",\"examples\":[{\"certificate\":\"LS0tLS1CRUdJTiBF...\",\"password\":\"secret\"}],\"properties\":{\"certificate\":{\"description\":\"Base64-encoded PEM (with embedded private key) or PFX/PKCS#12 certificate\",\"type\":\"string\"},\"password\":{\"description\":\"Private key password\",\"type\":\"string\"}},\"required\":[\"certificate\",\"password\"],\"type\":\"object\"},\"url\":{\"description\":\"HTTPS callback endpoint URL\",\"type\":\"string\"}},\"required\":[\"url\"],\"type\":\"object\"}},\"type\":\"object\"}},\"required\":[\"settings\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"settings\":{\"examples\":[{\"callback\":{\"auth\":{\"login\":\"someuser\",\"password\":\"secret-ref:acme_...\",\"type\":\"httpBasic\"},\"url\":\"https://acme.com\"}}],\"properties\":{\"callback\":{\"examples\":[{\"auth\":{\"headerName\":\"x-api-key\",\"password\":\"secret\",\"type\":\"customHttpHeader\"},\"enableCompression\":true,\"url\":\"https://acme.com/ocm\"}],\"properties\":{\"auth\":{\"examples\":[{\"login\":\"someuser\",\"password\":\"secret\",\"type\":\"httpBasic\"}],\"properties\":{\"headerName\":{\"description\":\"Custom header name for customHttpHeader type\",\"type\":\"string\"},\"login\":{\"description\":\"Login for httpBasic type\",\"type\":\"string\"},\"password\":{\"description\":\"Secret value (write-only, replaced by reference after storage)\",\"type\":\"string\"},\"type\":{\"description\":\"Authentication type\",\"enum\":[\"httpBasic\",\"bearerToken\",\"customHttpHeader\"],\"type\":\"string\"}},\"required\":[\"type\",\"password\"],\"type\":\"object\"},\"enableCompression\":{\"description\":\"Enable GZIP compression for callback requests (default false)\",\"type\":\"boolean\"},\"tls\":{\"description\":\"Client SSL certificate authentication\",\"examples\":[{\"certificate\":\"LS0tLS1CRUdJTiBF...\",\"password\":\"secret\"}],\"properties\":{\"certificate\":{\"description\":\"Base64-encoded PEM (with embedded private key) or PFX/PKCS#12 certificate\",\"type\":\"string\"},\"password\":{\"description\":\"Private key password\",\"type\":\"string\"}},\"required\":[\"certificate\",\"password\"],\"type\":\"object\"},\"url\":{\"description\":\"HTTPS callback endpoint URL\",\"type\":\"string\"}},\"required\":[\"url\"],\"type\":\"object\"}},\"type\":\"object\"}},\"required\":[\"settings\"],\"type\":\"object\"}}},\"description\":\"Settings updated\"}},\"security\":[{\"apiKey\":[]},{\"oauth2\":[]}],\"securitySchemes\":{\"apiKey\":{\"description\":\"API key for /v1 endpoints\",\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"oauth2\":{\"description\":\"OAuth2 client credentials for /v2 endpoints\",\"flows\":{\"clientCredentials\":{\"scopes\":{},\"tokenUrl\":\"https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token\"}},\"type\":\"oauth2\"}},\"securitySource\":\"definition\"}","source":"openapi3","version":1},"kind":"http","method":"PATCH","orig":"/self/settings","segments":[{"lit":"self"},{"lit":"settings"}],"select":{},"transform":{"req":"`reqdata`","res":"`body.settings`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[]},"key$":"self_admin","name__orig":"self_admin","Name":"SelfAdmin","name_":"self_admin","name-":"self-admin","NAME":"SELF_ADMIN","index$":6}, {"active":true,"entity":"self_admin","key$":"BasicSelfAdminFlow","kind":"basic","name":"BasicSelfAdminFlow","param":{},"step":[{"active":true,"data":{},"input":{"ref":"self_admin_ref01","srcdatavar":"self_admin_ref01_data","suffix":"_up0"},"match":{},"op":"update","spec":[{"apply":"TextFieldMark","def":{"mark":"Mark01-self_admin_ref01"}}],"valid":[],"index$":0}]}, 'SelfAdmin')
     }
     const client = setup.client
     const struct = setup.struct
@@ -110,13 +109,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['LM_MULTICHANNEL_TEST_SELF_ADMIN_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'LM_MULTICHANNEL_TEST_SELF_ADMIN_ENTID': idmap,
     'LM_MULTICHANNEL_TEST_LIVE': 'FALSE',
@@ -128,7 +120,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.LM_MULTICHANNEL_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['LM_MULTICHANNEL_TEST_SELF_ADMIN_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new LmMultichannelSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -141,7 +139,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -154,7 +153,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.LM_MULTICHANNEL_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

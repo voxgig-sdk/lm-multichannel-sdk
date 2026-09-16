@@ -1,0 +1,2399 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Template | MyLINK Multichannel API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">MyLINK Multichannel API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/lm-multichannel-sdk">voxgig-sdk/lm-multichannel-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">MyLINK Multichannel API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/content.html">Content</a>
+<a href="../api/message.html">Message</a>
+<a href="../api/message_event.html">MessageEvent</a>
+<a href="../api/option.html">Option</a>
+<a href="../api/schedule.html">Schedule</a>
+<a href="../api/self.html">Self</a>
+<a href="../api/self_admin.html">SelfAdmin</a>
+<a aria-current="page" href="../api/template.html">Template</a><div class="nav-sections"><a class="nav-section" href="#post-templatestemplateidmeta">POST /templates/{templateId}/meta</a>
+<a class="nav-section" href="#post-templates">POST /templates</a>
+<a class="nav-section" href="#get-templates">GET /templates</a>
+<a class="nav-section" href="#get-templatestemplateidreviewschannelid">GET /templates/{templateId}/reviews/{channelId}</a>
+<a class="nav-section" href="#get-templatestemplateid">GET /templates/{templateId}</a>
+<a class="nav-section" href="#get-templatestemplateidmeta">GET /templates/{templateId}/meta</a>
+<a class="nav-section" href="#get-templatestemplateidreviews">GET /templates/{templateId}/reviews</a>
+<a class="nav-section" href="#patch-templatestemplateidmeta">PATCH /templates/{templateId}/meta</a>
+<a class="nav-section" href="#delete-templatestemplateidreviewschannelid">DELETE /templates/{templateId}/reviews/{channelId}</a>
+<a class="nav-section" href="#delete-templatestemplateid">DELETE /templates/{templateId}</a>
+<a class="nav-section" href="#put-templatestemplateidreviewschannelid">PUT /templates/{templateId}/reviews/{channelId}</a></div>
+<a href="../api/traffic.html">Traffic</a>
+<a href="../api/traffic_file.html">TrafficFile</a>
+<a href="../api/variable.html">Variable</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="template">Template</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-templatestemplateidmeta"><code>/templates/{templateId}/meta</code></a></td>
+<td><code>create</code></td>
+<td>Meta updated</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-templates"><code>/templates</code></a></td>
+<td><code>create</code></td>
+<td>Template created</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-templates"><code>/templates</code></a></td>
+<td><code>list</code></td>
+<td>Template list</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-templatestemplateidreviewschannelid"><code>/templates/{templateId}/reviews/{channelId}</code></a></td>
+<td><code>load</code></td>
+<td>Review returned</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-templatestemplateid"><code>/templates/{templateId}</code></a></td>
+<td><code>load</code></td>
+<td>Template found</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-templatestemplateidmeta"><code>/templates/{templateId}/meta</code></a></td>
+<td><code>load</code></td>
+<td>Meta returned</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-templatestemplateidreviews"><code>/templates/{templateId}/reviews</code></a></td>
+<td><code>load</code></td>
+<td>Reviews returned</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-templatestemplateidmeta"><code>/templates/{templateId}/meta</code></a></td>
+<td><code>patch</code></td>
+<td>Meta updated</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-templatestemplateidreviewschannelid"><code>/templates/{templateId}/reviews/{channelId}</code></a></td>
+<td><code>remove</code></td>
+<td>Deletion initiated</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-templatestemplateid"><code>/templates/{templateId}</code></a></td>
+<td><code>remove</code></td>
+<td>Template deleted</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><a href="#put-templatestemplateidreviewschannelid"><code>/templates/{templateId}/reviews/{channelId}</code></a></td>
+<td><code>update</code></td>
+<td>Submitted for review</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>channelData</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Message content.</td>
+</tr>
+<tr>
+<td><code>createdOn</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Date of template creation</td>
+</tr>
+<tr>
+<td><code>designerUrl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>URL to the external template designer (dynamically generated if enabled)</td>
+</tr>
+<tr>
+<td><code>details</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Additional details about the latest status</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>meta</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>occurredOn</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Date and time of last review status change</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>reviews</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Channel-specific template reviews (keyed by channelId)</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Template review lifecycle status</td>
+</tr>
+<tr>
+<td><code>template</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Properties for creating a new template</td>
+</tr>
+<tr>
+<td><code>templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique template identifier (generated by the service)</td>
+</tr>
+<tr>
+<td><code>updatedOn</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Date of last template update</td>
+</tr>
+<tr>
+<td><code>variables</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-templatestemplateidmeta" class="operation" data-method="post"><code>POST</code> /templates/{templateId}/meta</h3>
+<p>Operation ID: <code>overwriteTemplateMeta</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meta</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-meta-updated" class="status" data-status="2xx">200: Meta updated</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meta</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-templates" class="operation" data-method="post"><code>POST</code> /templates</h3>
+<p>Operation ID: <code>createTemplate</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>template</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Properties for creating a new template</td>
+</tr>
+<tr>
+<td><code>template.content</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Message content. Exactly one of the content type properties must be provided: text, media, location, card, carousel, or fromTemplate. Suggestions (quick replies) can be added to primitive content types.</td>
+</tr>
+<tr>
+<td><code>template.content.card</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Rich card containing media, text and/or buttons</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>template.content.card.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>template.content.card.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>template.content.card.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>template.content.card.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>template.content.card.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>template.content.card.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>template.content.card.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>template.content.card.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>template.content.card.subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.fromTemplate</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Content generated from a pre-defined template</td>
+</tr>
+<tr>
+<td><code>template.content.fromTemplate.templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Template identifier</td>
+</tr>
+<tr>
+<td><code>template.content.fromTemplate.variables</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Variable name-value pairs to inject into template placeholders</td>
+</tr>
+<tr>
+<td><code>template.content.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>template.content.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>template.content.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>template.content.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>template.content.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>template.content.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>template.content.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>template.content.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>Quick replies / suggestion buttons (not applicable to fromTemplate)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].copyCode.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Value to copy to clipboard (for example promo code, OTP)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event description</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.endTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event end time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.startTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event start time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event title</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].dial.phoneNumber</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].openUrl.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>URL to open</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].reply.text</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Text sent on behalf of the end-user</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location description</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.latitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Latitude in degrees</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.longitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Longitude in degrees</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location search query</td>
+</tr>
+<tr>
+<td><code>template.content.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Simple text content</td>
+</tr>
+<tr>
+<td><code>template.meta</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.variables</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.variables[].description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Variable description</td>
+</tr>
+<tr>
+<td><code>template.variables[].examples</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Example values</td>
+</tr>
+<tr>
+<td><code>template.variables[].formats</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Type-specific constraint formats (for example culture codes, regex patterns)</td>
+</tr>
+<tr>
+<td><code>template.variables[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)</td>
+</tr>
+<tr>
+<td><code>template.variables[].ref</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional immutable identifier for the variable (used for merge identity)</td>
+</tr>
+<tr>
+<td><code>template.variables[].type</code></td>
+<td><code>enum: text, dateTime, number, phoneNumber, url, emailAddress, ...</code></td>
+<td>No</td>
+<td>Optional type descriptor for validation constraints</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-1">Responses</h4>
+<h5 id="201-template-created" class="status" data-status="2xx">201: Template created</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>template</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Message content. Exactly one of the content type properties must be provided: text, media, location, card, carousel, or fromTemplate. Suggestions (quick replies) can be added to primitive content types.</td>
+</tr>
+<tr>
+<td><code>template.content.card</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Rich card containing media, text and/or buttons</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>template.content.card.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>template.content.card.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>template.content.card.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>template.content.card.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>template.content.card.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>template.content.card.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>template.content.card.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>template.content.card.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>template.content.card.subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.fromTemplate</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Content generated from a pre-defined template</td>
+</tr>
+<tr>
+<td><code>template.content.fromTemplate.templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Template identifier</td>
+</tr>
+<tr>
+<td><code>template.content.fromTemplate.variables</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Variable name-value pairs to inject into template placeholders</td>
+</tr>
+<tr>
+<td><code>template.content.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>template.content.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>template.content.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>template.content.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>template.content.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>template.content.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>template.content.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>template.content.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>Quick replies / suggestion buttons (not applicable to fromTemplate)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].copyCode.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Value to copy to clipboard (for example promo code, OTP)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event description</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.endTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event end time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.startTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event start time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event title</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].dial.phoneNumber</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].openUrl.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>URL to open</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].reply.text</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Text sent on behalf of the end-user</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location description</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.latitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Latitude in degrees</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.longitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Longitude in degrees</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location search query</td>
+</tr>
+<tr>
+<td><code>template.content.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Simple text content</td>
+</tr>
+<tr>
+<td><code>template.createdOn</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Date of template creation</td>
+</tr>
+<tr>
+<td><code>template.designerUrl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>URL to the external template designer (dynamically generated if enabled)</td>
+</tr>
+<tr>
+<td><code>template.meta</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.reviews</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Channel-specific template reviews (keyed by channelId)</td>
+</tr>
+<tr>
+<td><code>template.templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique template identifier (generated by the service)</td>
+</tr>
+<tr>
+<td><code>template.updatedOn</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td>Date of last template update</td>
+</tr>
+<tr>
+<td><code>template.variables</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.variables[].description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Variable description</td>
+</tr>
+<tr>
+<td><code>template.variables[].examples</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Example values</td>
+</tr>
+<tr>
+<td><code>template.variables[].formats</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Type-specific constraint formats (for example culture codes, regex patterns)</td>
+</tr>
+<tr>
+<td><code>template.variables[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)</td>
+</tr>
+<tr>
+<td><code>template.variables[].ref</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional immutable identifier for the variable (used for merge identity)</td>
+</tr>
+<tr>
+<td><code>template.variables[].type</code></td>
+<td><code>enum: text, dateTime, number, phoneNumber, url, emailAddress, ...</code></td>
+<td>No</td>
+<td>Optional type descriptor for validation constraints</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-invalid-request" class="status" data-status="4xx">400: Invalid request</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-templates" class="operation" data-method="get"><code>GET</code> /templates</h3>
+<p>Operation ID: <code>listTemplates</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>_pageSize</code> | <code>query</code> | <code>integer</code> | No | Page size for pagination (max 1000) |
+| <code>_pageIndex</code> | <code>query</code> | <code>integer</code> | No | Zero-based page index |
+| <code>_sort</code> | <code>query</code> | <code>string</code> | No | Sort by property paths with optional asc:/desc: prefix and ! null-coalescing |</p>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-template-list" class="status" data-status="2xx">200: Template list</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_filteredItemCount</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Total templates after filtering</td>
+</tr>
+<tr>
+<td><code>_pageCount</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>_pageSize</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>_totalItemCount</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Total templates before filtering</td>
+</tr>
+<tr>
+<td><code>templates</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>templates[].createdOn</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>templates[].designerUrl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>templates[].meta</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>templates[].reviews</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>templates[].templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>templates[].updatedOn</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-templatestemplateidreviewschannelid" class="operation" data-method="get"><code>GET</code> /templates/{templateId}/reviews/{channelId}</h3>
+<p>Operation ID: <code>getTemplateReview</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |
+| <code>channelId</code> | <code>path</code> | <code>enum: sms, rcs, viber, whatsapp, mock</code> | Yes | Channel identifier |</p>
+<h4 id="responses-3">Responses</h4>
+<h5 id="200-review-returned" class="status" data-status="2xx">200: Review returned</h5>
+<p><code>application/json</code></p>
+<p>The response is <code>object</code>.</p>
+<h5 id="404-resource-not-found-1" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-templatestemplateid" class="operation" data-method="get"><code>GET</code> /templates/{templateId}</h3>
+<p>Operation ID: <code>getTemplate</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-3">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="responses-4">Responses</h4>
+<h5 id="200-template-found" class="status" data-status="2xx">200: Template found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>template</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Message content. Exactly one of the content type properties must be provided: text, media, location, card, carousel, or fromTemplate. Suggestions (quick replies) can be added to primitive content types.</td>
+</tr>
+<tr>
+<td><code>template.content.card</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Rich card containing media, text and/or buttons</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>template.content.card.buttons[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>template.content.card.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>template.content.card.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>template.content.card.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>template.content.card.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>template.content.card.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>template.content.card.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>template.content.card.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>template.content.card.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>template.content.card.subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.card.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.carousel.cards[].title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.fromTemplate</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Content generated from a pre-defined template</td>
+</tr>
+<tr>
+<td><code>template.content.fromTemplate.templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Template identifier</td>
+</tr>
+<tr>
+<td><code>template.content.fromTemplate.variables</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Variable name-value pairs to inject into template placeholders</td>
+</tr>
+<tr>
+<td><code>template.content.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>template.content.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>template.content.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>template.content.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>template.content.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>template.content.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>template.content.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>template.content.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>Quick replies / suggestion buttons (not applicable to fromTemplate)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].copyCode.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Value to copy to clipboard (for example promo code, OTP)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event description</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.endTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event end time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.startTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event start time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].createCalendarEvent.title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event title</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].dial.phoneNumber</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].openUrl.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>URL to open</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].reply.text</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Text sent on behalf of the end-user</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location description</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.latitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Latitude in degrees</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.longitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Longitude in degrees</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].viewLocation.query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location search query</td>
+</tr>
+<tr>
+<td><code>template.content.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Simple text content</td>
+</tr>
+<tr>
+<td><code>template.createdOn</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Date of template creation</td>
+</tr>
+<tr>
+<td><code>template.designerUrl</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>URL to the external template designer (dynamically generated if enabled)</td>
+</tr>
+<tr>
+<td><code>template.meta</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.reviews</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Channel-specific template reviews (keyed by channelId)</td>
+</tr>
+<tr>
+<td><code>template.templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique template identifier (generated by the service)</td>
+</tr>
+<tr>
+<td><code>template.updatedOn</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td>Date of last template update</td>
+</tr>
+<tr>
+<td><code>template.variables</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>template.variables[].description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Variable description</td>
+</tr>
+<tr>
+<td><code>template.variables[].examples</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Example values</td>
+</tr>
+<tr>
+<td><code>template.variables[].formats</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Type-specific constraint formats (for example culture codes, regex patterns)</td>
+</tr>
+<tr>
+<td><code>template.variables[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)</td>
+</tr>
+<tr>
+<td><code>template.variables[].ref</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional immutable identifier for the variable (used for merge identity)</td>
+</tr>
+<tr>
+<td><code>template.variables[].type</code></td>
+<td><code>enum: text, dateTime, number, phoneNumber, url, emailAddress, ...</code></td>
+<td>No</td>
+<td>Optional type descriptor for validation constraints</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found-2" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-templatestemplateidmeta" class="operation" data-method="get"><code>GET</code> /templates/{templateId}/meta</h3>
+<p>Operation ID: <code>getTemplateMeta</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-4">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="responses-5">Responses</h4>
+<h5 id="200-meta-returned" class="status" data-status="2xx">200: Meta returned</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meta</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-templatestemplateidreviews" class="operation" data-method="get"><code>GET</code> /templates/{templateId}/reviews</h3>
+<p>Operation ID: <code>getTemplateReviews</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-5">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="responses-6">Responses</h4>
+<h5 id="200-reviews-returned" class="status" data-status="2xx">200: Reviews returned</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reviews</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Dictionary of channelId to Review</td>
+</tr>
+</tbody>
+</table>
+<h2 id="patch">patch</h2>
+<h3 id="patch-templatestemplateidmeta" class="operation" data-method="patch"><code>PATCH</code> /templates/{templateId}/meta</h3>
+<p>Operation ID: <code>mergeTemplateMeta</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-6">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="request-body-2">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meta</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-7">Responses</h4>
+<h5 id="200-meta-updated-1" class="status" data-status="2xx">200: Meta updated</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meta</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed-1" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found-3" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status-1" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h2 id="remove">remove</h2>
+<h3 id="delete-templatestemplateidreviewschannelid" class="operation" data-method="delete"><code>DELETE</code> /templates/{templateId}/reviews/{channelId}</h3>
+<p>Operation ID: <code>deleteTemplateReview</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-7">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |
+| <code>channelId</code> | <code>path</code> | <code>enum: sms, rcs, viber, whatsapp, mock</code> | Yes | Channel identifier |</p>
+<h4 id="responses-8">Responses</h4>
+<h5 id="202-deletion-initiated" class="status" data-status="2xx">202: Deletion initiated</h5>
+<p><code>application/json</code></p>
+<p>The response is <code>object</code>.</p>
+<h5 id="404-resource-not-found-4" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-current-review-state-does-not-allow-deletion" class="status" data-status="4xx">409: Current review state does not allow deletion</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h3 id="delete-templatestemplateid" class="operation" data-method="delete"><code>DELETE</code> /templates/{templateId}</h3>
+<p>Operation ID: <code>deleteTemplate</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-8">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="responses-9">Responses</h4>
+<h5 id="204-template-deleted" class="status" data-status="2xx">204: Template deleted</h5>
+<h5 id="404-resource-not-found-5" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update">update</h2>
+<h3 id="put-templatestemplateidreviewschannelid" class="operation" data-method="put"><code>PUT</code> /templates/{templateId}/reviews/{channelId}</h3>
+<p>Operation ID: <code>submitTemplateReview</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-9">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |
+| <code>channelId</code> | <code>path</code> | <code>enum: sms, rcs, viber, whatsapp, mock</code> | Yes | Channel identifier |</p>
+<h4 id="responses-10">Responses</h4>
+<h5 id="202-submitted-for-review" class="status" data-status="2xx">202: Submitted for review</h5>
+<p><code>application/json</code></p>
+<p>The response is <code>object</code>.</p>
+<h5 id="400-invalid-request-1" class="status" data-status="4xx">400: Invalid request</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed-2" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-current-review-state-does-not-allow-this-action" class="status" data-status="4xx">409: Current review state does not allow this action</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

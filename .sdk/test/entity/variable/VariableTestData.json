@@ -48,5 +48,714 @@
         "variables": []
       }
     }
+  },
+  "requests": {
+    "POST /templates/{templateId}/variables": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "overwriteTemplateVariables",
+        "parameters": [
+          {
+            "description": "Unique template identifier",
+            "in": "path",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "examples": [
+                  {
+                    "variables": [
+                      {
+                        "name": "firstName"
+                      },
+                      {
+                        "description": "Family name",
+                        "name": "lastName"
+                      }
+                    ]
+                  }
+                ],
+                "properties": {
+                  "variables": {
+                    "items": {
+                      "examples": [
+                        {
+                          "description": "Customer first name",
+                          "examples": [
+                            "Georges",
+                            "Alice"
+                          ],
+                          "formats": [
+                            "unicode"
+                          ],
+                          "name": "firstName",
+                          "ref": "MY_FIELD_1",
+                          "type": "text"
+                        }
+                      ],
+                      "properties": {
+                        "description": {
+                          "description": "Variable description",
+                          "type": "string"
+                        },
+                        "examples": {
+                          "description": "Example values",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "formats": {
+                          "description": "Type-specific constraint formats (e.g. culture codes, regex patterns)",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "name": {
+                          "description": "Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)",
+                          "type": "string"
+                        },
+                        "ref": {
+                          "description": "Optional immutable identifier for the variable (used for merge identity)",
+                          "maxLength": 50,
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "Optional type descriptor for validation constraints",
+                          "enum": [
+                            "text",
+                            "dateTime",
+                            "number",
+                            "phoneNumber",
+                            "url",
+                            "emailAddress",
+                            "custom"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "variables"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "examples": [
+                    {
+                      "variables": [
+                        {
+                          "name": "firstName"
+                        },
+                        {
+                          "description": "Family name",
+                          "name": "lastName"
+                        }
+                      ]
+                    }
+                  ],
+                  "properties": {
+                    "variables": {
+                      "items": {
+                        "examples": [
+                          {
+                            "description": "Customer first name",
+                            "examples": [
+                              "Georges",
+                              "Alice"
+                            ],
+                            "formats": [
+                              "unicode"
+                            ],
+                            "name": "firstName",
+                            "ref": "MY_FIELD_1",
+                            "type": "text"
+                          }
+                        ],
+                        "properties": {
+                          "description": {
+                            "description": "Variable description",
+                            "type": "string"
+                          },
+                          "examples": {
+                            "description": "Example values",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "formats": {
+                            "description": "Type-specific constraint formats (e.g. culture codes, regex patterns)",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "name": {
+                            "description": "Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)",
+                            "type": "string"
+                          },
+                          "ref": {
+                            "description": "Optional immutable identifier for the variable (used for merge identity)",
+                            "maxLength": 50,
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "Optional type descriptor for validation constraints",
+                            "enum": [
+                              "text",
+                              "dateTime",
+                              "number",
+                              "phoneNumber",
+                              "url",
+                              "emailAddress",
+                              "custom"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "variables"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Variables updated"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authorization failed"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /templates/{templateId}/variables": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getTemplateVariables",
+        "parameters": [
+          {
+            "description": "Unique template identifier",
+            "in": "path",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "examples": [
+                    {
+                      "variables": [
+                        {
+                          "name": "firstName"
+                        },
+                        {
+                          "description": "Family name",
+                          "name": "lastName"
+                        }
+                      ]
+                    }
+                  ],
+                  "properties": {
+                    "variables": {
+                      "items": {
+                        "examples": [
+                          {
+                            "description": "Customer first name",
+                            "examples": [
+                              "Georges",
+                              "Alice"
+                            ],
+                            "formats": [
+                              "unicode"
+                            ],
+                            "name": "firstName",
+                            "ref": "MY_FIELD_1",
+                            "type": "text"
+                          }
+                        ],
+                        "properties": {
+                          "description": {
+                            "description": "Variable description",
+                            "type": "string"
+                          },
+                          "examples": {
+                            "description": "Example values",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "formats": {
+                            "description": "Type-specific constraint formats (e.g. culture codes, regex patterns)",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "name": {
+                            "description": "Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)",
+                            "type": "string"
+                          },
+                          "ref": {
+                            "description": "Optional immutable identifier for the variable (used for merge identity)",
+                            "maxLength": 50,
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "Optional type descriptor for validation constraints",
+                            "enum": [
+                              "text",
+                              "dateTime",
+                              "number",
+                              "phoneNumber",
+                              "url",
+                              "emailAddress",
+                              "custom"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "variables"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Variables returned"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "PATCH /templates/{templateId}/variables": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "mergeTemplateVariables",
+        "parameters": [
+          {
+            "description": "Unique template identifier",
+            "in": "path",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "examples": [
+                  {
+                    "variables": [
+                      {
+                        "name": "firstName"
+                      },
+                      {
+                        "description": "Family name",
+                        "name": "lastName"
+                      }
+                    ]
+                  }
+                ],
+                "properties": {
+                  "variables": {
+                    "items": {
+                      "examples": [
+                        {
+                          "description": "Customer first name",
+                          "examples": [
+                            "Georges",
+                            "Alice"
+                          ],
+                          "formats": [
+                            "unicode"
+                          ],
+                          "name": "firstName",
+                          "ref": "MY_FIELD_1",
+                          "type": "text"
+                        }
+                      ],
+                      "properties": {
+                        "description": {
+                          "description": "Variable description",
+                          "type": "string"
+                        },
+                        "examples": {
+                          "description": "Example values",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "formats": {
+                          "description": "Type-specific constraint formats (e.g. culture codes, regex patterns)",
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "name": {
+                          "description": "Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)",
+                          "type": "string"
+                        },
+                        "ref": {
+                          "description": "Optional immutable identifier for the variable (used for merge identity)",
+                          "maxLength": 50,
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "Optional type descriptor for validation constraints",
+                          "enum": [
+                            "text",
+                            "dateTime",
+                            "number",
+                            "phoneNumber",
+                            "url",
+                            "emailAddress",
+                            "custom"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "variables"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "examples": [
+                    {
+                      "variables": [
+                        {
+                          "name": "firstName"
+                        },
+                        {
+                          "description": "Family name",
+                          "name": "lastName"
+                        }
+                      ]
+                    }
+                  ],
+                  "properties": {
+                    "variables": {
+                      "items": {
+                        "examples": [
+                          {
+                            "description": "Customer first name",
+                            "examples": [
+                              "Georges",
+                              "Alice"
+                            ],
+                            "formats": [
+                              "unicode"
+                            ],
+                            "name": "firstName",
+                            "ref": "MY_FIELD_1",
+                            "type": "text"
+                          }
+                        ],
+                        "properties": {
+                          "description": {
+                            "description": "Variable description",
+                            "type": "string"
+                          },
+                          "examples": {
+                            "description": "Example values",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "formats": {
+                            "description": "Type-specific constraint formats (e.g. culture codes, regex patterns)",
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "name": {
+                            "description": "Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)",
+                            "type": "string"
+                          },
+                          "ref": {
+                            "description": "Optional immutable identifier for the variable (used for merge identity)",
+                            "maxLength": 50,
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "Optional type descriptor for validation constraints",
+                            "enum": [
+                              "text",
+                              "dateTime",
+                              "number",
+                              "phoneNumber",
+                              "url",
+                              "emailAddress",
+                              "custom"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "variables"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Variables updated"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authorization failed"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    }
   }
 }

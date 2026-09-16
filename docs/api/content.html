@@ -1,0 +1,2067 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Content | MyLINK Multichannel API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">MyLINK Multichannel API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/lm-multichannel-sdk">voxgig-sdk/lm-multichannel-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">MyLINK Multichannel API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a aria-current="page" href="../api/content.html">Content</a><div class="nav-sections"><a class="nav-section" href="#post-templatestemplateidcontent">POST /templates/{templateId}/content</a>
+<a class="nav-section" href="#get-templatestemplateidcontent">GET /templates/{templateId}/content</a></div>
+<a href="../api/message.html">Message</a>
+<a href="../api/message_event.html">MessageEvent</a>
+<a href="../api/option.html">Option</a>
+<a href="../api/schedule.html">Schedule</a>
+<a href="../api/self.html">Self</a>
+<a href="../api/self_admin.html">SelfAdmin</a>
+<a href="../api/template.html">Template</a>
+<a href="../api/traffic.html">Traffic</a>
+<a href="../api/traffic_file.html">TrafficFile</a>
+<a href="../api/variable.html">Variable</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="content">Content</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-templatestemplateidcontent"><code>/templates/{templateId}/content</code></a></td>
+<td><code>create</code></td>
+<td>Content updated</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-templatestemplateidcontent"><code>/templates/{templateId}/content</code></a></td>
+<td><code>load</code></td>
+<td>Content returned</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>card</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Rich card containing media, text and/or buttons</td>
+</tr>
+<tr>
+<td><code>carousel</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Message content.</td>
+</tr>
+<tr>
+<td><code>fromTemplate</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Content generated from a pre-defined template</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>media</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>suggestions</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td>Quick replies / suggestion buttons (not applicable to fromTemplate)</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Simple text content</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-templatestemplateidcontent" class="operation" data-method="post"><code>POST</code> /templates/{templateId}/content</h3>
+<p>Operation ID: <code>overwriteTemplateContent</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>content</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Message content. Exactly one of the content type properties must be provided: text, media, location, card, carousel, or fromTemplate. Suggestions (quick replies) can be added to primitive content types.</td>
+</tr>
+<tr>
+<td><code>content.card</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Rich card containing media, text and/or buttons</td>
+</tr>
+<tr>
+<td><code>content.card.buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].copyCode.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Value to copy to clipboard (for example promo code, OTP)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event description</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.endTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event end time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.startTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event start time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event title</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].dial.phoneNumber</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].openUrl.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>URL to open</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].reply.text</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Text sent on behalf of the end-user</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location description</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.latitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Latitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.longitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Longitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location search query</td>
+</tr>
+<tr>
+<td><code>content.card.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>content.card.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>content.card.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>content.card.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>content.card.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>content.card.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>content.card.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>content.card.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>content.card.subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.fromTemplate</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Content generated from a pre-defined template</td>
+</tr>
+<tr>
+<td><code>content.fromTemplate.templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Template identifier</td>
+</tr>
+<tr>
+<td><code>content.fromTemplate.variables</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Variable name-value pairs to inject into template placeholders</td>
+</tr>
+<tr>
+<td><code>content.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>content.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>content.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>content.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>content.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>content.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>content.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>content.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>content.suggestions</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>Quick replies / suggestion buttons (not applicable to fromTemplate)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].copyCode.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Value to copy to clipboard (for example promo code, OTP)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event description</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.endTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event end time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.startTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event start time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event title</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].dial.phoneNumber</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].openUrl.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>URL to open</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].reply.text</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Text sent on behalf of the end-user</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location description</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.latitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Latitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.longitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Longitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location search query</td>
+</tr>
+<tr>
+<td><code>content.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Simple text content</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-content-updated" class="status" data-status="2xx">200: Content updated</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>content</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Message content. Exactly one of the content type properties must be provided: text, media, location, card, carousel, or fromTemplate. Suggestions (quick replies) can be added to primitive content types.</td>
+</tr>
+<tr>
+<td><code>content.card</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Rich card containing media, text and/or buttons</td>
+</tr>
+<tr>
+<td><code>content.card.buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].copyCode.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Value to copy to clipboard (for example promo code, OTP)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event description</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.endTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event end time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.startTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event start time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event title</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].dial.phoneNumber</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].openUrl.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>URL to open</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].reply.text</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Text sent on behalf of the end-user</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location description</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.latitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Latitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.longitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Longitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location search query</td>
+</tr>
+<tr>
+<td><code>content.card.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>content.card.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>content.card.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>content.card.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>content.card.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>content.card.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>content.card.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>content.card.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>content.card.subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.fromTemplate</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Content generated from a pre-defined template</td>
+</tr>
+<tr>
+<td><code>content.fromTemplate.templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Template identifier</td>
+</tr>
+<tr>
+<td><code>content.fromTemplate.variables</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Variable name-value pairs to inject into template placeholders</td>
+</tr>
+<tr>
+<td><code>content.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>content.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>content.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>content.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>content.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>content.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>content.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>content.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>content.suggestions</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>Quick replies / suggestion buttons (not applicable to fromTemplate)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].copyCode.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Value to copy to clipboard (for example promo code, OTP)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event description</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.endTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event end time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.startTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event start time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event title</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].dial.phoneNumber</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].openUrl.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>URL to open</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].reply.text</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Text sent on behalf of the end-user</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location description</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.latitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Latitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.longitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Longitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location search query</td>
+</tr>
+<tr>
+<td><code>content.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Simple text content</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-templatestemplateidcontent" class="operation" data-method="get"><code>GET</code> /templates/{templateId}/content</h3>
+<p>Operation ID: <code>getTemplateContent</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-content-returned" class="status" data-status="2xx">200: Content returned</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>content</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Message content. Exactly one of the content type properties must be provided: text, media, location, card, carousel, or fromTemplate. Suggestions (quick replies) can be added to primitive content types.</td>
+</tr>
+<tr>
+<td><code>content.card</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Rich card containing media, text and/or buttons</td>
+</tr>
+<tr>
+<td><code>content.card.buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].copyCode.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Value to copy to clipboard (for example promo code, OTP)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event description</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.endTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event end time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.startTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event start time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].createCalendarEvent.title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event title</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].dial.phoneNumber</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].openUrl.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>URL to open</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].reply.text</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Text sent on behalf of the end-user</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location description</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.latitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Latitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.longitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Longitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.card.buttons[].viewLocation.query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location search query</td>
+</tr>
+<tr>
+<td><code>content.card.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>content.card.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>content.card.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>content.card.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>content.card.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>content.card.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>content.card.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>content.card.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>content.card.subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.card.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].buttons[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].subtitle</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.carousel.cards[].title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.fromTemplate</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Content generated from a pre-defined template</td>
+</tr>
+<tr>
+<td><code>content.fromTemplate.templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Template identifier</td>
+</tr>
+<tr>
+<td><code>content.fromTemplate.variables</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Variable name-value pairs to inject into template placeholders</td>
+</tr>
+<tr>
+<td><code>content.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>content.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>content.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>content.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>content.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>content.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>content.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>content.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>content.suggestions</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>Quick replies / suggestion buttons (not applicable to fromTemplate)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].caption</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Button display text</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].copyCode</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].copyCode.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Value to copy to clipboard (for example promo code, OTP)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event description</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.endTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event end time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.startTime</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Event start time (ISO 8601 UTC)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].createCalendarEvent.title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Calendar event title</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].dial</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].dial.phoneNumber</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].openUrl</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].openUrl.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>URL to open</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].postback</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Hidden value sent back for server-side tracking</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].reply</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>content.suggestions[].reply.text</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Text sent on behalf of the end-user</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].shareLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens the device location picker (no properties)</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens device location app to show a specific location. Provide latitude+longitude or query.</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location description</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.latitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Latitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.longitude</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Longitude in degrees</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].viewLocation.query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Location search query</td>
+</tr>
+<tr>
+<td><code>content.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Simple text content</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

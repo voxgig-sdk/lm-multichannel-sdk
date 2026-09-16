@@ -46,6 +46,12 @@ main: kit: entity: schedule: {
               }
             ]
           }
+          contract: {
+            id: "GET /schedules:count"
+            json: "{\"operationId\":\"getScheduleCount\",\"parameters\":[{\"description\":\"Schedule grouping identifier\",\"in\":\"query\",\"name\":\"campaignId\",\"required\":false,\"schema\":{\"type\":\"string\"}},{\"description\":\"Time range as pair of ISO 8601 timestamps separated by comma (inclusive)\",\"examples\":{\"default\":{\"value\":\"2026-02-01T10:00,2026-02-16T20:00\"}},\"in\":\"query\",\"name\":\"between\",\"required\":false,\"schema\":{\"type\":\"string\"}},{\"description\":\"IANA TZ for interpreting the between parameter\",\"examples\":{\"default\":{\"value\":\"Europe/Zurich\"}},\"in\":\"query\",\"name\":\"timeZone\",\"required\":false,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"count\":{\"description\":\"Number of active schedules\",\"type\":\"integer\"}},\"required\":[\"count\"],\"type\":\"object\"}}},\"description\":\"Count returned\"}},\"security\":[{\"apiKey\":[]},{\"oauth2\":[]}],\"securitySchemes\":{\"apiKey\":{\"description\":\"API key for /v1 endpoints\",\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"oauth2\":{\"description\":\"OAuth2 client credentials for /v2 endpoints\",\"flows\":{\"clientCredentials\":{\"scopes\":{},\"tokenUrl\":\"https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token\"}},\"type\":\"oauth2\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "GET"
           orig: "/schedules:count"
           segments: [
@@ -95,6 +101,12 @@ main: kit: entity: schedule: {
                 type: "`$STRING`"
               }
             ]
+          }
+          contract: {
+            id: "DELETE /schedules"
+            json: "{\"operationId\":\"bulkDeleteSchedules\",\"parameters\":[{\"description\":\"Schedule grouping identifier\",\"in\":\"query\",\"name\":\"campaignId\",\"required\":false,\"schema\":{\"type\":\"string\"}},{\"description\":\"Time range as pair of ISO 8601 timestamps separated by comma (inclusive)\",\"in\":\"query\",\"name\":\"between\",\"required\":false,\"schema\":{\"type\":\"string\"}},{\"description\":\"IANA TZ for interpreting the between parameter\",\"in\":\"query\",\"name\":\"timeZone\",\"required\":false,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"202\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"count\":{\"description\":\"Number of schedules at the moment deletion was requested\",\"type\":\"integer\"}},\"required\":[\"count\"],\"type\":\"object\"}}},\"description\":\"Deletion initiated\"},\"409\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error details\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Another bulk deletion is already in progress\"},\"500\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error details\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Internal server error\"}},\"security\":[{\"apiKey\":[]},{\"oauth2\":[]}],\"securitySchemes\":{\"apiKey\":{\"description\":\"API key for /v1 endpoints\",\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"oauth2\":{\"description\":\"OAuth2 client credentials for /v2 endpoints\",\"flows\":{\"clientCredentials\":{\"scopes\":{},\"tokenUrl\":\"https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token\"}},\"type\":\"oauth2\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "DELETE"
           orig: "/schedules"

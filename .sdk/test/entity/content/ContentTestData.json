@@ -52,5 +52,3044 @@
         "text": "s147"
       }
     }
+  },
+  "requests": {
+    "POST /templates/{templateId}/content": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "overwriteTemplateContent",
+        "parameters": [
+          {
+            "description": "Unique template identifier",
+            "in": "path",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "examples": [
+                  {
+                    "content": {
+                      "card": {
+                        "text": "Hello {{firstName}} {{lastName}}!",
+                        "title": "Hello there!"
+                      }
+                    }
+                  }
+                ],
+                "properties": {
+                  "content": {
+                    "description": "Message content. Exactly one of the content type properties must be provided:\ntext, media, location, card, carousel, or fromTemplate.\nSuggestions (quick replies) can be added to primitive content types.\n",
+                    "examples": [
+                      {
+                        "card": {
+                          "buttons": [
+                            {
+                              "caption": "Get me there",
+                              "openUrl": {
+                                "url": "https://to.page/e9ZxkeAvu"
+                              }
+                            }
+                          ],
+                          "media": {
+                            "source": "https://example.com/picture.jpeg",
+                            "type": "image/png"
+                          },
+                          "text": "Enjoy your personal -30% rebate on all items",
+                          "title": "Private sale"
+                        }
+                      }
+                    ],
+                    "properties": {
+                      "card": {
+                        "description": "Rich card containing media, text and/or buttons",
+                        "examples": [
+                          {
+                            "buttons": [
+                              {
+                                "caption": "Tell me more",
+                                "postback": "DETAILS"
+                              },
+                              {
+                                "caption": "Call us",
+                                "dial": {
+                                  "phoneNumber": "+33600000000"
+                                },
+                                "postback": "CALL"
+                              },
+                              {
+                                "caption": "Visit us",
+                                "openUrl": {
+                                  "url": "https://www.example.com"
+                                },
+                                "postback": "WEB"
+                              }
+                            ],
+                            "media": {
+                              "source": "https://example.com/picture.jpeg",
+                              "type": "image/jpeg"
+                            },
+                            "text": "Still Life with Teapot...",
+                            "title": "Still Life with Teapot and Fruit (1896)"
+                          }
+                        ],
+                        "properties": {
+                          "buttons": {
+                            "items": {
+                              "description": "Interactive button / suggestion. Exactly one action property should be provided:\nreply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.\nIf no action property is provided, the button defaults to a reply using the caption as text.\n",
+                              "examples": [
+                                {
+                                  "caption": "Visit us",
+                                  "openUrl": {
+                                    "url": "https://www.example.com"
+                                  },
+                                  "postback": "WEB"
+                                }
+                              ],
+                              "properties": {
+                                "caption": {
+                                  "description": "Button display text",
+                                  "type": "string"
+                                },
+                                "copyCode": {
+                                  "examples": [
+                                    {
+                                      "value": "PROMO1234"
+                                    }
+                                  ],
+                                  "properties": {
+                                    "value": {
+                                      "description": "Value to copy to clipboard (e.g. promo code, OTP)",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "createCalendarEvent": {
+                                  "examples": [
+                                    {
+                                      "description": "Visit the exhibition",
+                                      "endTime": "2020-05-23T18:25:43.511Z",
+                                      "startTime": "2020-04-23T18:25:43.511Z",
+                                      "title": "Cezanne Exhibit 2020"
+                                    }
+                                  ],
+                                  "properties": {
+                                    "description": {
+                                      "description": "Calendar event description",
+                                      "type": "string"
+                                    },
+                                    "endTime": {
+                                      "description": "Event end time (ISO 8601 UTC)",
+                                      "format": "date-time",
+                                      "type": "string"
+                                    },
+                                    "startTime": {
+                                      "description": "Event start time (ISO 8601 UTC)",
+                                      "format": "date-time",
+                                      "type": "string"
+                                    },
+                                    "title": {
+                                      "description": "Calendar event title",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "startTime",
+                                    "endTime",
+                                    "title",
+                                    "description"
+                                  ],
+                                  "type": "object"
+                                },
+                                "dial": {
+                                  "examples": [
+                                    {
+                                      "phoneNumber": "+33600000000"
+                                    }
+                                  ],
+                                  "properties": {
+                                    "phoneNumber": {
+                                      "description": "Phone number to dial",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "phoneNumber"
+                                  ],
+                                  "type": "object"
+                                },
+                                "openUrl": {
+                                  "examples": [
+                                    {
+                                      "url": "https://www.example.com"
+                                    }
+                                  ],
+                                  "properties": {
+                                    "url": {
+                                      "description": "URL to open",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "url"
+                                  ],
+                                  "type": "object"
+                                },
+                                "options": {
+                                  "additionalProperties": {
+                                    "type": "string"
+                                  },
+                                  "examples": [
+                                    {
+                                      "rcs.card.orientation": "HORIZONTAL",
+                                      "sms.originatingAddress": "MYBRAND"
+                                    }
+                                  ],
+                                  "type": "object"
+                                },
+                                "postback": {
+                                  "description": "Hidden value sent back for server-side tracking",
+                                  "type": "string"
+                                },
+                                "reply": {
+                                  "examples": [
+                                    {
+                                      "text": "Show more"
+                                    }
+                                  ],
+                                  "properties": {
+                                    "text": {
+                                      "description": "Text sent on behalf of the end-user",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "text"
+                                  ],
+                                  "type": "object"
+                                },
+                                "shareLocation": {
+                                  "description": "Opens the device location picker (no properties)",
+                                  "examples": [
+                                    {}
+                                  ],
+                                  "type": "object"
+                                },
+                                "viewLocation": {
+                                  "description": "Opens device location app to show a specific location. Provide latitude+longitude or query.",
+                                  "examples": [
+                                    {
+                                      "description": "Jas de Bouffan",
+                                      "latitude": "43.5249046",
+                                      "longitude": "5.4033345"
+                                    }
+                                  ],
+                                  "properties": {
+                                    "description": {
+                                      "description": "Location description",
+                                      "type": "string"
+                                    },
+                                    "latitude": {
+                                      "description": "Latitude in degrees",
+                                      "type": "string"
+                                    },
+                                    "longitude": {
+                                      "description": "Longitude in degrees",
+                                      "type": "string"
+                                    },
+                                    "query": {
+                                      "description": "Location search query",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                }
+                              },
+                              "required": [
+                                "caption"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "location": {
+                            "examples": [
+                              {
+                                "description": "Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris",
+                                "latitude": 48.86015347854819,
+                                "longitude": 2.326568685144047,
+                                "title": "Musee d'Orsay"
+                              }
+                            ],
+                            "properties": {
+                              "description": {
+                                "description": "Accompanying text description",
+                                "type": "string"
+                              },
+                              "latitude": {
+                                "description": "Latitude in degrees (plus/minus 90)",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "longitude": {
+                                "description": "Longitude in degrees (plus/minus 180)",
+                                "format": "double",
+                                "type": "number"
+                              },
+                              "title": {
+                                "description": "Short name of the location",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "latitude",
+                              "longitude"
+                            ],
+                            "type": "object"
+                          },
+                          "media": {
+                            "examples": [
+                              {
+                                "description": "An awesome picture!",
+                                "source": "https://example.com/picture.jpeg",
+                                "thumbnail": "https://example.com/thumbnail.jpg",
+                                "type": "image/jpeg"
+                              }
+                            ],
+                            "properties": {
+                              "description": {
+                                "description": "Caption / media description",
+                                "type": "string"
+                              },
+                              "source": {
+                                "description": "Media resource URI",
+                                "type": "string"
+                              },
+                              "thumbnail": {
+                                "description": "Thumbnail image URI",
+                                "type": "string"
+                              },
+                              "type": {
+                                "description": "MIME type (e.g. image/gif, video/mp4)",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "source"
+                            ],
+                            "type": "object"
+                          },
+                          "subtitle": {
+                            "type": "string"
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "carousel": {
+                        "examples": [
+                          {
+                            "cards": [
+                              {
+                                "buttons": [
+                                  {
+                                    "caption": "View online",
+                                    "openUrl": {
+                                      "url": "https://example.com"
+                                    }
+                                  }
+                                ],
+                                "media": {
+                                  "source": "https://example.com/picture1.jpeg",
+                                  "type": "image/jpeg"
+                                },
+                                "text": "Early twentieth-century scholars....",
+                                "title": "Gustave Boyer in a Straw Hat"
+                              },
+                              {
+                                "buttons": [
+                                  {
+                                    "caption": "View online",
+                                    "openUrl": {
+                                      "url": "https://example.com"
+                                    }
+                                  }
+                                ],
+                                "media": {
+                                  "source": "https://example.com/picture2.jpeg",
+                                  "type": "image/jpeg"
+                                },
+                                "text": "The mood and palette...",
+                                "title": "Seated Peasant"
+                              }
+                            ]
+                          }
+                        ],
+                        "properties": {
+                          "cards": {
+                            "items": {
+                              "description": "Rich card containing media, text and/or buttons",
+                              "examples": [
+                                {
+                                  "buttons": [
+                                    {
+                                      "caption": "Tell me more",
+                                      "postback": "DETAILS"
+                                    },
+                                    {
+                                      "caption": "Call us",
+                                      "dial": {
+                                        "phoneNumber": "+33600000000"
+                                      },
+                                      "postback": "CALL"
+                                    },
+                                    {
+                                      "caption": "Visit us",
+                                      "openUrl": {
+                                        "url": "https://www.example.com"
+                                      },
+                                      "postback": "WEB"
+                                    }
+                                  ],
+                                  "media": {
+                                    "source": "https://example.com/picture.jpeg",
+                                    "type": "image/jpeg"
+                                  },
+                                  "text": "Still Life with Teapot...",
+                                  "title": "Still Life with Teapot and Fruit (1896)"
+                                }
+                              ],
+                              "properties": {
+                                "buttons": {
+                                  "items": {
+                                    "description": "Interactive button / suggestion. Exactly one action property should be provided:\nreply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.\nIf no action property is provided, the button defaults to a reply using the caption as text.\n",
+                                    "examples": [
+                                      {
+                                        "caption": "Visit us",
+                                        "openUrl": {
+                                          "url": "https://www.example.com"
+                                        },
+                                        "postback": "WEB"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "caption": {
+                                        "description": "Button display text",
+                                        "type": "string"
+                                      },
+                                      "copyCode": {
+                                        "examples": [
+                                          {
+                                            "value": "PROMO1234"
+                                          }
+                                        ],
+                                        "properties": {
+                                          "value": {
+                                            "description": "Value to copy to clipboard (e.g. promo code, OTP)",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "createCalendarEvent": {
+                                        "examples": [
+                                          {
+                                            "description": "Visit the exhibition",
+                                            "endTime": "2020-05-23T18:25:43.511Z",
+                                            "startTime": "2020-04-23T18:25:43.511Z",
+                                            "title": "Cezanne Exhibit 2020"
+                                          }
+                                        ],
+                                        "properties": {
+                                          "description": {
+                                            "description": "Calendar event description",
+                                            "type": "string"
+                                          },
+                                          "endTime": {
+                                            "description": "Event end time (ISO 8601 UTC)",
+                                            "format": "date-time",
+                                            "type": "string"
+                                          },
+                                          "startTime": {
+                                            "description": "Event start time (ISO 8601 UTC)",
+                                            "format": "date-time",
+                                            "type": "string"
+                                          },
+                                          "title": {
+                                            "description": "Calendar event title",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "startTime",
+                                          "endTime",
+                                          "title",
+                                          "description"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "dial": {
+                                        "examples": [
+                                          {
+                                            "phoneNumber": "+33600000000"
+                                          }
+                                        ],
+                                        "properties": {
+                                          "phoneNumber": {
+                                            "description": "Phone number to dial",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "phoneNumber"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "openUrl": {
+                                        "examples": [
+                                          {
+                                            "url": "https://www.example.com"
+                                          }
+                                        ],
+                                        "properties": {
+                                          "url": {
+                                            "description": "URL to open",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "url"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "options": {
+                                        "additionalProperties": {
+                                          "type": "string"
+                                        },
+                                        "examples": [
+                                          {
+                                            "rcs.card.orientation": "HORIZONTAL",
+                                            "sms.originatingAddress": "MYBRAND"
+                                          }
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "postback": {
+                                        "description": "Hidden value sent back for server-side tracking",
+                                        "type": "string"
+                                      },
+                                      "reply": {
+                                        "examples": [
+                                          {
+                                            "text": "Show more"
+                                          }
+                                        ],
+                                        "properties": {
+                                          "text": {
+                                            "description": "Text sent on behalf of the end-user",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "text"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "shareLocation": {
+                                        "description": "Opens the device location picker (no properties)",
+                                        "examples": [
+                                          {}
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "viewLocation": {
+                                        "description": "Opens device location app to show a specific location. Provide latitude+longitude or query.",
+                                        "examples": [
+                                          {
+                                            "description": "Jas de Bouffan",
+                                            "latitude": "43.5249046",
+                                            "longitude": "5.4033345"
+                                          }
+                                        ],
+                                        "properties": {
+                                          "description": {
+                                            "description": "Location description",
+                                            "type": "string"
+                                          },
+                                          "latitude": {
+                                            "description": "Latitude in degrees",
+                                            "type": "string"
+                                          },
+                                          "longitude": {
+                                            "description": "Longitude in degrees",
+                                            "type": "string"
+                                          },
+                                          "query": {
+                                            "description": "Location search query",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      }
+                                    },
+                                    "required": [
+                                      "caption"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "location": {
+                                  "examples": [
+                                    {
+                                      "description": "Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris",
+                                      "latitude": 48.86015347854819,
+                                      "longitude": 2.326568685144047,
+                                      "title": "Musee d'Orsay"
+                                    }
+                                  ],
+                                  "properties": {
+                                    "description": {
+                                      "description": "Accompanying text description",
+                                      "type": "string"
+                                    },
+                                    "latitude": {
+                                      "description": "Latitude in degrees (plus/minus 90)",
+                                      "format": "double",
+                                      "type": "number"
+                                    },
+                                    "longitude": {
+                                      "description": "Longitude in degrees (plus/minus 180)",
+                                      "format": "double",
+                                      "type": "number"
+                                    },
+                                    "title": {
+                                      "description": "Short name of the location",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "latitude",
+                                    "longitude"
+                                  ],
+                                  "type": "object"
+                                },
+                                "media": {
+                                  "examples": [
+                                    {
+                                      "description": "An awesome picture!",
+                                      "source": "https://example.com/picture.jpeg",
+                                      "thumbnail": "https://example.com/thumbnail.jpg",
+                                      "type": "image/jpeg"
+                                    }
+                                  ],
+                                  "properties": {
+                                    "description": {
+                                      "description": "Caption / media description",
+                                      "type": "string"
+                                    },
+                                    "source": {
+                                      "description": "Media resource URI",
+                                      "type": "string"
+                                    },
+                                    "thumbnail": {
+                                      "description": "Thumbnail image URI",
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "description": "MIME type (e.g. image/gif, video/mp4)",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "type",
+                                    "source"
+                                  ],
+                                  "type": "object"
+                                },
+                                "subtitle": {
+                                  "type": "string"
+                                },
+                                "text": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "cards"
+                        ],
+                        "type": "object"
+                      },
+                      "fromTemplate": {
+                        "description": "Content generated from a pre-defined template",
+                        "examples": [
+                          {
+                            "templateId": "tple93fe290002...",
+                            "variables": {
+                              "firstName": "Vincent",
+                              "lastName": "Georges"
+                            }
+                          }
+                        ],
+                        "properties": {
+                          "templateId": {
+                            "description": "Template identifier",
+                            "type": "string"
+                          },
+                          "variables": {
+                            "additionalProperties": {
+                              "type": "string"
+                            },
+                            "description": "Variable name-value pairs to inject into template placeholders",
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "templateId"
+                        ],
+                        "type": "object"
+                      },
+                      "location": {
+                        "examples": [
+                          {
+                            "description": "Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris",
+                            "latitude": 48.86015347854819,
+                            "longitude": 2.326568685144047,
+                            "title": "Musee d'Orsay"
+                          }
+                        ],
+                        "properties": {
+                          "description": {
+                            "description": "Accompanying text description",
+                            "type": "string"
+                          },
+                          "latitude": {
+                            "description": "Latitude in degrees (plus/minus 90)",
+                            "format": "double",
+                            "type": "number"
+                          },
+                          "longitude": {
+                            "description": "Longitude in degrees (plus/minus 180)",
+                            "format": "double",
+                            "type": "number"
+                          },
+                          "title": {
+                            "description": "Short name of the location",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "latitude",
+                          "longitude"
+                        ],
+                        "type": "object"
+                      },
+                      "media": {
+                        "examples": [
+                          {
+                            "description": "An awesome picture!",
+                            "source": "https://example.com/picture.jpeg",
+                            "thumbnail": "https://example.com/thumbnail.jpg",
+                            "type": "image/jpeg"
+                          }
+                        ],
+                        "properties": {
+                          "description": {
+                            "description": "Caption / media description",
+                            "type": "string"
+                          },
+                          "source": {
+                            "description": "Media resource URI",
+                            "type": "string"
+                          },
+                          "thumbnail": {
+                            "description": "Thumbnail image URI",
+                            "type": "string"
+                          },
+                          "type": {
+                            "description": "MIME type (e.g. image/gif, video/mp4)",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "source"
+                        ],
+                        "type": "object"
+                      },
+                      "suggestions": {
+                        "description": "Quick replies / suggestion buttons (not applicable to fromTemplate)",
+                        "items": {
+                          "description": "Interactive button / suggestion. Exactly one action property should be provided:\nreply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.\nIf no action property is provided, the button defaults to a reply using the caption as text.\n",
+                          "examples": [
+                            {
+                              "caption": "Visit us",
+                              "openUrl": {
+                                "url": "https://www.example.com"
+                              },
+                              "postback": "WEB"
+                            }
+                          ],
+                          "properties": {
+                            "caption": {
+                              "description": "Button display text",
+                              "type": "string"
+                            },
+                            "copyCode": {
+                              "examples": [
+                                {
+                                  "value": "PROMO1234"
+                                }
+                              ],
+                              "properties": {
+                                "value": {
+                                  "description": "Value to copy to clipboard (e.g. promo code, OTP)",
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "createCalendarEvent": {
+                              "examples": [
+                                {
+                                  "description": "Visit the exhibition",
+                                  "endTime": "2020-05-23T18:25:43.511Z",
+                                  "startTime": "2020-04-23T18:25:43.511Z",
+                                  "title": "Cezanne Exhibit 2020"
+                                }
+                              ],
+                              "properties": {
+                                "description": {
+                                  "description": "Calendar event description",
+                                  "type": "string"
+                                },
+                                "endTime": {
+                                  "description": "Event end time (ISO 8601 UTC)",
+                                  "format": "date-time",
+                                  "type": "string"
+                                },
+                                "startTime": {
+                                  "description": "Event start time (ISO 8601 UTC)",
+                                  "format": "date-time",
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "description": "Calendar event title",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "startTime",
+                                "endTime",
+                                "title",
+                                "description"
+                              ],
+                              "type": "object"
+                            },
+                            "dial": {
+                              "examples": [
+                                {
+                                  "phoneNumber": "+33600000000"
+                                }
+                              ],
+                              "properties": {
+                                "phoneNumber": {
+                                  "description": "Phone number to dial",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "phoneNumber"
+                              ],
+                              "type": "object"
+                            },
+                            "openUrl": {
+                              "examples": [
+                                {
+                                  "url": "https://www.example.com"
+                                }
+                              ],
+                              "properties": {
+                                "url": {
+                                  "description": "URL to open",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "url"
+                              ],
+                              "type": "object"
+                            },
+                            "options": {
+                              "additionalProperties": {
+                                "type": "string"
+                              },
+                              "examples": [
+                                {
+                                  "rcs.card.orientation": "HORIZONTAL",
+                                  "sms.originatingAddress": "MYBRAND"
+                                }
+                              ],
+                              "type": "object"
+                            },
+                            "postback": {
+                              "description": "Hidden value sent back for server-side tracking",
+                              "type": "string"
+                            },
+                            "reply": {
+                              "examples": [
+                                {
+                                  "text": "Show more"
+                                }
+                              ],
+                              "properties": {
+                                "text": {
+                                  "description": "Text sent on behalf of the end-user",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "text"
+                              ],
+                              "type": "object"
+                            },
+                            "shareLocation": {
+                              "description": "Opens the device location picker (no properties)",
+                              "examples": [
+                                {}
+                              ],
+                              "type": "object"
+                            },
+                            "viewLocation": {
+                              "description": "Opens device location app to show a specific location. Provide latitude+longitude or query.",
+                              "examples": [
+                                {
+                                  "description": "Jas de Bouffan",
+                                  "latitude": "43.5249046",
+                                  "longitude": "5.4033345"
+                                }
+                              ],
+                              "properties": {
+                                "description": {
+                                  "description": "Location description",
+                                  "type": "string"
+                                },
+                                "latitude": {
+                                  "description": "Latitude in degrees",
+                                  "type": "string"
+                                },
+                                "longitude": {
+                                  "description": "Longitude in degrees",
+                                  "type": "string"
+                                },
+                                "query": {
+                                  "description": "Location search query",
+                                  "type": "string"
+                                }
+                              },
+                              "type": "object"
+                            }
+                          },
+                          "required": [
+                            "caption"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "text": {
+                        "description": "Simple text content",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "content"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "examples": [
+                    {
+                      "content": {
+                        "card": {
+                          "text": "Hello {{firstName}} {{lastName}}!",
+                          "title": "Hello there!"
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "content": {
+                      "description": "Message content. Exactly one of the content type properties must be provided:\ntext, media, location, card, carousel, or fromTemplate.\nSuggestions (quick replies) can be added to primitive content types.\n",
+                      "examples": [
+                        {
+                          "card": {
+                            "buttons": [
+                              {
+                                "caption": "Get me there",
+                                "openUrl": {
+                                  "url": "https://to.page/e9ZxkeAvu"
+                                }
+                              }
+                            ],
+                            "media": {
+                              "source": "https://example.com/picture.jpeg",
+                              "type": "image/png"
+                            },
+                            "text": "Enjoy your personal -30% rebate on all items",
+                            "title": "Private sale"
+                          }
+                        }
+                      ],
+                      "properties": {
+                        "card": {
+                          "description": "Rich card containing media, text and/or buttons",
+                          "examples": [
+                            {
+                              "buttons": [
+                                {
+                                  "caption": "Tell me more",
+                                  "postback": "DETAILS"
+                                },
+                                {
+                                  "caption": "Call us",
+                                  "dial": {
+                                    "phoneNumber": "+33600000000"
+                                  },
+                                  "postback": "CALL"
+                                },
+                                {
+                                  "caption": "Visit us",
+                                  "openUrl": {
+                                    "url": "https://www.example.com"
+                                  },
+                                  "postback": "WEB"
+                                }
+                              ],
+                              "media": {
+                                "source": "https://example.com/picture.jpeg",
+                                "type": "image/jpeg"
+                              },
+                              "text": "Still Life with Teapot...",
+                              "title": "Still Life with Teapot and Fruit (1896)"
+                            }
+                          ],
+                          "properties": {
+                            "buttons": {
+                              "items": {
+                                "description": "Interactive button / suggestion. Exactly one action property should be provided:\nreply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.\nIf no action property is provided, the button defaults to a reply using the caption as text.\n",
+                                "examples": [
+                                  {
+                                    "caption": "Visit us",
+                                    "openUrl": {
+                                      "url": "https://www.example.com"
+                                    },
+                                    "postback": "WEB"
+                                  }
+                                ],
+                                "properties": {
+                                  "caption": {
+                                    "description": "Button display text",
+                                    "type": "string"
+                                  },
+                                  "copyCode": {
+                                    "examples": [
+                                      {
+                                        "value": "PROMO1234"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "value": {
+                                        "description": "Value to copy to clipboard (e.g. promo code, OTP)",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "createCalendarEvent": {
+                                    "examples": [
+                                      {
+                                        "description": "Visit the exhibition",
+                                        "endTime": "2020-05-23T18:25:43.511Z",
+                                        "startTime": "2020-04-23T18:25:43.511Z",
+                                        "title": "Cezanne Exhibit 2020"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "description": {
+                                        "description": "Calendar event description",
+                                        "type": "string"
+                                      },
+                                      "endTime": {
+                                        "description": "Event end time (ISO 8601 UTC)",
+                                        "format": "date-time",
+                                        "type": "string"
+                                      },
+                                      "startTime": {
+                                        "description": "Event start time (ISO 8601 UTC)",
+                                        "format": "date-time",
+                                        "type": "string"
+                                      },
+                                      "title": {
+                                        "description": "Calendar event title",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "startTime",
+                                      "endTime",
+                                      "title",
+                                      "description"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "dial": {
+                                    "examples": [
+                                      {
+                                        "phoneNumber": "+33600000000"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "phoneNumber": {
+                                        "description": "Phone number to dial",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "phoneNumber"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "openUrl": {
+                                    "examples": [
+                                      {
+                                        "url": "https://www.example.com"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "url": {
+                                        "description": "URL to open",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "url"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "options": {
+                                    "additionalProperties": {
+                                      "type": "string"
+                                    },
+                                    "examples": [
+                                      {
+                                        "rcs.card.orientation": "HORIZONTAL",
+                                        "sms.originatingAddress": "MYBRAND"
+                                      }
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "postback": {
+                                    "description": "Hidden value sent back for server-side tracking",
+                                    "type": "string"
+                                  },
+                                  "reply": {
+                                    "examples": [
+                                      {
+                                        "text": "Show more"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "text": {
+                                        "description": "Text sent on behalf of the end-user",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "text"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "shareLocation": {
+                                    "description": "Opens the device location picker (no properties)",
+                                    "examples": [
+                                      {}
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "viewLocation": {
+                                    "description": "Opens device location app to show a specific location. Provide latitude+longitude or query.",
+                                    "examples": [
+                                      {
+                                        "description": "Jas de Bouffan",
+                                        "latitude": "43.5249046",
+                                        "longitude": "5.4033345"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "description": {
+                                        "description": "Location description",
+                                        "type": "string"
+                                      },
+                                      "latitude": {
+                                        "description": "Latitude in degrees",
+                                        "type": "string"
+                                      },
+                                      "longitude": {
+                                        "description": "Longitude in degrees",
+                                        "type": "string"
+                                      },
+                                      "query": {
+                                        "description": "Location search query",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  }
+                                },
+                                "required": [
+                                  "caption"
+                                ],
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "location": {
+                              "examples": [
+                                {
+                                  "description": "Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris",
+                                  "latitude": 48.86015347854819,
+                                  "longitude": 2.326568685144047,
+                                  "title": "Musee d'Orsay"
+                                }
+                              ],
+                              "properties": {
+                                "description": {
+                                  "description": "Accompanying text description",
+                                  "type": "string"
+                                },
+                                "latitude": {
+                                  "description": "Latitude in degrees (plus/minus 90)",
+                                  "format": "double",
+                                  "type": "number"
+                                },
+                                "longitude": {
+                                  "description": "Longitude in degrees (plus/minus 180)",
+                                  "format": "double",
+                                  "type": "number"
+                                },
+                                "title": {
+                                  "description": "Short name of the location",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "latitude",
+                                "longitude"
+                              ],
+                              "type": "object"
+                            },
+                            "media": {
+                              "examples": [
+                                {
+                                  "description": "An awesome picture!",
+                                  "source": "https://example.com/picture.jpeg",
+                                  "thumbnail": "https://example.com/thumbnail.jpg",
+                                  "type": "image/jpeg"
+                                }
+                              ],
+                              "properties": {
+                                "description": {
+                                  "description": "Caption / media description",
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "description": "Media resource URI",
+                                  "type": "string"
+                                },
+                                "thumbnail": {
+                                  "description": "Thumbnail image URI",
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "description": "MIME type (e.g. image/gif, video/mp4)",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "source"
+                              ],
+                              "type": "object"
+                            },
+                            "subtitle": {
+                              "type": "string"
+                            },
+                            "text": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "carousel": {
+                          "examples": [
+                            {
+                              "cards": [
+                                {
+                                  "buttons": [
+                                    {
+                                      "caption": "View online",
+                                      "openUrl": {
+                                        "url": "https://example.com"
+                                      }
+                                    }
+                                  ],
+                                  "media": {
+                                    "source": "https://example.com/picture1.jpeg",
+                                    "type": "image/jpeg"
+                                  },
+                                  "text": "Early twentieth-century scholars....",
+                                  "title": "Gustave Boyer in a Straw Hat"
+                                },
+                                {
+                                  "buttons": [
+                                    {
+                                      "caption": "View online",
+                                      "openUrl": {
+                                        "url": "https://example.com"
+                                      }
+                                    }
+                                  ],
+                                  "media": {
+                                    "source": "https://example.com/picture2.jpeg",
+                                    "type": "image/jpeg"
+                                  },
+                                  "text": "The mood and palette...",
+                                  "title": "Seated Peasant"
+                                }
+                              ]
+                            }
+                          ],
+                          "properties": {
+                            "cards": {
+                              "items": {
+                                "description": "Rich card containing media, text and/or buttons",
+                                "examples": [
+                                  {
+                                    "buttons": [
+                                      {
+                                        "caption": "Tell me more",
+                                        "postback": "DETAILS"
+                                      },
+                                      {
+                                        "caption": "Call us",
+                                        "dial": {
+                                          "phoneNumber": "+33600000000"
+                                        },
+                                        "postback": "CALL"
+                                      },
+                                      {
+                                        "caption": "Visit us",
+                                        "openUrl": {
+                                          "url": "https://www.example.com"
+                                        },
+                                        "postback": "WEB"
+                                      }
+                                    ],
+                                    "media": {
+                                      "source": "https://example.com/picture.jpeg",
+                                      "type": "image/jpeg"
+                                    },
+                                    "text": "Still Life with Teapot...",
+                                    "title": "Still Life with Teapot and Fruit (1896)"
+                                  }
+                                ],
+                                "properties": {
+                                  "buttons": {
+                                    "items": {
+                                      "description": "Interactive button / suggestion. Exactly one action property should be provided:\nreply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.\nIf no action property is provided, the button defaults to a reply using the caption as text.\n",
+                                      "examples": [
+                                        {
+                                          "caption": "Visit us",
+                                          "openUrl": {
+                                            "url": "https://www.example.com"
+                                          },
+                                          "postback": "WEB"
+                                        }
+                                      ],
+                                      "properties": {
+                                        "caption": {
+                                          "description": "Button display text",
+                                          "type": "string"
+                                        },
+                                        "copyCode": {
+                                          "examples": [
+                                            {
+                                              "value": "PROMO1234"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "value": {
+                                              "description": "Value to copy to clipboard (e.g. promo code, OTP)",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": "object"
+                                        },
+                                        "createCalendarEvent": {
+                                          "examples": [
+                                            {
+                                              "description": "Visit the exhibition",
+                                              "endTime": "2020-05-23T18:25:43.511Z",
+                                              "startTime": "2020-04-23T18:25:43.511Z",
+                                              "title": "Cezanne Exhibit 2020"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "description": {
+                                              "description": "Calendar event description",
+                                              "type": "string"
+                                            },
+                                            "endTime": {
+                                              "description": "Event end time (ISO 8601 UTC)",
+                                              "format": "date-time",
+                                              "type": "string"
+                                            },
+                                            "startTime": {
+                                              "description": "Event start time (ISO 8601 UTC)",
+                                              "format": "date-time",
+                                              "type": "string"
+                                            },
+                                            "title": {
+                                              "description": "Calendar event title",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "startTime",
+                                            "endTime",
+                                            "title",
+                                            "description"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "dial": {
+                                          "examples": [
+                                            {
+                                              "phoneNumber": "+33600000000"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "phoneNumber": {
+                                              "description": "Phone number to dial",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "phoneNumber"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "openUrl": {
+                                          "examples": [
+                                            {
+                                              "url": "https://www.example.com"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "url": {
+                                              "description": "URL to open",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "url"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "options": {
+                                          "additionalProperties": {
+                                            "type": "string"
+                                          },
+                                          "examples": [
+                                            {
+                                              "rcs.card.orientation": "HORIZONTAL",
+                                              "sms.originatingAddress": "MYBRAND"
+                                            }
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "postback": {
+                                          "description": "Hidden value sent back for server-side tracking",
+                                          "type": "string"
+                                        },
+                                        "reply": {
+                                          "examples": [
+                                            {
+                                              "text": "Show more"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "text": {
+                                              "description": "Text sent on behalf of the end-user",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "text"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "shareLocation": {
+                                          "description": "Opens the device location picker (no properties)",
+                                          "examples": [
+                                            {}
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "viewLocation": {
+                                          "description": "Opens device location app to show a specific location. Provide latitude+longitude or query.",
+                                          "examples": [
+                                            {
+                                              "description": "Jas de Bouffan",
+                                              "latitude": "43.5249046",
+                                              "longitude": "5.4033345"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "description": {
+                                              "description": "Location description",
+                                              "type": "string"
+                                            },
+                                            "latitude": {
+                                              "description": "Latitude in degrees",
+                                              "type": "string"
+                                            },
+                                            "longitude": {
+                                              "description": "Longitude in degrees",
+                                              "type": "string"
+                                            },
+                                            "query": {
+                                              "description": "Location search query",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": "object"
+                                        }
+                                      },
+                                      "required": [
+                                        "caption"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    "type": "array"
+                                  },
+                                  "location": {
+                                    "examples": [
+                                      {
+                                        "description": "Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris",
+                                        "latitude": 48.86015347854819,
+                                        "longitude": 2.326568685144047,
+                                        "title": "Musee d'Orsay"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "description": {
+                                        "description": "Accompanying text description",
+                                        "type": "string"
+                                      },
+                                      "latitude": {
+                                        "description": "Latitude in degrees (plus/minus 90)",
+                                        "format": "double",
+                                        "type": "number"
+                                      },
+                                      "longitude": {
+                                        "description": "Longitude in degrees (plus/minus 180)",
+                                        "format": "double",
+                                        "type": "number"
+                                      },
+                                      "title": {
+                                        "description": "Short name of the location",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "latitude",
+                                      "longitude"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "media": {
+                                    "examples": [
+                                      {
+                                        "description": "An awesome picture!",
+                                        "source": "https://example.com/picture.jpeg",
+                                        "thumbnail": "https://example.com/thumbnail.jpg",
+                                        "type": "image/jpeg"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "description": {
+                                        "description": "Caption / media description",
+                                        "type": "string"
+                                      },
+                                      "source": {
+                                        "description": "Media resource URI",
+                                        "type": "string"
+                                      },
+                                      "thumbnail": {
+                                        "description": "Thumbnail image URI",
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "description": "MIME type (e.g. image/gif, video/mp4)",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "source"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "subtitle": {
+                                    "type": "string"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  },
+                                  "title": {
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "required": [
+                            "cards"
+                          ],
+                          "type": "object"
+                        },
+                        "fromTemplate": {
+                          "description": "Content generated from a pre-defined template",
+                          "examples": [
+                            {
+                              "templateId": "tple93fe290002...",
+                              "variables": {
+                                "firstName": "Vincent",
+                                "lastName": "Georges"
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "templateId": {
+                              "description": "Template identifier",
+                              "type": "string"
+                            },
+                            "variables": {
+                              "additionalProperties": {
+                                "type": "string"
+                              },
+                              "description": "Variable name-value pairs to inject into template placeholders",
+                              "type": "object"
+                            }
+                          },
+                          "required": [
+                            "templateId"
+                          ],
+                          "type": "object"
+                        },
+                        "location": {
+                          "examples": [
+                            {
+                              "description": "Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris",
+                              "latitude": 48.86015347854819,
+                              "longitude": 2.326568685144047,
+                              "title": "Musee d'Orsay"
+                            }
+                          ],
+                          "properties": {
+                            "description": {
+                              "description": "Accompanying text description",
+                              "type": "string"
+                            },
+                            "latitude": {
+                              "description": "Latitude in degrees (plus/minus 90)",
+                              "format": "double",
+                              "type": "number"
+                            },
+                            "longitude": {
+                              "description": "Longitude in degrees (plus/minus 180)",
+                              "format": "double",
+                              "type": "number"
+                            },
+                            "title": {
+                              "description": "Short name of the location",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "latitude",
+                            "longitude"
+                          ],
+                          "type": "object"
+                        },
+                        "media": {
+                          "examples": [
+                            {
+                              "description": "An awesome picture!",
+                              "source": "https://example.com/picture.jpeg",
+                              "thumbnail": "https://example.com/thumbnail.jpg",
+                              "type": "image/jpeg"
+                            }
+                          ],
+                          "properties": {
+                            "description": {
+                              "description": "Caption / media description",
+                              "type": "string"
+                            },
+                            "source": {
+                              "description": "Media resource URI",
+                              "type": "string"
+                            },
+                            "thumbnail": {
+                              "description": "Thumbnail image URI",
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "MIME type (e.g. image/gif, video/mp4)",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "source"
+                          ],
+                          "type": "object"
+                        },
+                        "suggestions": {
+                          "description": "Quick replies / suggestion buttons (not applicable to fromTemplate)",
+                          "items": {
+                            "description": "Interactive button / suggestion. Exactly one action property should be provided:\nreply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.\nIf no action property is provided, the button defaults to a reply using the caption as text.\n",
+                            "examples": [
+                              {
+                                "caption": "Visit us",
+                                "openUrl": {
+                                  "url": "https://www.example.com"
+                                },
+                                "postback": "WEB"
+                              }
+                            ],
+                            "properties": {
+                              "caption": {
+                                "description": "Button display text",
+                                "type": "string"
+                              },
+                              "copyCode": {
+                                "examples": [
+                                  {
+                                    "value": "PROMO1234"
+                                  }
+                                ],
+                                "properties": {
+                                  "value": {
+                                    "description": "Value to copy to clipboard (e.g. promo code, OTP)",
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "createCalendarEvent": {
+                                "examples": [
+                                  {
+                                    "description": "Visit the exhibition",
+                                    "endTime": "2020-05-23T18:25:43.511Z",
+                                    "startTime": "2020-04-23T18:25:43.511Z",
+                                    "title": "Cezanne Exhibit 2020"
+                                  }
+                                ],
+                                "properties": {
+                                  "description": {
+                                    "description": "Calendar event description",
+                                    "type": "string"
+                                  },
+                                  "endTime": {
+                                    "description": "Event end time (ISO 8601 UTC)",
+                                    "format": "date-time",
+                                    "type": "string"
+                                  },
+                                  "startTime": {
+                                    "description": "Event start time (ISO 8601 UTC)",
+                                    "format": "date-time",
+                                    "type": "string"
+                                  },
+                                  "title": {
+                                    "description": "Calendar event title",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "startTime",
+                                  "endTime",
+                                  "title",
+                                  "description"
+                                ],
+                                "type": "object"
+                              },
+                              "dial": {
+                                "examples": [
+                                  {
+                                    "phoneNumber": "+33600000000"
+                                  }
+                                ],
+                                "properties": {
+                                  "phoneNumber": {
+                                    "description": "Phone number to dial",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "phoneNumber"
+                                ],
+                                "type": "object"
+                              },
+                              "openUrl": {
+                                "examples": [
+                                  {
+                                    "url": "https://www.example.com"
+                                  }
+                                ],
+                                "properties": {
+                                  "url": {
+                                    "description": "URL to open",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "url"
+                                ],
+                                "type": "object"
+                              },
+                              "options": {
+                                "additionalProperties": {
+                                  "type": "string"
+                                },
+                                "examples": [
+                                  {
+                                    "rcs.card.orientation": "HORIZONTAL",
+                                    "sms.originatingAddress": "MYBRAND"
+                                  }
+                                ],
+                                "type": "object"
+                              },
+                              "postback": {
+                                "description": "Hidden value sent back for server-side tracking",
+                                "type": "string"
+                              },
+                              "reply": {
+                                "examples": [
+                                  {
+                                    "text": "Show more"
+                                  }
+                                ],
+                                "properties": {
+                                  "text": {
+                                    "description": "Text sent on behalf of the end-user",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "text"
+                                ],
+                                "type": "object"
+                              },
+                              "shareLocation": {
+                                "description": "Opens the device location picker (no properties)",
+                                "examples": [
+                                  {}
+                                ],
+                                "type": "object"
+                              },
+                              "viewLocation": {
+                                "description": "Opens device location app to show a specific location. Provide latitude+longitude or query.",
+                                "examples": [
+                                  {
+                                    "description": "Jas de Bouffan",
+                                    "latitude": "43.5249046",
+                                    "longitude": "5.4033345"
+                                  }
+                                ],
+                                "properties": {
+                                  "description": {
+                                    "description": "Location description",
+                                    "type": "string"
+                                  },
+                                  "latitude": {
+                                    "description": "Latitude in degrees",
+                                    "type": "string"
+                                  },
+                                  "longitude": {
+                                    "description": "Longitude in degrees",
+                                    "type": "string"
+                                  },
+                                  "query": {
+                                    "description": "Location search query",
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              }
+                            },
+                            "required": [
+                              "caption"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "text": {
+                          "description": "Simple text content",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "content"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Content updated"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authorization failed"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /templates/{templateId}/content": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getTemplateContent",
+        "parameters": [
+          {
+            "description": "Unique template identifier",
+            "in": "path",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "examples": [
+                    {
+                      "content": {
+                        "card": {
+                          "text": "Hello {{firstName}} {{lastName}}!",
+                          "title": "Hello there!"
+                        }
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "content": {
+                      "description": "Message content. Exactly one of the content type properties must be provided:\ntext, media, location, card, carousel, or fromTemplate.\nSuggestions (quick replies) can be added to primitive content types.\n",
+                      "examples": [
+                        {
+                          "card": {
+                            "buttons": [
+                              {
+                                "caption": "Get me there",
+                                "openUrl": {
+                                  "url": "https://to.page/e9ZxkeAvu"
+                                }
+                              }
+                            ],
+                            "media": {
+                              "source": "https://example.com/picture.jpeg",
+                              "type": "image/png"
+                            },
+                            "text": "Enjoy your personal -30% rebate on all items",
+                            "title": "Private sale"
+                          }
+                        }
+                      ],
+                      "properties": {
+                        "card": {
+                          "description": "Rich card containing media, text and/or buttons",
+                          "examples": [
+                            {
+                              "buttons": [
+                                {
+                                  "caption": "Tell me more",
+                                  "postback": "DETAILS"
+                                },
+                                {
+                                  "caption": "Call us",
+                                  "dial": {
+                                    "phoneNumber": "+33600000000"
+                                  },
+                                  "postback": "CALL"
+                                },
+                                {
+                                  "caption": "Visit us",
+                                  "openUrl": {
+                                    "url": "https://www.example.com"
+                                  },
+                                  "postback": "WEB"
+                                }
+                              ],
+                              "media": {
+                                "source": "https://example.com/picture.jpeg",
+                                "type": "image/jpeg"
+                              },
+                              "text": "Still Life with Teapot...",
+                              "title": "Still Life with Teapot and Fruit (1896)"
+                            }
+                          ],
+                          "properties": {
+                            "buttons": {
+                              "items": {
+                                "description": "Interactive button / suggestion. Exactly one action property should be provided:\nreply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.\nIf no action property is provided, the button defaults to a reply using the caption as text.\n",
+                                "examples": [
+                                  {
+                                    "caption": "Visit us",
+                                    "openUrl": {
+                                      "url": "https://www.example.com"
+                                    },
+                                    "postback": "WEB"
+                                  }
+                                ],
+                                "properties": {
+                                  "caption": {
+                                    "description": "Button display text",
+                                    "type": "string"
+                                  },
+                                  "copyCode": {
+                                    "examples": [
+                                      {
+                                        "value": "PROMO1234"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "value": {
+                                        "description": "Value to copy to clipboard (e.g. promo code, OTP)",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "createCalendarEvent": {
+                                    "examples": [
+                                      {
+                                        "description": "Visit the exhibition",
+                                        "endTime": "2020-05-23T18:25:43.511Z",
+                                        "startTime": "2020-04-23T18:25:43.511Z",
+                                        "title": "Cezanne Exhibit 2020"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "description": {
+                                        "description": "Calendar event description",
+                                        "type": "string"
+                                      },
+                                      "endTime": {
+                                        "description": "Event end time (ISO 8601 UTC)",
+                                        "format": "date-time",
+                                        "type": "string"
+                                      },
+                                      "startTime": {
+                                        "description": "Event start time (ISO 8601 UTC)",
+                                        "format": "date-time",
+                                        "type": "string"
+                                      },
+                                      "title": {
+                                        "description": "Calendar event title",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "startTime",
+                                      "endTime",
+                                      "title",
+                                      "description"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "dial": {
+                                    "examples": [
+                                      {
+                                        "phoneNumber": "+33600000000"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "phoneNumber": {
+                                        "description": "Phone number to dial",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "phoneNumber"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "openUrl": {
+                                    "examples": [
+                                      {
+                                        "url": "https://www.example.com"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "url": {
+                                        "description": "URL to open",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "url"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "options": {
+                                    "additionalProperties": {
+                                      "type": "string"
+                                    },
+                                    "examples": [
+                                      {
+                                        "rcs.card.orientation": "HORIZONTAL",
+                                        "sms.originatingAddress": "MYBRAND"
+                                      }
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "postback": {
+                                    "description": "Hidden value sent back for server-side tracking",
+                                    "type": "string"
+                                  },
+                                  "reply": {
+                                    "examples": [
+                                      {
+                                        "text": "Show more"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "text": {
+                                        "description": "Text sent on behalf of the end-user",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "text"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "shareLocation": {
+                                    "description": "Opens the device location picker (no properties)",
+                                    "examples": [
+                                      {}
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "viewLocation": {
+                                    "description": "Opens device location app to show a specific location. Provide latitude+longitude or query.",
+                                    "examples": [
+                                      {
+                                        "description": "Jas de Bouffan",
+                                        "latitude": "43.5249046",
+                                        "longitude": "5.4033345"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "description": {
+                                        "description": "Location description",
+                                        "type": "string"
+                                      },
+                                      "latitude": {
+                                        "description": "Latitude in degrees",
+                                        "type": "string"
+                                      },
+                                      "longitude": {
+                                        "description": "Longitude in degrees",
+                                        "type": "string"
+                                      },
+                                      "query": {
+                                        "description": "Location search query",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "type": "object"
+                                  }
+                                },
+                                "required": [
+                                  "caption"
+                                ],
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "location": {
+                              "examples": [
+                                {
+                                  "description": "Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris",
+                                  "latitude": 48.86015347854819,
+                                  "longitude": 2.326568685144047,
+                                  "title": "Musee d'Orsay"
+                                }
+                              ],
+                              "properties": {
+                                "description": {
+                                  "description": "Accompanying text description",
+                                  "type": "string"
+                                },
+                                "latitude": {
+                                  "description": "Latitude in degrees (plus/minus 90)",
+                                  "format": "double",
+                                  "type": "number"
+                                },
+                                "longitude": {
+                                  "description": "Longitude in degrees (plus/minus 180)",
+                                  "format": "double",
+                                  "type": "number"
+                                },
+                                "title": {
+                                  "description": "Short name of the location",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "latitude",
+                                "longitude"
+                              ],
+                              "type": "object"
+                            },
+                            "media": {
+                              "examples": [
+                                {
+                                  "description": "An awesome picture!",
+                                  "source": "https://example.com/picture.jpeg",
+                                  "thumbnail": "https://example.com/thumbnail.jpg",
+                                  "type": "image/jpeg"
+                                }
+                              ],
+                              "properties": {
+                                "description": {
+                                  "description": "Caption / media description",
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "description": "Media resource URI",
+                                  "type": "string"
+                                },
+                                "thumbnail": {
+                                  "description": "Thumbnail image URI",
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "description": "MIME type (e.g. image/gif, video/mp4)",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "source"
+                              ],
+                              "type": "object"
+                            },
+                            "subtitle": {
+                              "type": "string"
+                            },
+                            "text": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "carousel": {
+                          "examples": [
+                            {
+                              "cards": [
+                                {
+                                  "buttons": [
+                                    {
+                                      "caption": "View online",
+                                      "openUrl": {
+                                        "url": "https://example.com"
+                                      }
+                                    }
+                                  ],
+                                  "media": {
+                                    "source": "https://example.com/picture1.jpeg",
+                                    "type": "image/jpeg"
+                                  },
+                                  "text": "Early twentieth-century scholars....",
+                                  "title": "Gustave Boyer in a Straw Hat"
+                                },
+                                {
+                                  "buttons": [
+                                    {
+                                      "caption": "View online",
+                                      "openUrl": {
+                                        "url": "https://example.com"
+                                      }
+                                    }
+                                  ],
+                                  "media": {
+                                    "source": "https://example.com/picture2.jpeg",
+                                    "type": "image/jpeg"
+                                  },
+                                  "text": "The mood and palette...",
+                                  "title": "Seated Peasant"
+                                }
+                              ]
+                            }
+                          ],
+                          "properties": {
+                            "cards": {
+                              "items": {
+                                "description": "Rich card containing media, text and/or buttons",
+                                "examples": [
+                                  {
+                                    "buttons": [
+                                      {
+                                        "caption": "Tell me more",
+                                        "postback": "DETAILS"
+                                      },
+                                      {
+                                        "caption": "Call us",
+                                        "dial": {
+                                          "phoneNumber": "+33600000000"
+                                        },
+                                        "postback": "CALL"
+                                      },
+                                      {
+                                        "caption": "Visit us",
+                                        "openUrl": {
+                                          "url": "https://www.example.com"
+                                        },
+                                        "postback": "WEB"
+                                      }
+                                    ],
+                                    "media": {
+                                      "source": "https://example.com/picture.jpeg",
+                                      "type": "image/jpeg"
+                                    },
+                                    "text": "Still Life with Teapot...",
+                                    "title": "Still Life with Teapot and Fruit (1896)"
+                                  }
+                                ],
+                                "properties": {
+                                  "buttons": {
+                                    "items": {
+                                      "description": "Interactive button / suggestion. Exactly one action property should be provided:\nreply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.\nIf no action property is provided, the button defaults to a reply using the caption as text.\n",
+                                      "examples": [
+                                        {
+                                          "caption": "Visit us",
+                                          "openUrl": {
+                                            "url": "https://www.example.com"
+                                          },
+                                          "postback": "WEB"
+                                        }
+                                      ],
+                                      "properties": {
+                                        "caption": {
+                                          "description": "Button display text",
+                                          "type": "string"
+                                        },
+                                        "copyCode": {
+                                          "examples": [
+                                            {
+                                              "value": "PROMO1234"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "value": {
+                                              "description": "Value to copy to clipboard (e.g. promo code, OTP)",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": "object"
+                                        },
+                                        "createCalendarEvent": {
+                                          "examples": [
+                                            {
+                                              "description": "Visit the exhibition",
+                                              "endTime": "2020-05-23T18:25:43.511Z",
+                                              "startTime": "2020-04-23T18:25:43.511Z",
+                                              "title": "Cezanne Exhibit 2020"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "description": {
+                                              "description": "Calendar event description",
+                                              "type": "string"
+                                            },
+                                            "endTime": {
+                                              "description": "Event end time (ISO 8601 UTC)",
+                                              "format": "date-time",
+                                              "type": "string"
+                                            },
+                                            "startTime": {
+                                              "description": "Event start time (ISO 8601 UTC)",
+                                              "format": "date-time",
+                                              "type": "string"
+                                            },
+                                            "title": {
+                                              "description": "Calendar event title",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "startTime",
+                                            "endTime",
+                                            "title",
+                                            "description"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "dial": {
+                                          "examples": [
+                                            {
+                                              "phoneNumber": "+33600000000"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "phoneNumber": {
+                                              "description": "Phone number to dial",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "phoneNumber"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "openUrl": {
+                                          "examples": [
+                                            {
+                                              "url": "https://www.example.com"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "url": {
+                                              "description": "URL to open",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "url"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "options": {
+                                          "additionalProperties": {
+                                            "type": "string"
+                                          },
+                                          "examples": [
+                                            {
+                                              "rcs.card.orientation": "HORIZONTAL",
+                                              "sms.originatingAddress": "MYBRAND"
+                                            }
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "postback": {
+                                          "description": "Hidden value sent back for server-side tracking",
+                                          "type": "string"
+                                        },
+                                        "reply": {
+                                          "examples": [
+                                            {
+                                              "text": "Show more"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "text": {
+                                              "description": "Text sent on behalf of the end-user",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "text"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "shareLocation": {
+                                          "description": "Opens the device location picker (no properties)",
+                                          "examples": [
+                                            {}
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "viewLocation": {
+                                          "description": "Opens device location app to show a specific location. Provide latitude+longitude or query.",
+                                          "examples": [
+                                            {
+                                              "description": "Jas de Bouffan",
+                                              "latitude": "43.5249046",
+                                              "longitude": "5.4033345"
+                                            }
+                                          ],
+                                          "properties": {
+                                            "description": {
+                                              "description": "Location description",
+                                              "type": "string"
+                                            },
+                                            "latitude": {
+                                              "description": "Latitude in degrees",
+                                              "type": "string"
+                                            },
+                                            "longitude": {
+                                              "description": "Longitude in degrees",
+                                              "type": "string"
+                                            },
+                                            "query": {
+                                              "description": "Location search query",
+                                              "type": "string"
+                                            }
+                                          },
+                                          "type": "object"
+                                        }
+                                      },
+                                      "required": [
+                                        "caption"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    "type": "array"
+                                  },
+                                  "location": {
+                                    "examples": [
+                                      {
+                                        "description": "Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris",
+                                        "latitude": 48.86015347854819,
+                                        "longitude": 2.326568685144047,
+                                        "title": "Musee d'Orsay"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "description": {
+                                        "description": "Accompanying text description",
+                                        "type": "string"
+                                      },
+                                      "latitude": {
+                                        "description": "Latitude in degrees (plus/minus 90)",
+                                        "format": "double",
+                                        "type": "number"
+                                      },
+                                      "longitude": {
+                                        "description": "Longitude in degrees (plus/minus 180)",
+                                        "format": "double",
+                                        "type": "number"
+                                      },
+                                      "title": {
+                                        "description": "Short name of the location",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "latitude",
+                                      "longitude"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "media": {
+                                    "examples": [
+                                      {
+                                        "description": "An awesome picture!",
+                                        "source": "https://example.com/picture.jpeg",
+                                        "thumbnail": "https://example.com/thumbnail.jpg",
+                                        "type": "image/jpeg"
+                                      }
+                                    ],
+                                    "properties": {
+                                      "description": {
+                                        "description": "Caption / media description",
+                                        "type": "string"
+                                      },
+                                      "source": {
+                                        "description": "Media resource URI",
+                                        "type": "string"
+                                      },
+                                      "thumbnail": {
+                                        "description": "Thumbnail image URI",
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "description": "MIME type (e.g. image/gif, video/mp4)",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "type",
+                                      "source"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "subtitle": {
+                                    "type": "string"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  },
+                                  "title": {
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "required": [
+                            "cards"
+                          ],
+                          "type": "object"
+                        },
+                        "fromTemplate": {
+                          "description": "Content generated from a pre-defined template",
+                          "examples": [
+                            {
+                              "templateId": "tple93fe290002...",
+                              "variables": {
+                                "firstName": "Vincent",
+                                "lastName": "Georges"
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "templateId": {
+                              "description": "Template identifier",
+                              "type": "string"
+                            },
+                            "variables": {
+                              "additionalProperties": {
+                                "type": "string"
+                              },
+                              "description": "Variable name-value pairs to inject into template placeholders",
+                              "type": "object"
+                            }
+                          },
+                          "required": [
+                            "templateId"
+                          ],
+                          "type": "object"
+                        },
+                        "location": {
+                          "examples": [
+                            {
+                              "description": "Art museum - 1 Rue de la Legion d'Honneur, 75007 Paris",
+                              "latitude": 48.86015347854819,
+                              "longitude": 2.326568685144047,
+                              "title": "Musee d'Orsay"
+                            }
+                          ],
+                          "properties": {
+                            "description": {
+                              "description": "Accompanying text description",
+                              "type": "string"
+                            },
+                            "latitude": {
+                              "description": "Latitude in degrees (plus/minus 90)",
+                              "format": "double",
+                              "type": "number"
+                            },
+                            "longitude": {
+                              "description": "Longitude in degrees (plus/minus 180)",
+                              "format": "double",
+                              "type": "number"
+                            },
+                            "title": {
+                              "description": "Short name of the location",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "latitude",
+                            "longitude"
+                          ],
+                          "type": "object"
+                        },
+                        "media": {
+                          "examples": [
+                            {
+                              "description": "An awesome picture!",
+                              "source": "https://example.com/picture.jpeg",
+                              "thumbnail": "https://example.com/thumbnail.jpg",
+                              "type": "image/jpeg"
+                            }
+                          ],
+                          "properties": {
+                            "description": {
+                              "description": "Caption / media description",
+                              "type": "string"
+                            },
+                            "source": {
+                              "description": "Media resource URI",
+                              "type": "string"
+                            },
+                            "thumbnail": {
+                              "description": "Thumbnail image URI",
+                              "type": "string"
+                            },
+                            "type": {
+                              "description": "MIME type (e.g. image/gif, video/mp4)",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "source"
+                          ],
+                          "type": "object"
+                        },
+                        "suggestions": {
+                          "description": "Quick replies / suggestion buttons (not applicable to fromTemplate)",
+                          "items": {
+                            "description": "Interactive button / suggestion. Exactly one action property should be provided:\nreply, dial, openUrl, createCalendarEvent, shareLocation, viewLocation, or copyCode.\nIf no action property is provided, the button defaults to a reply using the caption as text.\n",
+                            "examples": [
+                              {
+                                "caption": "Visit us",
+                                "openUrl": {
+                                  "url": "https://www.example.com"
+                                },
+                                "postback": "WEB"
+                              }
+                            ],
+                            "properties": {
+                              "caption": {
+                                "description": "Button display text",
+                                "type": "string"
+                              },
+                              "copyCode": {
+                                "examples": [
+                                  {
+                                    "value": "PROMO1234"
+                                  }
+                                ],
+                                "properties": {
+                                  "value": {
+                                    "description": "Value to copy to clipboard (e.g. promo code, OTP)",
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "createCalendarEvent": {
+                                "examples": [
+                                  {
+                                    "description": "Visit the exhibition",
+                                    "endTime": "2020-05-23T18:25:43.511Z",
+                                    "startTime": "2020-04-23T18:25:43.511Z",
+                                    "title": "Cezanne Exhibit 2020"
+                                  }
+                                ],
+                                "properties": {
+                                  "description": {
+                                    "description": "Calendar event description",
+                                    "type": "string"
+                                  },
+                                  "endTime": {
+                                    "description": "Event end time (ISO 8601 UTC)",
+                                    "format": "date-time",
+                                    "type": "string"
+                                  },
+                                  "startTime": {
+                                    "description": "Event start time (ISO 8601 UTC)",
+                                    "format": "date-time",
+                                    "type": "string"
+                                  },
+                                  "title": {
+                                    "description": "Calendar event title",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "startTime",
+                                  "endTime",
+                                  "title",
+                                  "description"
+                                ],
+                                "type": "object"
+                              },
+                              "dial": {
+                                "examples": [
+                                  {
+                                    "phoneNumber": "+33600000000"
+                                  }
+                                ],
+                                "properties": {
+                                  "phoneNumber": {
+                                    "description": "Phone number to dial",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "phoneNumber"
+                                ],
+                                "type": "object"
+                              },
+                              "openUrl": {
+                                "examples": [
+                                  {
+                                    "url": "https://www.example.com"
+                                  }
+                                ],
+                                "properties": {
+                                  "url": {
+                                    "description": "URL to open",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "url"
+                                ],
+                                "type": "object"
+                              },
+                              "options": {
+                                "additionalProperties": {
+                                  "type": "string"
+                                },
+                                "examples": [
+                                  {
+                                    "rcs.card.orientation": "HORIZONTAL",
+                                    "sms.originatingAddress": "MYBRAND"
+                                  }
+                                ],
+                                "type": "object"
+                              },
+                              "postback": {
+                                "description": "Hidden value sent back for server-side tracking",
+                                "type": "string"
+                              },
+                              "reply": {
+                                "examples": [
+                                  {
+                                    "text": "Show more"
+                                  }
+                                ],
+                                "properties": {
+                                  "text": {
+                                    "description": "Text sent on behalf of the end-user",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "text"
+                                ],
+                                "type": "object"
+                              },
+                              "shareLocation": {
+                                "description": "Opens the device location picker (no properties)",
+                                "examples": [
+                                  {}
+                                ],
+                                "type": "object"
+                              },
+                              "viewLocation": {
+                                "description": "Opens device location app to show a specific location. Provide latitude+longitude or query.",
+                                "examples": [
+                                  {
+                                    "description": "Jas de Bouffan",
+                                    "latitude": "43.5249046",
+                                    "longitude": "5.4033345"
+                                  }
+                                ],
+                                "properties": {
+                                  "description": {
+                                    "description": "Location description",
+                                    "type": "string"
+                                  },
+                                  "latitude": {
+                                    "description": "Latitude in degrees",
+                                    "type": "string"
+                                  },
+                                  "longitude": {
+                                    "description": "Longitude in degrees",
+                                    "type": "string"
+                                  },
+                                  "query": {
+                                    "description": "Location search query",
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              }
+                            },
+                            "required": [
+                              "caption"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "text": {
+                          "description": "Simple text content",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "content"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Content returned"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    }
   }
 }

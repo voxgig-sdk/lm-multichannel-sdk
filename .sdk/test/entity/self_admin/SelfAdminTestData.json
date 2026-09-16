@@ -25,5 +25,300 @@
         "settings": {}
       }
     }
+  },
+  "requests": {
+    "PATCH /self/settings": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "updateAccountSettings",
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "updateAccountSettings": {
+                  "value": {
+                    "settings": {
+                      "callback": {
+                        "auth": {
+                          "login": "someuser",
+                          "password": "secret",
+                          "type": "httpBasic"
+                        },
+                        "url": "https://acme.com/ocm"
+                      }
+                    }
+                  }
+                }
+              },
+              "schema": {
+                "properties": {
+                  "settings": {
+                    "examples": [
+                      {
+                        "callback": {
+                          "auth": {
+                            "login": "someuser",
+                            "password": "secret-ref:acme_...",
+                            "type": "httpBasic"
+                          },
+                          "url": "https://acme.com"
+                        }
+                      }
+                    ],
+                    "properties": {
+                      "callback": {
+                        "examples": [
+                          {
+                            "auth": {
+                              "headerName": "x-api-key",
+                              "password": "secret",
+                              "type": "customHttpHeader"
+                            },
+                            "enableCompression": true,
+                            "url": "https://acme.com/ocm"
+                          }
+                        ],
+                        "properties": {
+                          "auth": {
+                            "examples": [
+                              {
+                                "login": "someuser",
+                                "password": "secret",
+                                "type": "httpBasic"
+                              }
+                            ],
+                            "properties": {
+                              "headerName": {
+                                "description": "Custom header name for customHttpHeader type",
+                                "type": "string"
+                              },
+                              "login": {
+                                "description": "Login for httpBasic type",
+                                "type": "string"
+                              },
+                              "password": {
+                                "description": "Secret value (write-only, replaced by reference after storage)",
+                                "type": "string"
+                              },
+                              "type": {
+                                "description": "Authentication type",
+                                "enum": [
+                                  "httpBasic",
+                                  "bearerToken",
+                                  "customHttpHeader"
+                                ],
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "password"
+                            ],
+                            "type": "object"
+                          },
+                          "enableCompression": {
+                            "description": "Enable GZIP compression for callback requests (default false)",
+                            "type": "boolean"
+                          },
+                          "tls": {
+                            "description": "Client SSL certificate authentication",
+                            "examples": [
+                              {
+                                "certificate": "LS0tLS1CRUdJTiBF...",
+                                "password": "secret"
+                              }
+                            ],
+                            "properties": {
+                              "certificate": {
+                                "description": "Base64-encoded PEM (with embedded private key) or PFX/PKCS#12 certificate",
+                                "type": "string"
+                              },
+                              "password": {
+                                "description": "Private key password",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "certificate",
+                              "password"
+                            ],
+                            "type": "object"
+                          },
+                          "url": {
+                            "description": "HTTPS callback endpoint URL",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "url"
+                        ],
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "settings"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "settings": {
+                      "examples": [
+                        {
+                          "callback": {
+                            "auth": {
+                              "login": "someuser",
+                              "password": "secret-ref:acme_...",
+                              "type": "httpBasic"
+                            },
+                            "url": "https://acme.com"
+                          }
+                        }
+                      ],
+                      "properties": {
+                        "callback": {
+                          "examples": [
+                            {
+                              "auth": {
+                                "headerName": "x-api-key",
+                                "password": "secret",
+                                "type": "customHttpHeader"
+                              },
+                              "enableCompression": true,
+                              "url": "https://acme.com/ocm"
+                            }
+                          ],
+                          "properties": {
+                            "auth": {
+                              "examples": [
+                                {
+                                  "login": "someuser",
+                                  "password": "secret",
+                                  "type": "httpBasic"
+                                }
+                              ],
+                              "properties": {
+                                "headerName": {
+                                  "description": "Custom header name for customHttpHeader type",
+                                  "type": "string"
+                                },
+                                "login": {
+                                  "description": "Login for httpBasic type",
+                                  "type": "string"
+                                },
+                                "password": {
+                                  "description": "Secret value (write-only, replaced by reference after storage)",
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "description": "Authentication type",
+                                  "enum": [
+                                    "httpBasic",
+                                    "bearerToken",
+                                    "customHttpHeader"
+                                  ],
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "password"
+                              ],
+                              "type": "object"
+                            },
+                            "enableCompression": {
+                              "description": "Enable GZIP compression for callback requests (default false)",
+                              "type": "boolean"
+                            },
+                            "tls": {
+                              "description": "Client SSL certificate authentication",
+                              "examples": [
+                                {
+                                  "certificate": "LS0tLS1CRUdJTiBF...",
+                                  "password": "secret"
+                                }
+                              ],
+                              "properties": {
+                                "certificate": {
+                                  "description": "Base64-encoded PEM (with embedded private key) or PFX/PKCS#12 certificate",
+                                  "type": "string"
+                                },
+                                "password": {
+                                  "description": "Private key password",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "certificate",
+                                "password"
+                              ],
+                              "type": "object"
+                            },
+                            "url": {
+                              "description": "HTTPS callback endpoint URL",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "url"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "settings"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Settings updated"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    }
   }
 }

@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MessageEvent | MyLINK Multichannel API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">MyLINK Multichannel API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/lm-multichannel-sdk">voxgig-sdk/lm-multichannel-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">MyLINK Multichannel API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/content.html">Content</a>
+<a href="../api/message.html">Message</a>
+<a aria-current="page" href="../api/message_event.html">MessageEvent</a><div class="nav-sections"><a class="nav-section" href="#get-messagesmessageidevents">GET /messages/{messageId}/events</a></div>
+<a href="../api/option.html">Option</a>
+<a href="../api/schedule.html">Schedule</a>
+<a href="../api/self.html">Self</a>
+<a href="../api/self_admin.html">SelfAdmin</a>
+<a href="../api/template.html">Template</a>
+<a href="../api/traffic.html">Traffic</a>
+<a href="../api/traffic_file.html">TrafficFile</a>
+<a href="../api/variable.html">Variable</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="messageevent">MessageEvent</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-messagesmessageidevents"><code>/messages/{messageId}/events</code></a></td>
+<td><code>list</code></td>
+<td>Events found</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accountId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Account identifier</td>
+</tr>
+<tr>
+<td><code>eventId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique event identifier (for idempotent processing / deduplication)</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>messageStatusChanged</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>UTC date-time when the event occurred</td>
+</tr>
+<tr>
+<td><code>templateReviewStatusChanged</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>userMessageReceived</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-messagesmessageidevents" class="operation" data-method="get"><code>GET</code> /messages/{messageId}/events</h3>
+<p>Operation ID: <code>getMessageEvents</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>messageId</code> | <code>path</code> | <code>string</code> | Yes | Unique message identifier |
+| <code>_pageSize</code> | <code>query</code> | <code>integer</code> | No | Page size for pagination |
+| <code>_pageIndex</code> | <code>query</code> | <code>integer</code> | No | Zero-based page index |
+| <code>_sort</code> | <code>query</code> | <code>string</code> | No | Sort by property paths with optional asc:/desc: prefix |</p>
+<h4 id="responses">Responses</h4>
+<h5 id="200-events-found" class="status" data-status="2xx">200: Events found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_pageCount</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>_pageSize</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>_totalItemCount</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].accountId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Account identifier</td>
+</tr>
+<tr>
+<td><code>events[].eventId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique event identifier (for idempotent processing / deduplication)</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.campaignId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.channelData</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.channelId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.channelOperatorId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile operator ID (MNO) if applicable</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.channelStatus</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Channel-native status code</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.context</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Free-form client-specific correlation values (max 50 entries, keys 1-50 chars, values max 500 chars)</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.error</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error details for DELIVERY_FAILED or DELIVERY_RETRIED statuses</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.error.channelError</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Channel-native error code/message</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.error.code</code></td>
+<td><code>enum: CLIENT_MESSAGE_INVALID, CLIENT_CONFIGURATION_INVALID, CLIENT_MESSAGE_EXPIRED, CLIENT_QUOTA_EXCEEDED, CLIENT_MESSAGE_FORBIDDEN, CHANNEL_REJECTED, ...</code></td>
+<td>Yes</td>
+<td>Message delivery error code</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.error.details</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Additional information about the error</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.fallbackMessageId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ID of the fallback message attached to this message</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.fallbackOrder</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Position in fallback tree (0 = topmost)</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.messageId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.parentMessageId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ID of the failed parent message (for fallback messages)</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.requestId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.scheduledAt</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td>Actual schedule time</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.status</code></td>
+<td><code>enum: SCHEDULE_QUEUED, SCHEDULED, SCHEDULE_DELETED, SCHEDULE_DELETION_FAILED, QUEUED, SENT, ...</code></td>
+<td>Yes</td>
+<td>Message lifecycle status</td>
+</tr>
+<tr>
+<td><code>events[].messageStatusChanged.userId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].on</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>UTC date-time when the event occurred</td>
+</tr>
+<tr>
+<td><code>events[].templateReviewStatusChanged</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].templateReviewStatusChanged.channelData</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].templateReviewStatusChanged.channelId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].templateReviewStatusChanged.details</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].templateReviewStatusChanged.meta</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].templateReviewStatusChanged.status</code></td>
+<td><code>enum: SUBMITTING, SUBMITTED, APPROVED, REJECTED, SUSPENDED, DELETING, ...</code></td>
+<td>Yes</td>
+<td>Template review lifecycle status</td>
+</tr>
+<tr>
+<td><code>events[].templateReviewStatusChanged.templateId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.channelData</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.channelId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.channelOperatorId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Content from the user. Exactly one of: text, postback, media, location, optin, optout, typing.</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.isReaction</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Whether the text (often emoji) is a reaction to a message</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.location.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Accompanying text description</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.location.latitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Latitude in degrees (plus/minus 90)</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.location.longitude</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td>Longitude in degrees (plus/minus 180)</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.location.title</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Short name of the location</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.media</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.media.description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Caption / media description</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.media.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Media resource URI</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.media.thumbnail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Thumbnail image URI</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.media.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>MIME type (for example image/gif, video/mp4)</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.optin</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>User opted in to receive messages</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.optin.payload</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Channel-specific tracking data</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.optin.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.optout</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>User opted out from receiving messages</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.optout.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.postback</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.postback.buttonType</code></td>
+<td><code>enum: reply, openUrl, dial, createCalendarEvent, shareLocation, viewLocation</code></td>
+<td>No</td>
+<td>Type of button that triggered the postback</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.postback.payload</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Custom postback value from button press</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.postback.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Visible text displayed to/by the user</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.content.typing</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>User is typing (no properties)</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.context</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Free-form client-specific correlation values (max 50 entries, keys 1-50 chars, values max 500 chars)</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.replyToMessageId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Original messageId this is a reply to</td>
+</tr>
+<tr>
+<td><code>events[].userMessageReceived.userId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-invalid-request" class="status" data-status="4xx">400: Invalid request</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-authentication-failed" class="status" data-status="4xx">401: Authentication failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

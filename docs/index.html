@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MyLINK Multichannel API | MyLINK Multichannel API</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="index.html">MyLINK Multichannel API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/lm-multichannel-sdk">voxgig-sdk/lm-multichannel-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details open><summary>Overview</summary><a aria-current="page" href="index.html">MyLINK Multichannel API</a></details>
+<details><summary>API</summary><a href="api/index.html">API overview</a>
+<a href="api/content.html">Content</a>
+<a href="api/message.html">Message</a>
+<a href="api/message_event.html">MessageEvent</a>
+<a href="api/option.html">Option</a>
+<a href="api/schedule.html">Schedule</a>
+<a href="api/self.html">Self</a>
+<a href="api/self_admin.html">SelfAdmin</a>
+<a href="api/template.html">Template</a>
+<a href="api/traffic.html">Traffic</a>
+<a href="api/traffic_file.html">TrafficFile</a>
+<a href="api/variable.html">Variable</a></details>
+<details><summary>Guides</summary><a href="guides/authentication.html">Authentication</a>
+<a href="guides/first-call.html">Make your first API call</a>
+<a href="guides/errors.html">Handle errors</a>
+<a href="guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="sdks/go.html">Golang</a>
+<a href="sdks/lua.html">Lua</a>
+<a href="sdks/php.html">PHP</a>
+<a href="sdks/py.html">Python</a>
+<a href="sdks/rb.html">Ruby</a>
+<a href="sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="tools/go-cli.html">Go CLI</a>
+<a href="tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="features/paging.html">Pagination signals for list operations</a>
+<a href="features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>Overview</div><h1 id="mylink-multichannel-api">MyLINK Multichannel API</h1>
+<p>Public API for MyLINK Multichannel Messaging API platform. Supports sending messages across SMS, RCS, Viber, WhatsApp and other channels, managing message templates, downloading traffic files, and configuring account settings. ## Authentication Two authentication methods are available depending on the endpoint root: - <strong>API Key</strong> (<code>/v1</code>): Pass your API key in the <code>x-api-key</code> HTTP header. - <strong>OAuth2</strong> (<code>/v2</code>): Obtain a JWT token from the CPaaS SSO token endpoint https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token and pass it as a Bearer token (clientCredentials flow type) ## Receiving events OCM produces events throughout the lifecycle of messages (<code>messageStatusChanged</code>), when end-users interact (<code>userMessageReceived</code>), and when template reviews change (<code>templateReviewStatusChanged</code>). Three methods are available to consume these events: | Method | Endpoint | Delivery | Event types | Pros | Cons | |--------|----------|----------|-------------|------|------| | <strong>Callbacks</strong> (webhooks) | Configured via <code>PATCH /self/settings</code> | Real-time push (HTTP POST) | All three | Lowest latency, no polling needed | Requires a publicly reachable HTTPS endpoint; must handle retries and idempotency | | <strong>Get Message Events</strong> | <code>GET /messages/&amp;#123;messageId&amp;#125;/events</code> | On-demand pull per message | <code>messageStatusChanged</code>, <code>userMessageReceived</code> only | Simple integration, no receiving endpoint needed | Shares rate limits with <code>POST /messages</code> (sending); not suited for high-traffic or bulk retrieval; no <code>templateReviewStatusChanged</code> | | <strong>Traffic Files</strong> | <code>GET /traffic/files</code> | Bulk pull (JSONL archives, 1 to ~15 min delay) | All three | Bulk retrieval of all events; no rate-limit impact on messaging; 30-day retention | Not real-time; requires downloading and parsing ZIP/JSONL files |</p>
+</main></div>
+<script src="assets/search.js" defer></script></body></html>

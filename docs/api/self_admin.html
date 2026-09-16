@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SelfAdmin | MyLINK Multichannel API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">MyLINK Multichannel API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/lm-multichannel-sdk">voxgig-sdk/lm-multichannel-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">MyLINK Multichannel API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/content.html">Content</a>
+<a href="../api/message.html">Message</a>
+<a href="../api/message_event.html">MessageEvent</a>
+<a href="../api/option.html">Option</a>
+<a href="../api/schedule.html">Schedule</a>
+<a href="../api/self.html">Self</a>
+<a aria-current="page" href="../api/self_admin.html">SelfAdmin</a><div class="nav-sections"><a class="nav-section" href="#patch-selfsettings">PATCH /self/settings</a></div>
+<a href="../api/template.html">Template</a>
+<a href="../api/traffic.html">Traffic</a>
+<a href="../api/traffic_file.html">TrafficFile</a>
+<a href="../api/variable.html">Variable</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="selfadmin">SelfAdmin</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-selfsettings"><code>/self/settings</code></a></td>
+<td><code>update</code></td>
+<td>Settings updated</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>callback</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="update">update</h2>
+<h3 id="patch-selfsettings" class="operation" data-method="patch"><code>PATCH</code> /self/settings</h3>
+<p>Operation ID: <code>updateAccountSettings</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>settings</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>settings.callback</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>settings.callback.auth</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>settings.callback.auth.headerName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Custom header name for customHttpHeader type</td>
+</tr>
+<tr>
+<td><code>settings.callback.auth.login</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Login for httpBasic type</td>
+</tr>
+<tr>
+<td><code>settings.callback.auth.password</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Secret value (write-only, replaced by reference after storage)</td>
+</tr>
+<tr>
+<td><code>settings.callback.auth.type</code></td>
+<td><code>enum: httpBasic, bearerToken, customHttpHeader</code></td>
+<td>Yes</td>
+<td>Authentication type</td>
+</tr>
+<tr>
+<td><code>settings.callback.enableCompression</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Enable GZIP compression for callback requests (default false)</td>
+</tr>
+<tr>
+<td><code>settings.callback.tls</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Client SSL certificate authentication</td>
+</tr>
+<tr>
+<td><code>settings.callback.tls.certificate</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Base64-encoded PEM (with embedded private key) or PFX/PKCS#12 certificate</td>
+</tr>
+<tr>
+<td><code>settings.callback.tls.password</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Private key password</td>
+</tr>
+<tr>
+<td><code>settings.callback.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>HTTPS callback endpoint URL</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-settings-updated" class="status" data-status="2xx">200: Settings updated</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>settings</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>settings.callback</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>settings.callback.auth</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>settings.callback.auth.headerName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Custom header name for customHttpHeader type</td>
+</tr>
+<tr>
+<td><code>settings.callback.auth.login</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Login for httpBasic type</td>
+</tr>
+<tr>
+<td><code>settings.callback.auth.password</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Secret value (write-only, replaced by reference after storage)</td>
+</tr>
+<tr>
+<td><code>settings.callback.auth.type</code></td>
+<td><code>enum: httpBasic, bearerToken, customHttpHeader</code></td>
+<td>Yes</td>
+<td>Authentication type</td>
+</tr>
+<tr>
+<td><code>settings.callback.enableCompression</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Enable GZIP compression for callback requests (default false)</td>
+</tr>
+<tr>
+<td><code>settings.callback.tls</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Client SSL certificate authentication</td>
+</tr>
+<tr>
+<td><code>settings.callback.tls.certificate</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Base64-encoded PEM (with embedded private key) or PFX/PKCS#12 certificate</td>
+</tr>
+<tr>
+<td><code>settings.callback.tls.password</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Private key password</td>
+</tr>
+<tr>
+<td><code>settings.callback.url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>HTTPS callback endpoint URL</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

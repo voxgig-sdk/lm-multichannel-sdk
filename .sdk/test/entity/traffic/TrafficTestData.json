@@ -19,5 +19,57 @@
     "traffic": {
       "traffic_ref01": {}
     }
+  },
+  "requests": {
+    "DELETE /traffic/files/{path}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "deleteTrafficFile",
+        "parameters": [
+          {
+            "description": "Relative file path (e.g. events/2024/11/04/15/sequence.zip)",
+            "in": "path",
+            "name": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "204": {
+            "description": "File deleted"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    }
   }
 }

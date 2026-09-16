@@ -1,12 +1,26 @@
 # LmMultichannel SDK feature factory
 
 from lmmultichannel_sdk.feature.base_feature import LmMultichannelBaseFeature
+from lmmultichannel_sdk.feature.debug_feature import LmMultichannelDebugFeature
+from lmmultichannel_sdk.feature.idempotency_feature import LmMultichannelIdempotencyFeature
+from lmmultichannel_sdk.feature.metrics_feature import LmMultichannelMetricsFeature
+from lmmultichannel_sdk.feature.paging_feature import LmMultichannelPagingFeature
+from lmmultichannel_sdk.feature.ratelimit_feature import LmMultichannelRatelimitFeature
+from lmmultichannel_sdk.feature.retry_feature import LmMultichannelRetryFeature
 from lmmultichannel_sdk.feature.test_feature import LmMultichannelTestFeature
+from lmmultichannel_sdk.feature.timeout_feature import LmMultichannelTimeoutFeature
 
 
 _FEATURES = {
     "base": lambda: LmMultichannelBaseFeature(),
+    "debug": lambda: LmMultichannelDebugFeature(),
+    "idempotency": lambda: LmMultichannelIdempotencyFeature(),
+    "metrics": lambda: LmMultichannelMetricsFeature(),
+    "paging": lambda: LmMultichannelPagingFeature(),
+    "ratelimit": lambda: LmMultichannelRatelimitFeature(),
+    "retry": lambda: LmMultichannelRetryFeature(),
     "test": lambda: LmMultichannelTestFeature(),
+    "timeout": lambda: LmMultichannelTimeoutFeature(),
 }
 
 

@@ -40,6 +40,12 @@ main: kit: entity: traffic_file: {
       name: "list"
       points: [
         {
+          contract: {
+            id: "GET /traffic/files"
+            json: "{\"operationId\":\"listTrafficFilesRoot\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"examples\":[{\"files\":[{\"path\":\"/events/2024/11/03/15/xxx.zip\",\"url\":\"https://ocp-traffic-files-....s3...\"},{\"path\":\"/events/2024/11/04/15/yyy.zip\",\"url\":\"https://ocp-traffic-files-....s3...\"},{\"path\":\"/events/2024/11/04/16/zzz.zip\",\"url\":\"https://ocp-traffic-files-....s3...\"}]}],\"properties\":{\"files\":{\"items\":{\"examples\":[{\"path\":\"/events/2024/11/04/15/events-1-2024-11-04-15-11-05-567b90ac.zip\",\"url\":\"https://ocp-traffic-files-544418618271.s3.eu-central-1.amazonaws.com/events/2024/11/06/14/events-1-...zip?...\"}],\"properties\":{\"path\":{\"description\":\"Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip\",\"type\":\"string\"},\"url\":{\"description\":\"Absolute download URL with security token (expires after 15 minutes)\",\"type\":\"string\"}},\"required\":[\"path\",\"url\"],\"type\":\"object\"},\"type\":\"array\"}},\"required\":[\"files\"],\"type\":\"object\"}}},\"description\":\"Files listed\"}},\"security\":[{\"apiKey\":[]},{\"oauth2\":[]}],\"securitySchemes\":{\"apiKey\":{\"description\":\"API key for /v1 endpoints\",\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"oauth2\":{\"description\":\"OAuth2 client credentials for /v2 endpoints\",\"flows\":{\"clientCredentials\":{\"scopes\":{},\"tokenUrl\":\"https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token\"}},\"type\":\"oauth2\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "GET"
           orig: "/traffic/files"
           segments: [
@@ -71,6 +77,12 @@ main: kit: entity: traffic_file: {
                 type: "`$STRING`"
               }
             ]
+          }
+          contract: {
+            id: "GET /traffic/files/{path}"
+            json: "{\"operationId\":\"listTrafficFilesInFolder\",\"parameters\":[{\"description\":\"Relative folder path (e.g. events/2024 or events/2024/11/10/09) or file path for DELETE\",\"in\":\"path\",\"name\":\"path\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"examples\":[{\"files\":[{\"path\":\"/events/2024/11/03/15/xxx.zip\",\"url\":\"https://ocp-traffic-files-....s3...\"},{\"path\":\"/events/2024/11/04/15/yyy.zip\",\"url\":\"https://ocp-traffic-files-....s3...\"},{\"path\":\"/events/2024/11/04/16/zzz.zip\",\"url\":\"https://ocp-traffic-files-....s3...\"}]}],\"properties\":{\"files\":{\"items\":{\"examples\":[{\"path\":\"/events/2024/11/04/15/events-1-2024-11-04-15-11-05-567b90ac.zip\",\"url\":\"https://ocp-traffic-files-544418618271.s3.eu-central-1.amazonaws.com/events/2024/11/06/14/events-1-...zip?...\"}],\"properties\":{\"path\":{\"description\":\"Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip\",\"type\":\"string\"},\"url\":{\"description\":\"Absolute download URL with security token (expires after 15 minutes)\",\"type\":\"string\"}},\"required\":[\"path\",\"url\"],\"type\":\"object\"},\"type\":\"array\"}},\"required\":[\"files\"],\"type\":\"object\"}}},\"description\":\"Files listed\"}},\"security\":[{\"apiKey\":[]},{\"oauth2\":[]}],\"securitySchemes\":{\"apiKey\":{\"description\":\"API key for /v1 endpoints\",\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"oauth2\":{\"description\":\"OAuth2 client credentials for /v2 endpoints\",\"flows\":{\"clientCredentials\":{\"scopes\":{},\"tokenUrl\":\"https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token\"}},\"type\":\"oauth2\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
           }
           method: "GET"
           orig: "/traffic/files/{path}"

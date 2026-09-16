@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { LmMultichannelSDK, BaseFeature, stdutil } from '../../..'
@@ -47,16 +49,13 @@ describe('OptionEntity', async () => {
 
     const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE
     for (const op of ['create', 'update', 'load']) {
-      if (maybeSkipControl(t, 'entityOp', 'option.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'option.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set LM_MULTICHANNEL_TEST_OPTION_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[{"active":true,"name":"options","req":true,"type":"`$OBJECT`","index$":0}],"name":"option","op":{"create":{"input":"data","name":"create","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"template_id","orig":"template_id","reqd":true,"type":"`$STRING`","index$":0}]},"contract":{"id":"POST /templates/{templateId}/options","json":"{\"operationId\":\"overwriteTemplateOptions\",\"parameters\":[{\"description\":\"Unique template identifier\",\"in\":\"path\",\"name\":\"templateId\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"examples\":[{\"options\":{\"rcs.card.orientation\":\"HORIZONTAL\",\"rcs.media.height\":\"TALL\"}}],\"properties\":{\"options\":{\"additionalProperties\":{\"type\":\"string\"},\"examples\":[{\"rcs.card.orientation\":\"HORIZONTAL\",\"sms.originatingAddress\":\"MYBRAND\"}],\"type\":\"object\"}},\"required\":[\"options\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"examples\":[{\"options\":{\"rcs.card.orientation\":\"HORIZONTAL\",\"rcs.media.height\":\"TALL\"}}],\"properties\":{\"options\":{\"additionalProperties\":{\"type\":\"string\"},\"examples\":[{\"rcs.card.orientation\":\"HORIZONTAL\",\"sms.originatingAddress\":\"MYBRAND\"}],\"type\":\"object\"}},\"required\":[\"options\"],\"type\":\"object\"}}},\"description\":\"Options updated\"},\"403\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error details\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Authorization failed\"},\"404\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error details\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Resource not found\"},\"423\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error details\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)\"}},\"security\":[{\"apiKey\":[]},{\"oauth2\":[]}],\"securitySchemes\":{\"apiKey\":{\"description\":\"API key for /v1 endpoints\",\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"oauth2\":{\"description\":\"OAuth2 client credentials for /v2 endpoints\",\"flows\":{\"clientCredentials\":{\"scopes\":{},\"tokenUrl\":\"https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token\"}},\"type\":\"oauth2\"}},\"securitySource\":\"definition\"}","source":"openapi3","version":1},"kind":"http","method":"POST","orig":"/templates/{templateId}/options","rename":{"param":{"templateId":"template_id"}},"segments":[{"lit":"templates"},{"var":"template_id"},{"lit":"options"}],"select":{"exist":["template_id"]},"transform":{"req":"`reqdata`","res":"`body.options`"},"index$":0}],"key$":"create"},"load":{"input":"data","name":"load","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"template_id","orig":"template_id","reqd":true,"type":"`$STRING`","index$":0}]},"contract":{"id":"GET /templates/{templateId}/options","json":"{\"operationId\":\"getTemplateOptions\",\"parameters\":[{\"description\":\"Unique template identifier\",\"in\":\"path\",\"name\":\"templateId\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"examples\":[{\"options\":{\"rcs.card.orientation\":\"HORIZONTAL\",\"rcs.media.height\":\"TALL\"}}],\"properties\":{\"options\":{\"additionalProperties\":{\"type\":\"string\"},\"examples\":[{\"rcs.card.orientation\":\"HORIZONTAL\",\"sms.originatingAddress\":\"MYBRAND\"}],\"type\":\"object\"}},\"required\":[\"options\"],\"type\":\"object\"}}},\"description\":\"Options returned\"}},\"security\":[{\"apiKey\":[]},{\"oauth2\":[]}],\"securitySchemes\":{\"apiKey\":{\"description\":\"API key for /v1 endpoints\",\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"oauth2\":{\"description\":\"OAuth2 client credentials for /v2 endpoints\",\"flows\":{\"clientCredentials\":{\"scopes\":{},\"tokenUrl\":\"https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token\"}},\"type\":\"oauth2\"}},\"securitySource\":\"definition\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/templates/{templateId}/options","rename":{"param":{"templateId":"template_id"}},"segments":[{"lit":"templates"},{"var":"template_id"},{"lit":"options"}],"select":{"exist":["template_id"]},"transform":{"req":"`reqdata`","res":"`body.options`"},"index$":0}],"key$":"load"},"update":{"input":"data","name":"update","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"template_id","orig":"template_id","reqd":true,"type":"`$STRING`","index$":0}]},"contract":{"id":"PATCH /templates/{templateId}/options","json":"{\"operationId\":\"mergeTemplateOptions\",\"parameters\":[{\"description\":\"Unique template identifier\",\"in\":\"path\",\"name\":\"templateId\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"examples\":[{\"options\":{\"rcs.card.orientation\":\"HORIZONTAL\",\"rcs.media.height\":\"TALL\"}}],\"properties\":{\"options\":{\"additionalProperties\":{\"type\":\"string\"},\"examples\":[{\"rcs.card.orientation\":\"HORIZONTAL\",\"sms.originatingAddress\":\"MYBRAND\"}],\"type\":\"object\"}},\"required\":[\"options\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"examples\":[{\"options\":{\"rcs.card.orientation\":\"HORIZONTAL\",\"rcs.media.height\":\"TALL\"}}],\"properties\":{\"options\":{\"additionalProperties\":{\"type\":\"string\"},\"examples\":[{\"rcs.card.orientation\":\"HORIZONTAL\",\"sms.originatingAddress\":\"MYBRAND\"}],\"type\":\"object\"}},\"required\":[\"options\"],\"type\":\"object\"}}},\"description\":\"Options updated\"},\"403\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error details\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Authorization failed\"},\"404\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error details\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Resource not found\"},\"423\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error details\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)\"}},\"security\":[{\"apiKey\":[]},{\"oauth2\":[]}],\"securitySchemes\":{\"apiKey\":{\"description\":\"API key for /v1 endpoints\",\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"oauth2\":{\"description\":\"OAuth2 client credentials for /v2 endpoints\",\"flows\":{\"clientCredentials\":{\"scopes\":{},\"tokenUrl\":\"https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token\"}},\"type\":\"oauth2\"}},\"securitySource\":\"definition\"}","source":"openapi3","version":1},"kind":"http","method":"PATCH","orig":"/templates/{templateId}/options","rename":{"param":{"templateId":"template_id"}},"segments":[{"lit":"templates"},{"var":"template_id"},{"lit":"options"}],"select":{"exist":["template_id"]},"transform":{"req":"`reqdata`","res":"`body.options`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[["template"]]},"key$":"option","name__orig":"option","Name":"Option","name_":"option","name-":"option","NAME":"OPTION","index$":3}, {"active":true,"entity":"option","key$":"BasicOptionFlow","kind":"basic","name":"BasicOptionFlow","param":{},"step":[{"active":true,"data":{},"input":{"ref":"option_ref01"},"match":{"template_id":"template01"},"op":"create","spec":[],"valid":[],"index$":0},{"active":true,"data":{},"input":{"ref":"option_ref01","srcdatavar":"option_ref01_data","suffix":"_up0"},"match":{},"op":"update","spec":[{"apply":"TextFieldMark","def":{"mark":"Mark01-option_ref01"}}],"valid":[],"index$":1},{"active":true,"data":{},"input":{"ref":"option_ref01","srcdatavar":"option_ref01_data","suffix":"_dt0"},"match":{"id":"option01"},"op":"load","spec":[],"valid":[{"apply":"TextFieldMark","def":{"mark":"Mark01-option_ref01"}}],"index$":2}]}, 'Option')
     }
     const client = setup.client
     const struct = setup.struct
@@ -118,13 +117,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['LM_MULTICHANNEL_TEST_OPTION_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'LM_MULTICHANNEL_TEST_OPTION_ENTID': idmap,
     'LM_MULTICHANNEL_TEST_LIVE': 'FALSE',
@@ -136,7 +128,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.LM_MULTICHANNEL_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['LM_MULTICHANNEL_TEST_OPTION_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new LmMultichannelSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -149,7 +147,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -162,7 +161,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.LM_MULTICHANNEL_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Variable | MyLINK Multichannel API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">MyLINK Multichannel API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/lm-multichannel-sdk">voxgig-sdk/lm-multichannel-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">MyLINK Multichannel API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/content.html">Content</a>
+<a href="../api/message.html">Message</a>
+<a href="../api/message_event.html">MessageEvent</a>
+<a href="../api/option.html">Option</a>
+<a href="../api/schedule.html">Schedule</a>
+<a href="../api/self.html">Self</a>
+<a href="../api/self_admin.html">SelfAdmin</a>
+<a href="../api/template.html">Template</a>
+<a href="../api/traffic.html">Traffic</a>
+<a href="../api/traffic_file.html">TrafficFile</a>
+<a aria-current="page" href="../api/variable.html">Variable</a><div class="nav-sections"><a class="nav-section" href="#post-templatestemplateidvariables">POST /templates/{templateId}/variables</a>
+<a class="nav-section" href="#get-templatestemplateidvariables">GET /templates/{templateId}/variables</a>
+<a class="nav-section" href="#patch-templatestemplateidvariables">PATCH /templates/{templateId}/variables</a></div></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="variable">Variable</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-templatestemplateidvariables"><code>/templates/{templateId}/variables</code></a></td>
+<td><code>create</code></td>
+<td>Variables updated</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-templatestemplateidvariables"><code>/templates/{templateId}/variables</code></a></td>
+<td><code>list</code></td>
+<td>Variables returned</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-templatestemplateidvariables"><code>/templates/{templateId}/variables</code></a></td>
+<td><code>update</code></td>
+<td>Variables updated</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Variable description</td>
+</tr>
+<tr>
+<td><code>examples</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td>Example values</td>
+</tr>
+<tr>
+<td><code>formats</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td>Type-specific constraint formats (for example</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)</td>
+</tr>
+<tr>
+<td><code>ref</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional immutable identifier for the variable (used for merge identity)</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional type descriptor for validation constraints</td>
+</tr>
+<tr>
+<td><code>variables</code></td>
+<td><code>array</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-templatestemplateidvariables" class="operation" data-method="post"><code>POST</code> /templates/{templateId}/variables</h3>
+<p>Operation ID: <code>overwriteTemplateVariables</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>variables</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>variables[].description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Variable description</td>
+</tr>
+<tr>
+<td><code>variables[].examples</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Example values</td>
+</tr>
+<tr>
+<td><code>variables[].formats</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Type-specific constraint formats (for example culture codes, regex patterns)</td>
+</tr>
+<tr>
+<td><code>variables[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)</td>
+</tr>
+<tr>
+<td><code>variables[].ref</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional immutable identifier for the variable (used for merge identity)</td>
+</tr>
+<tr>
+<td><code>variables[].type</code></td>
+<td><code>enum: text, dateTime, number, phoneNumber, url, emailAddress, ...</code></td>
+<td>No</td>
+<td>Optional type descriptor for validation constraints</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-variables-updated" class="status" data-status="2xx">200: Variables updated</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>variables</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>variables[].description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Variable description</td>
+</tr>
+<tr>
+<td><code>variables[].examples</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Example values</td>
+</tr>
+<tr>
+<td><code>variables[].formats</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Type-specific constraint formats (for example culture codes, regex patterns)</td>
+</tr>
+<tr>
+<td><code>variables[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)</td>
+</tr>
+<tr>
+<td><code>variables[].ref</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional immutable identifier for the variable (used for merge identity)</td>
+</tr>
+<tr>
+<td><code>variables[].type</code></td>
+<td><code>enum: text, dateTime, number, phoneNumber, url, emailAddress, ...</code></td>
+<td>No</td>
+<td>Optional type descriptor for validation constraints</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-templatestemplateidvariables" class="operation" data-method="get"><code>GET</code> /templates/{templateId}/variables</h3>
+<p>Operation ID: <code>getTemplateVariables</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-variables-returned" class="status" data-status="2xx">200: Variables returned</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>variables</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>variables[].description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Variable description</td>
+</tr>
+<tr>
+<td><code>variables[].examples</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Example values</td>
+</tr>
+<tr>
+<td><code>variables[].formats</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Type-specific constraint formats (for example culture codes, regex patterns)</td>
+</tr>
+<tr>
+<td><code>variables[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)</td>
+</tr>
+<tr>
+<td><code>variables[].ref</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional immutable identifier for the variable (used for merge identity)</td>
+</tr>
+<tr>
+<td><code>variables[].type</code></td>
+<td><code>enum: text, dateTime, number, phoneNumber, url, emailAddress, ...</code></td>
+<td>No</td>
+<td>Optional type descriptor for validation constraints</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update">update</h2>
+<h3 id="patch-templatestemplateidvariables" class="operation" data-method="patch"><code>PATCH</code> /templates/{templateId}/variables</h3>
+<p>Operation ID: <code>mergeTemplateVariables</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>variables</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>variables[].description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Variable description</td>
+</tr>
+<tr>
+<td><code>variables[].examples</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Example values</td>
+</tr>
+<tr>
+<td><code>variables[].formats</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Type-specific constraint formats (for example culture codes, regex patterns)</td>
+</tr>
+<tr>
+<td><code>variables[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)</td>
+</tr>
+<tr>
+<td><code>variables[].ref</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional immutable identifier for the variable (used for merge identity)</td>
+</tr>
+<tr>
+<td><code>variables[].type</code></td>
+<td><code>enum: text, dateTime, number, phoneNumber, url, emailAddress, ...</code></td>
+<td>No</td>
+<td>Optional type descriptor for validation constraints</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-variables-updated-1" class="status" data-status="2xx">200: Variables updated</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>variables</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>variables[].description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Variable description</td>
+</tr>
+<tr>
+<td><code>variables[].examples</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Example values</td>
+</tr>
+<tr>
+<td><code>variables[].formats</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Type-specific constraint formats (for example culture codes, regex patterns)</td>
+</tr>
+<tr>
+<td><code>variables[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Variable name (alphanumeric + underscore, pattern: [a-zA-Z0-9_]+)</td>
+</tr>
+<tr>
+<td><code>variables[].ref</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Optional immutable identifier for the variable (used for merge identity)</td>
+</tr>
+<tr>
+<td><code>variables[].type</code></td>
+<td><code>enum: text, dateTime, number, phoneNumber, url, emailAddress, ...</code></td>
+<td>No</td>
+<td>Optional type descriptor for validation constraints</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed-1" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found-1" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status-1" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

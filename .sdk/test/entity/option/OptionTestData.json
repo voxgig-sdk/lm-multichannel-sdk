@@ -24,5 +24,419 @@
         "options": {}
       }
     }
+  },
+  "requests": {
+    "POST /templates/{templateId}/options": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "overwriteTemplateOptions",
+        "parameters": [
+          {
+            "description": "Unique template identifier",
+            "in": "path",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "examples": [
+                  {
+                    "options": {
+                      "rcs.card.orientation": "HORIZONTAL",
+                      "rcs.media.height": "TALL"
+                    }
+                  }
+                ],
+                "properties": {
+                  "options": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "examples": [
+                      {
+                        "rcs.card.orientation": "HORIZONTAL",
+                        "sms.originatingAddress": "MYBRAND"
+                      }
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "options"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "examples": [
+                    {
+                      "options": {
+                        "rcs.card.orientation": "HORIZONTAL",
+                        "rcs.media.height": "TALL"
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "options": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "examples": [
+                        {
+                          "rcs.card.orientation": "HORIZONTAL",
+                          "sms.originatingAddress": "MYBRAND"
+                        }
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "options"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Options updated"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authorization failed"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /templates/{templateId}/options": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getTemplateOptions",
+        "parameters": [
+          {
+            "description": "Unique template identifier",
+            "in": "path",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "examples": [
+                    {
+                      "options": {
+                        "rcs.card.orientation": "HORIZONTAL",
+                        "rcs.media.height": "TALL"
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "options": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "examples": [
+                        {
+                          "rcs.card.orientation": "HORIZONTAL",
+                          "sms.originatingAddress": "MYBRAND"
+                        }
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "options"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Options returned"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "PATCH /templates/{templateId}/options": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "mergeTemplateOptions",
+        "parameters": [
+          {
+            "description": "Unique template identifier",
+            "in": "path",
+            "name": "templateId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "examples": [
+                  {
+                    "options": {
+                      "rcs.card.orientation": "HORIZONTAL",
+                      "rcs.media.height": "TALL"
+                    }
+                  }
+                ],
+                "properties": {
+                  "options": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "examples": [
+                      {
+                        "rcs.card.orientation": "HORIZONTAL",
+                        "sms.originatingAddress": "MYBRAND"
+                      }
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "options"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "examples": [
+                    {
+                      "options": {
+                        "rcs.card.orientation": "HORIZONTAL",
+                        "rcs.media.height": "TALL"
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "options": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "examples": [
+                        {
+                          "rcs.card.orientation": "HORIZONTAL",
+                          "sms.originatingAddress": "MYBRAND"
+                        }
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "options"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Options updated"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authorization failed"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error details",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "securitySchemes": {
+          "apiKey": {
+            "description": "API key for /v1 endpoints",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "oauth2": {
+            "description": "OAuth2 client credentials for /v2 endpoints",
+            "flows": {
+              "clientCredentials": {
+                "scopes": {},
+                "tokenUrl": "https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token"
+              }
+            },
+            "type": "oauth2"
+          }
+        },
+        "securitySource": "definition"
+      }
+    }
   }
 }
