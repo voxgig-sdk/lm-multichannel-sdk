@@ -1,0 +1,52 @@
+# Entity: self
+
+main: kit: entity: self: {
+
+  alias: field: {}
+
+  fields: {
+    accountId: {
+      h: "Account Id"
+      n: "accountId"
+      r: true
+      sh: "Unique technical account identifier"
+      t: "`$STRING`"
+    }
+    settings: {
+      h: "Settings"
+      n: "settings"
+      r: true
+      t: "`$OBJECT`"
+    }
+  }
+
+  name: "self"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /self"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/self"
+          s: [
+            {
+              lit: "self"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.account`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

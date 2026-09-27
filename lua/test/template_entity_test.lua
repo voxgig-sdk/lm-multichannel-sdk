@@ -166,7 +166,7 @@ function template_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "template01", "template02", "template03", "review01", "review02", "review03" },
+    { "template01", "template02", "template03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

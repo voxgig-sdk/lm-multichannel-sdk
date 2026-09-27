@@ -19,7 +19,6 @@ import type {
   MessageEventListMatch,
 } from '../LmMultichannelTypes'
 
-// TODO: needs Entity superclass
 class MessageEventEntity extends LmMultichannelEntityBase<MessageEvent> {
 
   constructor(client: LmMultichannelSDK, entopts: any) {

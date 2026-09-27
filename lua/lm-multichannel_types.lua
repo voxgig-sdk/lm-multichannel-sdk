@@ -1,7 +1,7 @@
 -- Typed models for the LmMultichannel SDK (LuaLS annotations).
 --
--- GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
--- params (op.<name>.points[].args.params[]). Field/param types come from the
+-- GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+-- params (op.<name>.points[].g.params[]). Field/param types come from the
 -- canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 -- @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
 -- edit by hand.
@@ -31,19 +31,15 @@
 ---@field text? string
 
 ---@class Message
----@field campaignId? string
 ---@field id? string
 ---@field messages table
----@field scheduleAt string
 
 ---@class MessageLoadMatch
 ---@field id string
 
 ---@class MessageCreateData
----@field campaignId? string
 ---@field id? string
 ---@field messages table
----@field scheduleAt string
 
 ---@class MessageRemoveMatch
 ---@field id string

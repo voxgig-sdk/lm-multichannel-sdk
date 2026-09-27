@@ -1,0 +1,54 @@
+# Entity: self_admin
+
+main: kit: entity: self_admin: {
+
+  alias: field: {}
+
+  fields: {
+    callback: {
+      h: "Callback"
+      n: "callback"
+      r: true
+      t: "`$OBJECT`"
+    }
+    settings: {
+      h: "Settings"
+      n: "settings"
+      r: true
+      t: "`$OBJECT`"
+    }
+  }
+
+  name: "self_admin"
+  op: {
+    update: {
+      name: "update"
+      points: [
+        {
+          co: {
+            id: "PATCH /self/settings"
+            source: "openapi3"
+            version: 2
+          }
+          m: "PATCH"
+          o: "/self/settings"
+          s: [
+            {
+              lit: "self"
+            }
+            {
+              lit: "settings"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.settings`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

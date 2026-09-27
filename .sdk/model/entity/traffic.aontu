@@ -1,0 +1,61 @@
+# Entity: traffic
+
+main: kit: entity: traffic: {
+
+  alias: field: {}
+
+  name: "traffic"
+  op: {
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /traffic/files/{path}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "path"
+                or: "path"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/traffic/files/{path}"
+          q: {
+            exist: [
+              "path"
+            ]
+          }
+          s: [
+            {
+              lit: "traffic"
+            }
+            {
+              lit: "files"
+            }
+            {
+              var: "path"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

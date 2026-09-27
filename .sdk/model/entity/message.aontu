@@ -1,0 +1,158 @@
+# Entity: message
+
+main: kit: entity: message: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    messages: {
+      h: "Messages"
+      n: "messages"
+      r: true
+      t: "`$ARRAY`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "message"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /messages"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/messages"
+          s: [
+            {
+              lit: "messages"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /messages/{messageId}/schedule"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "message_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/messages/{messageId}/schedule"
+          q: {
+            "$action": "schedule"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              messageId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "schedule"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.schedule`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /messages/{messageId}/schedule"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "message_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/messages/{messageId}/schedule"
+          q: {
+            "$action": "schedule"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              messageId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "schedule"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

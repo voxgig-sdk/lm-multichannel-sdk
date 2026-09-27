@@ -44,10 +44,6 @@ const live_runner_1 = require("../../live-runner");
 const live_entity_1 = require("../../live-entity");
 const __1 = require("../../..");
 const utility_1 = require("../../utility");
-// AFTER the imports on purpose: TypeScript hoists `import` above any
-// statement in the emitted CommonJS, so a loader placed above them would
-// run only after every imported module had already been evaluated - and
-// anything reading process.env at module scope would miss these values.
 (0, utility_1.loadEnvLocal)(__dirname + '/../../../.env.local');
 (0, node_test_1.describe)('TrafficEntity', async () => {
     // Per-test live pacing. Delay is read from sdk-test-control.json's
@@ -66,7 +62,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": [], "name": "traffic", "op": { "remove": { "input": "data", "name": "remove", "points": [{ "active": true, "args": { "params": [{ "active": true, "kind": "param", "name": "path", "orig": "path", "reqd": true, "type": "`$STRING`", "index$": 0 }] }, "contract": { "id": "DELETE /traffic/files/{path}", "json": "{\"operationId\":\"deleteTrafficFile\",\"parameters\":[{\"description\":\"Relative file path (e.g. events/2024/11/04/15/sequence.zip)\",\"in\":\"path\",\"name\":\"path\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"204\":{\"description\":\"File deleted\"}},\"security\":[{\"apiKey\":[]},{\"oauth2\":[]}],\"securitySchemes\":{\"apiKey\":{\"description\":\"API key for /v1 endpoints\",\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"oauth2\":{\"description\":\"OAuth2 client credentials for /v2 endpoints\",\"flows\":{\"clientCredentials\":{\"scopes\":{},\"tokenUrl\":\"https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token\"}},\"type\":\"oauth2\"}},\"securitySource\":\"definition\"}", "source": "openapi3", "version": 1 }, "kind": "http", "method": "DELETE", "orig": "/traffic/files/{path}", "segments": [{ "lit": "traffic" }, { "lit": "files" }, { "var": "path" }], "select": { "exist": ["path"] }, "transform": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "remove" } }, "relations": { "ancestors": [["file"]] }, "key$": "traffic", "name__orig": "traffic", "Name": "Traffic", "name_": "traffic", "name-": "traffic", "NAME": "TRAFFIC", "index$": 8 }, { "active": true, "entity": "traffic", "key$": "BasicTrafficFlow", "kind": "basic", "name": "BasicTrafficFlow", "param": {}, "step": [] }, 'Traffic');
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": {}, "name": "traffic", "op": { "remove": { "input": "data", "name": "remove", "points": [{ "a": true, "co": { "id": "DELETE /traffic/files/{path}", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "path", "or": "path", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "DELETE", "o": "/traffic/files/{path}", "q": { "exist": ["path"] }, "r": {}, "s": [{ "lit": "traffic" }, { "lit": "files" }, { "var": "path" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "remove" } }, "relations": { "ancestors": [] }, "key$": "traffic", "name__orig": "traffic", "Name": "Traffic", "name_": "traffic", "name-": "traffic", "NAME": "TRAFFIC", "index$": 8 }, { "active": true, "entity": "traffic", "key$": "BasicTrafficFlow", "kind": "basic", "name": "BasicTrafficFlow", "param": {}, "step": [] }, 'Traffic', { "DELETE /traffic/files/{path}": { "protocol": "http", "parameters": [{ "name": "path", "in": "path", "required": true, "description": "Relative file path (e.g. events/2024/11/04/15/sequence.zip)", "schema": { "type": "string" }, "index$": 0 }] } });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -89,7 +85,7 @@ function basicSetup(extra) {
     const struct = client.utility().struct;
     const merge = struct.merge;
     const transform = struct.transform;
-    let idmap = transform(['traffic01', 'traffic02', 'traffic03', 'file01', 'file02', 'file03'], {
+    let idmap = transform(['traffic01', 'traffic02', 'traffic03'], {
         '`$PACK`': ['', {
                 '`$KEY`': '`$COPY`',
                 '`$VAL`': ['`$FORMAT`', 'upper', '`$COPY`']

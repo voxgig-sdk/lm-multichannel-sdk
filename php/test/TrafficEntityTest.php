@@ -64,7 +64,7 @@ function traffic_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["traffic01", "traffic02", "traffic03", "file01", "file02", "file03"] as $k) {
+    foreach (["traffic01", "traffic02", "traffic03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

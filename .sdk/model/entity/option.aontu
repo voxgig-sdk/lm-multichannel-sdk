@@ -1,0 +1,175 @@
+# Entity: option
+
+main: kit: entity: option: {
+
+  alias: field: {}
+
+  fields: {
+    options: {
+      h: "Options"
+      n: "options"
+      r: true
+      t: "`$OBJECT`"
+    }
+  }
+
+  name: "option"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /templates/{templateId}/options"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "template_id"
+                or: "template_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/templates/{templateId}/options"
+          q: {
+            exist: [
+              "template_id"
+            ]
+          }
+          r: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          s: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "options"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.options`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /templates/{templateId}/options"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "template_id"
+                or: "template_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/templates/{templateId}/options"
+          q: {
+            exist: [
+              "template_id"
+            ]
+          }
+          r: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          s: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "options"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.options`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          co: {
+            id: "PATCH /templates/{templateId}/options"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "template_id"
+                or: "template_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PATCH"
+          o: "/templates/{templateId}/options"
+          q: {
+            exist: [
+              "template_id"
+            ]
+          }
+          r: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          s: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "options"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.options`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.template")]
+  ]
+
+}

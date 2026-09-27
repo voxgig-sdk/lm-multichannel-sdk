@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 // Typed models for the LmMultichannel SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 //
@@ -48,10 +48,8 @@ class ContentCreateData
 /** Message entity data model. */
 class Message
 {
-    public ?string $campaignId = null;
     public ?string $id = null;
     public array $messages;
-    public string $scheduleAt;
 }
 
 /** Request payload for Message#load. */
@@ -63,10 +61,8 @@ class MessageLoadMatch
 /** Request payload for Message#create. */
 class MessageCreateData
 {
-    public ?string $campaignId = null;
     public ?string $id = null;
     public array $messages;
-    public string $scheduleAt;
 }
 
 /** Request payload for Message#remove. */

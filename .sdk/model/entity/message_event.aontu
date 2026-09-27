@@ -1,0 +1,144 @@
+# Entity: message_event
+
+main: kit: entity: message_event: {
+
+  alias: field: {}
+
+  fields: {
+    accountId: {
+      h: "Account Id"
+      n: "accountId"
+      r: true
+      sh: "Account identifier"
+      t: "`$STRING`"
+    }
+    eventId: {
+      h: "Event Id"
+      n: "eventId"
+      r: true
+      sh: "Unique event identifier (for idempotent processing / deduplication)"
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    messageStatusChanged: {
+      h: "Message Status Changed"
+      n: "messageStatusChanged"
+      r: true
+      t: "`$OBJECT`"
+    }
+    on: {
+      fo: "date-time"
+      h: "On"
+      n: "on"
+      r: true
+      sh: "UTC date-time when the event occurred"
+      t: "`$STRING`"
+    }
+    templateReviewStatusChanged: {
+      h: "Template Review Status Changed"
+      n: "templateReviewStatusChanged"
+      r: true
+      t: "`$OBJECT`"
+    }
+    userMessageReceived: {
+      h: "User Message Received"
+      n: "userMessageReceived"
+      r: true
+      t: "`$OBJECT`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "message_event"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /messages/{messageId}/events"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "message_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "page_index"
+                or: "page_index"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "page_size"
+                or: "page_size"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: "desc:on"
+                k: "query"
+                n: "sort"
+                or: "sort"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/messages/{messageId}/events"
+          q: {
+            exist: [
+              "id"
+              "page_index"
+              "page_size"
+              "sort"
+            ]
+          }
+          r: {
+            param: {
+              messageId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "messages"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "events"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.events`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

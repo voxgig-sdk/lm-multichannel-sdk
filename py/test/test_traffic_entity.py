@@ -64,7 +64,7 @@ def _traffic_basic_setup(extra):
 
     # Generate idmap via transform.
     idmap = vs.transform(
-        ["traffic01", "traffic02", "traffic03", "file01", "file02", "file03"],
+        ["traffic01", "traffic02", "traffic03"],
         {
             "`$PACK`": ["", {
                 "`$KEY`": "`$COPY`",

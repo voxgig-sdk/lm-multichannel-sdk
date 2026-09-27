@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageEventEntity = void 0;
 const LmMultichannelEntityBase_1 = require("../LmMultichannelEntityBase");
-// TODO: needs Entity superclass
 class MessageEventEntity extends LmMultichannelEntityBase_1.LmMultichannelEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

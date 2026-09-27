@@ -32,11 +32,6 @@ Results: Messages accepted for sending; Schedule found; Schedule deleted.
 
 SDK operations: `create`, `load`, `remove`.
 
-Key fields to recognise:
-
-- `campaignId`: Schedule grouping identifier
-- `scheduleAt`: Actual schedule time (may differ from request due to spreading/deferral)
-
 ### [MessageEvent](docs/api/message_event.html)
 
 Results: Events found.

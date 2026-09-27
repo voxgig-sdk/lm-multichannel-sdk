@@ -1,7 +1,7 @@
 // Typed models for the LmMultichannel SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,14 +14,6 @@ import (
 
 // Content is the typed data model for the content entity.
 type Content struct {
-	Card *map[string]any `json:"card,omitempty"`
-	Carousel map[string]any `json:"carousel"`
-	Content map[string]any `json:"content"`
-	FromTemplate map[string]any `json:"fromTemplate"`
-	Location map[string]any `json:"location"`
-	Media map[string]any `json:"media"`
-	Suggestions *[]any `json:"suggestions,omitempty"`
-	Text *string `json:"text,omitempty"`
 }
 
 // ContentLoadMatch is the typed request payload for Content.LoadTyped.
@@ -44,10 +36,6 @@ type ContentCreateData struct {
 
 // Message is the typed data model for the message entity.
 type Message struct {
-	CampaignId *string `json:"campaignId,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Messages []any `json:"messages"`
-	ScheduleAt string `json:"scheduleAt"`
 }
 
 // MessageLoadMatch is the typed request payload for Message.LoadTyped.
@@ -57,10 +45,8 @@ type MessageLoadMatch struct {
 
 // MessageCreateData is the typed request payload for Message.CreateTyped.
 type MessageCreateData struct {
-	CampaignId *string `json:"campaignId,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Messages []any `json:"messages"`
-	ScheduleAt string `json:"scheduleAt"`
 }
 
 // MessageRemoveMatch is the typed request payload for Message.RemoveTyped.
@@ -70,13 +56,6 @@ type MessageRemoveMatch struct {
 
 // MessageEvent is the typed data model for the message_event entity.
 type MessageEvent struct {
-	AccountId string `json:"accountId"`
-	EventId string `json:"eventId"`
-	Id *string `json:"id,omitempty"`
-	MessageStatusChanged map[string]any `json:"messageStatusChanged"`
-	On string `json:"on"`
-	TemplateReviewStatusChanged map[string]any `json:"templateReviewStatusChanged"`
-	UserMessageReceived map[string]any `json:"userMessageReceived"`
 }
 
 // MessageEventListMatch is the typed request payload for MessageEvent.ListTyped.
@@ -89,7 +68,6 @@ type MessageEventListMatch struct {
 
 // Option is the typed data model for the option entity.
 type Option struct {
-	Options map[string]any `json:"options"`
 }
 
 // OptionLoadMatch is the typed request payload for Option.LoadTyped.
@@ -111,7 +89,6 @@ type OptionUpdateData struct {
 
 // Schedule is the typed data model for the schedule entity.
 type Schedule struct {
-	Count int `json:"count"`
 }
 
 // ScheduleLoadMatch is the typed request payload for Schedule.LoadTyped.
@@ -130,8 +107,6 @@ type ScheduleRemoveMatch struct {
 
 // Self is the typed data model for the self entity.
 type Self struct {
-	AccountId string `json:"accountId"`
-	Settings map[string]any `json:"settings"`
 }
 
 // SelfLoadMatch is the typed request payload for Self.LoadTyped.
@@ -142,8 +117,6 @@ type SelfLoadMatch struct {
 
 // SelfAdmin is the typed data model for the self_admin entity.
 type SelfAdmin struct {
-	Callback map[string]any `json:"callback"`
-	Settings map[string]any `json:"settings"`
 }
 
 // SelfAdminUpdateData is the typed request payload for SelfAdmin.UpdateTyped.
@@ -154,21 +127,6 @@ type SelfAdminUpdateData struct {
 
 // Template is the typed data model for the template entity.
 type Template struct {
-	ChannelData *map[string]any `json:"channelData,omitempty"`
-	Content *map[string]any `json:"content,omitempty"`
-	CreatedOn string `json:"createdOn"`
-	DesignerUrl *string `json:"designerUrl,omitempty"`
-	Details *string `json:"details,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Meta *map[string]any `json:"meta,omitempty"`
-	OccurredOn string `json:"occurredOn"`
-	Options *map[string]any `json:"options,omitempty"`
-	Reviews *map[string]any `json:"reviews,omitempty"`
-	Status string `json:"status"`
-	Template map[string]any `json:"template"`
-	TemplateId string `json:"templateId"`
-	UpdatedOn *string `json:"updatedOn,omitempty"`
-	Variables *[]any `json:"variables,omitempty"`
 }
 
 // TemplateLoadMatch is the typed request payload for Template.LoadTyped.
@@ -240,10 +198,6 @@ type TrafficRemoveMatch struct {
 
 // TrafficFile is the typed data model for the traffic_file entity.
 type TrafficFile struct {
-	Files []any `json:"files"`
-	Id *string `json:"id,omitempty"`
-	Path string `json:"path"`
-	Url string `json:"url"`
 }
 
 // TrafficFileLoadMatch is the typed request payload for TrafficFile.LoadTyped.
@@ -261,13 +215,6 @@ type TrafficFileListMatch struct {
 
 // Variable is the typed data model for the variable entity.
 type Variable struct {
-	Description *string `json:"description,omitempty"`
-	Examples *[]any `json:"examples,omitempty"`
-	Formats *[]any `json:"formats,omitempty"`
-	Name string `json:"name"`
-	Ref *string `json:"ref,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Variables []any `json:"variables"`
 }
 
 // VariableListMatch is the typed request payload for Variable.ListTyped.

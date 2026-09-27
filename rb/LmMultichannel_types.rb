@@ -2,8 +2,8 @@
 
 # Typed models for the LmMultichannel SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Member types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Member types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Ruby types are unenforced; these YARD
 # annotations document the shapes. Do not edit by hand.
@@ -97,22 +97,14 @@ ContentCreateData = Struct.new(
 
 # Message entity data model.
 #
-# @!attribute [rw] campaignId
-#   @return [String, nil]
-#
 # @!attribute [rw] id
 #   @return [String, nil]
 #
 # @!attribute [rw] messages
 #   @return [Array]
-#
-# @!attribute [rw] scheduleAt
-#   @return [String]
 Message = Struct.new(
-  :campaignId,
   :id,
   :messages,
-  :scheduleAt,
   keyword_init: true
 )
 
@@ -127,22 +119,14 @@ MessageLoadMatch = Struct.new(
 
 # Request payload for Message#create.
 #
-# @!attribute [rw] campaignId
-#   @return [String, nil]
-#
 # @!attribute [rw] id
 #   @return [String, nil]
 #
 # @!attribute [rw] messages
 #   @return [Array]
-#
-# @!attribute [rw] scheduleAt
-#   @return [String]
 MessageCreateData = Struct.new(
-  :campaignId,
   :id,
   :messages,
-  :scheduleAt,
   keyword_init: true
 )
 

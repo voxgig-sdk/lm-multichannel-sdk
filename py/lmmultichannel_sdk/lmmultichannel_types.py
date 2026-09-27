@@ -1,7 +1,7 @@
 # Typed models for the LmMultichannel SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Field/param types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
 #
@@ -51,11 +51,9 @@ class ContentCreateData(ContentCreateDataRequired, total=False):
 
 class MessageRequired(TypedDict):
     messages: list
-    scheduleAt: str
 
 
 class Message(MessageRequired, total=False):
-    campaignId: str
     id: str
 
 
@@ -65,11 +63,9 @@ class MessageLoadMatch(TypedDict):
 
 class MessageCreateDataRequired(TypedDict):
     messages: list
-    scheduleAt: str
 
 
 class MessageCreateData(MessageCreateDataRequired, total=False):
-    campaignId: str
     id: str
 
 

@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `test`, `timeout` — opt-in,
+> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -44,23 +44,23 @@ network, and no credentials:
 // Shape: { entity: { <entity-name>: { <id>: <record> } } }
 const client = LmMultichannelSDK.test({
   entity: {
-    message: {
-      test01: { id: 'test01', messages: [], scheduleAt: 'example_scheduleAt' },
+    traffic_file: {
+      test01: { id: 'test01' },
     },
   },
 })
-const message = await client.Message().load({ id: 'test01' })
-// message is the Message entity, populated with mock data
-// — call message.data() for the record itself
-console.log(message)
+const trafficfiles = await client.TrafficFile().list()
+// trafficfiles is an array of TrafficFile entities, populated with mock data
+// — call trafficfiles[0].data() for the record itself
+console.log(trafficfiles)
 ```
 
 ### Python
 
 ```python
 client = LmMultichannelSDK.test()
-message = client.Message().load({"id": "test01"})
-print(message)
+trafficfiles = client.TrafficFile().list()
+print(trafficfiles)
 ```
 
 ### PHP
@@ -68,17 +68,17 @@ print(message)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = LmMultichannelSDK::test([
-    "entity" => ["message" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["trafficfile" => ["test01" => ["id" => "test01"]]],
 ]);
-$message = $client->Message()->load(["id" => "test01"]);
+$trafficfiles = $client->TrafficFile()->list();
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Message(nil).Load(
-    map[string]any{"id": "test01"}, nil,
+result, err := client.TrafficFile(nil).List(
+    nil, nil,
 )
 ```
 
@@ -87,28 +87,28 @@ result, err := client.Message(nil).Load(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = LmMultichannelSDK.test({
-  "entity" => { "message" => { "test01" => { "id" => "test01" } } },
+  "entity" => { "trafficfile" => { "test01" => { "id" => "test01" } } },
 })
-message = client.Message.load({ "id" => "test01" })
+trafficfiles = client.TrafficFile.list()
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:Message():load({ id = "test01" })
+local results, err = client:TrafficFile():list()
 ```
 
 ## Packages
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/lm-multichannel` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/releases) |
-| Python | `voxgig-sdk-lm-multichannel` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/releases) |
-| PHP | `voxgig-sdk/lm-multichannel` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/releases) |
+| TypeScript | `@voxgig-sdk/lm-multichannel-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/tags) |
+| Python | `voxgig-sdk-lm-multichannel-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/tags) |
+| PHP | `voxgig-sdk/lm-multichannel-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/tags) |
 | Golang | `github.com/voxgig-sdk/lm-multichannel-sdk/go` | `go get github.com/voxgig-sdk/lm-multichannel-sdk/go@latest` |
-| Ruby | `voxgig-sdk-lm-multichannel` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/releases) |
-| Lua | `voxgig-sdk-lm-multichannel` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/releases) |
+| Ruby | `voxgig-sdk-lm-multichannel-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/tags) |
+| Lua | `voxgig-sdk-lm-multichannel-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/lm-multichannel-sdk/tags) |
 | Go CLI | `github.com/voxgig-sdk/lm-multichannel-sdk/go-cli` | `go install github.com/voxgig-sdk/lm-multichannel-sdk/go-cli/cmd/lm-multichannel@latest` |
 | Go MCP server | `github.com/voxgig-sdk/lm-multichannel-sdk/go-mcp` | `go get github.com/voxgig-sdk/lm-multichannel-sdk/go-mcp@latest` |
 
@@ -117,7 +117,7 @@ local result, err = client:Message():load({ id = "test01" })
 ### TypeScript
 
 ```ts
-import { LmMultichannelSDK } from '@voxgig-sdk/lm-multichannel'
+import { LmMultichannelSDK } from '@voxgig-sdk/lm-multichannel-sdk'
 
 const client = new LmMultichannelSDK({
   apikey: process.env.LM_MULTICHANNEL_APIKEY,
@@ -367,14 +367,14 @@ forking the SDK.
 
 | Feature | Purpose |
 | --- | --- |
-| **DebugFeature** | Request/response capture ring buffer for debugging |
-| **IdempotencyFeature** | Idempotency keys for safe retries of mutating operations |
-| **MetricsFeature** | Statistics capture: per-operation counters and latency |
-| **PagingFeature** | Pagination signals for list operations |
-| **RatelimitFeature** | Client-side rate limiting via a token bucket |
-| **RetryFeature** | Automatic retry of transient failures with exponential backoff |
-| **TestFeature** | In-memory mock transport for testing without a live server |
-| **TimeoutFeature** | Per-request timeout with transport abort |
+| **DebugFeature** | Debug capture |
+| **IdempotencyFeature** | Idempotency |
+| **MetricsFeature** | Metrics |
+| **PagingFeature** | Paging |
+| **RatelimitFeature** | Rate limiting |
+| **RetryFeature** | Retry |
+| **TestFeature** | Test transport |
+| **TimeoutFeature** | Timeout |
 
 Pass custom features via the `extend` option at construction time.
 

@@ -1,0 +1,174 @@
+# Entity: content
+
+main: kit: entity: content: {
+
+  alias: field: {}
+
+  fields: {
+    card: {
+      h: "Card"
+      n: "card"
+      r: false
+      sh: "Rich card containing media, text and/or buttons"
+      t: "`$OBJECT`"
+    }
+    carousel: {
+      h: "Carousel"
+      n: "carousel"
+      r: true
+      t: "`$OBJECT`"
+    }
+    content: {
+      h: "Content"
+      n: "content"
+      r: true
+      sh: "Message content."
+      t: "`$OBJECT`"
+    }
+    fromTemplate: {
+      h: "From Template"
+      n: "fromTemplate"
+      r: true
+      sh: "Content generated from a pre-defined template"
+      t: "`$OBJECT`"
+    }
+    location: {
+      h: "Location"
+      n: "location"
+      r: true
+      t: "`$OBJECT`"
+    }
+    media: {
+      h: "Media"
+      n: "media"
+      r: true
+      t: "`$OBJECT`"
+    }
+    suggestions: {
+      h: "Suggestions"
+      n: "suggestions"
+      r: false
+      sh: "Quick replies / suggestion buttons (not applicable to fromTemplate)"
+      t: "`$ARRAY`"
+    }
+    text: {
+      h: "Text"
+      n: "text"
+      r: false
+      sh: "Simple text content"
+      t: "`$STRING`"
+    }
+  }
+
+  name: "content"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /templates/{templateId}/content"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "template_id"
+                or: "template_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/templates/{templateId}/content"
+          q: {
+            exist: [
+              "template_id"
+            ]
+          }
+          r: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          s: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "content"
+            }
+          ]
+          t: {
+            req: {
+              content: "`reqdata`"
+            }
+            res: "`body.content`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /templates/{templateId}/content"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "template_id"
+                or: "template_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/templates/{templateId}/content"
+          q: {
+            exist: [
+              "template_id"
+            ]
+          }
+          r: {
+            param: {
+              templateId: "template_id"
+            }
+          }
+          s: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "content"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.content`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.template")]
+  ]
+
+}

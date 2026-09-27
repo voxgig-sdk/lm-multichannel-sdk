@@ -157,7 +157,7 @@ function template_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["template01", "template02", "template03", "review01", "review02", "review03"] as $k) {
+    foreach (["template01", "template02", "template03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

@@ -39,14 +39,14 @@
 <a href="../sdks/ts.html">TypeScript</a></details>
 <details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
 <a href="../tools/go-mcp.html">Go MCP server</a></details>
-<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
-<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
-<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
-<a href="../features/paging.html">Pagination signals for list operations</a>
-<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
-<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
-<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
-<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="template">Template</h1>
+<details><summary>Features</summary><a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="template">Template</h1>
 <h2 id="operations">Operations</h2>
 <p>Every route this entity exposes. Each route links to its own reference on this page.</p>
 <table>
@@ -127,6 +127,76 @@
 </tr>
 </tbody>
 </table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">templates, err := client.Template(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(templates)
+template, err := client.Template(nil).Load(map[string]any{&quot;id&quot;: &quot;example_id&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(template)
+created, err := client.Template(nil).Create(map[string]any{&quot;createdOn&quot;: &quot;example&quot;, &quot;occurredOn&quot;: &quot;example&quot;, &quot;status&quot;: &quot;example&quot;, &quot;template&quot;: map[string]any{}, &quot;templateId&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(created)
+updated, err := client.Template(nil).Update(map[string]any{&quot;id&quot;: &quot;example_id&quot;, &quot;channel_id&quot;: &quot;example&quot;, &quot;channelData&quot;: map[string]any{}}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(updated)
+removed, err := client.Template(nil).Remove(map[string]any{&quot;id&quot;: &quot;example_id&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(removed)
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local templates, err = client:Template():list()
+local template, err = client:Template():load({ id = &quot;example_id&quot; })
+local created, err = client:Template():create({ createdOn = &quot;example&quot;, occurredOn = &quot;example&quot;, status = &quot;example&quot;, template = {}, templateId = &quot;example&quot; })
+local updated, err = client:Template():update({ id = &quot;example_id&quot;, channel_id = &quot;example&quot;, channelData = {} })
+local removed, err = client:Template():remove({ id = &quot;example_id&quot; })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$templates = $client-&gt;Template()-&gt;list();
+$template = $client-&gt;Template()-&gt;load([&quot;id&quot; =&gt; &quot;example_id&quot;]);
+$created = $client-&gt;Template()-&gt;create([&quot;createdOn&quot; =&gt; &quot;example&quot;, &quot;occurredOn&quot; =&gt; &quot;example&quot;, &quot;status&quot; =&gt; &quot;example&quot;, &quot;template&quot; =&gt; [], &quot;templateId&quot; =&gt; &quot;example&quot;]);
+$updated = $client-&gt;Template()-&gt;update([&quot;id&quot; =&gt; &quot;example_id&quot;, &quot;channel_id&quot; =&gt; &quot;example&quot;, &quot;channelData&quot; =&gt; []]);
+$client-&gt;Template()-&gt;remove([&quot;id&quot; =&gt; &quot;example_id&quot;]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">templates = client.Template().list()
+template = client.Template().load({&quot;id&quot;: &quot;example_id&quot;})
+created = client.Template().create({ &quot;createdOn&quot;: &quot;example&quot;, &quot;occurredOn&quot;: &quot;example&quot;, &quot;status&quot;: &quot;example&quot;, &quot;template&quot;: {}, &quot;templateId&quot;: &quot;example&quot; })
+updated = client.Template().update({&quot;id&quot;: &quot;example_id&quot;, &quot;channel_id&quot;: &quot;example&quot;, &quot;channelData&quot;: {}})
+client.Template().remove({&quot;id&quot;: &quot;example_id&quot;})
+</code></pre>
+<h3 id="ruby">Ruby</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/rb.html#set-up-the-client">Ruby setup</a>, then call the operations:</p>
+<pre><code class="language-rb">templates = client.Template.list()
+template = client.Template.load({ &quot;id&quot; =&gt; &quot;example_id&quot; })
+created = client.Template.create({ &quot;createdOn&quot; =&gt; &quot;example&quot;, &quot;occurredOn&quot; =&gt; &quot;example&quot;, &quot;status&quot; =&gt; &quot;example&quot;, &quot;template&quot; =&gt; {}, &quot;templateId&quot; =&gt; &quot;example&quot; })
+updated = client.Template.update({ &quot;id&quot; =&gt; &quot;example_id&quot;, &quot;channel_id&quot; =&gt; &quot;example&quot;, &quot;channelData&quot; =&gt; {} })
+client.Template.remove({ &quot;id&quot; =&gt; &quot;example_id&quot; })
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const templates = await client.Template().list()
+const template = await client.Template().load({ id: &quot;example_id&quot; })
+const created = await client.Template().create({ createdOn: &quot;example&quot;, occurredOn: &quot;example&quot;, status: &quot;example&quot;, template: {}, templateId: &quot;example&quot; })
+const updated = await client.Template().update({ id: &quot;example_id&quot;, channel_id: &quot;example&quot;, channelData: {} })
+await client.Template().remove({ id: &quot;example_id&quot; })
+</code></pre>
 <h2 id="fields">Fields</h2>
 <table>
 <thead>
@@ -142,7 +212,7 @@
 <td><code>channelData</code></td>
 <td><code>object</code></td>
 <td>No</td>
-<td></td>
+<td>Channel Data</td>
 </tr>
 <tr>
 <td><code>content</code></td>
@@ -172,13 +242,13 @@
 <td><code>id</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Id</td>
 </tr>
 <tr>
 <td><code>meta</code></td>
 <td><code>object</code></td>
 <td>No</td>
-<td></td>
+<td>Meta</td>
 </tr>
 <tr>
 <td><code>occurredOn</code></td>
@@ -190,7 +260,7 @@
 <td><code>options</code></td>
 <td><code>object</code></td>
 <td>No</td>
-<td></td>
+<td>Options</td>
 </tr>
 <tr>
 <td><code>reviews</code></td>
@@ -226,7 +296,7 @@
 <td><code>variables</code></td>
 <td><code>array</code></td>
 <td>No</td>
-<td></td>
+<td>Variables</td>
 </tr>
 </tbody>
 </table>

@@ -1,7 +1,7 @@
 // Typed models for the LmMultichannel SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
@@ -33,10 +33,8 @@ export interface ContentCreateData {
 }
 
 export interface Message {
-  campaignId?: string
   id?: string
   messages: any[]
-  scheduleAt: string
 }
 
 export interface MessageLoadMatch {
@@ -50,10 +48,8 @@ export interface MessageLoadMatch {
 }
 
 export interface MessageCreateData {
-  campaignId?: string
   id?: string
   messages: any[]
-  scheduleAt: string
 }
 
 export interface MessageRemoveMatch {

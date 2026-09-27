@@ -23,10 +23,8 @@ export interface ContentCreateData {
     text?: string;
 }
 export interface Message {
-    campaignId?: string;
     id?: string;
     messages: any[];
-    scheduleAt: string;
 }
 export interface MessageLoadMatch {
     id: string;
@@ -34,10 +32,8 @@ export interface MessageLoadMatch {
     [action: string]: any;
 }
 export interface MessageCreateData {
-    campaignId?: string;
     id?: string;
     messages: any[];
-    scheduleAt: string;
 }
 export interface MessageRemoveMatch {
     id: string;
