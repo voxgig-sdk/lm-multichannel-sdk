@@ -6,6 +6,7 @@ import { ScheduleEntity } from './entity/ScheduleEntity';
 import { SelfEntity } from './entity/SelfEntity';
 import { SelfAdminEntity } from './entity/SelfAdminEntity';
 import { TemplateEntity } from './entity/TemplateEntity';
+import { TemplateReviewEventEntity } from './entity/TemplateReviewEventEntity';
 import { TrafficEntity } from './entity/TrafficEntity';
 import { TrafficFileEntity } from './entity/TrafficFileEntity';
 import { VariableEntity } from './entity/VariableEntity';
@@ -29,29 +30,29 @@ declare class LmMultichannelSDK {
     prepare(fetchargs?: any): Promise<any>;
     direct(fetchargs?: any): Promise<Error | {
         ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
         err: any;
         status?: undefined;
         headers?: undefined;
         data?: undefined;
+    } | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
     }>;
     _rawRequest(fetchargs?: any): Promise<Error | {
         ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
         err: any;
         status?: undefined;
         headers?: undefined;
         data?: undefined;
+    } | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
     }>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     Content(entopts?: Record<string, any>): ContentEntity;
@@ -62,6 +63,7 @@ declare class LmMultichannelSDK {
     Self(entopts?: Record<string, any>): SelfEntity;
     SelfAdmin(entopts?: Record<string, any>): SelfAdminEntity;
     Template(entopts?: Record<string, any>): TemplateEntity;
+    TemplateReviewEvent(entopts?: Record<string, any>): TemplateReviewEventEntity;
     Traffic(entopts?: Record<string, any>): TrafficEntity;
     TrafficFile(entopts?: Record<string, any>): TrafficFileEntity;
     Variable(entopts?: Record<string, any>): VariableEntity;

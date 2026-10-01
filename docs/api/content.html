@@ -15,6 +15,7 @@
 <a href="../api/self.html">Self</a>
 <a href="../api/self_admin.html">SelfAdmin</a>
 <a href="../api/template.html">Template</a>
+<a href="../api/template_review_event.html">TemplateReviewEvent</a>
 <a href="../api/traffic.html">Traffic</a>
 <a href="../api/traffic_file.html">TrafficFile</a>
 <a href="../api/variable.html">Variable</a></details>
@@ -264,6 +265,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td>Phone number to dial</td>
 </tr>
 <tr>
+<td><code>content.card.buttons[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>content.card.buttons[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -349,15 +356,15 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 <tr>
 <td><code>content.card.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.card.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.card.location.title</code></td>
@@ -456,6 +463,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td></td>
 </tr>
 <tr>
+<td><code>content.carousel.cards[].buttons[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>content.carousel.cards[].buttons[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -505,15 +518,15 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 <tr>
 <td><code>content.carousel.cards[].location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.carousel.cards[].location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.carousel.cards[].location.title</code></td>
@@ -570,6 +583,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td></td>
 </tr>
 <tr>
+<td><code>content.carousel.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
 <td><code>content.fromTemplate</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -601,15 +620,15 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 <tr>
 <td><code>content.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.location.title</code></td>
@@ -712,6 +731,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td><code>string</code></td>
 <td>Yes</td>
 <td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
 </tr>
 <tr>
 <td><code>content.suggestions[].openUrl</code></td>
@@ -885,6 +910,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td>Phone number to dial</td>
 </tr>
 <tr>
+<td><code>content.card.buttons[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>content.card.buttons[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -970,15 +1001,15 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 <tr>
 <td><code>content.card.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.card.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.card.location.title</code></td>
@@ -1077,6 +1108,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td></td>
 </tr>
 <tr>
+<td><code>content.carousel.cards[].buttons[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>content.carousel.cards[].buttons[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -1126,15 +1163,15 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 <tr>
 <td><code>content.carousel.cards[].location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.carousel.cards[].location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.carousel.cards[].location.title</code></td>
@@ -1191,6 +1228,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td></td>
 </tr>
 <tr>
+<td><code>content.carousel.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
 <td><code>content.fromTemplate</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -1222,15 +1265,15 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 <tr>
 <td><code>content.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.location.title</code></td>
@@ -1333,6 +1376,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td><code>string</code></td>
 <td>Yes</td>
 <td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>content.suggestions[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
 </tr>
 <tr>
 <td><code>content.suggestions[].openUrl</code></td>
@@ -1454,7 +1503,7 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 </tbody>
 </table>
-<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<h5 id="423-template-is-locked-for-editing-except-its-meta-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing, except its <code>meta</code> (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -1574,6 +1623,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td>Phone number to dial</td>
 </tr>
 <tr>
+<td><code>content.card.buttons[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>content.card.buttons[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -1659,15 +1714,15 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 <tr>
 <td><code>content.card.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.card.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.card.location.title</code></td>
@@ -1766,6 +1821,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td></td>
 </tr>
 <tr>
+<td><code>content.carousel.cards[].buttons[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>content.carousel.cards[].buttons[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -1815,15 +1876,15 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 <tr>
 <td><code>content.carousel.cards[].location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.carousel.cards[].location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.carousel.cards[].location.title</code></td>
@@ -1880,6 +1941,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td></td>
 </tr>
 <tr>
+<td><code>content.carousel.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
 <td><code>content.fromTemplate</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -1911,15 +1978,15 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 </tr>
 <tr>
 <td><code>content.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>content.location.title</code></td>
@@ -2024,6 +2091,12 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td>Phone number to dial</td>
 </tr>
 <tr>
+<td><code>content.suggestions[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>content.suggestions[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -2100,6 +2173,86 @@ const created = await client.Content().create({ template_id: &quot;example&quot;
 <td><code>string</code></td>
 <td>No</td>
 <td>Simple text content</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed-1" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found-1" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-too-many-requests-quota-or-rate-limit-exceeded" class="status" data-status="4xx">429: Too many requests (quota or rate limit exceeded)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
 </tr>
 </tbody>
 </table>

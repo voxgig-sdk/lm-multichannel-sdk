@@ -14,6 +14,7 @@
 <a href="../api/self.html">Self</a>
 <a aria-current="page" href="../api/self_admin.html">SelfAdmin</a><div class="nav-sections"><a class="nav-section" href="#patch-selfsettings">PATCH /self/settings</a></div>
 <a href="../api/template.html">Template</a>
+<a href="../api/template_review_event.html">TemplateReviewEvent</a>
 <a href="../api/traffic.html">Traffic</a>
 <a href="../api/traffic_file.html">TrafficFile</a>
 <a href="../api/variable.html">Variable</a></details>
@@ -177,6 +178,12 @@ fmt.Println(updated)
 <td>Enable GZIP compression for callback requests (default false)</td>
 </tr>
 <tr>
+<td><code>settings.callback.signatureEnabled</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>When true, MyLINK Multichannel API signs each outbound callback request with its platform Ed25519 key, adding the headers <code>X-OCM-Timestamp</code>, <code>X-OCM-Signature</code> (standard base64 of the raw signature) and <code>X-OCM-Key-Id</code>. The signature covers the UTF-8 bytes of <code>&amp;#123;X-OCM-Timestamp&amp;#125;.&amp;#123;body&amp;#125;</code>, where <code>body</code> is the uncompressed JSON callback body (signed before any GZIP compression). Verify it against the public JWKS at <code>/.well-known/ocm-cb/jwks.json</code>, selecting the key whose <code>kid</code> matches <code>X-OCM-Key-Id</code>. Default false.</td>
+</tr>
+<tr>
 <td><code>settings.callback.tls</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -264,6 +271,12 @@ fmt.Println(updated)
 <td>Enable GZIP compression for callback requests (default false)</td>
 </tr>
 <tr>
+<td><code>settings.callback.signatureEnabled</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>When true, MyLINK Multichannel API signs each outbound callback request with its platform Ed25519 key, adding the headers <code>X-OCM-Timestamp</code>, <code>X-OCM-Signature</code> (standard base64 of the raw signature) and <code>X-OCM-Key-Id</code>. The signature covers the UTF-8 bytes of <code>&amp;#123;X-OCM-Timestamp&amp;#125;.&amp;#123;body&amp;#125;</code>, where <code>body</code> is the uncompressed JSON callback body (signed before any GZIP compression). Verify it against the public JWKS at <code>/.well-known/ocm-cb/jwks.json</code>, selecting the key whose <code>kid</code> matches <code>X-OCM-Key-Id</code>. Default false.</td>
+</tr>
+<tr>
 <td><code>settings.callback.tls</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -286,6 +299,106 @@ fmt.Println(updated)
 <td><code>string</code></td>
 <td>Yes</td>
 <td>HTTPS callback endpoint URL</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-invalid-request" class="status" data-status="4xx">400: Invalid request</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="425-a-previously-deleted-resource-with-the-same-name-is-still-being-deleted---retry-in-about-a-minute" class="status" data-status="4xx">425: A previously deleted resource with the same name is still being deleted - retry in about a minute</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-too-many-requests-quota-or-rate-limit-exceeded" class="status" data-status="4xx">429: Too many requests (quota or rate limit exceeded)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
 </tr>
 </tbody>
 </table>

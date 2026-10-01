@@ -31,7 +31,7 @@ Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`
 package (other languages). Each target's guide documents its features.
 
-**Entities** (11): `Content`, `Message`, `MessageEvent`, `Option`, `Schedule`, `Self`, `SelfAdmin`, `Template`, `Traffic`, `TrafficFile`, `Variable`.
+**Entities** (12): `Content`, `Message`, `MessageEvent`, `Option`, `Schedule`, `Self`, `SelfAdmin`, `Template`, `TemplateReviewEvent`, `Traffic`, `TrafficFile`, `Variable`.
 
 ## Generating and updating the SDK
 

@@ -8,6 +8,7 @@ import { ScheduleEntity } from './entity/ScheduleEntity'
 import { SelfEntity } from './entity/SelfEntity'
 import { SelfAdminEntity } from './entity/SelfAdminEntity'
 import { TemplateEntity } from './entity/TemplateEntity'
+import { TemplateReviewEventEntity } from './entity/TemplateReviewEventEntity'
 import { TrafficEntity } from './entity/TrafficEntity'
 import { TrafficFileEntity } from './entity/TrafficFileEntity'
 import { VariableEntity } from './entity/VariableEntity'
@@ -50,6 +51,12 @@ class LmMultichannelSDK {
     })
 
     this._options = this._utility.makeOptions(this._rootctx)
+
+    for (const key of ['_options', '_rootctx', '_features']) {
+      Object.defineProperty(this, key, {
+        value: (this as any)[key], enumerable: false, writable: true, configurable: true
+      })
+    }
 
     const struct = this._utility.struct
     const getpath = struct.getpath
@@ -210,7 +217,7 @@ class LmMultichannelSDK {
         return { ok: false, err: ctx.error('direct_no_response', 'response: undefined') }
       }
       else if (fetched instanceof Error) {
-        return { ok: false, err: fetched }
+        return { ok: false, err: utility.clean(ctx, fetched) }
       }
 
       const status = fetched.status
@@ -244,7 +251,7 @@ class LmMultichannelSDK {
       }
     }
     catch (err: any) {
-      return { ok: false, err }
+      return { ok: false, err: utility.clean(ctx, err) }
     }
   }
 
@@ -361,6 +368,15 @@ class LmMultichannelSDK {
   Template(entopts?: Record<string, any>) {
     const self = this
     return new TemplateEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.TemplateReviewEvent().list()` / `client.TemplateReviewEvent().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  TemplateReviewEvent(entopts?: Record<string, any>) {
+    const self = this
+    return new TemplateReviewEventEntity(self, entopts)
   }
 
 

@@ -33,6 +33,7 @@
 ---@class Message
 ---@field id? string
 ---@field messages table
+---@field requestId string
 
 ---@class MessageLoadMatch
 ---@field id string
@@ -40,6 +41,7 @@
 ---@class MessageCreateData
 ---@field id? string
 ---@field messages table
+---@field requestId string
 
 ---@class MessageRemoveMatch
 ---@field id string
@@ -167,7 +169,28 @@
 ---@field channel_id? string
 ---@field id string
 
+---@class TemplateReviewEvent
+---@field accountId string
+---@field eventId string
+---@field messageStatusChanged table
+---@field on string
+---@field templateReviewStatusChanged table
+---@field userMessageReceived table
+
+---@class TemplateReviewEventListMatch
+---@field review_id string
+---@field template_id string
+---@field page_index? number
+---@field page_size? number
+---@field sort? string
+
 ---@class Traffic
+---@field path string
+---@field url string
+
+---@class TrafficListMatch
+---@field path? string
+---@field url? string
 
 ---@class TrafficRemoveMatch
 ---@field path string
@@ -175,17 +198,9 @@
 ---@class TrafficFile
 ---@field files table
 ---@field id? string
----@field path string
----@field url string
 
 ---@class TrafficFileLoadMatch
 ---@field id string
-
----@class TrafficFileListMatch
----@field files? table
----@field id? string
----@field path? string
----@field url? string
 
 ---@class Variable
 ---@field description? string

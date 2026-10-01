@@ -74,7 +74,7 @@ main: kit: entity: message_event: {
               {
                 k: "param"
                 n: "id"
-                or: "message_id"
+                or: "messageId"
                 r: true
                 t: "`$STRING`"
               }
@@ -83,14 +83,14 @@ main: kit: entity: message_event: {
               {
                 k: "query"
                 n: "page_index"
-                or: "page_index"
+                or: "_pageIndex"
                 r: false
                 t: "`$INTEGER`"
               }
               {
                 k: "query"
                 n: "page_size"
-                or: "page_size"
+                or: "_pageSize"
                 r: false
                 t: "`$INTEGER`"
               }
@@ -98,7 +98,7 @@ main: kit: entity: message_event: {
                 ex: "desc:on"
                 k: "query"
                 n: "sort"
-                or: "sort"
+                or: "_sort"
                 r: false
                 t: "`$STRING`"
               }

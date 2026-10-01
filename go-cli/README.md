@@ -107,7 +107,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 11 entities.
+below — this SDK exposes 12 entities.
 
 ## Reference
 
@@ -162,9 +162,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 11 entities this SDK exposes (any is valid as `<entity>`):
+The 12 entities this SDK exposes (any is valid as `<entity>`):
 
-content message message_event option schedule self self_admin template traffic traffic_file variable
+content message message_event option schedule self self_admin template template_review_event traffic traffic_file variable
 
 ## Explanation
 

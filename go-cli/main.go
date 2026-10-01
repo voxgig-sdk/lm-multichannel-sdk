@@ -20,7 +20,7 @@ import (
 const prompt = "lm-multichannel"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "content message message_event option schedule self self_admin template traffic traffic_file variable"
+const entitiesHelp = "content message message_event option schedule self self_admin template template_review_event traffic traffic_file variable"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

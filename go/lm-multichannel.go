@@ -77,6 +77,9 @@ func init() {
 	core.NewTemplateEntityFunc = func(client *core.LmMultichannelSDK, entopts map[string]any) core.LmMultichannelEntity {
 		return entity.NewTemplateEntity(client, entopts)
 	}
+	core.NewTemplateReviewEventEntityFunc = func(client *core.LmMultichannelSDK, entopts map[string]any) core.LmMultichannelEntity {
+		return entity.NewTemplateReviewEventEntity(client, entopts)
+	}
 	core.NewTrafficEntityFunc = func(client *core.LmMultichannelSDK, entopts map[string]any) core.LmMultichannelEntity {
 		return entity.NewTrafficEntity(client, entopts)
 	}

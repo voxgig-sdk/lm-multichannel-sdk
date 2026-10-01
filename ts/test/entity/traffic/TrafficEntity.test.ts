@@ -44,14 +44,14 @@ describe('TrafficEntity', async () => {
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE
-    for (const op of []) {
+    for (const op of ['list']) {
       if (!live && maybeSkipControl(t, 'entityOp', 'traffic.' + op, live)) return
     }
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"traffic","op":{"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /traffic/files/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"path","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"DELETE","o":"/traffic/files/{path}","q":{"exist":["path"]},"r":{},"s":[{"lit":"traffic"},{"lit":"files"},{"var":"path"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"traffic","name__orig":"traffic","Name":"Traffic","name_":"traffic","name-":"traffic","NAME":"TRAFFIC","index$":8}, {"active":true,"entity":"traffic","key$":"BasicTrafficFlow","kind":"basic","name":"BasicTrafficFlow","param":{},"step":[]}, 'Traffic', {"DELETE /traffic/files/{path}":{"protocol":"http","parameters":[{"name":"path","in":"path","required":true,"description":"Relative file path (e.g. events/2024/11/04/15/sequence.zip)","schema":{"type":"string"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"path":{"a":true,"h":"Path","n":"path","r":true,"sh":"Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip","t":"`$STRING`","key$":"path","index$":0},"url":{"a":true,"h":"Url","n":"url","r":true,"sh":"Absolute download URL with security token (expires after 15 minutes)","t":"`$STRING`","key$":"url","index$":1}},"name":"traffic","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /traffic/files","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/traffic/files","q":{},"r":{},"s":[{"lit":"traffic"},{"lit":"files"}],"t":{"req":"`reqdata`","res":"`body.files`"},"index$":0}],"key$":"list"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /traffic/files/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"path","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"DELETE","o":"/traffic/files/{path}","q":{"exist":["path"]},"r":{},"s":[{"lit":"traffic"},{"lit":"files"},{"var":"path"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"traffic","name__orig":"traffic","Name":"Traffic","name_":"traffic","name-":"traffic","NAME":"TRAFFIC","index$":9}, {"active":true,"entity":"traffic","key$":"BasicTrafficFlow","kind":"basic","name":"BasicTrafficFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"traffic_ref01"}}],"index$":0}]}, 'Traffic', {"GET /traffic/files":{"protocol":"http","parameters":[]},"DELETE /traffic/files/{path}":{"protocol":"http","parameters":[{"name":"path","in":"path","required":true,"description":"Relative file path (e.g. events/2024/11/04/15/sequence.zip)","schema":{"type":"string"},"index$":0}]}})
     }
     const client = setup.client
     const struct = setup.struct
@@ -60,6 +60,13 @@ describe('TrafficEntity', async () => {
     const select = struct.select
 
     let traffic_ref01_data = Object.values(setup.data.existing.traffic)[0] as any
+
+    // LIST
+    const traffic_ref01_ent = client.Traffic()
+    const traffic_ref01_match: any = {}
+
+    const traffic_ref01_list = (await traffic_ref01_ent.list(traffic_ref01_match)).map((e: any) => e.data())
+
 
   })
 })

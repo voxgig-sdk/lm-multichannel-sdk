@@ -20,7 +20,7 @@ local SDK_MODULE = "lm-multichannel_sdk"
 -- A test-mode client seeded with a fixture for every entity. The constructor
 -- of each runnable snippet is rewritten to this form so the offline mock has
 -- data to return.
-local TEST_SEED = '{ entity = { ["content"] = { ["test01"] = { id = "test01" } }, ["message"] = { ["test01"] = { id = "test01" } }, ["message_event"] = { ["test01"] = { id = "test01" } }, ["option"] = { ["test01"] = { id = "test01" } }, ["schedule"] = { ["test01"] = { id = "test01" } }, ["self"] = { ["test01"] = { id = "test01" } }, ["self_admin"] = { ["test01"] = { id = "test01" } }, ["template"] = { ["test01"] = { id = "test01" } }, ["traffic"] = { ["test01"] = { id = "test01" } }, ["traffic_file"] = { ["test01"] = { id = "test01" } }, ["variable"] = { ["test01"] = { id = "test01" } } } }'
+local TEST_SEED = '{ entity = { ["content"] = { ["test01"] = { id = "test01" } }, ["message"] = { ["test01"] = { id = "test01" } }, ["message_event"] = { ["test01"] = { id = "test01" } }, ["option"] = { ["test01"] = { id = "test01" } }, ["schedule"] = { ["test01"] = { id = "test01" } }, ["self"] = { ["test01"] = { id = "test01" } }, ["self_admin"] = { ["test01"] = { id = "test01" } }, ["template"] = { ["test01"] = { id = "test01" } }, ["template_review_event"] = { ["test01"] = { id = "test01" } }, ["traffic"] = { ["test01"] = { id = "test01" } }, ["traffic_file"] = { ["test01"] = { id = "test01" } }, ["variable"] = { ["test01"] = { id = "test01" } } } }'
 local TEST_CTOR = "sdk.test(" .. TEST_SEED .. ")"
 
 local function script_dir()

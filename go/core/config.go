@@ -148,7 +148,7 @@ func MakeConfig() map[string]any {
 			},
 		},
 		"options": map[string]any{
-			"base": "https://api.linkmobility.com/v1",
+			"base": "https://ocm.linkmobility.solutions/v1",
 			"auth": map[string]any{
 				"prefix": "",
 				"name": "x-api-key",
@@ -165,6 +165,7 @@ func MakeConfig() map[string]any {
 				"self": map[string]any{},
 				"self_admin": map[string]any{},
 				"template": map[string]any{},
+				"template_review_event": map[string]any{},
 				"traffic": map[string]any{},
 				"traffic_file": map[string]any{},
 				"variable": map[string]any{},
@@ -265,7 +266,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "template_id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -317,7 +318,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "template_id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -354,6 +355,13 @@ func MakeConfig() map[string]any {
 						"type": "`$ARRAY`",
 						"req": true,
 					},
+					map[string]any{
+						"name": "requestId",
+						"title": "Request Id",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Unique request identifier",
+					},
 				},
 				"id": map[string]any{
 					"field": "id",
@@ -379,7 +387,9 @@ func MakeConfig() map[string]any {
 								},
 								"rename": map[string]any{},
 								"transform": map[string]any{
-									"req": "`reqdata`",
+									"req": map[string]any{
+										"messages": "`reqdata.messages`",
+									},
 									"res": "`body`",
 								},
 								"args": map[string]any{},
@@ -424,7 +434,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "message_id",
+											"orig": "messageId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -477,7 +487,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "message_id",
+											"orig": "messageId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -589,7 +599,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "message_id",
+											"orig": "messageId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -598,19 +608,19 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "page_index",
-											"orig": "page_index",
+											"orig": "_pageIndex",
 											"type": "`$INTEGER`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "page_size",
-											"orig": "page_size",
+											"orig": "_pageSize",
 											"type": "`$INTEGER`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "sort",
-											"orig": "sort",
+											"orig": "_sort",
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "desc:on",
@@ -681,7 +691,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "template_id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -733,7 +743,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "template_id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -785,7 +795,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "template_id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -853,13 +863,13 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "campaign_id",
-											"orig": "campaign_id",
+											"orig": "campaignId",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "time_zone",
-											"orig": "time_zone",
+											"orig": "timeZone",
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "Europe/Zurich",
@@ -907,13 +917,13 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "campaign_id",
-											"orig": "campaign_id",
+											"orig": "campaignId",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "time_zone",
-											"orig": "time_zone",
+											"orig": "timeZone",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
@@ -1102,7 +1112,7 @@ func MakeConfig() map[string]any {
 						"title": "Status",
 						"type": "`$STRING`",
 						"req": true,
-						"short": "Template review lifecycle status",
+						"short": "Template review lifecycle status.",
 					},
 					map[string]any{
 						"name": "template",
@@ -1174,7 +1184,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1237,19 +1247,19 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "page_index",
-											"orig": "page_index",
+											"orig": "_pageIndex",
 											"type": "`$INTEGER`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "page_size",
-											"orig": "page_size",
+											"orig": "_pageSize",
 											"type": "`$INTEGER`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "sort",
-											"orig": "sort",
+											"orig": "_sort",
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "desc:updatedOn!createdOn",
@@ -1308,14 +1318,14 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "channel_id",
-											"orig": "channel_id",
+											"orig": "channelId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
 											"name": "id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1358,7 +1368,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1404,7 +1414,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1451,7 +1461,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1504,7 +1514,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1562,14 +1572,14 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "channel_id",
-											"orig": "channel_id",
+											"orig": "channelId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
 											"name": "id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1612,7 +1622,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1669,14 +1679,14 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "channel_id",
-											"orig": "channel_id",
+											"orig": "channelId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
 											"name": "id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1697,10 +1707,202 @@ func MakeConfig() map[string]any {
 					"ancestors": []any{},
 				},
 			},
+			"template_review_event": map[string]any{
+				"fields": []any{
+					map[string]any{
+						"name": "accountId",
+						"title": "Account Id",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Account identifier",
+					},
+					map[string]any{
+						"name": "eventId",
+						"title": "Event Id",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Unique event identifier (for idempotent processing / deduplication)",
+					},
+					map[string]any{
+						"name": "messageStatusChanged",
+						"title": "Message Status Changed",
+						"type": "`$OBJECT`",
+						"req": true,
+					},
+					map[string]any{
+						"name": "on",
+						"title": "On",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "UTC date-time when the event occurred",
+						"format": "date-time",
+					},
+					map[string]any{
+						"name": "templateReviewStatusChanged",
+						"title": "Template Review Status Changed",
+						"type": "`$OBJECT`",
+						"req": true,
+					},
+					map[string]any{
+						"name": "userMessageReceived",
+						"title": "User Message Received",
+						"type": "`$OBJECT`",
+						"req": true,
+					},
+				},
+				"name": "template_review_event",
+				"op": map[string]any{
+					"list": map[string]any{
+						"input": "data",
+						"name": "list",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/templates/{templateId}/reviews/{channelId}/events",
+								"segments": []any{
+									map[string]any{
+										"lit": "templates",
+									},
+									map[string]any{
+										"var": "template_id",
+									},
+									map[string]any{
+										"lit": "reviews",
+									},
+									map[string]any{
+										"var": "review_id",
+									},
+									map[string]any{
+										"lit": "events",
+									},
+								},
+								"parts": []any{
+									"templates",
+									"{template_id}",
+									"reviews",
+									"{review_id}",
+									"events",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"channelId": "review_id",
+										"templateId": "template_id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body.events`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "review_id",
+											"orig": "channelId",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+										map[string]any{
+											"name": "template_id",
+											"orig": "templateId",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"name": "page_index",
+											"orig": "_pageIndex",
+											"type": "`$INTEGER`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "page_size",
+											"orig": "_pageSize",
+											"type": "`$INTEGER`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "sort",
+											"orig": "_sort",
+											"type": "`$STRING`",
+											"kind": "query",
+											"example": "desc:on",
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"page_index",
+										"page_size",
+										"review_id",
+										"sort",
+										"template_id",
+									},
+								},
+							},
+						},
+					},
+				},
+				"relations": map[string]any{
+					"ancestors": []any{
+						[]any{
+							"$.main.kit.entity.template",
+						},
+					},
+				},
+			},
 			"traffic": map[string]any{
-				"fields": []any{},
+				"fields": []any{
+					map[string]any{
+						"name": "path",
+						"title": "Path",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip",
+					},
+					map[string]any{
+						"name": "url",
+						"title": "Url",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Absolute download URL with security token (expires after 15 minutes)",
+					},
+				},
 				"name": "traffic",
 				"op": map[string]any{
+					"list": map[string]any{
+						"input": "data",
+						"name": "list",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/traffic/files",
+								"segments": []any{
+									map[string]any{
+										"lit": "traffic",
+									},
+									map[string]any{
+										"lit": "files",
+									},
+								},
+								"parts": []any{
+									"traffic",
+									"files",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body.files`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
+							},
+						},
+					},
 					"remove": map[string]any{
 						"input": "data",
 						"name": "remove",
@@ -1767,20 +1969,6 @@ func MakeConfig() map[string]any {
 						"title": "Id",
 						"type": "`$STRING`",
 					},
-					map[string]any{
-						"name": "path",
-						"title": "Path",
-						"type": "`$STRING`",
-						"req": true,
-						"short": "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip",
-					},
-					map[string]any{
-						"name": "url",
-						"title": "Url",
-						"type": "`$STRING`",
-						"req": true,
-						"short": "Absolute download URL with security token (expires after 15 minutes)",
-					},
 				},
 				"id": map[string]any{
 					"field": "id",
@@ -1788,36 +1976,6 @@ func MakeConfig() map[string]any {
 				},
 				"name": "traffic_file",
 				"op": map[string]any{
-					"list": map[string]any{
-						"input": "data",
-						"name": "list",
-						"points": []any{
-							map[string]any{
-								"kind": "http",
-								"method": "GET",
-								"orig": "/traffic/files",
-								"segments": []any{
-									map[string]any{
-										"lit": "traffic",
-									},
-									map[string]any{
-										"lit": "files",
-									},
-								},
-								"parts": []any{
-									"traffic",
-									"files",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body.files`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{},
-							},
-						},
-					},
 					"load": map[string]any{
 						"input": "data",
 						"name": "load",
@@ -1960,7 +2118,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "template_id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -2012,7 +2170,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "template_id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -2064,7 +2222,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "template_id",
-											"orig": "template_id",
+											"orig": "templateId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,

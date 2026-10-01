@@ -29,7 +29,7 @@ main: kit: entity: option: {
               {
                 k: "param"
                 n: "template_id"
-                or: "template_id"
+                or: "templateId"
                 r: true
                 t: "`$STRING`"
               }
@@ -79,7 +79,7 @@ main: kit: entity: option: {
               {
                 k: "param"
                 n: "template_id"
-                or: "template_id"
+                or: "templateId"
                 r: true
                 t: "`$STRING`"
               }
@@ -129,7 +129,7 @@ main: kit: entity: option: {
               {
                 k: "param"
                 n: "template_id"
-                or: "template_id"
+                or: "templateId"
                 r: true
                 t: "`$STRING`"
               }

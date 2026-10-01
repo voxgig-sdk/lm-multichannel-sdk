@@ -14,7 +14,9 @@
 <a href="../api/self.html">Self</a>
 <a href="../api/self_admin.html">SelfAdmin</a>
 <a href="../api/template.html">Template</a>
-<a aria-current="page" href="../api/traffic.html">Traffic</a><div class="nav-sections"><a class="nav-section" href="#delete-trafficfilespath">DELETE /traffic/files/{path}</a></div>
+<a href="../api/template_review_event.html">TemplateReviewEvent</a>
+<a aria-current="page" href="../api/traffic.html">Traffic</a><div class="nav-sections"><a class="nav-section" href="#get-trafficfiles">GET /traffic/files</a>
+<a class="nav-section" href="#delete-trafficfilespath">DELETE /traffic/files/{path}</a></div>
 <a href="../api/traffic_file.html">TrafficFile</a>
 <a href="../api/variable.html">Variable</a></details>
 <details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
@@ -50,6 +52,12 @@
 </thead>
 <tbody>
 <tr>
+<td><code>GET</code></td>
+<td><a href="#get-trafficfiles"><code>/traffic/files</code></a></td>
+<td><code>list</code></td>
+<td>Files listed</td>
+</tr>
+<tr>
 <td><code>DELETE</code></td>
 <td><a href="#delete-trafficfilespath"><code>/traffic/files/{path}</code></a></td>
 <td><code>remove</code></td>
@@ -61,7 +69,12 @@
 <p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
 <h3 id="golang">Golang</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
-<pre><code class="language-go">removed, err := client.Traffic(nil).Remove(map[string]any{&quot;path&quot;: &quot;example&quot;}, nil)
+<pre><code class="language-go">traffics, err := client.Traffic(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(traffics)
+removed, err := client.Traffic(nil).Remove(map[string]any{&quot;path&quot;: &quot;example&quot;}, nil)
 if err != nil {
     panic(err)
 }
@@ -69,23 +82,28 @@ fmt.Println(removed)
 </code></pre>
 <h3 id="lua">Lua</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
-<pre><code class="language-lua">local removed, err = client:Traffic():remove({ path = &quot;example&quot; })
+<pre><code class="language-lua">local traffics, err = client:Traffic():list()
+local removed, err = client:Traffic():remove({ path = &quot;example&quot; })
 </code></pre>
 <h3 id="php">PHP</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
-<pre><code class="language-php">$client-&gt;Traffic()-&gt;remove([&quot;path&quot; =&gt; &quot;example&quot;]);
+<pre><code class="language-php">$traffics = $client-&gt;Traffic()-&gt;list();
+$client-&gt;Traffic()-&gt;remove([&quot;path&quot; =&gt; &quot;example&quot;]);
 </code></pre>
 <h3 id="python">Python</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
-<pre><code class="language-py">client.Traffic().remove({&quot;path&quot;: &quot;example&quot;})
+<pre><code class="language-py">traffics = client.Traffic().list()
+client.Traffic().remove({&quot;path&quot;: &quot;example&quot;})
 </code></pre>
 <h3 id="ruby">Ruby</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/rb.html#set-up-the-client">Ruby setup</a>, then call the operations:</p>
-<pre><code class="language-rb">client.Traffic.remove({ &quot;path&quot; =&gt; &quot;example&quot; })
+<pre><code class="language-rb">traffics = client.Traffic.list()
+client.Traffic.remove({ &quot;path&quot; =&gt; &quot;example&quot; })
 </code></pre>
 <h3 id="typescript">TypeScript</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
-<pre><code class="language-ts">await client.Traffic().remove({ path: &quot;example&quot; })
+<pre><code class="language-ts">const traffics = await client.Traffic().list()
+await client.Traffic().remove({ path: &quot;example&quot; })
 </code></pre>
 <h2 id="fields">Fields</h2>
 <table>
@@ -97,6 +115,117 @@ fmt.Println(removed)
 <th>Description</th>
 </tr>
 </thead>
+<tbody>
+<tr>
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Absolute download URL with security token (expires after 15 minutes)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-trafficfiles" class="operation" data-method="get"><code>GET</code> /traffic/files</h3>
+<p>Operation ID: <code>listTrafficFilesRoot</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="responses">Responses</h4>
+<h5 id="200-files-listed" class="status" data-status="2xx">200: Files listed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>files</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>files[].path</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip</td>
+</tr>
+<tr>
+<td><code>files[].url</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Absolute download URL with security token (expires after 15 minutes)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-too-many-requests-quota-or-rate-limit-exceeded" class="status" data-status="4xx">429: Too many requests (quota or rate limit exceeded)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
 </table>
 <h2 id="remove">remove</h2>
 <h3 id="delete-trafficfilespath" class="operation" data-method="delete"><code>DELETE</code> /traffic/files/{path}</h3>
@@ -106,7 +235,67 @@ fmt.Println(removed)
 <p>| Parameter | In | Type | Required | Description |
 | --- | --- | --- | --- |
 | <code>path</code> | <code>path</code> | <code>string</code> | Yes | Relative file path (for example events/2024/11/04/15/sequence.zip) |</p>
-<h4 id="responses">Responses</h4>
+<h4 id="responses-1">Responses</h4>
 <h5 id="204-file-deleted" class="status" data-status="2xx">204: File deleted</h5>
+<h5 id="403-authorization-failed-1" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-too-many-requests-quota-or-rate-limit-exceeded-1" class="status" data-status="4xx">429: Too many requests (quota or rate limit exceeded)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-1" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
 </main></div>
 <script src="../assets/search.js" defer></script></body></html>

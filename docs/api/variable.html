@@ -14,6 +14,7 @@
 <a href="../api/self.html">Self</a>
 <a href="../api/self_admin.html">SelfAdmin</a>
 <a href="../api/template.html">Template</a>
+<a href="../api/template_review_event.html">TemplateReviewEvent</a>
 <a href="../api/traffic.html">Traffic</a>
 <a href="../api/traffic_file.html">TrafficFile</a>
 <a aria-current="page" href="../api/variable.html">Variable</a><div class="nav-sections"><a class="nav-section" href="#post-templatestemplateidvariables">POST /templates/{templateId}/variables</a>
@@ -337,7 +338,7 @@ const updated = await client.Variable().update({ template_id: &quot;example&quot
 </tr>
 </tbody>
 </table>
-<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<h5 id="423-template-is-locked-for-editing-except-its-meta-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing, except its <code>meta</code> (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -419,6 +420,86 @@ const updated = await client.Variable().update({ template_id: &quot;example&quot
 <td><code>enum: text, dateTime, number, phoneNumber, url, emailAddress, ...</code></td>
 <td>No</td>
 <td>Optional type descriptor for validation constraints</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed-1" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found-1" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-too-many-requests-quota-or-rate-limit-exceeded" class="status" data-status="4xx">429: Too many requests (quota or rate limit exceeded)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
 </tr>
 </tbody>
 </table>
@@ -543,7 +624,7 @@ const updated = await client.Variable().update({ template_id: &quot;example&quot
 </tr>
 </tbody>
 </table>
-<h5 id="403-authorization-failed-1" class="status" data-status="4xx">403: Authorization failed</h5>
+<h5 id="403-authorization-failed-2" class="status" data-status="4xx">403: Authorization failed</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -563,7 +644,7 @@ const updated = await client.Variable().update({ template_id: &quot;example&quot
 </tr>
 </tbody>
 </table>
-<h5 id="404-resource-not-found-1" class="status" data-status="4xx">404: Resource not found</h5>
+<h5 id="404-resource-not-found-2" class="status" data-status="4xx">404: Resource not found</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -583,7 +664,7 @@ const updated = await client.Variable().update({ template_id: &quot;example&quot
 </tr>
 </tbody>
 </table>
-<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status-1" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<h5 id="423-template-is-locked-for-editing-except-its-meta-active-review-with-submitting-submitted-or-approved-status-1" class="status" data-status="4xx">423: Template is locked for editing, except its <code>meta</code> (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>

@@ -134,6 +134,7 @@ declare class Config {
             self: {};
             self_admin: {};
             template: {};
+            template_review_event: {};
             traffic: {};
             traffic_file: {};
             variable: {};
@@ -251,11 +252,19 @@ declare class Config {
                 title: string;
                 type: string;
                 req?: undefined;
+                short?: undefined;
             } | {
                 name: string;
                 title: string;
                 type: string;
                 req: boolean;
+                short?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                short: string;
             })[];
             id: {
                 field: string;
@@ -276,7 +285,9 @@ declare class Config {
                         parts: string[];
                         rename: {};
                         transform: {
-                            req: string;
+                            req: {
+                                messages: string;
+                            };
                             res: string;
                         };
                         args: {};
@@ -1149,10 +1160,118 @@ declare class Config {
                 ancestors: never[];
             };
         };
-        traffic: {
-            fields: never[];
+        template_review_event: {
+            fields: ({
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                short: string;
+                format?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                short?: undefined;
+                format?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                short: string;
+                format: string;
+            })[];
             name: string;
             op: {
+                list: {
+                    input: string;
+                    name: string;
+                    points: {
+                        kind: string;
+                        method: string;
+                        orig: string;
+                        segments: ({
+                            lit: string;
+                            var?: undefined;
+                        } | {
+                            var: string;
+                            lit?: undefined;
+                        })[];
+                        parts: string[];
+                        rename: {
+                            param: {
+                                channelId: string;
+                                templateId: string;
+                            };
+                        };
+                        transform: {
+                            req: string;
+                            res: string;
+                        };
+                        args: {
+                            params: {
+                                name: string;
+                                orig: string;
+                                type: string;
+                                kind: string;
+                                reqd: boolean;
+                            }[];
+                            query: ({
+                                name: string;
+                                orig: string;
+                                type: string;
+                                kind: string;
+                                example?: undefined;
+                            } | {
+                                name: string;
+                                orig: string;
+                                type: string;
+                                kind: string;
+                                example: string;
+                            })[];
+                        };
+                        select: {
+                            exist: string[];
+                        };
+                    }[];
+                };
+            };
+            relations: {
+                ancestors: string[][];
+            };
+        };
+        traffic: {
+            fields: {
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                short: string;
+            }[];
+            name: string;
+            op: {
+                list: {
+                    input: string;
+                    name: string;
+                    points: {
+                        kind: string;
+                        method: string;
+                        orig: string;
+                        segments: {
+                            lit: string;
+                        }[];
+                        parts: string[];
+                        rename: {};
+                        transform: {
+                            req: string;
+                            res: string;
+                        };
+                        args: {};
+                        select: {};
+                    }[];
+                };
                 remove: {
                     input: string;
                     name: string;
@@ -1198,19 +1317,11 @@ declare class Config {
                 title: string;
                 type: string;
                 req: boolean;
-                short?: undefined;
             } | {
                 name: string;
                 title: string;
                 type: string;
                 req?: undefined;
-                short?: undefined;
-            } | {
-                name: string;
-                title: string;
-                type: string;
-                req: boolean;
-                short: string;
             })[];
             id: {
                 field: string;
@@ -1218,26 +1329,6 @@ declare class Config {
             };
             name: string;
             op: {
-                list: {
-                    input: string;
-                    name: string;
-                    points: {
-                        kind: string;
-                        method: string;
-                        orig: string;
-                        segments: {
-                            lit: string;
-                        }[];
-                        parts: string[];
-                        rename: {};
-                        transform: {
-                            req: string;
-                            res: string;
-                        };
-                        args: {};
-                        select: {};
-                    }[];
-                };
                 load: {
                     input: string;
                     name: string;

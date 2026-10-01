@@ -38,7 +38,7 @@ main: kit: entity: schedule: {
               {
                 k: "query"
                 n: "campaign_id"
-                or: "campaign_id"
+                or: "campaignId"
                 r: false
                 t: "`$STRING`"
               }
@@ -46,7 +46,7 @@ main: kit: entity: schedule: {
                 ex: "Europe/Zurich"
                 k: "query"
                 n: "time_zone"
-                or: "time_zone"
+                or: "timeZone"
                 r: false
                 t: "`$STRING`"
               }
@@ -94,14 +94,14 @@ main: kit: entity: schedule: {
               {
                 k: "query"
                 n: "campaign_id"
-                or: "campaign_id"
+                or: "campaignId"
                 r: false
                 t: "`$STRING`"
               }
               {
                 k: "query"
                 n: "time_zone"
-                or: "time_zone"
+                or: "timeZone"
                 r: false
                 t: "`$STRING`"
               }

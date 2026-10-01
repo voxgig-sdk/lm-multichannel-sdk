@@ -8,6 +8,7 @@
 @"./self.aontu"
 @"./self_admin.aontu"
 @"./template.aontu"
+@"./template_review_event.aontu"
 @"./traffic.aontu"
 @"./traffic_file.aontu"
 @"./variable.aontu"

@@ -102,9 +102,13 @@ ContentCreateData = Struct.new(
 #
 # @!attribute [rw] messages
 #   @return [Array]
+#
+# @!attribute [rw] requestId
+#   @return [String]
 Message = Struct.new(
   :id,
   :messages,
+  :requestId,
   keyword_init: true
 )
 
@@ -124,9 +128,13 @@ MessageLoadMatch = Struct.new(
 #
 # @!attribute [rw] messages
 #   @return [Array]
+#
+# @!attribute [rw] requestId
+#   @return [String]
 MessageCreateData = Struct.new(
   :id,
   :messages,
+  :requestId,
   keyword_init: true
 )
 
@@ -574,9 +582,85 @@ TemplateRemoveMatch = Struct.new(
   keyword_init: true
 )
 
+# TemplateReviewEvent entity data model.
+#
+# @!attribute [rw] accountId
+#   @return [String]
+#
+# @!attribute [rw] eventId
+#   @return [String]
+#
+# @!attribute [rw] messageStatusChanged
+#   @return [Hash]
+#
+# @!attribute [rw] on
+#   @return [String]
+#
+# @!attribute [rw] templateReviewStatusChanged
+#   @return [Hash]
+#
+# @!attribute [rw] userMessageReceived
+#   @return [Hash]
+TemplateReviewEvent = Struct.new(
+  :accountId,
+  :eventId,
+  :messageStatusChanged,
+  :on,
+  :templateReviewStatusChanged,
+  :userMessageReceived,
+  keyword_init: true
+)
+
+# Request payload for TemplateReviewEvent#list.
+#
+# @!attribute [rw] review_id
+#   @return [String]
+#
+# @!attribute [rw] template_id
+#   @return [String]
+#
+# @!attribute [rw] page_index
+#   @return [Integer, nil]
+#
+# @!attribute [rw] page_size
+#   @return [Integer, nil]
+#
+# @!attribute [rw] sort
+#   @return [String, nil]
+TemplateReviewEventListMatch = Struct.new(
+  :review_id,
+  :template_id,
+  :page_index,
+  :page_size,
+  :sort,
+  keyword_init: true
+)
+
 # Traffic entity data model.
-class Traffic
-end
+#
+# @!attribute [rw] path
+#   @return [String]
+#
+# @!attribute [rw] url
+#   @return [String]
+Traffic = Struct.new(
+  :path,
+  :url,
+  keyword_init: true
+)
+
+# Request payload for Traffic#list.
+#
+# @!attribute [rw] path
+#   @return [String, nil]
+#
+# @!attribute [rw] url
+#   @return [String, nil]
+TrafficListMatch = Struct.new(
+  :path,
+  :url,
+  keyword_init: true
+)
 
 # Request payload for Traffic#remove.
 #
@@ -594,17 +678,9 @@ TrafficRemoveMatch = Struct.new(
 #
 # @!attribute [rw] id
 #   @return [String, nil]
-#
-# @!attribute [rw] path
-#   @return [String]
-#
-# @!attribute [rw] url
-#   @return [String]
 TrafficFile = Struct.new(
   :files,
   :id,
-  :path,
-  :url,
   keyword_init: true
 )
 
@@ -614,27 +690,6 @@ TrafficFile = Struct.new(
 #   @return [String]
 TrafficFileLoadMatch = Struct.new(
   :id,
-  keyword_init: true
-)
-
-# Request payload for TrafficFile#list.
-#
-# @!attribute [rw] files
-#   @return [Array, nil]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] path
-#   @return [String, nil]
-#
-# @!attribute [rw] url
-#   @return [String, nil]
-TrafficFileListMatch = Struct.new(
-  :files,
-  :id,
-  :path,
-  :url,
   keyword_init: true
 )
 

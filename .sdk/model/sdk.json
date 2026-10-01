@@ -210,7 +210,7 @@
                         "a": true,
                         "k": "param",
                         "n": "template_id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -266,7 +266,7 @@
                         "a": true,
                         "k": "param",
                         "n": "template_id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -331,6 +331,14 @@
               "n": "messages",
               "r": true,
               "t": "`$ARRAY`"
+            },
+            "requestId": {
+              "a": true,
+              "h": "Request Id",
+              "n": "requestId",
+              "r": true,
+              "sh": "Unique request identifier",
+              "t": "`$STRING`"
             }
           },
           "id": {
@@ -362,7 +370,9 @@
                     }
                   ],
                   "t": {
-                    "req": "`reqdata`",
+                    "req": {
+                      "messages": "`reqdata.messages`"
+                    },
                     "res": "`body`"
                   }
                 }
@@ -385,7 +395,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "message_id",
+                        "or": "messageId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -440,7 +450,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "message_id",
+                        "or": "messageId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -566,7 +576,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "message_id",
+                        "or": "messageId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -576,7 +586,7 @@
                         "a": true,
                         "k": "query",
                         "n": "page_index",
-                        "or": "page_index",
+                        "or": "_pageIndex",
                         "r": false,
                         "t": "`$INTEGER`"
                       },
@@ -584,7 +594,7 @@
                         "a": true,
                         "k": "query",
                         "n": "page_size",
-                        "or": "page_size",
+                        "or": "_pageSize",
                         "r": false,
                         "t": "`$INTEGER`"
                       },
@@ -593,7 +603,7 @@
                         "ex": "desc:on",
                         "k": "query",
                         "n": "sort",
-                        "or": "sort",
+                        "or": "_sort",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -671,7 +681,7 @@
                         "a": true,
                         "k": "param",
                         "n": "template_id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -725,7 +735,7 @@
                         "a": true,
                         "k": "param",
                         "n": "template_id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -779,7 +789,7 @@
                         "a": true,
                         "k": "param",
                         "n": "template_id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -868,7 +878,7 @@
                         "a": true,
                         "k": "query",
                         "n": "campaign_id",
-                        "or": "campaign_id",
+                        "or": "campaignId",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -877,7 +887,7 @@
                         "ex": "Europe/Zurich",
                         "k": "query",
                         "n": "time_zone",
-                        "or": "time_zone",
+                        "or": "timeZone",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -931,7 +941,7 @@
                         "a": true,
                         "k": "query",
                         "n": "campaign_id",
-                        "or": "campaign_id",
+                        "or": "campaignId",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -939,7 +949,7 @@
                         "a": true,
                         "k": "query",
                         "n": "time_zone",
-                        "or": "time_zone",
+                        "or": "timeZone",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1180,7 +1190,7 @@
               "h": "Status",
               "n": "status",
               "r": true,
-              "sh": "Template review lifecycle status",
+              "sh": "Template review lifecycle status.",
               "t": "`$STRING`"
             },
             "template": {
@@ -1239,7 +1249,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1319,7 +1329,7 @@
                         "a": true,
                         "k": "query",
                         "n": "page_index",
-                        "or": "page_index",
+                        "or": "_pageIndex",
                         "r": false,
                         "t": "`$INTEGER`"
                       },
@@ -1327,7 +1337,7 @@
                         "a": true,
                         "k": "query",
                         "n": "page_size",
-                        "or": "page_size",
+                        "or": "_pageSize",
                         "r": false,
                         "t": "`$INTEGER`"
                       },
@@ -1336,7 +1346,7 @@
                         "ex": "desc:updatedOn!createdOn",
                         "k": "query",
                         "n": "sort",
-                        "or": "sort",
+                        "or": "_sort",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1382,7 +1392,7 @@
                         "a": true,
                         "k": "param",
                         "n": "channel_id",
-                        "or": "channel_id",
+                        "or": "channelId",
                         "r": true,
                         "t": "`$STRING`"
                       },
@@ -1390,7 +1400,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1443,7 +1453,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1488,7 +1498,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1537,7 +1547,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1592,7 +1602,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1647,7 +1657,7 @@
                         "a": true,
                         "k": "param",
                         "n": "channel_id",
-                        "or": "channel_id",
+                        "or": "channelId",
                         "r": true,
                         "t": "`$STRING`"
                       },
@@ -1655,7 +1665,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1708,7 +1718,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1759,7 +1769,7 @@
                         "a": true,
                         "k": "param",
                         "n": "channel_id",
-                        "or": "channel_id",
+                        "or": "channelId",
                         "r": true,
                         "t": "`$STRING`"
                       },
@@ -1767,7 +1777,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1814,14 +1824,227 @@
             "ancestors": []
           }
         },
+        "template_review_event": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "accountId": {
+              "a": true,
+              "h": "Account Id",
+              "n": "accountId",
+              "r": true,
+              "sh": "Account identifier",
+              "t": "`$STRING`"
+            },
+            "eventId": {
+              "a": true,
+              "h": "Event Id",
+              "n": "eventId",
+              "r": true,
+              "sh": "Unique event identifier (for idempotent processing / deduplication)",
+              "t": "`$STRING`"
+            },
+            "messageStatusChanged": {
+              "a": true,
+              "h": "Message Status Changed",
+              "n": "messageStatusChanged",
+              "r": true,
+              "t": "`$OBJECT`"
+            },
+            "on": {
+              "a": true,
+              "fo": "date-time",
+              "h": "On",
+              "n": "on",
+              "r": true,
+              "sh": "UTC date-time when the event occurred",
+              "t": "`$STRING`"
+            },
+            "templateReviewStatusChanged": {
+              "a": true,
+              "h": "Template Review Status Changed",
+              "n": "templateReviewStatusChanged",
+              "r": true,
+              "t": "`$OBJECT`"
+            },
+            "userMessageReceived": {
+              "a": true,
+              "h": "User Message Received",
+              "n": "userMessageReceived",
+              "r": true,
+              "t": "`$OBJECT`"
+            }
+          },
+          "name": "template_review_event",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /templates/{templateId}/reviews/{channelId}/events",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "review_id",
+                        "or": "channelId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "template_id",
+                        "or": "templateId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "page_index",
+                        "or": "_pageIndex",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "page_size",
+                        "or": "_pageSize",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "ex": "desc:on",
+                        "k": "query",
+                        "n": "sort",
+                        "or": "_sort",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/templates/{templateId}/reviews/{channelId}/events",
+                  "q": {
+                    "exist": [
+                      "page_index",
+                      "page_size",
+                      "review_id",
+                      "sort",
+                      "template_id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "channelId": "review_id",
+                      "templateId": "template_id"
+                    }
+                  },
+                  "s": [
+                    {
+                      "lit": "templates"
+                    },
+                    {
+                      "var": "template_id"
+                    },
+                    {
+                      "lit": "reviews"
+                    },
+                    {
+                      "var": "review_id"
+                    },
+                    {
+                      "lit": "events"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.events`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "$.main.kit.entity.template"
+              ]
+            ]
+          }
+        },
         "traffic": {
           "active": true,
           "alias": {
             "field": {}
           },
-          "fields": {},
+          "fields": {
+            "path": {
+              "a": true,
+              "h": "Path",
+              "n": "path",
+              "r": true,
+              "sh": "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip",
+              "t": "`$STRING`"
+            },
+            "url": {
+              "a": true,
+              "h": "Url",
+              "n": "url",
+              "r": true,
+              "sh": "Absolute download URL with security token (expires after 15 minutes)",
+              "t": "`$STRING`"
+            }
+          },
           "name": "traffic",
           "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /traffic/files",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/traffic/files",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "traffic"
+                    },
+                    {
+                      "lit": "files"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.files`"
+                  }
+                }
+              ]
+            },
             "remove": {
               "input": "data",
               "name": "remove",
@@ -1896,22 +2119,6 @@
               "n": "id",
               "r": false,
               "t": "`$STRING`"
-            },
-            "path": {
-              "a": true,
-              "h": "Path",
-              "n": "path",
-              "r": true,
-              "sh": "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip",
-              "t": "`$STRING`"
-            },
-            "url": {
-              "a": true,
-              "h": "Url",
-              "n": "url",
-              "r": true,
-              "sh": "Absolute download URL with security token (expires after 15 minutes)",
-              "t": "`$STRING`"
             }
           },
           "id": {
@@ -1920,38 +2127,6 @@
           },
           "name": "traffic_file",
           "op": {
-            "list": {
-              "input": "data",
-              "name": "list",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /traffic/files",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/traffic/files",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "traffic"
-                    },
-                    {
-                      "lit": "files"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.files`"
-                  }
-                }
-              ]
-            },
             "load": {
               "input": "data",
               "name": "load",
@@ -2092,7 +2267,7 @@
                         "a": true,
                         "k": "param",
                         "n": "template_id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2146,7 +2321,7 @@
                         "a": true,
                         "k": "param",
                         "n": "template_id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2200,7 +2375,7 @@
                         "a": true,
                         "k": "param",
                         "n": "template_id",
-                        "or": "template_id",
+                        "or": "templateId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -3485,6 +3660,35 @@
             }
           ]
         },
+        "BasicTemplateReviewEventFlow": {
+          "active": true,
+          "entity": "template_review_event",
+          "key$": "BasicTemplateReviewEventFlow",
+          "kind": "basic",
+          "name": "BasicTemplateReviewEventFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {
+                "review_id": "review01",
+                "template_id": "template01"
+              },
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "template_review_event_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
         "BasicTrafficFileFlow": {
           "active": true,
           "entity": "traffic_file",
@@ -3493,22 +3697,6 @@
           "name": "BasicTrafficFileFlow",
           "param": {},
           "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "traffic_file_ref01"
-                  }
-                }
-              ]
-            },
             {
               "a": true,
               "d": {},
@@ -3540,7 +3728,24 @@
           "kind": "basic",
           "name": "BasicTrafficFlow",
           "param": {},
-          "step": []
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "traffic_ref01"
+                  }
+                }
+              ]
+            }
+          ]
         },
         "BasicVariableFlow": {
           "active": true,
@@ -3606,10 +3811,16 @@
         }
       },
       "info": {
+        "about_md": "**Unofficial. Not affiliated with LINK Mobility.** This is an unofficial SDK for the LINK Mobility MyLINK Multichannel API, built by [Voxgig](https://voxgig.com/sdk). It is not affiliated with, endorsed by, or sponsored by LINK Mobility.\n\n**Why this exists:** LINK Mobility publishes an OpenAPI definition for the MyLINK Multichannel API, one API for SMS, RCS, Viber and WhatsApp messages, but no client libraries for it. Voxgig builds public SDK and MCP examples for APIs we think are interesting, and this is one of them. MIT-licensed, take whatever's useful.\n\nIt is one of five repositories for LINK Mobility's MyLINK and Umbrella APIs: [Multichannel](https://github.com/voxgig-sdk/lm-multichannel-sdk), [SMS](https://github.com/voxgig-sdk/lm-sms-sdk), [Email](https://github.com/voxgig-sdk/lm-email-sdk), [WhatsApp](https://github.com/voxgig-sdk/lm-whatsapp-sdk) and [Permission](https://github.com/voxgig-sdk/lm-umbrella-sdk).\n\n### Try it (TypeScript)\n\n```bash\ngit clone https://github.com/voxgig-sdk/lm-multichannel-sdk\ncd lm-multichannel-sdk/ts\nnpm install\nnpm run build\nnpm test\n```\n\nThe test suite runs fully offline. Every SDK here ships a test mode that swaps the HTTP transport for an in-memory mock, so you can try it without credentials or a network.\n\n### Send a message\n\n```ts\nimport { LmMultichannelSDK } from '@voxgig-sdk/lm-multichannel-sdk'\n\nconst client = new LmMultichannelSDK({ apikey: process.env.LM_MULTICHANNEL_APIKEY })\n\nconst sent = await client.Message().create({\n  messages: [\n    { channelId: 'sms', userId: '33699999999', content: { text: 'Hello from MyLINK' } },\n  ],\n  // The generated type also asks for requestId, a response field. It is not sent.\n  requestId: '',\n})\nconsole.log(sent.data())\n\n// Templates, and one template's metadata\nconst templates = await client.Template().list()\nconst meta = await client.Template().load({ id: 'template-id', $action: 'meta' })\n```\n\n### Authentication\n\nThe definition offers two servers: `/v1`, which takes an API key, and `/v2`, which takes OAuth2. The SDK uses `https://ocm.linkmobility.solutions/v1` and sends your key in the `x-api-key` header. Pass the key as `apikey`. The CLI and the MCP server read it from `LM_MULTICHANNEL_APIKEY`.\n\n### Using the MCP server\n\n```bash\ncd go-mcp && go build -o lm-multichannel-mcp .\nexport LM_MULTICHANNEL_APIKEY=<API key>\nclaude mcp add --scope user lm-multichannel -- \"$PWD/lm-multichannel-mcp\" -transport stdio\n```\n\nThe MCP server is read-only for now. It has two tools, `lm-multichannel_list` and `lm-multichannel_load`, which read templates and their variables, options and content, message events and schedules, traffic files and your account. Sending goes through the SDKs.\n\n### Honest state\n\nGenerated from LINK Mobility's public OpenAPI definition of the MyLINK Multichannel API (5.3.0, from docs.linkmobility.com) on 2026-10-01. Not production-tuned. Known rough edge: entity names follow the paths, so some calls read oddly. `Message().load({ id })` returns that message's schedule, `Schedule().load()` returns the number of scheduled messages, and a template's metadata and review list are `Template().load()` with `$action: 'meta'` or `$action: 'review'`. The typed send input also asks for requestId, a response field; pass an empty string, it is not sent. Use it as a starting point or a reference.\n\nWhen teams want SDKs like these production-grade, idiomatic per language, tested, documented, and released through a real pipeline, Voxgig does that work as a consulting engagement. The toolkit also generates Java and C# if your customers need them. Questions: richard@voxgig.com.\n\nIf you are from LINK Mobility and would like this repository removed, or transferred to your own GitHub organisation, email richard@voxgig.com and it will be done within two business days, no questions asked.",
         "contact": {
           "email": "product@linkmobility.com"
         },
-        "description": "Public API for MyLINK Multichannel Messaging API platform.\nSupports sending messages across SMS, RCS, Viber, WhatsApp and other channels,\nmanaging message templates, downloading traffic files, and configuring account settings.\n\n## Authentication\n\nTwo authentication methods are available depending on the endpoint root:\n- **API Key** (`/v1`): Pass your API key in the `x-api-key` HTTP header.\n- **OAuth2** (`/v2`): Obtain a JWT token from the CPaaS SSO token endpoint https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token and pass it as a Bearer token (clientCredentials flow type)\n\n## Receiving events\n\nOCM produces events throughout the lifecycle of messages (`messageStatusChanged`),\nwhen end-users interact (`userMessageReceived`), and when template reviews change\n(`templateReviewStatusChanged`). Three methods are available to consume these events:\n\n| Method | Endpoint | Delivery | Event types | Pros | Cons |\n|--------|----------|----------|-------------|------|------|\n| **Callbacks** (webhooks) | Configured via `PATCH /self/settings` | Real-time push (HTTP POST) | All three | Lowest latency, no polling needed | Requires a publicly reachable HTTPS endpoint; must handle retries and idempotency |\n| **Get Message Events** | `GET /messages/{messageId}/events` | On-demand pull per message | `messageStatusChanged`, `userMessageReceived` only | Simple integration, no receiving endpoint needed | Shares rate limits with `POST /messages` (sending); not suited for high-traffic or bulk retrieval; no `templateReviewStatusChanged` |\n| **Traffic Files** | `GET /traffic/files` | Bulk pull (JSONL archives, 1 to ~15 min delay) | All three | Bulk retrieval of all events; no rate-limit impact on messaging; 30-day retention | Not real-time; requires downloading and parsing ZIP/JSONL files |",
+        "description": "MyLINK Multichannel Messaging API allows sending messages across SMS, RCS, Viber, WhatsApp and other channels, managing message templates, downloading traffic files, and configuring account settings.\n\nThe documentation is also available as an agent skill, which extends AI assistants and coding agents with in-depth knowledge of the API. The skill is published in three packages, one per family of platforms:\n\n| Package | Download | Purpose |\n| --- | --- | --- |\n| **_Agent Plugins_ plugin** | [messaging-agent-plugin-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-agent-plugin-5.3.0.zip) | For the AI coding tools that support the open [Agent Plugins](https://agent-plugins.org) standard, such as GitHub Copilot, Visual Studio Code, OpenAI Codex, Cursor and Kiro. |\n| **Claude plugin** | [messaging-claude-plugin-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-claude-plugin-5.3.0.zip) | For Claude. Uploaded in claude.ai or the Claude desktop app (*Customize > Plugins*), it makes the skill available in chat, in Cowork and in Claude Code. |\n| **Microsoft 365 Copilot skill** | [messaging-skills-365copilot-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-skills-365copilot-5.3.0.zip) | For Microsoft 365 Copilot agents, added as a skill in Agent Builder, which imports skills rather than plugins. |\n",
+        "docs_url": "https://docs.linkmobility.com/api-reference/multichannel-api",
+        "license": {
+          "name": "LINK Mobility Terms and Conditions",
+          "url": "https://www.linkmobility.com/legal/terms-and-conditions"
+        },
         "security": {
           "in": "header",
           "name": "x-api-key",
@@ -3620,17 +3831,18 @@
         "servers": [
           {
             "description": "Production (API Key auth)",
-            "url": "https://api.linkmobility.com/v1"
+            "url": "https://ocm.linkmobility.solutions/v1"
           },
           {
             "description": "Production (OAuth2 auth)",
-            "url": "https://api.linkmobility.com/v2"
+            "url": "https://ocm.linkmobility.solutions/v2"
           }
         ],
-        "summary": "Public API for MyLINK Multichannel Messaging API platform.",
+        "summary": "MyLINK Multichannel Messaging API allows sending messages across SMS, RCS, Viber, WhatsApp and other channels, managing message templates, downloading traffic files, and configuring account settings.",
+        "tagline": "LINK Mobility MyLINK Multichannel API clients in TypeScript, Python, PHP, Go, Ruby and Lua, plus a CLI and an MCP server for AI agents. All generated from LINK Mobility's public OpenAPI definition, so every surface stays in sync with the API.",
         "title": "MyLINK Multichannel API",
-        "version": "5.0.0",
-        "website": "https://linkmobility.com"
+        "version": "5.3.0",
+        "website": "https://ocm.linkmobility.solutions"
       },
       "option": {},
       "optspec": {
@@ -3647,7 +3859,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {
@@ -3963,7 +4180,7 @@
             "registry": {
               "active": false,
               "name": "luarocks",
-              "package": "",
+              "package": "voxgig-sdk-lm-multichannel-sdk",
               "state": "pending",
               "url": "https://luarocks.org",
               "vault": {
@@ -4030,7 +4247,7 @@
             "registry": {
               "active": false,
               "name": "packagist",
-              "package": "",
+              "package": "voxgig-sdk/lm-multichannel-sdk",
               "state": "pending",
               "url": "https://packagist.org",
               "vault": {
@@ -4103,7 +4320,7 @@
             "registry": {
               "active": false,
               "name": "pypi",
-              "package": "",
+              "package": "voxgig-sdk-lm-multichannel-sdk",
               "state": "pending",
               "url": "https://pypi.org",
               "vault": {
@@ -4176,7 +4393,7 @@
             "registry": {
               "active": false,
               "name": "rubygems",
-              "package": "",
+              "package": "voxgig-sdk-lm-multichannel-sdk",
               "state": "pending",
               "url": "https://rubygems.org",
               "vault": {
@@ -4254,7 +4471,7 @@
             "registry": {
               "active": false,
               "name": "npm",
-              "package": "",
+              "package": "@voxgig-sdk/lm-multichannel-sdk",
               "state": "pending",
               "url": "https://registry.npmjs.org",
               "vault": {

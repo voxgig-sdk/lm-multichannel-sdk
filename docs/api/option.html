@@ -16,6 +16,7 @@
 <a href="../api/self.html">Self</a>
 <a href="../api/self_admin.html">SelfAdmin</a>
 <a href="../api/template.html">Template</a>
+<a href="../api/template_review_event.html">TemplateReviewEvent</a>
 <a href="../api/traffic.html">Traffic</a>
 <a href="../api/traffic_file.html">TrafficFile</a>
 <a href="../api/variable.html">Variable</a></details>
@@ -229,7 +230,7 @@ const updated = await client.Option().update({ template_id: &quot;example&quot;,
 </tr>
 </tbody>
 </table>
-<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<h5 id="423-template-is-locked-for-editing-except-its-meta-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing, except its <code>meta</code> (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -259,55 +260,6 @@ const updated = await client.Option().update({ template_id: &quot;example&quot;,
 | <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
 <h4 id="responses-1">Responses</h4>
 <h5 id="200-options-returned" class="status" data-status="2xx">200: Options returned</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>options</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="update">update</h2>
-<h3 id="patch-templatestemplateidoptions" class="operation" data-method="patch"><code>PATCH</code> /templates/{templateId}/options</h3>
-<p>Operation ID: <code>mergeTemplateOptions</code>.</p>
-<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
-<h4 id="parameters-2">Parameters</h4>
-<p>| Parameter | In | Type | Required | Description |
-| --- | --- | --- | --- |
-| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
-<h4 id="request-body-1">Request body</h4>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>options</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h4 id="responses-2">Responses</h4>
-<h5 id="200-options-updated-1" class="status" data-status="2xx">200: Options updated</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -367,7 +319,136 @@ const updated = await client.Option().update({ template_id: &quot;example&quot;,
 </tr>
 </tbody>
 </table>
-<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status-1" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<h5 id="429-too-many-requests-quota-or-rate-limit-exceeded" class="status" data-status="4xx">429: Too many requests (quota or rate limit exceeded)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update">update</h2>
+<h3 id="patch-templatestemplateidoptions" class="operation" data-method="patch"><code>PATCH</code> /templates/{templateId}/options</h3>
+<p>Operation ID: <code>mergeTemplateOptions</code>.</p>
+<p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>options</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-options-updated-1" class="status" data-status="2xx">200: Options updated</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>options</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed-2" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found-2" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="423-template-is-locked-for-editing-except-its-meta-active-review-with-submitting-submitted-or-approved-status-1" class="status" data-status="4xx">423: Template is locked for editing, except its <code>meta</code> (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>

@@ -1,5 +1,6 @@
 -- LmMultichannel SDK TrafficFile entity
 
+local json = require("dkjson")
 local vs = require("utility.struct.struct")
 local helpers = require("core.helpers")
 
@@ -39,6 +40,26 @@ end
 
 function TrafficFileEntity:get_name()
   return self._name
+end
+
+
+-- The entity serialises and prints as its data, as ts does: the instance
+-- also holds the client, the utility and a match that can carry a query
+-- credential.
+function TrafficFileEntity:to_record()
+  local rec = self._utility.clean(self._entctx, vs.clone(self._data or {}))
+  rec["voxgig$entity"] = self._name
+  return rec
+end
+
+TrafficFileEntity.__tostring = function(self)
+  local rec = self:to_record()
+  rec["voxgig$entity"] = nil
+  return self._name .. " " .. json.encode(rec)
+end
+
+TrafficFileEntity.__tojson = function(self)
+  return json.encode(self:to_record())
 end
 
 
@@ -151,7 +172,7 @@ function TrafficFileEntity:stream(action, args, callopts)
     return false
   end
 
-  return coroutine.wrap(function()
+  local co = coroutine.create(function()
     utility.feature_hook(ctx, "PrePoint")
     local point, err = utility.make_point(ctx)
     ctx.out["point"] = point
@@ -202,6 +223,8 @@ function TrafficFileEntity:stream(action, args, callopts)
       stream_fn = result.stream
     end
     if type(stream_fn) == "function" then
+      -- done() does not run on this path, so its record is cleaned here.
+      utility.clean_explain(ctx)
       for item in stream_fn() do
         if aborted() then
           return
@@ -226,6 +249,27 @@ function TrafficFileEntity:stream(action, args, callopts)
       end
     end
   end)
+
+  -- An error raised while the caller iterates leaves through the same catch
+  -- path as an operation's. A step's error ends the stream silently, so the
+  -- record is cleaned whenever the stream ends.
+  return function()
+    if coroutine.status(co) == "dead" then
+      return nil
+    end
+    local ok, item = coroutine.resume(co)
+    if ok then
+      if coroutine.status(co) == "dead" then
+        utility.clean_explain(ctx)
+      end
+      return item
+    end
+    local err = self:_unexpected(ctx, item)
+    if err ~= nil then
+      error(err, 0)
+    end
+    return nil
+  end
 end
 
 
@@ -259,39 +303,47 @@ end
 
 
 
----@param reqmatch TrafficFileListMatch
----@param ctrl? table
----@return TrafficFile[]
----@return string? err
-function TrafficFileEntity:list(reqmatch, ctrl)
-  local utility = self._utility
-  local ctx = utility.make_context({
-    opname = "list",
-    ctrl = ctrl,
-    match = self._match,
-    data = self._data,
-    reqmatch = reqmatch,
-  }, self._entctx)
 
-  return self:_run_op(ctx, function()
-    if ctx.result ~= nil then
-      if ctx.result.resmatch ~= nil then
-        self._match = ctx.result.resmatch
-      end
-    end
-  end)
+
+
+
+
+
+
+
+-- A hook, fetcher or parser that raises never reaches make_error: its error
+-- leaves cleaned, and so does the explain record it interrupted.
+function TrafficFileEntity:_run_op(ctx, post_done)
+  local ok, out, err = pcall(self._run_steps, self, ctx, post_done)
+  if ok then
+    return out, err
+  end
+  return nil, self:_unexpected(ctx, out)
 end
 
 
+-- The raised error, cleaned; nil when the caller switched throwing off.
+function TrafficFileEntity:_unexpected(ctx, raised)
+  local clean = self._utility.clean
+  local cleanerr = clean(ctx, raised)
+  ctx.ctrl.err = cleanerr
+
+  local explain = ctx.ctrl.explain
+  if type(explain) == "table" then
+    self._utility.clean_explain(ctx)
+    if explain.err == nil then
+      explain.err = { message = type(cleanerr) == "table" and cleanerr.msg or tostring(cleanerr) }
+    end
+  end
+
+  if ctx.ctrl.throw_err == false then
+    return nil
+  end
+  return cleanerr
+end
 
 
-
-
-
-
-
-
-function TrafficFileEntity:_run_op(ctx, post_done)
+function TrafficFileEntity:_run_steps(ctx, post_done)
   local utility = self._utility
 
   utility.feature_hook(ctx, "PrePoint")

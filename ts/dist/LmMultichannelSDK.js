@@ -10,6 +10,7 @@ const ScheduleEntity_1 = require("./entity/ScheduleEntity");
 const SelfEntity_1 = require("./entity/SelfEntity");
 const SelfAdminEntity_1 = require("./entity/SelfAdminEntity");
 const TemplateEntity_1 = require("./entity/TemplateEntity");
+const TemplateReviewEventEntity_1 = require("./entity/TemplateReviewEventEntity");
 const TrafficEntity_1 = require("./entity/TrafficEntity");
 const TrafficFileEntity_1 = require("./entity/TrafficFileEntity");
 const VariableEntity_1 = require("./entity/VariableEntity");
@@ -38,6 +39,11 @@ class LmMultichannelSDK {
             shared: new WeakMap()
         });
         this._options = this._utility.makeOptions(this._rootctx);
+        for (const key of ['_options', '_rootctx', '_features']) {
+            Object.defineProperty(this, key, {
+                value: this[key], enumerable: false, writable: true, configurable: true
+            });
+        }
         const struct = this._utility.struct;
         const getpath = struct.getpath;
         if (true === getpath(this._options.feature, 'test.active')) {
@@ -154,7 +160,7 @@ class LmMultichannelSDK {
                 return { ok: false, err: ctx.error('direct_no_response', 'response: undefined') };
             }
             else if (fetched instanceof Error) {
-                return { ok: false, err: fetched };
+                return { ok: false, err: utility.clean(ctx, fetched) };
             }
             const status = fetched.status;
             // No body responses (204 No Content, 304 Not Modified) and explicit
@@ -184,7 +190,7 @@ class LmMultichannelSDK {
             };
         }
         catch (err) {
-            return { ok: false, err };
+            return { ok: false, err: utility.clean(ctx, err) };
         }
     }
     async graphql(query, variables, ctrl) {
@@ -275,6 +281,13 @@ class LmMultichannelSDK {
     Template(entopts) {
         const self = this;
         return new TemplateEntity_1.TemplateEntity(self, entopts);
+    }
+    // Entity access: `client.TemplateReviewEvent().list()` / `client.TemplateReviewEvent().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    TemplateReviewEvent(entopts) {
+        const self = this;
+        return new TemplateReviewEventEntity_1.TemplateReviewEventEntity(self, entopts);
     }
     // Entity access: `client.Traffic().list()` / `client.Traffic().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity

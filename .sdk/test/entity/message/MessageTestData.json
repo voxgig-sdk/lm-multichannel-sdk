@@ -3,22 +3,26 @@
     "message": {
       "MESSAGE00": {
         "id": "MESSAGE00",
-        "messages": []
+        "messages": [],
+        "requestId": "s20"
       },
       "MESSAGE01": {
         "id": "MESSAGE01",
-        "messages": []
+        "messages": [],
+        "requestId": "s3e"
       },
       "MESSAGE02": {
         "id": "MESSAGE02",
-        "messages": []
+        "messages": [],
+        "requestId": "s5c"
       }
     }
   },
   "new": {
     "message": {
       "message_ref01": {
-        "messages": []
+        "messages": [],
+        "requestId": "s7a"
       }
     }
   },

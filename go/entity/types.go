@@ -47,6 +47,7 @@ type MessageLoadMatch struct {
 type MessageCreateData struct {
 	Id *string `json:"id,omitempty"`
 	Messages []any `json:"messages"`
+	RequestId string `json:"requestId"`
 }
 
 // MessageRemoveMatch is the typed request payload for Message.RemoveTyped.
@@ -187,8 +188,27 @@ type TemplateRemoveMatch struct {
 	Id string `json:"id"`
 }
 
+// TemplateReviewEvent is the typed data model for the template_review_event entity.
+type TemplateReviewEvent struct {
+}
+
+// TemplateReviewEventListMatch is the typed request payload for TemplateReviewEvent.ListTyped.
+type TemplateReviewEventListMatch struct {
+	ReviewId string `json:"review_id"`
+	TemplateId string `json:"template_id"`
+	PageIndex *int `json:"page_index,omitempty"`
+	PageSize *int `json:"page_size,omitempty"`
+	Sort *string `json:"sort,omitempty"`
+}
+
 // Traffic is the typed data model for the traffic entity.
 type Traffic struct {
+}
+
+// TrafficListMatch is the typed request payload for Traffic.ListTyped.
+type TrafficListMatch struct {
+	Path *string `json:"path,omitempty"`
+	Url *string `json:"url,omitempty"`
 }
 
 // TrafficRemoveMatch is the typed request payload for Traffic.RemoveTyped.
@@ -203,14 +223,6 @@ type TrafficFile struct {
 // TrafficFileLoadMatch is the typed request payload for TrafficFile.LoadTyped.
 type TrafficFileLoadMatch struct {
 	Id string `json:"id"`
-}
-
-// TrafficFileListMatch is the typed request payload for TrafficFile.ListTyped.
-type TrafficFileListMatch struct {
-	Files *[]any `json:"files,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Path *string `json:"path,omitempty"`
-	Url *string `json:"url,omitempty"`
 }
 
 // Variable is the typed data model for the variable entity.

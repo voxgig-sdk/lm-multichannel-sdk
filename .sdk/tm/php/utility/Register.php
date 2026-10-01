@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 LmMultichannelUtility::setRegistrar(function (LmMultichannelUtility $u): void {
     $u->clean = [LmMultichannelClean::class, 'call'];
+    $u->clean_add = [LmMultichannelClean::class, 'add'];
+    $u->clean_explain = [LmMultichannelDone::class, 'clean_explain'];
     $u->done = [LmMultichannelDone::class, 'call'];
     $u->make_error = [LmMultichannelMakeError::class, 'call'];
     $u->feature_add = [LmMultichannelFeatureAdd::class, 'call'];

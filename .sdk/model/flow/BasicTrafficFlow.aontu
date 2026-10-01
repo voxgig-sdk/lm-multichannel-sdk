@@ -5,5 +5,18 @@ main: kit: flow: BasicTrafficFlow:
   entity: "traffic",
   kind: "basic",
   name: "BasicTrafficFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "traffic_ref01"
+          }
+        }
+      ]
+    }
+  ],
   "key$": "BasicTrafficFlow"
 }

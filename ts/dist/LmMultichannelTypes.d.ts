@@ -25,6 +25,7 @@ export interface ContentCreateData {
 export interface Message {
     id?: string;
     messages: any[];
+    requestId: string;
 }
 export interface MessageLoadMatch {
     id: string;
@@ -34,6 +35,7 @@ export interface MessageLoadMatch {
 export interface MessageCreateData {
     id?: string;
     messages: any[];
+    requestId: string;
 }
 export interface MessageRemoveMatch {
     id: string;
@@ -167,7 +169,28 @@ export interface TemplateRemoveMatch {
     channel_id?: string;
     id: string;
 }
+export interface TemplateReviewEvent {
+    accountId: string;
+    eventId: string;
+    messageStatusChanged: Record<string, any>;
+    on: string;
+    templateReviewStatusChanged: Record<string, any>;
+    userMessageReceived: Record<string, any>;
+}
+export interface TemplateReviewEventListMatch {
+    review_id: string;
+    template_id: string;
+    page_index?: number;
+    page_size?: number;
+    sort?: string;
+}
 export interface Traffic {
+    path: string;
+    url: string;
+}
+export interface TrafficListMatch {
+    path?: string;
+    url?: string;
 }
 export interface TrafficRemoveMatch {
     path: string;
@@ -175,17 +198,9 @@ export interface TrafficRemoveMatch {
 export interface TrafficFile {
     files: any[];
     id?: string;
-    path: string;
-    url: string;
 }
 export interface TrafficFileLoadMatch {
     id: string;
-}
-export interface TrafficFileListMatch {
-    files?: any[];
-    id?: string;
-    path?: string;
-    url?: string;
 }
 export interface Variable {
     description?: string;

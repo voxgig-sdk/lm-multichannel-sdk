@@ -95,6 +95,17 @@ class LmMultichannelSDK
     @_rootctx
   end
 
+  # The options and the root context both hold the credential, so the
+  # client's printed form is its name alone; `options_map` is the
+  # documented way to read them back.
+  def to_s
+    "LmMultichannel " + VoxgigStruct.jsonify({ "name" => "LmMultichannel" })
+  end
+
+  def inspect
+    to_s
+  end
+
   def prepare(fetchargs = {})
     utility = @_utility
     fetchargs ||= {}
@@ -202,7 +213,7 @@ class LmMultichannelSDK
     url = fetchdef["url"] || ""
     fetched, fetch_err = utility.fetcher.call(ctx, url, fetchdef)
 
-    return { "ok" => false, "err" => fetch_err } if fetch_err
+    return { "ok" => false, "err" => utility.clean.call(ctx, fetch_err) } if fetch_err
 
     if fetched.nil?
       return {
@@ -342,6 +353,13 @@ class LmMultichannelSDK
   def Template(data = nil)
     require_relative 'entity/template_entity'
     TemplateEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.TemplateReviewEvent.list / client.TemplateReviewEvent.load({ "id" => ... })
+  def TemplateReviewEvent(data = nil)
+    require_relative 'entity/template_review_event_entity'
+    TemplateReviewEventEntity.new(self, data)
   end
 
 

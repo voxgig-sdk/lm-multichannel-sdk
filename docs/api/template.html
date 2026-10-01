@@ -24,6 +24,7 @@
 <a class="nav-section" href="#delete-templatestemplateidreviewschannelid">DELETE /templates/{templateId}/reviews/{channelId}</a>
 <a class="nav-section" href="#delete-templatestemplateid">DELETE /templates/{templateId}</a>
 <a class="nav-section" href="#put-templatestemplateidreviewschannelid">PUT /templates/{templateId}/reviews/{channelId}</a></div>
+<a href="../api/template_review_event.html">TemplateReviewEvent</a>
 <a href="../api/traffic.html">Traffic</a>
 <a href="../api/traffic_file.html">TrafficFile</a>
 <a href="../api/variable.html">Variable</a></details>
@@ -272,7 +273,7 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td><code>status</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td>Template review lifecycle status</td>
+<td>Template review lifecycle status.</td>
 </tr>
 <tr>
 <td><code>template</code></td>
@@ -389,26 +390,6 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 </tbody>
 </table>
-<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>error</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Error details</td>
-</tr>
-</tbody>
-</table>
 <h3 id="post-templates" class="operation" data-method="post"><code>POST</code> /templates</h3>
 <p>Operation ID: <code>createTemplate</code>.</p>
 <p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
@@ -473,6 +454,12 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td></td>
 </tr>
 <tr>
+<td><code>template.content.card.buttons[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>template.content.card.buttons[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -522,15 +509,15 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 <tr>
 <td><code>template.content.card.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.card.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.card.location.title</code></td>
@@ -635,6 +622,12 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td></td>
 </tr>
 <tr>
+<td><code>template.content.carousel.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
 <td><code>template.content.fromTemplate</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -666,15 +659,15 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 <tr>
 <td><code>template.content.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.location.title</code></td>
@@ -777,6 +770,12 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td><code>string</code></td>
 <td>Yes</td>
 <td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
 </tr>
 <tr>
 <td><code>template.content.suggestions[].openUrl</code></td>
@@ -974,6 +973,12 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td></td>
 </tr>
 <tr>
+<td><code>template.content.card.buttons[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>template.content.card.buttons[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -1023,15 +1028,15 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 <tr>
 <td><code>template.content.card.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.card.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.card.location.title</code></td>
@@ -1136,6 +1141,12 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td></td>
 </tr>
 <tr>
+<td><code>template.content.carousel.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
 <td><code>template.content.fromTemplate</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -1167,15 +1178,15 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 <tr>
 <td><code>template.content.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.location.title</code></td>
@@ -1278,6 +1289,12 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td><code>string</code></td>
 <td>Yes</td>
 <td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
 </tr>
 <tr>
 <td><code>template.content.suggestions[].openUrl</code></td>
@@ -1554,6 +1571,86 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 </tbody>
 </table>
+<h5 id="400-invalid-request-1" class="status" data-status="4xx">400: Invalid request</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed-1" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-too-many-requests-quota-or-rate-limit-exceeded" class="status" data-status="4xx">429: Too many requests (quota or rate limit exceeded)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
 <h2 id="load">load</h2>
 <h3 id="get-templatestemplateidreviewschannelid" class="operation" data-method="get"><code>GET</code> /templates/{templateId}/reviews/{channelId}</h3>
 <p>Operation ID: <code>getTemplateReview</code>.</p>
@@ -1656,6 +1753,12 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td></td>
 </tr>
 <tr>
+<td><code>template.content.card.buttons[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
+</tr>
+<tr>
 <td><code>template.content.card.buttons[].openUrl</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -1705,15 +1808,15 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 <tr>
 <td><code>template.content.card.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.card.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.card.location.title</code></td>
@@ -1818,6 +1921,12 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td></td>
 </tr>
 <tr>
+<td><code>template.content.carousel.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
 <td><code>template.content.fromTemplate</code></td>
 <td><code>object</code></td>
 <td>No</td>
@@ -1849,15 +1958,15 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 <tr>
 <td><code>template.content.location.latitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Latitude in degrees (plus/minus 90)</td>
+<td>Latitude in degrees (plus/minus 90). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.location.longitude</code></td>
-<td><code>number (double)</code></td>
+<td><code>string,number</code></td>
 <td>Yes</td>
-<td>Longitude in degrees (plus/minus 180)</td>
+<td>Longitude in degrees (plus/minus 180). A number, or a string - a string also allows a template variable.</td>
 </tr>
 <tr>
 <td><code>template.content.location.title</code></td>
@@ -1960,6 +2069,12 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td><code>string</code></td>
 <td>Yes</td>
 <td>Phone number to dial</td>
+</tr>
+<tr>
+<td><code>template.content.suggestions[].flow</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Opens a WhatsApp Flow (LMCL provider only, no properties). The flow itself is selected and parameterized through the button's whatsapp.button.flow.* options - see the flow examples of the Messages and Templates resources. Channels that do not support flows drop the button.</td>
 </tr>
 <tr>
 <td><code>template.content.suggestions[].openUrl</code></td>
@@ -2173,6 +2288,86 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 </tbody>
 </table>
+<h5 id="403-authorization-failed-2" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found-3" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-too-many-requests-quota-or-rate-limit-exceeded-1" class="status" data-status="4xx">429: Too many requests (quota or rate limit exceeded)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-1" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
 <h3 id="get-templatestemplateidreviews" class="operation" data-method="get"><code>GET</code> /templates/{templateId}/reviews</h3>
 <p>Operation ID: <code>getTemplateReviews</code>.</p>
 <p>Authentication: API key in the header (<code>apiKey</code>) or oauth2 (<code>oauth2</code>).</p>
@@ -2198,6 +2393,86 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <td><code>object</code></td>
 <td>Yes</td>
 <td>Dictionary of channelId to Review</td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-authorization-failed-3" class="status" data-status="4xx">403: Authorization failed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-resource-not-found-4" class="status" data-status="4xx">404: Resource not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="429-too-many-requests-quota-or-rate-limit-exceeded-2" class="status" data-status="4xx">429: Too many requests (quota or rate limit exceeded)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-2" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>error</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Error details</td>
 </tr>
 </tbody>
 </table>
@@ -2250,7 +2525,7 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 </tbody>
 </table>
-<h5 id="403-authorization-failed-1" class="status" data-status="4xx">403: Authorization failed</h5>
+<h5 id="403-authorization-failed-4" class="status" data-status="4xx">403: Authorization failed</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -2270,27 +2545,7 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 </tbody>
 </table>
-<h5 id="404-resource-not-found-3" class="status" data-status="4xx">404: Resource not found</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>error</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Error details</td>
-</tr>
-</tbody>
-</table>
-<h5 id="423-template-is-locked-for-editing-active-review-with-submitting-submitted-or-approved-status-1" class="status" data-status="4xx">423: Template is locked for editing (active review with SUBMITTING, SUBMITTED or APPROVED status)</h5>
+<h5 id="404-resource-not-found-5" class="status" data-status="4xx">404: Resource not found</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -2323,7 +2578,7 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <h5 id="202-deletion-initiated" class="status" data-status="2xx">202: Deletion initiated</h5>
 <p><code>application/json</code></p>
 <p>The response is <code>object</code>.</p>
-<h5 id="404-resource-not-found-4" class="status" data-status="4xx">404: Resource not found</h5>
+<h5 id="404-resource-not-found-6" class="status" data-status="4xx">404: Resource not found</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -2372,7 +2627,7 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 | <code>templateId</code> | <code>path</code> | <code>string</code> | Yes | Unique template identifier |</p>
 <h4 id="responses-9">Responses</h4>
 <h5 id="204-template-deleted" class="status" data-status="2xx">204: Template deleted</h5>
-<h5 id="404-resource-not-found-5" class="status" data-status="4xx">404: Resource not found</h5>
+<h5 id="404-resource-not-found-7" class="status" data-status="4xx">404: Resource not found</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -2405,7 +2660,7 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 <h5 id="202-submitted-for-review" class="status" data-status="2xx">202: Submitted for review</h5>
 <p><code>application/json</code></p>
 <p>The response is <code>object</code>.</p>
-<h5 id="400-invalid-request-1" class="status" data-status="4xx">400: Invalid request</h5>
+<h5 id="400-invalid-request-2" class="status" data-status="4xx">400: Invalid request</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -2425,7 +2680,7 @@ await client.Template().remove({ id: &quot;example_id&quot; })
 </tr>
 </tbody>
 </table>
-<h5 id="403-authorization-failed-2" class="status" data-status="4xx">403: Authorization failed</h5>
+<h5 id="403-authorization-failed-5" class="status" data-status="4xx">403: Authorization failed</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>

@@ -15,7 +15,7 @@ import (
 // reqdata map passed through to the SDK. For load, `query` should be
 // `{"id": <value>}`. For list, omit `query` or pass an empty map.
 type Args struct {
-	Entity string         `json:"entity" jsonschema:"content | message | message_event | option | schedule | self | self_admin | template | traffic | traffic_file | variable"`
+	Entity string         `json:"entity" jsonschema:"content | message | message_event | option | schedule | self | self_admin | template | template_review_event | traffic | traffic_file | variable"`
 	Query  map[string]any `json:"query,omitempty" jsonschema:"optional match map e.g. {\"id\":1} for load, omit for list"`
 }
 
@@ -92,6 +92,8 @@ func entityFor(client *sdk.LmMultichannelSDK, name string) (sdk.LmMultichannelEn
 		return client.SelfAdmin(nil), nil
 	case "template":
 		return client.Template(nil), nil
+	case "template_review_event":
+		return client.TemplateReviewEvent(nil), nil
 	case "traffic":
 		return client.Traffic(nil), nil
 	case "traffic_file":

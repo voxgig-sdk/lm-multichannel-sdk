@@ -8,6 +8,7 @@
 @"./BasicSelfAdminFlow.aontu"
 @"./BasicSelfFlow.aontu"
 @"./BasicTemplateFlow.aontu"
+@"./BasicTemplateReviewEventFlow.aontu"
 @"./BasicTrafficFileFlow.aontu"
 @"./BasicTrafficFlow.aontu"
 @"./BasicVariableFlow.aontu"

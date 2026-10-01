@@ -32,6 +32,7 @@
     "docs/api/self.html",
     "docs/api/self_admin.html",
     "docs/api/template.html",
+    "docs/api/template_review_event.html",
     "docs/api/traffic.html",
     "docs/api/traffic_file.html",
     "docs/api/variable.html",

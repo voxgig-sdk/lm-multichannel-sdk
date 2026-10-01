@@ -1,12 +1,12 @@
 # MyLINK Multichannel API
 
-Public API for MyLINK Multichannel Messaging API platform. Supports sending messages across SMS, RCS, Viber, WhatsApp and other channels, managing message templates, downloading traffic files, and configuring account settings. ## Authentication Two authentication methods are available depending on the endpoint root: - **API Key** (`/v1`): Pass your API key in the `x-api-key` HTTP header. - **OAuth2** (`/v2`): Obtain a JWT token from the CPaaS SSO token endpoint https://sso.linkmobility.com/auth/realms/CPaaS/protocol/openid-connect/token and pass it as a Bearer token (clientCredentials flow type) ## Receiving events OCM produces events throughout the lifecycle of messages (`messageStatusChanged`), when end-users interact (`userMessageReceived`), and when template reviews change (`templateReviewStatusChanged`). Three methods are available to consume these events: | Method | Endpoint | Delivery | Event types | Pros | Cons | |--------|----------|----------|-------------|------|------| | **Callbacks** (webhooks) | Configured via `PATCH /self/settings` | Real-time push (HTTP POST) | All three | Lowest latency, no polling needed | Requires a publicly reachable HTTPS endpoint; must handle retries and idempotency | | **Get Message Events** | `GET /messages/&#123;messageId&#125;/events` | On-demand pull per message | `messageStatusChanged`, `userMessageReceived` only | Simple integration, no receiving endpoint needed | Shares rate limits with `POST /messages` (sending); not suited for high-traffic or bulk retrieval; no `templateReviewStatusChanged` | | **Traffic Files** | `GET /traffic/files` | Bulk pull (JSONL archives, 1 to ~15 min delay) | All three | Bulk retrieval of all events; no rate-limit impact on messaging; 30-day retention | Not real-time; requires downloading and parsing ZIP/JSONL files |
+MyLINK Multichannel Messaging API allows sending messages across SMS, RCS, Viber, WhatsApp and other channels, managing message templates, downloading traffic files, and configuring account settings. The documentation is also available as an agent skill, which extends AI assistants and coding agents with in-depth knowledge of the API. The skill is published in three packages, one per family of platforms: | Package | Download | Purpose | | --- | --- | --- | | **_Agent Plugins_ plugin** | [messaging-agent-plugin-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-agent-plugin-5.3.0.zip) | For the AI coding tools that support the open [Agent Plugins](https://agent-plugins.org) standard, such as GitHub Copilot, Visual Studio Code, OpenAI Codex, Cursor and Kiro. | | **Claude plugin** | [messaging-claude-plugin-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-claude-plugin-5.3.0.zip) | For Claude. Uploaded in claude.ai or the Claude desktop app (*Customize &gt; Plugins*), it makes the skill available in chat, in Cowork and in Claude Code. | | **Microsoft 365 Copilot skill** | [messaging-skills-365copilot-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-skills-365copilot-5.3.0.zip) | For Microsoft 365 Copilot agents, added as a skill in Agent Builder, which imports skills rather than plugins. |
 
 ## Start here
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 11 entities and 30 HTTP routes. There are 6 SDK targets and 2 companion tools.
+The selected API surface contains 12 entities and 31 HTTP routes. There are 6 SDK targets and 2 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
@@ -31,6 +31,10 @@ Key fields to recognise:
 Results: Messages accepted for sending; Schedule found; Schedule deleted.
 
 SDK operations: `create`, `load`, `remove`.
+
+Key fields to recognise:
+
+- `requestId`: Unique request identifier
 
 ### [MessageEvent](docs/api/message_event.html)
 
@@ -90,22 +94,34 @@ Key fields to recognise:
 - `details`: Additional details about the latest status
 - `occurredOn`: Date and time of last review status change
 
+### [TemplateReviewEvent](docs/api/template_review_event.html)
+
+Results: Events found.
+
+SDK operations: `list`.
+
+Key fields to recognise:
+
+- `accountId`: Account identifier
+- `eventId`: Unique event identifier (for idempotent processing / deduplication)
+- `on`: UTC date-time when the event occurred
+
 ### [Traffic](docs/api/traffic.html)
 
-Results: File deleted.
+Results: Files listed; File deleted.
 
-SDK operations: `remove`.
-
-### [TrafficFile](docs/api/traffic_file.html)
-
-Results: Files listed.
-
-SDK operations: `list`, `load`.
+SDK operations: `list`, `remove`.
 
 Key fields to recognise:
 
 - `path`: Relative file path: /events/&#123;year&#125;/&#123;month&#125;/&#123;day&#125;/&#123;hour&#125;/&#123;sequence&#125;.zip
 - `url`: Absolute download URL with security token (expires after 15 minutes)
+
+### [TrafficFile](docs/api/traffic_file.html)
+
+Results: Files listed.
+
+SDK operations: `load`.
 
 ### [Variable](docs/api/variable.html)
 
@@ -151,8 +167,9 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | [Template](docs/api/template.html) | `remove` | `DELETE /templates/{templateId}/reviews/{channelId}` | Required |
 | [Template](docs/api/template.html) | `remove` | `DELETE /templates/{templateId}` | Required |
 | [Template](docs/api/template.html) | `update` | `PUT /templates/{templateId}/reviews/{channelId}` | Required |
+| [TemplateReviewEvent](docs/api/template_review_event.html) | `list` | `GET /templates/{templateId}/reviews/{channelId}/events` | Required |
+| [Traffic](docs/api/traffic.html) | `list` | `GET /traffic/files` | Required |
 | [Traffic](docs/api/traffic.html) | `remove` | `DELETE /traffic/files/{path}` | Required |
-| [TrafficFile](docs/api/traffic_file.html) | `list` | `GET /traffic/files` | Required |
 | [TrafficFile](docs/api/traffic_file.html) | `load` | `GET /traffic/files/{path}` | Required |
 | [Variable](docs/api/variable.html) | `create` | `POST /templates/{templateId}/variables` | Required |
 | [Variable](docs/api/variable.html) | `list` | `GET /templates/{templateId}/variables` | Required |
@@ -160,14 +177,14 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 
 ## Connect to the API
 
-- Production (API Key auth): `https://api.linkmobility.com/v1`
-- Production (OAuth2 auth): `https://api.linkmobility.com/v2`
+- Production (API Key auth): `https://ocm.linkmobility.solutions/v1`
+- Production (OAuth2 auth): `https://ocm.linkmobility.solutions/v2`
 
 The default credential is sent in the `x-api-key` header.
 
-API key for /v1 endpoints
+API key for /v1 operations
 
-OAuth2 client credentials for /v2 endpoints
+OAuth2 client credentials for /v2 operations
 
 Check authentication for the route you plan to call. A route that declares no authentication can be used without credentials; this does not change the requirements of other routes. Keep credentials in environment variables or a configured secret provider, and keep them out of source control and logs.
 
@@ -211,7 +228,7 @@ Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `lm-multichannel_list`: List records for an entity. Supported entities: `message_event`, `template`, `traffic_file`, `variable`.
+- `lm-multichannel_list`: List records for an entity. Supported entities: `message_event`, `template`, `template_review_event`, `traffic`, `variable`.
 - `lm-multichannel_load`: Load one record for an entity. Supported entities: `content`, `message`, `option`, `schedule`, `self`, `template`, `traffic_file`.
 
 ## Operational features

@@ -17,6 +17,13 @@ main: kit: entity: message: {
       r: true
       t: "`$ARRAY`"
     }
+    requestId: {
+      h: "Request Id"
+      n: "requestId"
+      r: true
+      sh: "Unique request identifier"
+      t: "`$STRING`"
+    }
   }
 
   id: {
@@ -43,7 +50,9 @@ main: kit: entity: message: {
             }
           ]
           t: {
-            req: "`reqdata`"
+            req: {
+              messages: "`reqdata.messages`"
+            }
             res: "`body`"
           }
         }
@@ -63,7 +72,7 @@ main: kit: entity: message: {
               {
                 k: "param"
                 n: "id"
-                or: "message_id"
+                or: "messageId"
                 r: true
                 t: "`$STRING`"
               }
@@ -114,7 +123,7 @@ main: kit: entity: message: {
               {
                 k: "param"
                 n: "id"
-                or: "message_id"
+                or: "messageId"
                 r: true
                 t: "`$STRING`"
               }

@@ -50,6 +50,7 @@ class Message
 {
     public ?string $id = null;
     public array $messages;
+    public string $requestId;
 }
 
 /** Request payload for Message#load. */
@@ -63,6 +64,7 @@ class MessageCreateData
 {
     public ?string $id = null;
     public array $messages;
+    public string $requestId;
 }
 
 /** Request payload for Message#remove. */
@@ -251,9 +253,39 @@ class TemplateRemoveMatch
     public string $id;
 }
 
+/** TemplateReviewEvent entity data model. */
+class TemplateReviewEvent
+{
+    public string $accountId;
+    public string $eventId;
+    public array $messageStatusChanged;
+    public string $on;
+    public array $templateReviewStatusChanged;
+    public array $userMessageReceived;
+}
+
+/** Request payload for TemplateReviewEvent#list. */
+class TemplateReviewEventListMatch
+{
+    public string $review_id;
+    public string $template_id;
+    public ?int $page_index = null;
+    public ?int $page_size = null;
+    public ?string $sort = null;
+}
+
 /** Traffic entity data model. */
 class Traffic
 {
+    public string $path;
+    public string $url;
+}
+
+/** Request payload for Traffic#list. */
+class TrafficListMatch
+{
+    public ?string $path = null;
+    public ?string $url = null;
 }
 
 /** Request payload for Traffic#remove. */
@@ -267,23 +299,12 @@ class TrafficFile
 {
     public array $files;
     public ?string $id = null;
-    public string $path;
-    public string $url;
 }
 
 /** Request payload for TrafficFile#load. */
 class TrafficFileLoadMatch
 {
     public string $id;
-}
-
-/** Request payload for TrafficFile#list. */
-class TrafficFileListMatch
-{
-    public ?array $files = null;
-    public ?string $id = null;
-    public ?string $path = null;
-    public ?string $url = null;
 }
 
 /** Variable entity data model. */

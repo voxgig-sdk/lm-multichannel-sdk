@@ -14,6 +14,7 @@
 <a href="../api/self.html">Self</a>
 <a href="../api/self_admin.html">SelfAdmin</a>
 <a href="../api/template.html">Template</a>
+<a href="../api/template_review_event.html">TemplateReviewEvent</a>
 <a href="../api/traffic.html">Traffic</a>
 <a href="../api/traffic_file.html">TrafficFile</a>
 <a href="../api/variable.html">Variable</a></details>
@@ -84,12 +85,16 @@
 <td><code>create</code>, <code>list</code>, <code>load</code>, <code>patch</code>, <code>remove</code>, <code>update</code></td>
 </tr>
 <tr>
+<td><a href="../api/template_review_event.html">TemplateReviewEvent</a></td>
+<td><code>list</code></td>
+</tr>
+<tr>
 <td><a href="../api/traffic.html">Traffic</a></td>
-<td><code>remove</code></td>
+<td><code>list</code>, <code>remove</code></td>
 </tr>
 <tr>
 <td><a href="../api/traffic_file.html">TrafficFile</a></td>
-<td><code>list</code>, <code>load</code></td>
+<td><code>load</code></td>
 </tr>
 <tr>
 <td><a href="../api/variable.html">Variable</a></td>
@@ -119,7 +124,7 @@ client = LmMultichannelSDK({&quot;apikey&quot;: os.environ.get(&quot;LM_MULTICHA
 </code></pre>
 <h2 id="client-defaults">Client defaults</h2>
 <pre><code class="language-json">{
-  &quot;base&quot;: &quot;https://api.linkmobility.com/v1&quot;,
+  &quot;base&quot;: &quot;https://ocm.linkmobility.solutions/v1&quot;,
   &quot;auth&quot;: {
     &quot;prefix&quot;: &quot;&quot;
   },
@@ -135,6 +140,7 @@ client = LmMultichannelSDK({&quot;apikey&quot;: os.environ.get(&quot;LM_MULTICHA
     &quot;self&quot;: {},
     &quot;self_admin&quot;: {},
     &quot;template&quot;: {},
+    &quot;template_review_event&quot;: {},
     &quot;traffic&quot;: {},
     &quot;traffic_file&quot;: {},
     &quot;variable&quot;: {}

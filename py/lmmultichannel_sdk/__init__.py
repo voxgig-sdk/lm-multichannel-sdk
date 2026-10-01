@@ -14,11 +14,15 @@ from lmmultichannel_sdk.features import _has_feature, _make_feature
 
 
 class LmMultichannelSDK:
+    # The options hold the credential. A slot keeps them reachable as
+    # `client.options` and out of `vars(client)` and every attribute dump;
+    # the dict entry keeps the instance open for everything else.
+    __slots__ = ("_options", "__dict__")
 
     def __init__(self, options=None):
         self.mode = "live"
         self.features = []
-        self.options = None
+        self._options = None
 
         utility = LmMultichannelUtility()
         self._utility = utility
@@ -86,6 +90,17 @@ class LmMultichannelSDK:
         utility.feature_hook(self._rootctx, "PostConstruct")
 
         # #BuildFeatures
+
+    @property
+    def options(self):
+        return self._options
+
+    @options.setter
+    def options(self, value):
+        self._options = value
+
+    def __repr__(self):
+        return "LmMultichannelSDK(mode=" + repr(self.mode) + ")"
 
     def options_map(self):
         out = vs.clone(self.options)
@@ -207,7 +222,8 @@ class LmMultichannelSDK:
         except Exception as err:
             # direct() is the raw-HTTP escape hatch: it never raises, it
             # returns a result object callers branch on via result["ok"].
-            return {"ok": False, "err": err}
+            # That error never passes through make_error, so it is cleaned.
+            return {"ok": False, "err": utility.clean(self._rootctx, err)}
 
         if fetchargs is None:
             fetchargs = {}
@@ -224,7 +240,7 @@ class LmMultichannelSDK:
         fetched, fetch_err = utility.fetcher(ctx, url, fetchdef)
 
         if fetch_err is not None:
-            return {"ok": False, "err": fetch_err}
+            return {"ok": False, "err": utility.clean(ctx, fetch_err)}
 
         if fetched is None:
             return {
@@ -355,6 +371,12 @@ class LmMultichannelSDK:
         return TemplateEntity(self, data)
 
 
+    def TemplateReviewEvent(self, data=None) -> "TemplateReviewEventEntity":
+        """Entity factory: client.TemplateReviewEvent().list() / client.TemplateReviewEvent().load({"id": ...})."""
+        from lmmultichannel_sdk.entity.template_review_event_entity import TemplateReviewEventEntity
+        return TemplateReviewEventEntity(self, data)
+
+
     def Traffic(self, data=None) -> "TrafficEntity":
         """Entity factory: client.Traffic().list() / client.Traffic().load({"id": ...})."""
         from lmmultichannel_sdk.entity.traffic_entity import TrafficEntity
@@ -408,6 +430,7 @@ if TYPE_CHECKING:
     from lmmultichannel_sdk.entity.self_entity import SelfEntity
     from lmmultichannel_sdk.entity.self_admin_entity import SelfAdminEntity
     from lmmultichannel_sdk.entity.template_entity import TemplateEntity
+    from lmmultichannel_sdk.entity.template_review_event_entity import TemplateReviewEventEntity
     from lmmultichannel_sdk.entity.traffic_entity import TrafficEntity
     from lmmultichannel_sdk.entity.traffic_file_entity import TrafficFileEntity
     from lmmultichannel_sdk.entity.variable_entity import VariableEntity

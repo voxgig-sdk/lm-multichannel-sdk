@@ -1,0 +1,151 @@
+# Entity: template_review_event
+
+main: kit: entity: template_review_event: {
+
+  alias: field: {}
+
+  fields: {
+    accountId: {
+      h: "Account Id"
+      n: "accountId"
+      r: true
+      sh: "Account identifier"
+      t: "`$STRING`"
+    }
+    eventId: {
+      h: "Event Id"
+      n: "eventId"
+      r: true
+      sh: "Unique event identifier (for idempotent processing / deduplication)"
+      t: "`$STRING`"
+    }
+    messageStatusChanged: {
+      h: "Message Status Changed"
+      n: "messageStatusChanged"
+      r: true
+      t: "`$OBJECT`"
+    }
+    on: {
+      fo: "date-time"
+      h: "On"
+      n: "on"
+      r: true
+      sh: "UTC date-time when the event occurred"
+      t: "`$STRING`"
+    }
+    templateReviewStatusChanged: {
+      h: "Template Review Status Changed"
+      n: "templateReviewStatusChanged"
+      r: true
+      t: "`$OBJECT`"
+    }
+    userMessageReceived: {
+      h: "User Message Received"
+      n: "userMessageReceived"
+      r: true
+      t: "`$OBJECT`"
+    }
+  }
+
+  name: "template_review_event"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /templates/{templateId}/reviews/{channelId}/events"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "review_id"
+                or: "channelId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "template_id"
+                or: "templateId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "page_index"
+                or: "_pageIndex"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "page_size"
+                or: "_pageSize"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: "desc:on"
+                k: "query"
+                n: "sort"
+                or: "_sort"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/templates/{templateId}/reviews/{channelId}/events"
+          q: {
+            exist: [
+              "page_index"
+              "page_size"
+              "review_id"
+              "sort"
+              "template_id"
+            ]
+          }
+          r: {
+            param: {
+              channelId: "review_id"
+              templateId: "template_id"
+            }
+          }
+          s: [
+            {
+              lit: "templates"
+            }
+            {
+              var: "template_id"
+            }
+            {
+              lit: "reviews"
+            }
+            {
+              var: "review_id"
+            }
+            {
+              lit: "events"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.events`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.template")]
+  ]
+
+}

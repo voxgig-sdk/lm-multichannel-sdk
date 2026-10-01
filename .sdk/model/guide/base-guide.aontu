@@ -4,9 +4,9 @@
 #   guide.aontu
 
 guide: {
-  metrics: count: entity: 11
-  metrics: count: path: 17
-  metrics: count: method: 30
+  metrics: count: entity: 12
+  metrics: count: path: 18
+  metrics: count: method: 31
 
   entity: content: {
     path: "/templates/{templateId}/content": {
@@ -114,17 +114,26 @@ guide: {
     }
   }
 
+  entity: template_review_event: {
+    path: "/templates/{templateId}/reviews/{channelId}/events": {
+      rename: param: "channelId": *"review_id"
+      rename: param: "templateId": *"template_id"
+      op: list: method: *GET
+      op: list: transform: res: *("`body.events`")|top
+    }
+  }
+
   entity: traffic: {
+    path: "/traffic/files": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.files`")|top
+    }
     path: "/traffic/files/{path}": {
       op: remove: method: *DELETE
     }
   }
 
   entity: traffic_file: {
-    path: "/traffic/files": {
-      op: list: method: *GET
-      op: list: transform: res: *("`body.files`")|top
-    }
     path: "/traffic/files/{path}": {
       rename: param: "path": *"id"
       op: load: method: *GET

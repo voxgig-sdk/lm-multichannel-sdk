@@ -1,6 +1,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -82,6 +83,22 @@ func NewLmMultichannelSDK(options map[string]any) *LmMultichannelSDK {
 	sdk.utility.FeatureHook(sdk.rootctx, "PostConstruct")
 
 	return sdk
+}
+
+// The client holds the credential in its options, so a print or a JSON dump
+// carries the name alone. Value receivers: a dereferenced client prints the
+// same way.
+func (sdk LmMultichannelSDK) String() string {
+	return "LmMultichannel " + vs.Jsonify(map[string]any{"name": "LmMultichannel"},
+		map[string]any{"indent": 0})
+}
+
+func (sdk LmMultichannelSDK) GoString() string {
+	return sdk.String()
+}
+
+func (sdk LmMultichannelSDK) MarshalJSON() ([]byte, error) {
+	return json.Marshal(map[string]any{"name": "LmMultichannel"})
 }
 
 func (sdk *LmMultichannelSDK) OptionsMap() map[string]any {
@@ -210,7 +227,7 @@ func (sdk *LmMultichannelSDK) rawRequest(fetchargs map[string]any) (map[string]a
 
 	fetchdef, err := sdk.Prepare(fetchargs)
 	if err != nil {
-		return map[string]any{"ok": false, "err": err}, nil
+		return map[string]any{"ok": false, "err": sdk.cleanErr(sdk.rootctx, err)}, nil
 	}
 
 	if fetchargs == nil {
@@ -236,7 +253,7 @@ func (sdk *LmMultichannelSDK) rawRequest(fetchargs map[string]any) (map[string]a
 	fetched, fetchErr := utility.Fetcher(ctx, url, fetchdef)
 
 	if fetchErr != nil {
-		return map[string]any{"ok": false, "err": fetchErr}, nil
+		return map[string]any{"ok": false, "err": sdk.cleanErr(ctx, fetchErr)}, nil
 	}
 
 	if fetched == nil {
@@ -278,6 +295,14 @@ func (sdk *LmMultichannelSDK) rawRequest(fetchargs map[string]any) (map[string]a
 	}
 
 	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
+}
+
+// A raw request returns its error rather than passing it through MakeError.
+func (sdk *LmMultichannelSDK) cleanErr(ctx *Context, err error) error {
+	if cleaned, ok := sdk.utility.Clean(ctx, err).(error); ok {
+		return cleaned
+	}
+	return err
 }
 
 func (sdk *LmMultichannelSDK) Graphql(
@@ -387,6 +412,14 @@ func (sdk *LmMultichannelSDK) SelfAdmin(data map[string]any) LmMultichannelEntit
 // client.Template(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *LmMultichannelSDK) Template(data map[string]any) LmMultichannelEntity {
 	return NewTemplateEntityFunc(sdk, data)
+}
+
+
+// TemplateReviewEvent returns a TemplateReviewEvent entity bound to this client.
+// Idiomatic usage: client.TemplateReviewEvent(nil).List(nil, nil) or
+// client.TemplateReviewEvent(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *LmMultichannelSDK) TemplateReviewEvent(data map[string]any) LmMultichannelEntity {
+	return NewTemplateReviewEventEntityFunc(sdk, data)
 }
 
 

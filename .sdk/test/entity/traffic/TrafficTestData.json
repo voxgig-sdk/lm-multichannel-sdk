@@ -2,25 +2,36 @@
   "existing": {
     "traffic": {
       "TRAFFIC00": {
-        "path": "PATH01",
+        "path": "s14",
+        "url": "s15",
         "id": "TRAFFIC00"
       },
       "TRAFFIC01": {
-        "path": "PATH01",
+        "path": "s28",
+        "url": "s29",
         "id": "TRAFFIC01"
       },
       "TRAFFIC02": {
-        "path": "PATH01",
+        "path": "s3c",
+        "url": "s3d",
         "id": "TRAFFIC02"
       }
     }
   },
   "new": {
     "traffic": {
-      "traffic_ref01": {}
+      "traffic_ref01": {
+        "path": "s50",
+        "url": "s51"
+      }
     }
   },
   "requests": {
+    "GET /traffic/files": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "DELETE /traffic/files/{path}": {
       "provenance": "operation-contract",
       "version": 2,

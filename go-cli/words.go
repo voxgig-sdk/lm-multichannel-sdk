@@ -93,6 +93,8 @@ func entityFor(client *sdk.LmMultichannelSDK, name string) (sdk.LmMultichannelEn
 		return client.SelfAdmin(nil), nil
 	case "template":
 		return client.Template(nil), nil
+	case "template_review_event":
+		return client.TemplateReviewEvent(nil), nil
 	case "traffic":
 		return client.Traffic(nil), nil
 	case "traffic_file":

@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 LmMultichannelUtility.registrar = ->(u) {
   u.clean = LmMultichannelUtilities::Clean
+  u.clean_add = LmMultichannelUtilities::CleanAdd
+  u.clean_explain = LmMultichannelUtilities::CleanExplain
   u.done = LmMultichannelUtilities::Done
   u.make_error = LmMultichannelUtilities::MakeError
   u.feature_add = LmMultichannelUtilities::FeatureAdd

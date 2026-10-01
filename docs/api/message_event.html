@@ -14,6 +14,7 @@
 <a href="../api/self.html">Self</a>
 <a href="../api/self_admin.html">SelfAdmin</a>
 <a href="../api/template.html">Template</a>
+<a href="../api/template_review_event.html">TemplateReviewEvent</a>
 <a href="../api/traffic.html">Traffic</a>
 <a href="../api/traffic_file.html">TrafficFile</a>
 <a href="../api/variable.html">Variable</a></details>
@@ -248,7 +249,7 @@ fmt.Println(message_events)
 <td><code>events[].messageStatusChanged.error</code></td>
 <td><code>object</code></td>
 <td>No</td>
-<td>Error details for <code>DELIVERY_FAILED</code> or <code>DELIVERY_RETRIED</code> statuses</td>
+<td>Error details for <code>DELIVERY_FAILED</code>, <code>DELIVERY_RETRIED</code> or <code>SCHEDULE_DELETION_FAILED</code> statuses. See the <a href="#tag/Message-Delivery-Errors">Message Delivery Errors</a> addendum for the error code reference.</td>
 </tr>
 <tr>
 <td><code>events[].messageStatusChanged.error.channelError</code></td>
@@ -260,7 +261,7 @@ fmt.Println(message_events)
 <td><code>events[].messageStatusChanged.error.code</code></td>
 <td><code>enum: CLIENT_MESSAGE_INVALID, CLIENT_CONFIGURATION_INVALID, CLIENT_MESSAGE_EXPIRED, CLIENT_QUOTA_EXCEEDED, CLIENT_MESSAGE_FORBIDDEN, CHANNEL_REJECTED, ...</code></td>
 <td>Yes</td>
-<td>Message delivery error code</td>
+<td>Message delivery error code, returned in <code>DeliveryError.code</code>. See the <a href="#tag/Message-Delivery-Errors">Message delivery errors</a> addendum for the full list of codes.</td>
 </tr>
 <tr>
 <td><code>events[].messageStatusChanged.error.details</code></td>
@@ -308,7 +309,7 @@ fmt.Println(message_events)
 <td><code>events[].messageStatusChanged.status</code></td>
 <td><code>enum: SCHEDULE_QUEUED, SCHEDULED, SCHEDULE_DELETED, SCHEDULE_DELETION_FAILED, QUEUED, SENT, ...</code></td>
 <td>Yes</td>
-<td>Message lifecycle status</td>
+<td>Message lifecycle status. See the <a href="#tag/Message-Statuses">Message statuses</a> addendum for the lifecycle diagram and the full status reference.</td>
 </tr>
 <tr>
 <td><code>events[].messageStatusChanged.userId</code></td>
@@ -356,7 +357,7 @@ fmt.Println(message_events)
 <td><code>events[].templateReviewStatusChanged.status</code></td>
 <td><code>enum: SUBMITTING, SUBMITTED, APPROVED, REJECTED, SUSPENDED, DELETING, ...</code></td>
 <td>Yes</td>
-<td>Template review lifecycle status</td>
+<td>Template review lifecycle status. See the <a href="#tag/Template-Review-Statuses">Template review statuses</a> addendum for the review lifecycle diagram and the full status reference.</td>
 </tr>
 <tr>
 <td><code>events[].templateReviewStatusChanged.templateId</code></td>
@@ -404,7 +405,7 @@ fmt.Println(message_events)
 <td><code>events[].userMessageReceived.content.location</code></td>
 <td><code>object</code></td>
 <td>No</td>
-<td></td>
+<td>Location shared by a user in an inbound event. Always numeric - no template variables apply.</td>
 </tr>
 <tr>
 <td><code>events[].userMessageReceived.content.location.description</code></td>
@@ -415,13 +416,13 @@ fmt.Println(message_events)
 <tr>
 <td><code>events[].userMessageReceived.content.location.latitude</code></td>
 <td><code>number (double)</code></td>
-<td>Yes</td>
+<td>No</td>
 <td>Latitude in degrees (plus/minus 90)</td>
 </tr>
 <tr>
 <td><code>events[].userMessageReceived.content.location.longitude</code></td>
 <td><code>number (double)</code></td>
-<td>Yes</td>
+<td>No</td>
 <td>Longitude in degrees (plus/minus 180)</td>
 </tr>
 <tr>
@@ -498,9 +499,9 @@ fmt.Println(message_events)
 </tr>
 <tr>
 <td><code>events[].userMessageReceived.content.postback.buttonType</code></td>
-<td><code>enum: reply, openUrl, dial, createCalendarEvent, shareLocation, viewLocation</code></td>
+<td><code>enum: reply, openUrl, dial, createCalendarEvent, shareLocation, viewLocation, ...</code></td>
 <td>No</td>
-<td>Type of button that triggered the postback</td>
+<td>Type of button that triggered the postback. flow marks a WhatsApp Flow response: payload then holds the JSON submitted by the flow, not a value defined at send time.</td>
 </tr>
 <tr>
 <td><code>events[].userMessageReceived.content.postback.payload</code></td>

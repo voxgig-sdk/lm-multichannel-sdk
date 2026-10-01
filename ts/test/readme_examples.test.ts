@@ -37,7 +37,7 @@ const SDK_NAME = 'LmMultichannelSDK'
 
 // A fixture for every entity, so list()/load() resolve offline with no
 // network. Snippet client construction is rewritten to seed this.
-const TEST_SEED = {"entity":{"content":{"test01":{"id":"test01"}},"message":{"test01":{"id":"test01"}},"message_event":{"test01":{"id":"test01"}},"option":{"test01":{"id":"test01"}},"schedule":{"test01":{"id":"test01"}},"self":{"test01":{"id":"test01"}},"self_admin":{"test01":{"id":"test01"}},"template":{"test01":{"id":"test01"}},"traffic":{"test01":{"id":"test01"}},"traffic_file":{"test01":{"id":"test01"}},"variable":{"test01":{"id":"test01"}}}}
+const TEST_SEED = {"entity":{"content":{"test01":{"id":"test01"}},"message":{"test01":{"id":"test01"}},"message_event":{"test01":{"id":"test01"}},"option":{"test01":{"id":"test01"}},"schedule":{"test01":{"id":"test01"}},"self":{"test01":{"id":"test01"}},"self_admin":{"test01":{"id":"test01"}},"template":{"test01":{"id":"test01"}},"template_review_event":{"test01":{"id":"test01"}},"traffic":{"test01":{"id":"test01"}},"traffic_file":{"test01":{"id":"test01"}},"variable":{"test01":{"id":"test01"}}}}
 const SEED_ARG = JSON.stringify(TEST_SEED)
 const SEEDED_CTOR = SDK_NAME + '.test(' + SEED_ARG + ')'
 

@@ -84,6 +84,7 @@ _ENTITIES = {
     "Self": "self",
     "SelfAdmin": "self_admin",
     "Template": "template",
+    "TemplateReviewEvent": "template_review_event",
     "Traffic": "traffic",
     "TrafficFile": "traffic_file",
     "Variable": "variable",

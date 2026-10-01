@@ -4,5 +4,22 @@
 
 @"./base-guide.aontu"
 
+# SEND ONLY WHAT THE API DEFINES. POST /messages takes { messages: [...] }.
+# apidef takes the message entity's fields from the 202 response, so the typed
+# create input also lists requestId, a response field, as required. Build the
+# body from `messages` alone, so a caller satisfying the type never sends it.
+guide: entity: message: path: "/messages": op: create: transform: req: messages: "`reqdata.messages`"
+
+# TWO TEMPLATE READS WERE UNREACHABLE. GET /templates/{templateId}/meta and
+# GET /templates/{templateId}/reviews select on the same key, `id`, as
+# GET /templates/{templateId}, so load({ id }) always took the plain read.
+# An action on each path makes them selectable without changing what
+# load({ id }) does: load({ id, $action: 'meta' }) and
+# load({ id, $action: 'review' }) (apidef singularises action names, so the
+# reviews action is named `review` here too). The same action applies to the other ops
+# on the meta path, so create({ id, $action: 'meta' }) replaces a template's
+# metadata while create({ ... }) still creates a template.
+guide: entity: template: path: "/templates/{templateId}/meta": action: meta: {}
+guide: entity: template: path: "/templates/{templateId}/reviews": action: review: {}
 
 

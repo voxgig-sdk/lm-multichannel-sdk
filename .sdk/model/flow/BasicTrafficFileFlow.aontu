@@ -7,18 +7,6 @@ main: kit: flow: BasicTrafficFileFlow:
   name: "BasicTrafficFileFlow",
   step: [
     {
-      o: "list",
-      v: [
-        {
-          apply: "ItemExists",
-          def: {
-            ref: "traffic_file_ref01"
-          }
-        }
-      ]
-    }
-
-    {
       i: {
         ref: "traffic_file_ref01",
         srcdatavar: "traffic_file_ref01_data",

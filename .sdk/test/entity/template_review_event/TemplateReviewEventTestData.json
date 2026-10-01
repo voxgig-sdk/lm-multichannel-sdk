@@ -1,0 +1,55 @@
+{
+  "existing": {
+    "template_review_event": {
+      "TEMPLATE_REVIEW_EVENT00": {
+        "accountId": "s3c",
+        "eventId": "s3d",
+        "messageStatusChanged": {},
+        "on": "s3f",
+        "templateReviewStatusChanged": {},
+        "userMessageReceived": {},
+        "review_id": "REVIEW01",
+        "template_id": "TEMPLATE01"
+      },
+      "TEMPLATE_REVIEW_EVENT01": {
+        "accountId": "s78",
+        "eventId": "s79",
+        "messageStatusChanged": {},
+        "on": "s7b",
+        "templateReviewStatusChanged": {},
+        "userMessageReceived": {},
+        "review_id": "REVIEW01",
+        "template_id": "TEMPLATE01"
+      },
+      "TEMPLATE_REVIEW_EVENT02": {
+        "accountId": "sb4",
+        "eventId": "sb5",
+        "messageStatusChanged": {},
+        "on": "sb7",
+        "templateReviewStatusChanged": {},
+        "userMessageReceived": {},
+        "review_id": "REVIEW01",
+        "template_id": "TEMPLATE01"
+      }
+    }
+  },
+  "new": {
+    "template_review_event": {
+      "template_review_event_ref01": {
+        "accountId": "sf0",
+        "eventId": "sf1",
+        "messageStatusChanged": {},
+        "on": "sf3",
+        "templateReviewStatusChanged": {},
+        "userMessageReceived": {}
+      }
+    }
+  },
+  "requests": {
+    "GET /templates/{templateId}/reviews/{channelId}/events": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

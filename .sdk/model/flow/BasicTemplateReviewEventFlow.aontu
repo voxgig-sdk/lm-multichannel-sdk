@@ -1,0 +1,27 @@
+# BasicTemplateReviewEventFlow
+
+main: kit: flow: BasicTemplateReviewEventFlow:
+{
+  entity: "template_review_event",
+  kind: "basic",
+  name: "BasicTemplateReviewEventFlow",
+  step: [
+    {
+      m: {
+        review_id: "review01",
+        template_id: "template01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "template_review_event_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicTemplateReviewEventFlow"
+}

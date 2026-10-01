@@ -3,39 +3,26 @@
     "traffic_file": {
       "TRAFFIC_FILE00": {
         "files": [],
-        "id": "TRAFFIC_FILE00",
-        "path": "s2a",
-        "url": "s2b"
+        "id": "TRAFFIC_FILE00"
       },
       "TRAFFIC_FILE01": {
         "files": [],
-        "id": "TRAFFIC_FILE01",
-        "path": "s52",
-        "url": "s53"
+        "id": "TRAFFIC_FILE01"
       },
       "TRAFFIC_FILE02": {
         "files": [],
-        "id": "TRAFFIC_FILE02",
-        "path": "s7a",
-        "url": "s7b"
+        "id": "TRAFFIC_FILE02"
       }
     }
   },
   "new": {
     "traffic_file": {
       "traffic_file_ref01": {
-        "files": [],
-        "path": "sa2",
-        "url": "sa3"
+        "files": []
       }
     }
   },
   "requests": {
-    "GET /traffic/files": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
     "GET /traffic/files/{path}": {
       "provenance": "operation-contract",
       "version": 2,

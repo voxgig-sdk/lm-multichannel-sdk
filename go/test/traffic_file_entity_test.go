@@ -24,54 +24,6 @@ func TestTrafficFileEntity(t *testing.T) {
 		}
 	})
 
-	// Feature #4: the entity Stream(action, ...) method runs the op pipeline and
-	// returns a channel over result items. With the streaming feature active it
-	// yields the feature's incremental output; otherwise it falls back to the
-	// materialised list so Stream always yields.
-	t.Run("stream", func(t *testing.T) {
-		seed := map[string]any{
-			"entity": map[string]any{
-				"traffic_file": map[string]any{
-					"s1": map[string]any{"id": "s1"},
-					"s2": map[string]any{"id": "s2"},
-					"s3": map[string]any{"id": "s3"},
-				},
-			},
-		}
-
-		// Fallback: streaming inactive -> yields the materialised list items.
-		base := sdk.TestSDK(seed, nil)
-		var seen []any
-		for item := range base.TrafficFile(nil).Stream("list", nil, nil) {
-			seen = append(seen, item)
-		}
-		if len(seen) != 3 {
-			t.Fatalf("expected 3 streamed items, got %d", len(seen))
-		}
-
-		// Inbound: streaming active -> yields each item from the feature iterator.
-		hasStreaming := false
-		if fm, ok := core.SharedConfig()["feature"].(map[string]any); ok {
-			_, hasStreaming = fm["streaming"]
-		}
-		if hasStreaming {
-			streamSdk := sdk.TestSDK(seed, map[string]any{
-				"feature": map[string]any{"streaming": map[string]any{"active": true}},
-			})
-			var got []any
-			for item := range streamSdk.TrafficFile(nil).Stream("list", nil, nil) {
-				if sub, ok := item.([]any); ok {
-					got = append(got, sub...)
-				} else {
-					got = append(got, item)
-				}
-			}
-			if len(got) != 3 {
-				t.Fatalf("expected 3 items via streaming feature, got %d", len(got))
-			}
-		}
-	})
-
 	t.Run("basic", func(t *testing.T) {
 		setup := traffic_fileBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
@@ -80,7 +32,7 @@ func TestTrafficFileEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"list", "load"} {
+		for _, _op := range []string{"load"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "traffic_file." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -107,20 +59,8 @@ func TestTrafficFileEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = trafficFileRef01Data
 
-		// LIST
-		trafficFileRef01Ent := client.TrafficFile(nil)
-		trafficFileRef01Match := map[string]any{}
-
-		trafficFileRef01ListResult, err := trafficFileRef01Ent.List(trafficFileRef01Match, nil)
-		if err != nil {
-			t.Fatalf("list failed: %v", err)
-		}
-		_, trafficFileRef01ListOk := trafficFileRef01ListResult.([]any)
-		if !trafficFileRef01ListOk {
-			t.Fatalf("expected list result to be an array, got %T", trafficFileRef01ListResult)
-		}
-
 		// LOAD
+		trafficFileRef01Ent := client.TrafficFile(nil)
 		trafficFileRef01MatchDt0 := map[string]any{
 			"id": trafficFileRef01Data["id"],
 		}

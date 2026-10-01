@@ -36,6 +36,8 @@ var NewSelfAdminEntityFunc func(client *LmMultichannelSDK, entopts map[string]an
 
 var NewTemplateEntityFunc func(client *LmMultichannelSDK, entopts map[string]any) LmMultichannelEntity
 
+var NewTemplateReviewEventEntityFunc func(client *LmMultichannelSDK, entopts map[string]any) LmMultichannelEntity
+
 var NewTrafficEntityFunc func(client *LmMultichannelSDK, entopts map[string]any) LmMultichannelEntity
 
 var NewTrafficFileEntityFunc func(client *LmMultichannelSDK, entopts map[string]any) LmMultichannelEntity

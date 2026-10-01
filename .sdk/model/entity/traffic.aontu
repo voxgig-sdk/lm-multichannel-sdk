@@ -4,8 +4,51 @@ main: kit: entity: traffic: {
 
   alias: field: {}
 
+  fields: {
+    path: {
+      h: "Path"
+      n: "path"
+      r: true
+      sh: "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip"
+      t: "`$STRING`"
+    }
+    url: {
+      h: "Url"
+      n: "url"
+      r: true
+      sh: "Absolute download URL with security token (expires after 15 minutes)"
+      t: "`$STRING`"
+    }
+  }
+
   name: "traffic"
   op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /traffic/files"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/traffic/files"
+          s: [
+            {
+              lit: "traffic"
+            }
+            {
+              lit: "files"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.files`"
+          }
+        }
+      ]
+    }
     remove: {
       name: "remove"
       points: [
@@ -51,9 +94,6 @@ main: kit: entity: traffic: {
         }
       ]
     }
-  }
-
-  fields: {
   }
 
 
