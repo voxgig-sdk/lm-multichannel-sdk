@@ -1,6 +1,14 @@
 # MyLINK Multichannel API
 
-MyLINK Multichannel Messaging API allows sending messages across SMS, RCS, Viber, WhatsApp and other channels, managing message templates, downloading traffic files, and configuring account settings. The documentation is also available as an agent skill, which extends AI assistants and coding agents with in-depth knowledge of the API. The skill is published in three packages, one per family of platforms: | Package | Download | Purpose | | --- | --- | --- | | **_Agent Plugins_ plugin** | [messaging-agent-plugin-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-agent-plugin-5.3.0.zip) | For the AI coding tools that support the open [Agent Plugins](https://agent-plugins.org) standard, such as GitHub Copilot, Visual Studio Code, OpenAI Codex, Cursor and Kiro. | | **Claude plugin** | [messaging-claude-plugin-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-claude-plugin-5.3.0.zip) | For Claude. Uploaded in claude.ai or the Claude desktop app (*Customize &gt; Plugins*), it makes the skill available in chat, in Cowork and in Claude Code. | | **Microsoft 365 Copilot skill** | [messaging-skills-365copilot-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-skills-365copilot-5.3.0.zip) | For Microsoft 365 Copilot agents, added as a skill in Agent Builder, which imports skills rather than plugins. |
+> MyLINK Multichannel Messaging API allows sending messages across SMS, RCS, Viber, WhatsApp and other channels, managing message templates, downloading traffic files, and configuring account settings.
+>
+> The documentation is also available as an agent skill, which extends AI assistants and coding agents with in-depth knowledge of the API. The skill is published in three packages, one per family of platforms:
+>
+> | Package | Download | Purpose |
+> | --- | --- | --- |
+> | **`_Agent` `Plugins_` plugin** | [messaging-agent-plugin-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-agent-plugin-5.3.0.zip) | For the AI coding tools that support the open [Agent Plugins](https://agent-plugins.org) standard, such as GitHub Copilot, Visual Studio Code, OpenAI Codex, Cursor and Kiro. |
+> | **Claude plugin** | [messaging-claude-plugin-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-claude-plugin-5.3.0.zip) | For Claude. Uploaded in claude.ai or the Claude desktop app (*Customize &gt; Plugins*), it makes the skill available in chat, in Cowork and in Claude Code. |
+> | **Microsoft 365 Copilot skill** | [messaging-skills-365copilot-5.3.0.zip](https://ocm.linkmobility.solutions/public/agent-plugins/messaging-skills-365copilot-5.3.0.zip) | For Microsoft 365 Copilot agents, added as a skill in Agent Builder, which imports skills rather than plugins. |
 
 ## Start here
 
@@ -12,7 +20,7 @@ An entity groups related API operations. An operation can have several routes wi
 
 ## What the API provides
 
-### [Content](docs/api/content.html)
+### Content
 
 Results: Content updated; Content returned.
 
@@ -26,7 +34,7 @@ Key fields to recognise:
 - `suggestions`: Quick replies / suggestion buttons (not applicable to fromTemplate)
 - `text`: Simple text content
 
-### [Message](docs/api/message.html)
+### Message
 
 Results: Messages accepted for sending; Schedule found; Schedule deleted.
 
@@ -36,7 +44,7 @@ Key fields to recognise:
 
 - `requestId`: Unique request identifier
 
-### [MessageEvent](docs/api/message_event.html)
+### MessageEvent
 
 Results: Events found.
 
@@ -48,13 +56,13 @@ Key fields to recognise:
 - `eventId`: Unique event identifier (for idempotent processing / deduplication)
 - `on`: UTC date-time when the event occurred
 
-### [Option](docs/api/option.html)
+### Option
 
 Results: Options updated; Options returned.
 
 SDK operations: `create`, `load`, `update`.
 
-### [Schedule](docs/api/schedule.html)
+### Schedule
 
 Results: Count returned; Deletion initiated.
 
@@ -64,7 +72,7 @@ Key fields to recognise:
 
 - `count`: Number of active schedules
 
-### [Self](docs/api/self.html)
+### Self
 
 Results: Account info returned.
 
@@ -74,13 +82,13 @@ Key fields to recognise:
 
 - `accountId`: Unique technical account identifier
 
-### [SelfAdmin](docs/api/self_admin.html)
+### SelfAdmin
 
 Results: Settings updated.
 
 SDK operations: `update`.
 
-### [Template](docs/api/template.html)
+### Template
 
 Results: Meta updated; Template created; Template list; Review returned; Template found; Meta returned; Reviews returned; Deletion initiated; Template deleted; Submitted for review.
 
@@ -94,7 +102,7 @@ Key fields to recognise:
 - `details`: Additional details about the latest status
 - `occurredOn`: Date and time of last review status change
 
-### [TemplateReviewEvent](docs/api/template_review_event.html)
+### TemplateReviewEvent
 
 Results: Events found.
 
@@ -106,7 +114,7 @@ Key fields to recognise:
 - `eventId`: Unique event identifier (for idempotent processing / deduplication)
 - `on`: UTC date-time when the event occurred
 
-### [Traffic](docs/api/traffic.html)
+### Traffic
 
 Results: Files listed; File deleted.
 
@@ -117,13 +125,13 @@ Key fields to recognise:
 - `path`: Relative file path: /events/&#123;year&#125;/&#123;month&#125;/&#123;day&#125;/&#123;hour&#125;/&#123;sequence&#125;.zip
 - `url`: Absolute download URL with security token (expires after 15 minutes)
 
-### [TrafficFile](docs/api/traffic_file.html)
+### TrafficFile
 
 Results: Files listed.
 
 SDK operations: `load`.
 
-### [Variable](docs/api/variable.html)
+### Variable
 
 Results: Variables updated; Variables returned.
 
@@ -143,37 +151,37 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 
 | Entity | SDK operation | HTTP route | Authentication |
 | --- | --- | --- | --- |
-| [Content](docs/api/content.html) | `create` | `POST /templates/{templateId}/content` | Required |
-| [Content](docs/api/content.html) | `load` | `GET /templates/{templateId}/content` | Required |
-| [Message](docs/api/message.html) | `create` | `POST /messages` | Required |
-| [Message](docs/api/message.html) | `load` | `GET /messages/{messageId}/schedule` | Required |
-| [Message](docs/api/message.html) | `remove` | `DELETE /messages/{messageId}/schedule` | Required |
-| [MessageEvent](docs/api/message_event.html) | `list` | `GET /messages/{messageId}/events` | Required |
-| [Option](docs/api/option.html) | `create` | `POST /templates/{templateId}/options` | Required |
-| [Option](docs/api/option.html) | `load` | `GET /templates/{templateId}/options` | Required |
-| [Option](docs/api/option.html) | `update` | `PATCH /templates/{templateId}/options` | Required |
-| [Schedule](docs/api/schedule.html) | `load` | `GET /schedules:count` | Required |
-| [Schedule](docs/api/schedule.html) | `remove` | `DELETE /schedules` | Required |
-| [Self](docs/api/self.html) | `load` | `GET /self` | Required |
-| [SelfAdmin](docs/api/self_admin.html) | `update` | `PATCH /self/settings` | Required |
-| [Template](docs/api/template.html) | `create` | `POST /templates/{templateId}/meta` | Required |
-| [Template](docs/api/template.html) | `create` | `POST /templates` | Required |
-| [Template](docs/api/template.html) | `list` | `GET /templates` | Required |
-| [Template](docs/api/template.html) | `load` | `GET /templates/{templateId}/reviews/{channelId}` | Required |
-| [Template](docs/api/template.html) | `load` | `GET /templates/{templateId}` | Required |
-| [Template](docs/api/template.html) | `load` | `GET /templates/{templateId}/meta` | Required |
-| [Template](docs/api/template.html) | `load` | `GET /templates/{templateId}/reviews` | Required |
-| [Template](docs/api/template.html) | `patch` | `PATCH /templates/{templateId}/meta` | Required |
-| [Template](docs/api/template.html) | `remove` | `DELETE /templates/{templateId}/reviews/{channelId}` | Required |
-| [Template](docs/api/template.html) | `remove` | `DELETE /templates/{templateId}` | Required |
-| [Template](docs/api/template.html) | `update` | `PUT /templates/{templateId}/reviews/{channelId}` | Required |
-| [TemplateReviewEvent](docs/api/template_review_event.html) | `list` | `GET /templates/{templateId}/reviews/{channelId}/events` | Required |
-| [Traffic](docs/api/traffic.html) | `list` | `GET /traffic/files` | Required |
-| [Traffic](docs/api/traffic.html) | `remove` | `DELETE /traffic/files/{path}` | Required |
-| [TrafficFile](docs/api/traffic_file.html) | `load` | `GET /traffic/files/{path}` | Required |
-| [Variable](docs/api/variable.html) | `create` | `POST /templates/{templateId}/variables` | Required |
-| [Variable](docs/api/variable.html) | `list` | `GET /templates/{templateId}/variables` | Required |
-| [Variable](docs/api/variable.html) | `update` | `PATCH /templates/{templateId}/variables` | Required |
+| Content | `create` | `POST /templates/{templateId}/content` | Required |
+| Content | `load` | `GET /templates/{templateId}/content` | Required |
+| Message | `create` | `POST /messages` | Required |
+| Message | `load` | `GET /messages/{messageId}/schedule` | Required |
+| Message | `remove` | `DELETE /messages/{messageId}/schedule` | Required |
+| MessageEvent | `list` | `GET /messages/{messageId}/events` | Required |
+| Option | `create` | `POST /templates/{templateId}/options` | Required |
+| Option | `load` | `GET /templates/{templateId}/options` | Required |
+| Option | `update` | `PATCH /templates/{templateId}/options` | Required |
+| Schedule | `load` | `GET /schedules:count` | Required |
+| Schedule | `remove` | `DELETE /schedules` | Required |
+| Self | `load` | `GET /self` | Required |
+| SelfAdmin | `update` | `PATCH /self/settings` | Required |
+| Template | `create` | `POST /templates/{templateId}/meta` | Required |
+| Template | `create` | `POST /templates` | Required |
+| Template | `list` | `GET /templates` | Required |
+| Template | `load` | `GET /templates/{templateId}/reviews/{channelId}` | Required |
+| Template | `load` | `GET /templates/{templateId}` | Required |
+| Template | `load` | `GET /templates/{templateId}/meta` | Required |
+| Template | `load` | `GET /templates/{templateId}/reviews` | Required |
+| Template | `patch` | `PATCH /templates/{templateId}/meta` | Required |
+| Template | `remove` | `DELETE /templates/{templateId}/reviews/{channelId}` | Required |
+| Template | `remove` | `DELETE /templates/{templateId}` | Required |
+| Template | `update` | `PUT /templates/{templateId}/reviews/{channelId}` | Required |
+| TemplateReviewEvent | `list` | `GET /templates/{templateId}/reviews/{channelId}/events` | Required |
+| Traffic | `list` | `GET /traffic/files` | Required |
+| Traffic | `remove` | `DELETE /traffic/files/{path}` | Required |
+| TrafficFile | `load` | `GET /traffic/files/{path}` | Required |
+| Variable | `create` | `POST /templates/{templateId}/variables` | Required |
+| Variable | `list` | `GET /templates/{templateId}/variables` | Required |
+| Variable | `update` | `PATCH /templates/{templateId}/variables` | Required |
 
 ## Connect to the API
 
@@ -202,12 +210,12 @@ Choose the language already used by your application or service. The clients rep
 
 | Client | Repository directory | Distribution |
 | --- | --- | --- |
-| [Golang](docs/sdks/go.html) | `go/` | Build from source |
-| [Lua](docs/sdks/lua.html) | `lua/` | Build from source |
-| [PHP](docs/sdks/php.html) | `php/` | Build from source |
-| [Python](docs/sdks/py.html) | `py/` | Build from source |
-| [Ruby](docs/sdks/rb.html) | `rb/` | Build from source |
-| [TypeScript](docs/sdks/ts.html) | `ts/` | Build from source |
+| Golang | `go/` | Build from source |
+| Lua | `lua/` | Build from source |
+| PHP | `php/` | Build from source |
+| Python | `py/` | Build from source |
+| Ruby | `rb/` | Build from source |
+| TypeScript | `ts/` | Build from source |
 
 Build-from-source entries are not marked as published in the project model. Follow the build instructions in that target’s README, then consume the resulting package using your language’s local dependency mechanism. Published entries give the installation command recorded for that client.
 
@@ -215,14 +223,14 @@ Build-from-source entries are not marked as published in the project model. Foll
 
 These targets provide another way to use the API. Their available commands or tools can cover a smaller set of operations than the client libraries.
 
-### [Go CLI](docs/tools/go-cli.html)
+### Go CLI
 
 Use the command-line interface for shell-based tasks and scripts.
 
 Repository directory: `go-cli/`. Not published. Build from the go-cli directory.
 
 
-### [Go MCP server](docs/tools/go-mcp.html)
+### Go MCP server
 
 Use the MCP server to expose supported API operations to an MCP client.
 
@@ -235,21 +243,21 @@ Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
 Features supply behaviour around API calls, such as request handling, diagnostics, or local testing. Inclusion in this project does not mean a feature is enabled at runtime. Check the selected SDK’s supported features and configuration defaults, then enable the behaviour your application needs.
 
-- [`debug`](docs/features/debug.html): Request/response capture ring buffer for debugging
-- [`idempotency`](docs/features/idempotency.html): Idempotency keys for safe retries of mutating operations
-- [`metrics`](docs/features/metrics.html): Statistics capture: per-operation counters and latency
-- [`paging`](docs/features/paging.html): Pagination signals for list operations
-- [`ratelimit`](docs/features/ratelimit.html): Client-side rate limiting via a token bucket
-- [`retry`](docs/features/retry.html): Automatic retry of transient failures with exponential backoff
-- [`test`](docs/features/test.html): In-memory mock transport for testing without a live server
-- [`timeout`](docs/features/timeout.html): Per-request timeout with transport abort
+- `debug`: Request/response capture ring buffer for debugging
+- `idempotency`: Idempotency keys for safe retries of mutating operations
+- `metrics`: Statistics capture: per-operation counters and latency
+- `paging`: Pagination signals for list operations
+- `ratelimit`: Client-side rate limiting via a token bucket
+- `retry`: Automatic retry of transient failures with exponential backoff
+- `test`: In-memory mock transport for testing without a live server
+- `timeout`: Per-request timeout with transport abort
 
 Start with the default client configuration. Add request limits and diagnostics as needed, test error paths, and review retry behaviour before using operations that change data. A retry can repeat an operation unless the API provides a suitable guarantee.
 
 ## Continue with the documentation
 
-- Follow the [first-call guide](docs/guides/first-call.html) for the setup sequence.
-- Read the [authentication guide](docs/guides/authentication.html) before using protected routes.
-- Use the [API reference](docs/api/index.html) for request schemas, response formats, and status codes.
+- Follow the first-call guide for the setup sequence.
+- Read the authentication guide before using protected routes.
+- Use the API reference for request schemas, response formats, and status codes.
 - Check the chosen SDK or companion tool reference for its configuration and supported operations.
 

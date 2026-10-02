@@ -36,6 +36,6 @@
     "@voxgig/struct": ">=0.2",
     "jostraca": ">=0.39.0",
     "aontu": ">=0.75.0",
-    "@voxgig/docgen": "~0.30.0"
+    "@voxgig/docgen": "~0.30.1"
   }
 }
