@@ -36,7 +36,7 @@ class Config {
     main = {
         name: 'LmMultichannel',
         slug: "lm-multichannel",
-        version: "0.1.1",
+        version: "0.1.2",
         target: "ts",
     };
     feature = {
@@ -165,6 +165,7 @@ class Config {
             },
             "optspec": {
                 "clearTimer": "`$FUNCTION`",
+                "now": "`$FUNCTION`",
                 "setTimer": "`$FUNCTION`"
             },
             "strict": false,
@@ -209,13 +210,6 @@ class Config {
                     "title": "Carousel",
                     "type": "`$OBJECT`",
                     "req": true
-                },
-                {
-                    "name": "content",
-                    "title": "Content",
-                    "type": "`$OBJECT`",
-                    "req": true,
-                    "short": "Message content."
                 },
                 {
                     "name": "fromTemplate",
@@ -301,6 +295,10 @@ class Config {
                                 "exist": [
                                     "template_id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -353,6 +351,10 @@ class Config {
                                 "exist": [
                                     "template_id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -417,7 +419,11 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         }
                     ]
                 },
@@ -470,6 +476,10 @@ class Config {
                                 "exist": [
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -653,11 +663,12 @@ class Config {
                             },
                             "select": {
                                 "exist": [
-                                    "id",
-                                    "page_index",
-                                    "page_size",
-                                    "sort"
+                                    "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -726,6 +737,10 @@ class Config {
                                 "exist": [
                                     "template_id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -778,6 +793,10 @@ class Config {
                                 "exist": [
                                     "template_id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -830,6 +849,10 @@ class Config {
                                 "exist": [
                                     "template_id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -844,15 +867,7 @@ class Config {
             }
         },
         "schedule": {
-            "fields": [
-                {
-                    "name": "count",
-                    "title": "Count",
-                    "type": "`$INTEGER`",
-                    "req": true,
-                    "short": "Number of active schedules"
-                }
-            ],
+            "fields": [],
             "name": "schedule",
             "op": {
                 "load": {
@@ -901,11 +916,11 @@ class Config {
                                 ]
                             },
                             "select": {
-                                "exist": [
-                                    "between",
-                                    "campaign_id",
-                                    "time_zone"
-                                ]
+                                "$action": "count"
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -953,12 +968,10 @@ class Config {
                                     }
                                 ]
                             },
-                            "select": {
-                                "exist": [
-                                    "between",
-                                    "campaign_id",
-                                    "time_zone"
-                                ]
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -1008,7 +1021,11 @@ class Config {
                                 "res": "`body.account`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         }
                     ]
                 }
@@ -1060,7 +1077,11 @@ class Config {
                                 "res": "`body.settings`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         }
                     ]
                 }
@@ -1139,13 +1160,6 @@ class Config {
                     "short": "Template review lifecycle status."
                 },
                 {
-                    "name": "template",
-                    "title": "Template",
-                    "type": "`$OBJECT`",
-                    "req": true,
-                    "short": "Properties for creating a new template"
-                },
-                {
                     "name": "templateId",
                     "title": "Template Id",
                     "type": "`$STRING`",
@@ -1220,6 +1234,10 @@ class Config {
                                 "exist": [
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         },
                         {
@@ -1242,7 +1260,11 @@ class Config {
                                 "res": "`body.template`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         }
                     ]
                 },
@@ -1290,12 +1312,10 @@ class Config {
                                     }
                                 ]
                             },
-                            "select": {
-                                "exist": [
-                                    "page_index",
-                                    "page_size",
-                                    "sort"
-                                ]
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -1361,6 +1381,10 @@ class Config {
                                     "channel_id",
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         },
                         {
@@ -1403,6 +1427,10 @@ class Config {
                                 "exist": [
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         },
                         {
@@ -1450,6 +1478,10 @@ class Config {
                                 "exist": [
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         },
                         {
@@ -1497,6 +1529,10 @@ class Config {
                                 "exist": [
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -1550,6 +1586,10 @@ class Config {
                                 "exist": [
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -1615,6 +1655,10 @@ class Config {
                                     "channel_id",
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         },
                         {
@@ -1722,6 +1766,10 @@ class Config {
                                     "channel_id",
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -1859,12 +1907,13 @@ class Config {
                             },
                             "select": {
                                 "exist": [
-                                    "page_index",
-                                    "page_size",
                                     "review_id",
-                                    "sort",
                                     "template_id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -1923,7 +1972,11 @@ class Config {
                                 "res": "`body.files`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         }
                     ]
                 },
@@ -2048,6 +2101,10 @@ class Config {
                                 "exist": [
                                     "id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -2153,6 +2210,10 @@ class Config {
                                 "exist": [
                                     "template_id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -2205,6 +2266,10 @@ class Config {
                                 "exist": [
                                     "template_id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -2257,6 +2322,10 @@ class Config {
                                 "exist": [
                                     "template_id"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]

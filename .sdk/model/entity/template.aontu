@@ -80,13 +80,6 @@ main: kit: entity: template: {
       sh: "Template review lifecycle status."
       t: "`$STRING`"
     }
-    template: {
-      h: "Template"
-      n: "template"
-      r: true
-      sh: "Properties for creating a new template"
-      t: "`$OBJECT`"
-    }
     templateId: {
       h: "Template Id"
       n: "templateId"
@@ -121,6 +114,9 @@ main: kit: entity: template: {
       name: "create"
       points: [
         {
+          bf: [
+            "meta"
+          ]
           co: {
             id: "POST /templates/{templateId}/meta"
             source: "openapi3"
@@ -150,6 +146,10 @@ main: kit: entity: template: {
               templateId: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "templates"
@@ -167,6 +167,12 @@ main: kit: entity: template: {
           }
         }
         {
+          bf: [
+            "content"
+            "meta"
+            "options"
+            "variables"
+          ]
           co: {
             id: "POST /templates"
             source: "openapi3"
@@ -174,6 +180,10 @@ main: kit: entity: template: {
           }
           m: "POST"
           o: "/templates"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "templates"
@@ -225,12 +235,9 @@ main: kit: entity: template: {
           }
           m: "GET"
           o: "/templates"
-          q: {
-            exist: [
-              "page_index"
-              "page_size"
-              "sort"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -285,6 +292,10 @@ main: kit: entity: template: {
               templateId: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "templates"
@@ -333,6 +344,10 @@ main: kit: entity: template: {
               templateId: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "templates"
@@ -375,6 +390,10 @@ main: kit: entity: template: {
             param: {
               templateId: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -422,6 +441,10 @@ main: kit: entity: template: {
               templateId: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "templates"
@@ -444,6 +467,9 @@ main: kit: entity: template: {
       name: "patch"
       points: [
         {
+          bf: [
+            "meta"
+          ]
           co: {
             id: "PATCH /templates/{templateId}/meta"
             source: "openapi3"
@@ -472,6 +498,10 @@ main: kit: entity: template: {
             param: {
               templateId: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -531,6 +561,10 @@ main: kit: entity: template: {
               channelId: "channel_id"
               templateId: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -635,6 +669,10 @@ main: kit: entity: template: {
               channelId: "channel_id"
               templateId: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

@@ -5,7 +5,7 @@ LINK Mobility MyLINK Multichannel API clients in TypeScript, Python, PHP, Go, Ru
 The Python SDK for the LmMultichannel API — an entity-oriented client following Pythonic conventions.
 
 The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Content()` — each
-carrying a small, uniform set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`) instead of raw URL
+carrying a small, uniform set of operations (`list`, `load`, `create`, `update`, `patch`, `remove`) instead of raw URL
 paths and query strings. You work with named resources and verbs, which
 keeps the cognitive load low.
 
@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to PyPI. Install it from the GitHub
-release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/lm-multichannel-sdk/releases)) or
+release tag (`py/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/lm-multichannel-sdk/tags)) or
 from a source checkout:
 
 ```bash
@@ -26,7 +26,7 @@ pip install -e .
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -47,7 +47,7 @@ Content is nested under template, so provide the `template_id`.
 ```python
 try:
     content = client.Content().load({"template_id": "example_template_id"})
-    print(content)
+    print(content.data_get())
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -56,7 +56,7 @@ except Exception as err:
 
 ```python
 # Create — returns the ENTITY (call data_get() for the record)
-created = client.Content().create({"template_id": "example_template_id", "carousel": {}, "content": {}, "fromTemplate": {}, "location": {}, "media": {}})
+created = client.Content().create({"template_id": "example_template_id", "carousel": {}, "fromTemplate": {}, "location": {}, "media": {}})
 
 ```
 
@@ -68,7 +68,7 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 ```python
 try:
     message = client.Message().load({"id": "example_id"})
-    print(message)
+    print(message.data_get())
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -134,10 +134,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = LmMultichannelSDK.test()
 
-# Entity ops return the ENTITY and raises on error;
-# call data_get() for the record.
+# Entity ops return the entity, and list one per record; they raise on error.
 message = client.Message().load({"id": "test01"})
-# message contains the mock response record
+# data_get() on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -234,11 +233,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `patch` | `(reqdata, ctrl) -> any` | Change part of an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -248,9 +248,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
-ops, a `list` for `list`) and raise on error. Wrap calls in
-`try`/`except` to handle failures.
+Entity operations return the entity, and `list` a `list` of entities, one
+per record; an entity's `data_get()` reads its record (a `dict`). They raise
+on error, so wrap calls in `try`/`except` to handle failures.
 
 The `direct()` escape hatch never raises — it returns a result `dict`
 you branch on via `result["ok"]`:
@@ -272,7 +272,6 @@ On error, `ok` is `False` and `err` contains the error value.
 | --- | --- |
 | `card` | Rich card containing media, text and/or buttons |
 | `carousel` |  |
-| `content` | Message content. |
 | `fromTemplate` | Content generated from a pre-defined template |
 | `location` |  |
 | `media` |  |
@@ -325,7 +324,6 @@ API path: `/templates/{templateId}/options`
 
 | Field | Description |
 | --- | --- |
-| `count` | Number of active schedules |
 
 Operations: Load, Remove.
 
@@ -368,7 +366,6 @@ API path: `/self/settings`
 | `options` |  |
 | `reviews` | Channel-specific template reviews (keyed by channelId) |
 | `status` | Template review lifecycle status. |
-| `template` | Properties for creating a new template |
 | `templateId` | Unique template identifier (generated by the service) |
 | `updatedOn` | Date of last template update |
 | `variables` |  |
@@ -452,7 +449,6 @@ Create an instance: `content = client.Content()`
 | --- | --- | --- |
 | `card` | `dict` | Rich card containing media, text and/or buttons |
 | `carousel` | `dict` |  |
-| `content` | `dict` | Message content. |
 | `fromTemplate` | `dict` | Content generated from a pre-defined template |
 | `location` | `dict` |  |
 | `media` | `dict` |  |
@@ -471,7 +467,6 @@ content = client.Content().load({"template_id": "template_id"})
 content = client.Content().create({
     "template_id": "example_template_id",  # str
     "carousel": {},  # dict
-    "content": {},  # dict
     "fromTemplate": {},  # dict
     "location": {},  # dict
     "media": {},  # dict
@@ -589,12 +584,6 @@ Create an instance: `schedule = client.Schedule()`
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `count` | `int` | Number of active schedules |
-
 #### Example: Load
 
 ```python
@@ -655,6 +644,7 @@ Create an instance: `template = client.Template()`
 | `create(data)` | Create a new entity with the given data. |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -673,7 +663,6 @@ Create an instance: `template = client.Template()`
 | `options` | `dict` |  |
 | `reviews` | `dict` | Channel-specific template reviews (keyed by channelId) |
 | `status` | `str` | Template review lifecycle status. |
-| `template` | `dict` | Properties for creating a new template |
 | `templateId` | `str` | Unique template identifier (generated by the service) |
 | `updatedOn` | `str` | Date of last template update |
 | `variables` | `list` |  |
@@ -697,7 +686,6 @@ template = client.Template().create({
     "createdOn": "example_createdOn",  # str
     "occurredOn": "example_occurredOn",  # str
     "status": "example_status",  # str
-    "template": {},  # dict
     "templateId": "example_templateId",  # str
 })
 ```

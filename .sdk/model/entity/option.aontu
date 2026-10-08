@@ -19,6 +19,9 @@ main: kit: entity: option: {
       name: "create"
       points: [
         {
+          bf: [
+            "options"
+          ]
           co: {
             id: "POST /templates/{templateId}/options"
             source: "openapi3"
@@ -46,6 +49,10 @@ main: kit: entity: option: {
             param: {
               templateId: "template_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -97,6 +104,10 @@ main: kit: entity: option: {
               templateId: "template_id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "templates"
@@ -119,6 +130,9 @@ main: kit: entity: option: {
       name: "update"
       points: [
         {
+          bf: [
+            "options"
+          ]
           co: {
             id: "PATCH /templates/{templateId}/options"
             source: "openapi3"
@@ -146,6 +160,10 @@ main: kit: entity: option: {
             param: {
               templateId: "template_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

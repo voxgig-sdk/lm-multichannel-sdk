@@ -98,7 +98,7 @@ class TrafficFileEntity extends LmMultichannelEntityBase_1.LmMultichannelEntityB
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<TrafficFile> return stays clean under strict null checks.
+                // Promise<TrafficFileEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }

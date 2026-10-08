@@ -16,9 +16,6 @@
 # @!attribute [rw] carousel
 #   @return [Hash]
 #
-# @!attribute [rw] content
-#   @return [Hash]
-#
 # @!attribute [rw] fromTemplate
 #   @return [Hash]
 #
@@ -36,7 +33,6 @@
 Content = Struct.new(
   :card,
   :carousel,
-  :content,
   :fromTemplate,
   :location,
   :media,
@@ -65,9 +61,6 @@ ContentLoadMatch = Struct.new(
 # @!attribute [rw] carousel
 #   @return [Hash]
 #
-# @!attribute [rw] content
-#   @return [Hash]
-#
 # @!attribute [rw] fromTemplate
 #   @return [Hash]
 #
@@ -86,7 +79,6 @@ ContentCreateData = Struct.new(
   :template_id,
   :card,
   :carousel,
-  :content,
   :fromTemplate,
   :location,
   :media,
@@ -246,13 +238,8 @@ OptionUpdateData = Struct.new(
 )
 
 # Schedule entity data model.
-#
-# @!attribute [rw] count
-#   @return [Integer]
-Schedule = Struct.new(
-  :count,
-  keyword_init: true
-)
+class Schedule
+end
 
 # Request payload for Schedule#load.
 #
@@ -375,9 +362,6 @@ SelfAdminUpdateData = Struct.new(
 # @!attribute [rw] status
 #   @return [String]
 #
-# @!attribute [rw] template
-#   @return [Hash]
-#
 # @!attribute [rw] templateId
 #   @return [String]
 #
@@ -398,7 +382,6 @@ Template = Struct.new(
   :options,
   :reviews,
   :status,
-  :template,
   :templateId,
   :updatedOn,
   :variables,
@@ -470,9 +453,6 @@ TemplateListMatch = Struct.new(
 # @!attribute [rw] status
 #   @return [String]
 #
-# @!attribute [rw] template
-#   @return [Hash]
-#
 # @!attribute [rw] templateId
 #   @return [String]
 #
@@ -493,7 +473,6 @@ TemplateCreateData = Struct.new(
   :options,
   :reviews,
   :status,
-  :template,
   :templateId,
   :updatedOn,
   :variables,
@@ -538,9 +517,6 @@ TemplateCreateData = Struct.new(
 # @!attribute [rw] status
 #   @return [String, nil]
 #
-# @!attribute [rw] template
-#   @return [Hash, nil]
-#
 # @!attribute [rw] templateId
 #   @return [String, nil]
 #
@@ -562,7 +538,67 @@ TemplateUpdateData = Struct.new(
   :options,
   :reviews,
   :status,
-  :template,
+  :templateId,
+  :updatedOn,
+  :variables,
+  keyword_init: true
+)
+
+# Request payload for Template#patch.
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] channelData
+#   @return [Hash, nil]
+#
+# @!attribute [rw] content
+#   @return [Hash, nil]
+#
+# @!attribute [rw] createdOn
+#   @return [String, nil]
+#
+# @!attribute [rw] designerUrl
+#   @return [String, nil]
+#
+# @!attribute [rw] details
+#   @return [String, nil]
+#
+# @!attribute [rw] meta
+#   @return [Hash, nil]
+#
+# @!attribute [rw] occurredOn
+#   @return [String, nil]
+#
+# @!attribute [rw] options
+#   @return [Hash, nil]
+#
+# @!attribute [rw] reviews
+#   @return [Hash, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
+#
+# @!attribute [rw] templateId
+#   @return [String, nil]
+#
+# @!attribute [rw] updatedOn
+#   @return [String, nil]
+#
+# @!attribute [rw] variables
+#   @return [Array, nil]
+TemplatePatchData = Struct.new(
+  :id,
+  :channelData,
+  :content,
+  :createdOn,
+  :designerUrl,
+  :details,
+  :meta,
+  :occurredOn,
+  :options,
+  :reviews,
+  :status,
   :templateId,
   :updatedOn,
   :variables,

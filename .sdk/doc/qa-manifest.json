@@ -27,7 +27,6 @@
       "Messages accepted for sending",
       "Meta returned",
       "Meta updated",
-      "Number of active schedules",
       "OAuth2 client credentials for /v2 operations",
       "Optional immutable identifier for the variable (used for merge identity)",
       "Options returned",

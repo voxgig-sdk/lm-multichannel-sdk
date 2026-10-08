@@ -114,6 +114,7 @@ declare const OPTSPEC: {
             active: string[];
             ms: string[];
             clearTimer: string[];
+            now: string[];
             setTimer: string[];
         })[];
     };

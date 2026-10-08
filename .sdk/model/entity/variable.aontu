@@ -61,6 +61,9 @@ main: kit: entity: variable: {
       name: "create"
       points: [
         {
+          bf: [
+            "variables"
+          ]
           co: {
             id: "POST /templates/{templateId}/variables"
             source: "openapi3"
@@ -88,6 +91,10 @@ main: kit: entity: variable: {
             param: {
               templateId: "template_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -139,6 +146,10 @@ main: kit: entity: variable: {
               templateId: "template_id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "templates"
@@ -161,6 +172,9 @@ main: kit: entity: variable: {
       name: "update"
       points: [
         {
+          bf: [
+            "variables"
+          ]
           co: {
             id: "PATCH /templates/{templateId}/variables"
             source: "openapi3"
@@ -188,6 +202,10 @@ main: kit: entity: variable: {
             param: {
               templateId: "template_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

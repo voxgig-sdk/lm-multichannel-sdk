@@ -98,7 +98,7 @@ class MessageEntity extends LmMultichannelEntityBase_1.LmMultichannelEntityBase 
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Message> return stays clean under strict null checks.
+                // Promise<MessageEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }
@@ -186,7 +186,7 @@ class MessageEntity extends LmMultichannelEntityBase_1.LmMultichannelEntityBase 
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Message> return stays clean under strict null checks.
+                // Promise<MessageEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }

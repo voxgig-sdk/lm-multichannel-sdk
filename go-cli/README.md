@@ -21,6 +21,7 @@ export LM_MULTICHANNEL_APIKEY=sk_live_xxx
 # 4. Each command line is ONE boru expression, run against the API:
 ./lm-multichannel-cli load 1 content            # {id:1} shorthand
 ./lm-multichannel-cli load '{id:1}' content       # explicit match map
+./lm-multichannel-cli list message_event
 
 # 5. Override the API base URL for a single call
 LM_MULTICHANNEL_BASE=https://api.example.com ./lm-multichannel-cli load 1 content

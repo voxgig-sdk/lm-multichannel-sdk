@@ -17,7 +17,6 @@ class Content
 {
     public ?array $card = null;
     public array $carousel;
-    public array $content;
     public array $fromTemplate;
     public array $location;
     public array $media;
@@ -37,7 +36,6 @@ class ContentCreateData
     public string $template_id;
     public ?array $card = null;
     public array $carousel;
-    public array $content;
     public array $fromTemplate;
     public array $location;
     public array $media;
@@ -123,7 +121,6 @@ class OptionUpdateData
 /** Schedule entity data model. */
 class Schedule
 {
-    public int $count;
 }
 
 /** Request payload for Schedule#load. */
@@ -184,7 +181,6 @@ class Template
     public ?array $options = null;
     public ?array $reviews = null;
     public string $status;
-    public array $template;
     public string $templateId;
     public ?string $updatedOn = null;
     public ?array $variables = null;
@@ -219,7 +215,6 @@ class TemplateCreateData
     public ?array $options = null;
     public ?array $reviews = null;
     public string $status;
-    public array $template;
     public string $templateId;
     public ?string $updatedOn = null;
     public ?array $variables = null;
@@ -240,7 +235,25 @@ class TemplateUpdateData
     public ?array $options = null;
     public ?array $reviews = null;
     public ?string $status = null;
-    public ?array $template = null;
+    public ?string $templateId = null;
+    public ?string $updatedOn = null;
+    public ?array $variables = null;
+}
+
+/** Request payload for Template#patch. */
+class TemplatePatchData
+{
+    public string $id;
+    public ?array $channelData = null;
+    public ?array $content = null;
+    public ?string $createdOn = null;
+    public ?string $designerUrl = null;
+    public ?string $details = null;
+    public ?array $meta = null;
+    public ?string $occurredOn = null;
+    public ?array $options = null;
+    public ?array $reviews = null;
+    public ?string $status = null;
     public ?string $templateId = null;
     public ?string $updatedOn = null;
     public ?array $variables = null;

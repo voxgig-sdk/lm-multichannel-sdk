@@ -10,6 +10,12 @@ import (
 	"github.com/voxgig-sdk/lm-multichannel-sdk/go/core"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const traffic_fileDirectLiveStrict = true
+
 func TestTrafficFileDirect(t *testing.T) {
 	t.Run("direct-load-traffic_file", func(t *testing.T) {
 		setup := traffic_fileDirectSetup(map[string]any{"id": "direct01"})
@@ -25,9 +31,9 @@ func TestTrafficFileDirect(t *testing.T) {
 			return
 		}
 		if setup.live {
-			for _, _liveKey := range []string{"id01"} {
+			for _, _liveKey := range []string{"traffic_file01"} {
 				if v := setup.idmap[_liveKey]; v == nil {
-					t.Skipf("live test needs %s via *_ENTID env var (synthetic IDs only)", _liveKey)
+					liveMiss(t, traffic_fileDirectLiveStrict, "Live test blocked: needs %s via LM_MULTICHANNEL_TEST_TRAFFIC_FILE_ENTID", _liveKey)
 					return
 				}
 			}
@@ -37,6 +43,7 @@ func TestTrafficFileDirect(t *testing.T) {
 		params := map[string]any{}
 		query := map[string]any{}
 		if setup.live {
+			params["id"] = setup.idmap["traffic_file01"]
 		} else {
 			params["id"] = "direct01"
 		}
@@ -48,19 +55,14 @@ func TestTrafficFileDirect(t *testing.T) {
 			"query":  query,
 		})
 		if setup.live {
-			// Live mode is lenient: synthetic IDs frequently 4xx. Skip
-			// rather than fail when the load endpoint isn't reachable with
-			// the IDs we can construct from setup.idmap — unless the model
-			// sets main.kit.test.live.strict.
 			if err != nil {
-				t.Fatalf("load call failed (likely synthetic IDs against live API): %v", err)
+				liveMiss(t, traffic_fileDirectLiveStrict, "Live load failed: %v", err)
 			}
-			if result["ok"] != true {
-				t.Fatalf("load call not ok (likely synthetic IDs against live API): %v", result)
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, traffic_fileDirectLiveStrict, "Live load failed: %s", liveDescribe(result))
 			}
-			status := core.ToInt(result["status"])
-			if status < 200 || status >= 300 {
-				t.Fatalf("expected 2xx status, got %v", result["status"])
+			if result["data"] == nil {
+				liveMiss(t, traffic_fileDirectLiveStrict, "Live load returned no data: %s", liveDescribe(result))
 			}
 		} else {
 			if err != nil {

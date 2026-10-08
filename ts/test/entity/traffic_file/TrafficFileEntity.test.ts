@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { LmMultichannelSDK, BaseFeature, stdutil } from '../../..'
+import { LmMultichannelSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('TrafficFileEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = LmMultichannelSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.TrafficFile().load({"id":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE
@@ -51,7 +63,7 @@ describe('TrafficFileEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"files":{"a":true,"h":"Files","n":"files","r":true,"t":"`$ARRAY`","key$":"files","index$":0},"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":1}},"id":{"field":"id","name":"id"},"name":"traffic_file","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /traffic/files/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/traffic/files/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"s":[{"lit":"traffic"},{"lit":"files"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"traffic_file","name__orig":"traffic_file","Name":"TrafficFile","name_":"traffic_file","name-":"traffic-file","NAME":"TRAFFIC_FILE","index$":10}, {"active":true,"entity":"traffic_file","key$":"BasicTrafficFileFlow","kind":"basic","name":"BasicTrafficFileFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"traffic_file_ref01","srcdatavar":"traffic_file_ref01_data","suffix":"_dt0"},"m":{"id":"traffic_file01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-traffic_file_ref01"}}],"index$":0}]}, 'TrafficFile', {"GET /traffic/files/{path}":{"protocol":"http","parameters":[{"name":"path","in":"path","required":true,"description":"Relative folder path (e.g. events/2024 or events/2024/11/10/09) or file path for DELETE","schema":{"type":"string"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"files":{"a":true,"h":"Files","n":"files","r":true,"t":"`$ARRAY`","key$":"files","index$":0},"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":1}},"id":{"field":"id","name":"id"},"name":"traffic_file","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /traffic/files/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/traffic/files/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"traffic"},{"lit":"files"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"traffic_file","name__orig":"traffic_file","Name":"TrafficFile","name_":"traffic_file","name-":"traffic-file","NAME":"TRAFFIC_FILE","index$":10}, {"active":true,"entity":"traffic_file","key$":"BasicTrafficFileFlow","kind":"basic","name":"BasicTrafficFileFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"traffic_file_ref01","srcdatavar":"traffic_file_ref01_data","suffix":"_dt0"},"m":{"id":"traffic_file01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-traffic_file_ref01"}}],"index$":0}]}, 'TrafficFile', {"GET /traffic/files/{path}":{"protocol":"http","parameters":[{"name":"path","in":"path","required":true,"description":"Relative folder path (e.g. events/2024 or events/2024/11/10/09) or file path for DELETE","schema":{"type":"string"},"index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -73,6 +85,12 @@ describe('TrafficFileEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

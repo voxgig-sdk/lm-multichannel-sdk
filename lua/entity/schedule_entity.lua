@@ -4,6 +4,7 @@ local json = require("dkjson")
 local vs = require("utility.struct.struct")
 local helpers = require("core.helpers")
 
+---@class ScheduleEntity
 local ScheduleEntity = {}
 ScheduleEntity.__index = ScheduleEntity
 
@@ -44,8 +45,7 @@ end
 
 
 -- The entity serialises and prints as its data, as ts does: the instance
--- also holds the client, the utility and a match that can carry a query
--- credential.
+-- also holds the client and the utility.
 function ScheduleEntity:to_record()
   local rec = self._utility.clean(self._entctx, vs.clone(self._data or {}))
   rec["voxgig$entity"] = self._name
@@ -173,53 +173,13 @@ function ScheduleEntity:stream(action, args, callopts)
   end
 
   local co = coroutine.create(function()
-    utility.feature_hook(ctx, "PrePoint")
-    local point, err = utility.make_point(ctx)
-    ctx.out["point"] = point
-    if err ~= nil then
-      return
-    end
-
-    utility.feature_hook(ctx, "PreSpec")
-    local spec
-    spec, err = utility.make_spec(ctx)
-    ctx.out["spec"] = spec
-    if err ~= nil then
-      return
-    end
-
-    utility.feature_hook(ctx, "PreRequest")
-    local resp
-    resp, err = utility.make_request(ctx)
-    ctx.out["request"] = resp
-    if err ~= nil then
-      return
-    end
-
-    utility.feature_hook(ctx, "PreResponse")
-    local resp2
-    resp2, err = utility.make_response(ctx)
-    ctx.out["response"] = resp2
-    if err ~= nil then
-      return
-    end
-
-    utility.feature_hook(ctx, "PreResult")
-    local result
-    result, err = utility.make_result(ctx)
-    ctx.out["result"] = result
-    if err ~= nil then
-      return
-    end
-
-    utility.feature_hook(ctx, "PreDone")
-
-    result = ctx.result
+    local failed = self:_stream_steps(ctx)
+    local result = ctx.result
 
     -- Inbound: prefer the streaming feature's incremental iterator; else fall
     -- back to the materialised items so stream always yields.
     local stream_fn = nil
-    if result ~= nil then
+    if failed == nil and result ~= nil then
       stream_fn = result.stream
     end
     if type(stream_fn) == "function" then
@@ -232,7 +192,17 @@ function ScheduleEntity:stream(action, args, callopts)
         coroutine.yield(item)
       end
     else
-      local data = utility.done(ctx)
+      -- A failed step leaves through make_error, as an operation's does,
+      -- and its error is handed to the iterator to raise.
+      local data, err
+      if failed == nil then
+        data, err = utility.done(ctx)
+      else
+        data, err = utility.make_error(ctx, failed)
+      end
+      if err ~= nil then
+        return err
+      end
       local items
       if vs.islist(data) then
         items = data
@@ -251,8 +221,7 @@ function ScheduleEntity:stream(action, args, callopts)
   end)
 
   -- An error raised while the caller iterates leaves through the same catch
-  -- path as an operation's. A step's error ends the stream silently, so the
-  -- record is cleaned whenever the stream ends.
+  -- path as an operation's, and the record is cleaned whenever the stream ends.
   return function()
     if coroutine.status(co) == "dead" then
       return nil
@@ -261,8 +230,17 @@ function ScheduleEntity:stream(action, args, callopts)
     if ok then
       if coroutine.status(co) == "dead" then
         utility.clean_explain(ctx)
+        if item ~= nil then
+          error(item, 0)
+        end
       end
       return item
+    end
+
+    -- What a hook raises here must not escape the cleaning below.
+    local hookok, hookerr = pcall(utility.feature_hook, ctx, "PreUnexpected")
+    if not hookok then
+      item = hookerr
     end
     local err = self:_unexpected(ctx, item)
     if err ~= nil then
@@ -273,10 +251,59 @@ function ScheduleEntity:stream(action, args, callopts)
 end
 
 
+-- The steps an operation runs, with their hooks; the first that fails hands
+-- back its error.
+function ScheduleEntity:_stream_steps(ctx)
+  local utility = self._utility
+
+  utility.feature_hook(ctx, "PrePoint")
+  local point, err = utility.make_point(ctx)
+  ctx.out["point"] = point
+  if err ~= nil then
+    return err
+  end
+
+  utility.feature_hook(ctx, "PreSpec")
+  local spec
+  spec, err = utility.make_spec(ctx)
+  ctx.out["spec"] = spec
+  if err ~= nil then
+    return err
+  end
+
+  utility.feature_hook(ctx, "PreRequest")
+  local resp
+  resp, err = utility.make_request(ctx)
+  ctx.out["request"] = resp
+  if err ~= nil then
+    return err
+  end
+
+  utility.feature_hook(ctx, "PreResponse")
+  local resp2
+  resp2, err = utility.make_response(ctx)
+  ctx.out["response"] = resp2
+  if err ~= nil then
+    return err
+  end
+
+  utility.feature_hook(ctx, "PreResult")
+  local result
+  result, err = utility.make_result(ctx)
+  ctx.out["result"] = result
+  if err ~= nil then
+    return err
+  end
+
+  utility.feature_hook(ctx, "PreDone")
+  return nil
+end
+
+
 
 ---@param reqmatch ScheduleLoadMatch
 ---@param ctrl? table
----@return Schedule
+---@return ScheduleEntity
 ---@return string? err
 function ScheduleEntity:load(reqmatch, ctrl)
   local utility = self._utility
@@ -309,9 +336,11 @@ end
 
 
 
+
+
 ---@param reqmatch ScheduleRemoveMatch
 ---@param ctrl? table
----@return Schedule
+---@return ScheduleEntity
 ---@return string? err
 function ScheduleEntity:remove(reqmatch, ctrl)
   local utility = self._utility
@@ -341,9 +370,18 @@ end
 -- A hook, fetcher or parser that raises never reaches make_error: its error
 -- leaves cleaned, and so does the explain record it interrupted.
 function ScheduleEntity:_run_op(ctx, post_done)
+  local utility = self._utility
   local ok, out, err = pcall(self._run_steps, self, ctx, post_done)
   if ok then
     return out, err
+  end
+
+  -- What a hook raises here must not escape the cleaning below.
+  local hookok, hookerr = pcall(function()
+    utility.feature_hook(ctx, "PreUnexpected")
+  end)
+  if not hookok then
+    out = hookerr
   end
   return nil, self:_unexpected(ctx, out)
 end

@@ -98,7 +98,7 @@ class ContentEntity extends LmMultichannelEntityBase_1.LmMultichannelEntityBase 
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Content> return stays clean under strict null checks.
+                // Promise<ContentEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }
@@ -186,7 +186,7 @@ class ContentEntity extends LmMultichannelEntityBase_1.LmMultichannelEntityBase 
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Content> return stays clean under strict null checks.
+                // Promise<ContentEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }

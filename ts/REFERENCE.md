@@ -220,8 +220,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -235,6 +237,15 @@ same parameters as `direct()`.
 Alias for `LmMultichannelSDK.test()`.
 
 **Returns:** `LmMultichannelSDK` instance in test mode.
+
+#### Cancelling a call
+
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
 
 
 ---
@@ -251,7 +262,6 @@ const content = client.Content()
 | --- | --- | --- | --- |
 | `card` | `Record<string, any>` | No | Rich card containing media, text and/or buttons |
 | `carousel` | `Record<string, any>` | Yes |  |
-| `content` | `Record<string, any>` | Yes | Message content. |
 | `fromTemplate` | `Record<string, any>` | Yes | Content generated from a pre-defined template |
 | `location` | `Record<string, any>` | Yes |  |
 | `media` | `Record<string, any>` | Yes |  |
@@ -262,13 +272,12 @@ const content = client.Content()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Content().create({
   template_id: 'example_template_id',
   carousel: {},
-  content: {},
   fromTemplate: {},
   location: {},
   media: {},
@@ -277,7 +286,7 @@ const result = await client.Content().create({
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Content().load({ template_id: 'template_id' })
@@ -350,7 +359,7 @@ const result = await client.Message().load({
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Message().create({
@@ -361,7 +370,7 @@ const result = await client.Message().create({
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Message().load({ id: 'message_id' })
@@ -369,7 +378,7 @@ const result = await client.Message().load({ id: 'message_id' })
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Message().remove({ id: 'message_id' })
@@ -425,7 +434,7 @@ const message_event = client.MessageEvent()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.MessageEvent().list({ id: "example" })
@@ -475,7 +484,7 @@ const option = client.Option()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Option().create({
@@ -486,7 +495,7 @@ const result = await client.Option().create({
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Option().load({ template_id: 'template_id' })
@@ -494,7 +503,7 @@ const result = await client.Option().load({ template_id: 'template_id' })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Option().update({
@@ -537,17 +546,31 @@ Return a copy of the entity options.
 const schedule = client.Schedule()
 ```
 
-### Fields
+### Actions
 
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `count` | `number` | Yes | Number of active schedules |
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `count` | `/schedules:count` | `client.Schedule().load({ $action: 'count', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Schedule record — check the API definition for its shape.
+
+```ts
+const result = await client.Schedule().load({
+  $action: 'count',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Schedule().load()
@@ -555,7 +578,7 @@ const result = await client.Schedule().load()
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Schedule().remove()
@@ -606,7 +629,7 @@ const self = client.Self()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Self().load()
@@ -657,7 +680,7 @@ const self_admin = client.SelfAdmin()
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.SelfAdmin().update({
@@ -714,7 +737,6 @@ const template = client.Template()
 | `options` | `Record<string, any>` | No |  |
 | `reviews` | `Record<string, any>` | No | Channel-specific template reviews (keyed by channelId) |
 | `status` | `string` | Yes | Template review lifecycle status. |
-| `template` | `Record<string, any>` | Yes | Properties for creating a new template |
 | `templateId` | `string` | Yes | Unique template identifier (generated by the service) |
 | `updatedOn` | `string` | No | Date of last template update |
 | `variables` | `any[]` | No |  |
@@ -746,21 +768,20 @@ const result = await client.Template().create({
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Template().create({
   createdOn: 'example_createdOn',
   occurredOn: 'example_occurredOn',
   status: 'example_status',
-  template: {},
   templateId: 'example_templateId',
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Template().list()
@@ -768,15 +789,26 @@ const results = await client.Template().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Template().load({ id: 'template_id' })
 ```
 
+#### `patch(data: object, ctrl?: object)`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Resolves to the patched entity.
+
+```ts
+const result = await client.Template().patch({
+  id: 'template_id',
+  // Only the fields to change
+})
+```
+
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Template().remove({ id: 'template_id' })
@@ -784,7 +816,7 @@ const result = await client.Template().remove({ id: 'template_id' })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Template().update({
@@ -843,7 +875,7 @@ const template_review_event = client.TemplateReviewEvent()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.TemplateReviewEvent().list({ review_id: "example", template_id: "example" })
@@ -894,7 +926,7 @@ const traffic = client.Traffic()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Traffic().list()
@@ -902,7 +934,7 @@ const results = await client.Traffic().list()
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Traffic().remove({ path: 'path' })
@@ -953,7 +985,7 @@ const traffic_file = client.TrafficFile()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.TrafficFile().load({ id: 'traffic_file_id' })
@@ -1009,7 +1041,7 @@ const variable = client.Variable()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Variable().create({
@@ -1021,7 +1053,7 @@ const result = await client.Variable().create({
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Variable().list({ template_id: "example" })
@@ -1029,7 +1061,7 @@ const results = await client.Variable().list({ template_id: "example" })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.Variable().update({
@@ -1356,6 +1388,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

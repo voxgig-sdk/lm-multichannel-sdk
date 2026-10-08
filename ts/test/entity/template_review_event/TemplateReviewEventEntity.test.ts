@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { LmMultichannelSDK, BaseFeature, stdutil } from '../../..'
+import { LmMultichannelSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('TemplateReviewEventEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = LmMultichannelSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.TemplateReviewEvent().list({"review_id":1,"template_id":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE
@@ -51,7 +63,7 @@ describe('TemplateReviewEventEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"accountId":{"a":true,"h":"Account Id","n":"accountId","r":true,"sh":"Account identifier","t":"`$STRING`","key$":"accountId","index$":0},"eventId":{"a":true,"h":"Event Id","n":"eventId","r":true,"sh":"Unique event identifier (for idempotent processing / deduplication)","t":"`$STRING`","key$":"eventId","index$":1},"messageStatusChanged":{"a":true,"h":"Message Status Changed","n":"messageStatusChanged","r":true,"t":"`$OBJECT`","key$":"messageStatusChanged","index$":2},"on":{"a":true,"fo":"date-time","h":"On","n":"on","r":true,"sh":"UTC date-time when the event occurred","t":"`$STRING`","key$":"on","index$":3},"templateReviewStatusChanged":{"a":true,"h":"Template Review Status Changed","n":"templateReviewStatusChanged","r":true,"t":"`$OBJECT`","key$":"templateReviewStatusChanged","index$":4},"userMessageReceived":{"a":true,"h":"User Message Received","n":"userMessageReceived","r":true,"t":"`$OBJECT`","key$":"userMessageReceived","index$":5}},"name":"template_review_event","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /templates/{templateId}/reviews/{channelId}/events","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"review_id","or":"channelId","r":true,"t":"`$STRING`","index$":0},{"a":true,"k":"param","n":"template_id","or":"templateId","r":true,"t":"`$STRING`","index$":1}],"query":[{"a":true,"k":"query","n":"page_index","or":"_pageIndex","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"k":"query","n":"page_size","or":"_pageSize","r":false,"t":"`$INTEGER`","index$":1},{"a":true,"ex":"desc:on","k":"query","n":"sort","or":"_sort","r":false,"t":"`$STRING`","index$":2}]},"k":"http","m":"GET","o":"/templates/{templateId}/reviews/{channelId}/events","q":{"exist":["page_index","page_size","review_id","sort","template_id"]},"r":{"param":{"channelId":"review_id","templateId":"template_id"}},"s":[{"lit":"templates"},{"var":"template_id"},{"lit":"reviews"},{"var":"review_id"},{"lit":"events"}],"t":{"req":"`reqdata`","res":"`body.events`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[["$.main.kit.entity.template"]]},"key$":"template_review_event","name__orig":"template_review_event","Name":"TemplateReviewEvent","name_":"template_review_event","name-":"template-review-event","NAME":"TEMPLATE_REVIEW_EVENT","index$":8}, {"active":true,"entity":"template_review_event","key$":"BasicTemplateReviewEventFlow","kind":"basic","name":"BasicTemplateReviewEventFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{"review_id":"review01","template_id":"template01"},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"template_review_event_ref01"}}],"index$":0}]}, 'TemplateReviewEvent', {"GET /templates/{templateId}/reviews/{channelId}/events":{"protocol":"http","parameters":[{"name":"templateId","in":"path","required":true,"schema":{"type":"string"},"description":"Unique template identifier","x-ref":"#/components/parameters/TemplateId","index$":0},{"name":"channelId","in":"path","required":true,"schema":{"type":"string","enum":["sms","rcs","viber","whatsapp","mock"]},"description":"Channel identifier","x-ref":"#/components/parameters/ChannelId","index$":1},{"name":"_pageSize","in":"query","required":false,"schema":{"type":"integer"},"description":"Page size for pagination","x-ref":"#/components/parameters/PageSize","index$":2},{"name":"_pageIndex","in":"query","required":false,"schema":{"type":"integer"},"description":"Zero-based page index","x-ref":"#/components/parameters/PageIndex","index$":3},{"name":"_sort","in":"query","required":false,"description":"Sort by property paths with optional asc:/desc: prefix","schema":{"type":"string"},"examples":{"newest_first":{"summary":"Newest events first","value":"desc:on"}},"index$":4}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"accountId":{"a":true,"h":"Account Id","n":"accountId","r":true,"sh":"Account identifier","t":"`$STRING`","key$":"accountId","index$":0},"eventId":{"a":true,"h":"Event Id","n":"eventId","r":true,"sh":"Unique event identifier (for idempotent processing / deduplication)","t":"`$STRING`","key$":"eventId","index$":1},"messageStatusChanged":{"a":true,"h":"Message Status Changed","n":"messageStatusChanged","r":true,"t":"`$OBJECT`","key$":"messageStatusChanged","index$":2},"on":{"a":true,"fo":"date-time","h":"On","n":"on","r":true,"sh":"UTC date-time when the event occurred","t":"`$STRING`","key$":"on","index$":3},"templateReviewStatusChanged":{"a":true,"h":"Template Review Status Changed","n":"templateReviewStatusChanged","r":true,"t":"`$OBJECT`","key$":"templateReviewStatusChanged","index$":4},"userMessageReceived":{"a":true,"h":"User Message Received","n":"userMessageReceived","r":true,"t":"`$OBJECT`","key$":"userMessageReceived","index$":5}},"name":"template_review_event","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /templates/{templateId}/reviews/{channelId}/events","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"review_id","or":"channelId","r":true,"t":"`$STRING`","index$":0},{"a":true,"k":"param","n":"template_id","or":"templateId","r":true,"t":"`$STRING`","index$":1}],"query":[{"a":true,"k":"query","n":"page_index","or":"_pageIndex","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"k":"query","n":"page_size","or":"_pageSize","r":false,"t":"`$INTEGER`","index$":1},{"a":true,"ex":"desc:on","k":"query","n":"sort","or":"_sort","r":false,"t":"`$STRING`","index$":2}]},"k":"http","m":"GET","o":"/templates/{templateId}/reviews/{channelId}/events","q":{"exist":["review_id","template_id"]},"r":{"param":{"channelId":"review_id","templateId":"template_id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"templates"},{"var":"template_id"},{"lit":"reviews"},{"var":"review_id"},{"lit":"events"}],"t":{"req":"`reqdata`","res":"`body.events`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[["$.main.kit.entity.template"]]},"key$":"template_review_event","name__orig":"template_review_event","Name":"TemplateReviewEvent","name_":"template_review_event","name-":"template-review-event","NAME":"TEMPLATE_REVIEW_EVENT","index$":8}, {"active":true,"entity":"template_review_event","key$":"BasicTemplateReviewEventFlow","kind":"basic","name":"BasicTemplateReviewEventFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{"review_id":"review01","template_id":"template01"},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"template_review_event_ref01"}}],"index$":0}]}, 'TemplateReviewEvent', {"GET /templates/{templateId}/reviews/{channelId}/events":{"protocol":"http","parameters":[{"name":"templateId","in":"path","required":true,"schema":{"type":"string"},"description":"Unique template identifier","x-ref":"#/components/parameters/TemplateId","index$":0},{"name":"channelId","in":"path","required":true,"schema":{"type":"string","enum":["sms","rcs","viber","whatsapp","mock"]},"description":"Channel identifier","x-ref":"#/components/parameters/ChannelId","index$":1},{"name":"_pageSize","in":"query","required":false,"schema":{"type":"integer"},"description":"Page size for pagination","x-ref":"#/components/parameters/PageSize","index$":2},{"name":"_pageIndex","in":"query","required":false,"schema":{"type":"integer"},"description":"Zero-based page index","x-ref":"#/components/parameters/PageIndex","index$":3},{"name":"_sort","in":"query","required":false,"description":"Sort by property paths with optional asc:/desc: prefix","schema":{"type":"string"},"examples":{"newest_first":{"summary":"Newest events first","value":"desc:on"}},"index$":4}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -74,6 +86,12 @@ describe('TemplateReviewEventEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

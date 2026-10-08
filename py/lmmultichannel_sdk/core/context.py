@@ -186,7 +186,7 @@ class LmMultichannelContext:
         opcfg = vs.getpath(self.config, "entity." + entname + ".op." + opname)
 
         inpt = "match"
-        if opname == "update" or opname == "create":
+        if opname == "update" or opname == "create" or opname == "patch":
             inpt = "data"
 
         points = []
@@ -202,8 +202,8 @@ class LmMultichannelContext:
             "points": points,
         })
 
-        self.opmap[cache_key] = op
-        return op
+        # Every request racing to build this Operation gets the one stored first.
+        return self.opmap.setdefault(cache_key, op)
 
     def make_error(self, code, msg):
         return LmMultichannelError(code, msg, self)

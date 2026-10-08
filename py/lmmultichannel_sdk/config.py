@@ -37,7 +37,7 @@ def make_config():
         "main": {
             "name": "LmMultichannel",
             "slug": "lm-multichannel",
-            "version": "0.1.1",
+            "version": "0.1.2",
             "target": "py",
         },
         "feature": {
@@ -166,6 +166,7 @@ def make_config():
         },
         "optspec": {
           "clearTimer": "`$FUNCTION`",
+          "now": "`$FUNCTION`",
           "setTimer": "`$FUNCTION`",
         },
         "strict": False,
@@ -210,13 +211,6 @@ def make_config():
             "title": "Carousel",
             "type": "`$OBJECT`",
             "req": True,
-          },
-          {
-            "name": "content",
-            "title": "Content",
-            "type": "`$OBJECT`",
-            "req": True,
-            "short": "Message content.",
           },
           {
             "name": "fromTemplate",
@@ -303,6 +297,10 @@ def make_config():
                     "template_id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -354,6 +352,10 @@ def make_config():
                   "exist": [
                     "template_id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -419,6 +421,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -471,6 +477,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -655,10 +665,11 @@ def make_config():
                 "select": {
                   "exist": [
                     "id",
-                    "page_index",
-                    "page_size",
-                    "sort",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -728,6 +739,10 @@ def make_config():
                     "template_id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -779,6 +794,10 @@ def make_config():
                   "exist": [
                     "template_id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -832,6 +851,10 @@ def make_config():
                     "template_id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -845,15 +868,7 @@ def make_config():
         },
       },
       "schedule": {
-        "fields": [
-          {
-            "name": "count",
-            "title": "Count",
-            "type": "`$INTEGER`",
-            "req": True,
-            "short": "Number of active schedules",
-          },
-        ],
+        "fields": [],
         "name": "schedule",
         "op": {
           "load": {
@@ -902,11 +917,11 @@ def make_config():
                   ],
                 },
                 "select": {
-                  "exist": [
-                    "between",
-                    "campaign_id",
-                    "time_zone",
-                  ],
+                  "$action": "count",
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -954,12 +969,10 @@ def make_config():
                     },
                   ],
                 },
-                "select": {
-                  "exist": [
-                    "between",
-                    "campaign_id",
-                    "time_zone",
-                  ],
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1010,6 +1023,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -1062,6 +1079,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -1140,13 +1161,6 @@ def make_config():
             "short": "Template review lifecycle status.",
           },
           {
-            "name": "template",
-            "title": "Template",
-            "type": "`$OBJECT`",
-            "req": True,
-            "short": "Properties for creating a new template",
-          },
-          {
             "name": "templateId",
             "title": "Template Id",
             "type": "`$STRING`",
@@ -1222,6 +1236,10 @@ def make_config():
                     "id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
               {
                 "kind": "http",
@@ -1244,6 +1262,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -1291,12 +1313,10 @@ def make_config():
                     },
                   ],
                 },
-                "select": {
-                  "exist": [
-                    "page_index",
-                    "page_size",
-                    "sort",
-                  ],
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1363,6 +1383,10 @@ def make_config():
                     "id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
               {
                 "kind": "http",
@@ -1404,6 +1428,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
               {
@@ -1452,6 +1480,10 @@ def make_config():
                     "id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
               {
                 "kind": "http",
@@ -1498,6 +1530,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1551,6 +1587,10 @@ def make_config():
                   "exist": [
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1616,6 +1656,10 @@ def make_config():
                     "channel_id",
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
               {
@@ -1723,6 +1767,10 @@ def make_config():
                     "channel_id",
                     "id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1860,12 +1908,13 @@ def make_config():
                 },
                 "select": {
                   "exist": [
-                    "page_index",
-                    "page_size",
                     "review_id",
-                    "sort",
                     "template_id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -1925,6 +1974,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -2050,6 +2103,10 @@ def make_config():
                     "id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -2155,6 +2212,10 @@ def make_config():
                     "template_id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -2207,6 +2268,10 @@ def make_config():
                     "template_id",
                   ],
                 },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -2258,6 +2323,10 @@ def make_config():
                   "exist": [
                     "template_id",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],

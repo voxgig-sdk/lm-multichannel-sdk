@@ -29,7 +29,6 @@ SDK operations: `create`, `load`.
 Key fields to recognise:
 
 - `card`: Rich card containing media, text and/or buttons
-- `content`: Message content. Exactly one of the content type properties must be provided: text, media, location, card, carousel, or fromTemplate. Suggestions (quick replies) can be added to primitive content types.
 - `fromTemplate`: Content generated from a pre-defined template
 - `suggestions`: Quick replies / suggestion buttons (not applicable to fromTemplate)
 - `text`: Simple text content
@@ -67,10 +66,6 @@ SDK operations: `create`, `load`, `update`.
 Results: Count returned; Deletion initiated.
 
 SDK operations: `load`, `remove`.
-
-Key fields to recognise:
-
-- `count`: Number of active schedules
 
 ### Self
 

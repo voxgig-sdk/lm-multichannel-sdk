@@ -149,11 +149,12 @@ class SelfEntity extends LmMultichannelEntityBase<Self> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Self> return stays clean under strict null checks.
+        // Promise<SelfEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
   }
+
 
 
 

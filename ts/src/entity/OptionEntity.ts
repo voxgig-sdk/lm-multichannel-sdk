@@ -151,7 +151,7 @@ class OptionEntity extends LmMultichannelEntityBase<Option> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Option> return stays clean under strict null checks.
+        // Promise<OptionEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
@@ -269,7 +269,7 @@ class OptionEntity extends LmMultichannelEntityBase<Option> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Option> return stays clean under strict null checks.
+        // Promise<OptionEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
@@ -392,11 +392,12 @@ class OptionEntity extends LmMultichannelEntityBase<Option> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Option> return stays clean under strict null checks.
+        // Promise<OptionEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
   }
+
 
 
 

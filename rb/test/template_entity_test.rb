@@ -6,10 +6,34 @@ require_relative "../LmMultichannel_sdk"
 require_relative "runner"
 
 class TemplateEntityTest < Minitest::Test
+  # main.kit.test.live.strict is true (the default is true): a live
+  # request that fails, or a live test missing an input it needs,
+  # fails the test.
+  # An account with no record for a test to read skips it either way.
+  LIVE_STRICT = true
+
   def test_create_instance
     testsdk = LmMultichannelSDK.test(nil, nil)
     ent = testsdk.Template(nil)
     assert !ent.nil?
+  end
+
+  def test_list_entities
+    seed = {
+      "entity" => {
+        "template" => {
+          "l1" => { "id" => "l1" },
+          "l2" => { "id" => "l2" },
+        },
+      },
+    }
+    items = LmMultichannelSDK.test(seed, nil).Template(nil).list(nil, nil)
+    # list resolves to one entity per record; data_get reads the record.
+    assert_equal 2, items.length
+    items.each do |item|
+      assert item.respond_to?(:data_get)
+      assert item.data_get.is_a?(Hash)
+    end
   end
 
   # Feature #4: the entity stream(action, ...) method runs the op pipeline and
@@ -48,22 +72,90 @@ class TemplateEntityTest < Minitest::Test
     end
   end
 
+  class FailHook < LmMultichannelBaseFeature
+    attr_reader :unexpected
+
+    def initialize
+      super()
+      @name = "failhook"
+      @unexpected = 0
+    end
+
+    def PreSpec(ctx)
+      raise "template hook failed"
+    end
+
+    def PreUnexpected(ctx)
+      @unexpected += 1
+    end
+  end
+
+  def test_stream_error
+    offline = { "net" => { "offline" => true } }
+    err = assert_raises(StandardError) do
+      LmMultichannelSDK.test(offline, nil).Template(nil).stream("list", nil, nil).to_a
+    end
+    assert_match(/offline/, err.message)
+
+    LmMultichannelSDK.test(offline, nil).Template(nil)
+      .stream("list", nil, { "ctrl" => { "throw" => false } }).to_a
+
+    cfg = LmMultichannelConfig.shared_config
+    if cfg["feature"].is_a?(Hash) && cfg["feature"].key?("rbac")
+      denied = LmMultichannelSDK.test(nil, { "feature" => { "rbac" => { "active" => true, "deny" => true } } })
+      err = assert_raises(StandardError) do
+        denied.Template(nil).stream("list", nil, nil).to_a
+      end
+      assert_equal "rbac_denied", err.code
+    end
+  end
+
+  def test_stream_ctrl
+    explain = {}
+    ctrl = { "explain" => explain }
+    LmMultichannelSDK.test(nil, nil).Template(nil).stream("list", nil, { "ctrl" => ctrl }).to_a
+    assert_equal ["explain"], ctrl.keys
+    assert_same explain, ctrl["explain"]
+    refute_empty explain
+  end
+
+  def test_unexpected
+    hook = FailHook.new
+    client = LmMultichannelSDK.new({ "feature" => { "test" => { "active" => true } }, "extend" => [hook] })
+
+    err = assert_raises(StandardError) do
+      client.Template(nil).list(nil, nil)
+    end
+    assert_match(/hook failed/, err.message)
+    assert_operator hook.unexpected, :>, 0
+
+    fired = hook.unexpected
+    assert_nil client.Template(nil).list(nil, { "throw" => false })
+    assert_operator hook.unexpected, :>, fired
+  end
+
+  def test_validate
+    cfg = LmMultichannelConfig.shared_config
+    unless cfg["feature"].is_a?(Hash) && cfg["feature"].key?("validate")
+      skip("feature not present in this SDK: validate")
+    end
+    client = LmMultichannelSDK.test(nil, { "feature" => { "validate" => { "active" => true } } })
+    err = assert_raises(StandardError) do
+      client.Template(nil).list({ "page_index" => "x" }, nil)
+    end
+    assert_equal "validate_failed", err.code
+  end
+
   def test_basic_flow
     setup = template_basic_setup(nil)
     # Per-op sdk-test-control.json skip.
     _live = setup[:live] || false
-    ["create", "list", "update", "load", "remove"].each do |_op|
+    ["create", "list", "load", "remove"].each do |_op|
       _should_skip, _reason = Runner.is_control_skipped("entityOp", "template." + _op, _live ? "live" : "unit")
       if _should_skip
         skip(_reason || "skipped via sdk-test-control.json")
         return
       end
-    end
-    # The basic flow consumes synthetic IDs from the fixture. In live mode
-    # without an *_ENTID env override, those IDs hit the live API and 4xx.
-    if setup[:synthetic_only]
-      skip "live entity test uses synthetic IDs from fixture — set LM_MULTICHANNEL_TEST_TEMPLATE_ENTID JSON to run live"
-      return
     end
     client = setup[:client]
 
@@ -87,21 +179,6 @@ class TemplateEntityTest < Minitest::Test
       Runner.entity_list_to_data(template_ref01_list_result),
       { "id" => template_ref01_data["id"] })
     assert !Vs.isempty(found_item)
-
-    # UPDATE
-    template_ref01_data_up0_up = {
-      "id" => template_ref01_data["id"],
-    }
-
-    template_ref01_markdef_up0_name = "createdOn"
-    template_ref01_markdef_up0_value = "Mark01-template_ref01_#{setup[:now]}"
-    template_ref01_data_up0_up[template_ref01_markdef_up0_name] = template_ref01_markdef_up0_value
-
-    template_ref01_resdata_up0_result = template_ref01_ent.update(template_ref01_data_up0_up, nil)
-    template_ref01_resdata_up0 = Helpers.to_map(template_ref01_resdata_up0_result.respond_to?(:data_get) ? template_ref01_resdata_up0_result.data_get : template_ref01_resdata_up0_result)
-    assert !template_ref01_resdata_up0.nil?
-    assert_equal template_ref01_resdata_up0["id"], template_ref01_data_up0_up["id"]
-    assert_equal template_ref01_resdata_up0[template_ref01_markdef_up0_name], template_ref01_markdef_up0_value
 
     # LOAD
     template_ref01_match_dt0 = {
@@ -136,7 +213,7 @@ def template_basic_setup(extra)
   Runner.load_env_local
 
   entity_data_file = File.join(__dir__, "..", "..", ".sdk", "test", "entity", "template", "TemplateTestData.json")
-  entity_data_source = File.read(entity_data_file)
+  entity_data_source = File.read(entity_data_file, encoding: "UTF-8")
   entity_data = JSON.parse(entity_data_source)
 
   options = {}
@@ -155,9 +232,8 @@ def template_basic_setup(extra)
     }
   )
 
-  # Detect ENTID env override before envOverride consumes it. When live
-  # mode is on without a real override, the basic test runs against synthetic
-  # IDs from the fixture and 4xx's. Surface this so the test can skip.
+  # Whether *_ENTID supplied the idmap, read before env_override consumes
+  # it: without it, the ids a live flow binds are the fixture's synthetic ones.
   entid_env_raw = ENV["LM_MULTICHANNEL_TEST_TEMPLATE_ENTID"]
   idmap_overridden = !entid_env_raw.nil? && entid_env_raw.strip.start_with?("{")
 

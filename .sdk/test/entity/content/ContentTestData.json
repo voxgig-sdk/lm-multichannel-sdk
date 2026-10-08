@@ -4,36 +4,33 @@
       "CONTENT00": {
         "card": {},
         "carousel": {},
-        "content": {},
         "fromTemplate": {},
         "location": {},
         "media": {},
         "suggestions": [],
-        "text": "s57",
+        "text": "s4c",
         "template_id": "TEMPLATE01",
         "id": "CONTENT00"
       },
       "CONTENT01": {
         "card": {},
         "carousel": {},
-        "content": {},
         "fromTemplate": {},
         "location": {},
         "media": {},
         "suggestions": [],
-        "text": "sa7",
+        "text": "s92",
         "template_id": "TEMPLATE01",
         "id": "CONTENT01"
       },
       "CONTENT02": {
         "card": {},
         "carousel": {},
-        "content": {},
         "fromTemplate": {},
         "location": {},
         "media": {},
         "suggestions": [],
-        "text": "sf7",
+        "text": "sd8",
         "template_id": "TEMPLATE01",
         "id": "CONTENT02"
       }
@@ -44,12 +41,11 @@
       "content_ref01": {
         "card": {},
         "carousel": {},
-        "content": {},
         "fromTemplate": {},
         "location": {},
         "media": {},
         "suggestions": [],
-        "text": "s147"
+        "text": "s11e"
       }
     }
   },

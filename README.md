@@ -84,7 +84,7 @@ If you are from LINK Mobility and would like this repository removed, or transfe
 This SDK exposes the API as **12 semantic entities** that you
 call directly, instead of assembling URL paths and query strings. See the [Entities](#entities) table below for the full list. Entities are
 **Capitalised** to mark them as the primary surface, each with the operations they
-support (`list`, `load`, `create`, `update`, `remove`, `patch`):
+support (`list`, `load`, `create`, `update`, `patch`, `remove`):
 
 ```ts
 const client = new LmMultichannelSDK()
@@ -113,9 +113,8 @@ const client = LmMultichannelSDK.test({
   },
 })
 const message = await client.Message().load({ id: 'test01' })
-// message is the Message entity, populated with mock data
-// — call message.data() for the record itself
-console.log(message)
+// message is the Message entity; .data() reads its mock record
+console.log(message.data())
 ```
 
 ### Python
@@ -123,7 +122,7 @@ console.log(message)
 ```python
 client = LmMultichannelSDK.test()
 message = client.Message().load({"id": "test01"})
-print(message)
+print(message.data_get())
 ```
 
 ### PHP
@@ -187,12 +186,14 @@ const client = new LmMultichannelSDK({
 })
 
 
-// Load a specific content (returns a Content)
+// Load a specific content (returns the entity, a ContentEntity)
 const content = await client.Content().load({
   template_id: 'example_template_id',
 })
-console.log(content)
+console.log(content.data())
 ```
+
+The client sends the API key in the `x-api-key` header.
 
 See the [TypeScript README](ts/README.md) for the full guide.
 
@@ -206,9 +207,10 @@ See the [TypeScript README](ts/README.md) for the full guide.
 
 ## Use it from an AI agent (MCP)
 
-The generated MCP server exposes every operation in this SDK as an
-[MCP](https://modelcontextprotocol.io) tool that Claude, Cursor or Cline
-can call directly. Build and register it:
+The generated MCP server exposes this SDK's list and load operations as
+[MCP](https://modelcontextprotocol.io) tools that Claude, Cursor or Cline
+can call directly. It only reads: create, update, patch and remove become tools when the SDK's model sets
+`main: kit: target: 'go-mcp': tool: write: true`. Build and register it:
 
 ```bash
 cd go-mcp && go build -o lm-multichannel-mcp .
@@ -245,7 +247,7 @@ The API exposes 12 entities:
 | **TrafficFile** | The TrafficFile entity (load). | `/traffic/files/{path}` |
 | **Variable** | The Variable entity (create, list, update). | `/templates/{templateId}/variables` |
 
-The operations available across these entities are **load**, **list**, **create**, **update**, **remove** — see each entity's
+The operations available across these entities are **load**, **list**, **create**, **update**, **patch**, **remove** — see each entity's
 own list above for exactly which it supports.
 
 ## Quickstart in other languages
@@ -261,9 +263,9 @@ client = LmMultichannelSDK({
 })
 
 
-# Load a specific content (returns the record, raises on error)
+# Load a specific content (returns the entity, raises on error)
 content = client.Content().load({"template_id": "example_template_id"})
-print(content)
+print(content.data_get())
 ```
 
 ### PHP
@@ -277,7 +279,7 @@ $client = new LmMultichannelSDK([
 ]);
 
 
-// Load a specific content (returns the ENTITY; call data_get() for the record; throws on error)
+// Load a specific content (returns the entity; data_get() reads its record; throws on error)
 $content = $client->Content()->load(["template_id" => "example_template_id"]);
 print_r($content->data_get());
 ```
@@ -292,14 +294,14 @@ client := sdk.NewLmMultichannelSDK(map[string]any{
 })
 
 
-// Load a specific content
+// Load a specific content (returns the entity; err is non-nil on failure)
 content, err := client.Content(nil).Load(
     map[string]any{"template_id": "example_template_id"}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(content)
+fmt.Println(content.(sdk.Entity).Data())
 ```
 
 ### Ruby
@@ -312,24 +314,26 @@ client = LmMultichannelSDK.new({
 })
 
 
-# Load a specific content (returns the ENTITY; call data_get for the record)
+# Load a specific content (returns the entity; data_get reads its record; raises on error)
 content = client.Content.load({ "template_id" => "example_template_id" })
-puts content
+puts content.data_get
 ```
 
 ### Lua
 
 ```lua
 local sdk = require("lm-multichannel_sdk")
+local json = require("dkjson")
 
 local client = sdk.new({
   apikey = os.getenv("LM_MULTICHANNEL_APIKEY"),
 })
 
 
--- Load a specific content
+-- Load a specific content (returns the entity; err on failure)
 local content, err = client:Content():load({ template_id = "example_template_id" })
-print(content)
+if err then error(err) end
+print(json.encode(content:data_get()))
 ```
 
 ## Direct and prepare
@@ -355,10 +359,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Python:**
@@ -456,10 +459,12 @@ customizable without forking any upstream tool:
 - **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
   the two layers of generation, copied into this repo: templates are the
   literal per-language source, components generate the API-shaped parts.
-- **Regeneration merges.** By default, newly generated content is
-  three-way merged into existing files, so generator updates and local
-  edits usually converge without manual conflict handling. A project can
-  opt for plain overwrite instead.
+- **Regeneration overwrites.** Each run rewrites every generated file from
+  the model, the templates and the components, so an edit made to
+  generated output is lost. Say what this project needs in its own model
+  (`.sdk/model/sdk.aontu`), or extend a target with a component of its
+  own in `.sdk/src/cmp/<target>/`, registered with `registerComponent`,
+  which `voxgig-sdkgen doctor` reports as an addition rather than drift.
 - **Custom features and entire custom targets** arrive through sdkgen
   packages (`voxgig-sdkgen package add`), on the same rails as the
   bundled languages, and `voxgig-sdkgen doctor` reports any drift from

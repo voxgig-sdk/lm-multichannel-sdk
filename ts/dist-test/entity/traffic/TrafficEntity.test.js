@@ -54,6 +54,53 @@ const utility_1 = require("../../utility");
         const ent = testsdk.Traffic();
         (0, node_assert_1.default)(null != ent);
     });
+    class FailHook extends __1.BaseFeature {
+        name = 'failhook';
+        version = '0.0.1';
+        active = true;
+        unexpected = 0;
+        init() { }
+        PreSpec() { throw new Error('traffic hook failed'); }
+        PreUnexpected() { this.unexpected++; }
+    }
+    (0, node_test_1.test)('stream-error', async () => {
+        const offline = { net: { offline: true } };
+        await node_assert_1.default.rejects(async () => {
+            for await (const _item of __1.LmMultichannelSDK.test(offline).Traffic().stream('list')) { }
+        }, /offline/);
+        for await (const _item of __1.LmMultichannelSDK.test(offline).Traffic()
+            .stream('list', undefined, { ctrl: { throw: false } })) { }
+        if (null != __1.config.feature?.rbac) {
+            const denied = __1.LmMultichannelSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } });
+            await node_assert_1.default.rejects(async () => {
+                for await (const _item of denied.Traffic().stream('list')) { }
+            }, (err) => 'rbac_denied' === err.code);
+        }
+    });
+    (0, node_test_1.test)('stream-ctrl', async () => {
+        const explain = {};
+        const ctrl = { explain };
+        for await (const _item of __1.LmMultichannelSDK.test().Traffic().stream('list', undefined, { ctrl })) { }
+        node_assert_1.default.deepStrictEqual(Object.keys(ctrl), ['explain']);
+        (0, node_assert_1.default)(explain === ctrl.explain && 0 < Object.keys(explain).length);
+    });
+    (0, node_test_1.test)('unexpected', async () => {
+        const hook = new FailHook();
+        const client = new __1.LmMultichannelSDK({ feature: { test: { active: true } }, extend: [hook] });
+        await node_assert_1.default.rejects(client.Traffic().list(), /hook failed/);
+        (0, node_assert_1.default)(0 < hook.unexpected);
+        const fired = hook.unexpected;
+        node_assert_1.default.strictEqual(await client.Traffic().list(undefined, { throw: false }), undefined);
+        (0, node_assert_1.default)(fired < hook.unexpected);
+    });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.LmMultichannelSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.Traffic().list({ "path": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE;
         for (const op of ['list']) {
@@ -62,7 +109,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "path": { "a": true, "h": "Path", "n": "path", "r": true, "sh": "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip", "t": "`$STRING`", "key$": "path", "index$": 0 }, "url": { "a": true, "h": "Url", "n": "url", "r": true, "sh": "Absolute download URL with security token (expires after 15 minutes)", "t": "`$STRING`", "key$": "url", "index$": 1 } }, "name": "traffic", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /traffic/files", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/traffic/files", "q": {}, "r": {}, "s": [{ "lit": "traffic" }, { "lit": "files" }], "t": { "req": "`reqdata`", "res": "`body.files`" }, "index$": 0 }], "key$": "list" }, "remove": { "input": "data", "name": "remove", "points": [{ "a": true, "co": { "id": "DELETE /traffic/files/{path}", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "path", "or": "path", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "DELETE", "o": "/traffic/files/{path}", "q": { "exist": ["path"] }, "r": {}, "s": [{ "lit": "traffic" }, { "lit": "files" }, { "var": "path" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "remove" } }, "relations": { "ancestors": [] }, "key$": "traffic", "name__orig": "traffic", "Name": "Traffic", "name_": "traffic", "name-": "traffic", "NAME": "TRAFFIC", "index$": 9 }, { "active": true, "entity": "traffic", "key$": "BasicTrafficFlow", "kind": "basic", "name": "BasicTrafficFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "traffic_ref01" } }], "index$": 0 }] }, 'Traffic', { "GET /traffic/files": { "protocol": "http", "parameters": [] }, "DELETE /traffic/files/{path}": { "protocol": "http", "parameters": [{ "name": "path", "in": "path", "required": true, "description": "Relative file path (e.g. events/2024/11/04/15/sequence.zip)", "schema": { "type": "string" }, "index$": 0 }] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "path": { "a": true, "h": "Path", "n": "path", "r": true, "sh": "Relative file path: /events/{year}/{month}/{day}/{hour}/{sequence}.zip", "t": "`$STRING`", "key$": "path", "index$": 0 }, "url": { "a": true, "h": "Url", "n": "url", "r": true, "sh": "Absolute download URL with security token (expires after 15 minutes)", "t": "`$STRING`", "key$": "url", "index$": 1 } }, "name": "traffic", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /traffic/files", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/traffic/files", "q": {}, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "traffic" }, { "lit": "files" }], "t": { "req": "`reqdata`", "res": "`body.files`" }, "index$": 0 }], "key$": "list" }, "remove": { "input": "data", "name": "remove", "points": [{ "a": true, "co": { "id": "DELETE /traffic/files/{path}", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "path", "or": "path", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "DELETE", "o": "/traffic/files/{path}", "q": { "exist": ["path"] }, "r": {}, "s": [{ "lit": "traffic" }, { "lit": "files" }, { "var": "path" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "remove" } }, "relations": { "ancestors": [] }, "key$": "traffic", "name__orig": "traffic", "Name": "Traffic", "name_": "traffic", "name-": "traffic", "NAME": "TRAFFIC", "index$": 9 }, { "active": true, "entity": "traffic", "key$": "BasicTrafficFlow", "kind": "basic", "name": "BasicTrafficFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "traffic_ref01" } }], "index$": 0 }] }, 'Traffic', { "GET /traffic/files": { "protocol": "http", "parameters": [] }, "DELETE /traffic/files/{path}": { "protocol": "http", "parameters": [{ "name": "path", "in": "path", "required": true, "description": "Relative file path (e.g. events/2024/11/04/15/sequence.zip)", "schema": { "type": "string" }, "index$": 0 }] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -75,6 +122,11 @@ const utility_1 = require("../../utility");
         const traffic_ref01_list = (await traffic_ref01_ent.list(traffic_ref01_match)).map((e) => e.data());
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

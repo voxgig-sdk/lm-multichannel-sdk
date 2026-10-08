@@ -34,7 +34,7 @@ class LmMultichannelConfig
             "main" => [
                 "name" => "LmMultichannel",
                 "slug" => "lm-multichannel",
-                "version" => "0.1.1",
+                "version" => "0.1.2",
                 "target" => "php",
             ],
             "feature" => [
@@ -163,6 +163,7 @@ class LmMultichannelConfig
           ],
           'optspec' => [
             'clearTimer' => '`$FUNCTION`',
+            'now' => '`$FUNCTION`',
             'setTimer' => '`$FUNCTION`',
           ],
           'strict' => false,
@@ -207,13 +208,6 @@ class LmMultichannelConfig
               'title' => 'Carousel',
               'type' => '`$OBJECT`',
               'req' => true,
-            ],
-            [
-              'name' => 'content',
-              'title' => 'Content',
-              'type' => '`$OBJECT`',
-              'req' => true,
-              'short' => 'Message content.',
             ],
             [
               'name' => 'fromTemplate',
@@ -300,6 +294,10 @@ class LmMultichannelConfig
                       'template_id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -351,6 +349,10 @@ class LmMultichannelConfig
                     'exist' => [
                       'template_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -416,6 +418,10 @@ class LmMultichannelConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -468,6 +474,10 @@ class LmMultichannelConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -652,10 +662,11 @@ class LmMultichannelConfig
                   'select' => [
                     'exist' => [
                       'id',
-                      'page_index',
-                      'page_size',
-                      'sort',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -725,6 +736,10 @@ class LmMultichannelConfig
                       'template_id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -776,6 +791,10 @@ class LmMultichannelConfig
                     'exist' => [
                       'template_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -829,6 +848,10 @@ class LmMultichannelConfig
                       'template_id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -842,15 +865,7 @@ class LmMultichannelConfig
           ],
         ],
         'schedule' => [
-          'fields' => [
-            [
-              'name' => 'count',
-              'title' => 'Count',
-              'type' => '`$INTEGER`',
-              'req' => true,
-              'short' => 'Number of active schedules',
-            ],
-          ],
+          'fields' => [],
           'name' => 'schedule',
           'op' => [
             'load' => [
@@ -899,11 +914,11 @@ class LmMultichannelConfig
                     ],
                   ],
                   'select' => [
-                    'exist' => [
-                      'between',
-                      'campaign_id',
-                      'time_zone',
-                    ],
+                    '$action' => 'count',
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -951,12 +966,10 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'between',
-                      'campaign_id',
-                      'time_zone',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1007,6 +1020,10 @@ class LmMultichannelConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1059,6 +1076,10 @@ class LmMultichannelConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1137,13 +1158,6 @@ class LmMultichannelConfig
               'short' => 'Template review lifecycle status.',
             ],
             [
-              'name' => 'template',
-              'title' => 'Template',
-              'type' => '`$OBJECT`',
-              'req' => true,
-              'short' => 'Properties for creating a new template',
-            ],
-            [
               'name' => 'templateId',
               'title' => 'Template Id',
               'type' => '`$STRING`',
@@ -1219,6 +1233,10 @@ class LmMultichannelConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -1241,6 +1259,10 @@ class LmMultichannelConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1288,12 +1310,10 @@ class LmMultichannelConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'page_index',
-                      'page_size',
-                      'sort',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1360,6 +1380,10 @@ class LmMultichannelConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -1401,6 +1425,10 @@ class LmMultichannelConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -1449,6 +1477,10 @@ class LmMultichannelConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -1495,6 +1527,10 @@ class LmMultichannelConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1548,6 +1584,10 @@ class LmMultichannelConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1613,6 +1653,10 @@ class LmMultichannelConfig
                       'channel_id',
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -1720,6 +1764,10 @@ class LmMultichannelConfig
                       'channel_id',
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1857,12 +1905,13 @@ class LmMultichannelConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'page_index',
-                      'page_size',
                       'review_id',
-                      'sort',
                       'template_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1922,6 +1971,10 @@ class LmMultichannelConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2047,6 +2100,10 @@ class LmMultichannelConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2152,6 +2209,10 @@ class LmMultichannelConfig
                       'template_id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2204,6 +2265,10 @@ class LmMultichannelConfig
                       'template_id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2255,6 +2320,10 @@ class LmMultichannelConfig
                     'exist' => [
                       'template_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],

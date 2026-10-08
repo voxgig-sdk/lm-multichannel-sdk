@@ -109,15 +109,16 @@ main: kit: entity: message_event: {
           q: {
             exist: [
               "id"
-              "page_index"
-              "page_size"
-              "sort"
             ]
           }
           r: {
             param: {
               messageId: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

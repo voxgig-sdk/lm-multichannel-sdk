@@ -58,6 +58,10 @@ main: kit: entity: traffic_file: {
               path: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "traffic"

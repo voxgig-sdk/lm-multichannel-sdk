@@ -98,7 +98,7 @@ class SelfAdminEntity extends LmMultichannelEntityBase_1.LmMultichannelEntityBas
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<SelfAdmin> return stays clean under strict null checks.
+                // Promise<SelfAdminEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }

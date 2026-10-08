@@ -4,7 +4,7 @@ LINK Mobility MyLINK Multichannel API clients in TypeScript, Python, PHP, Go, Ru
 
 The Lua SDK for the LmMultichannel API — an entity-oriented client using Lua conventions.
 
-It exposes the API as capitalised, semantic **Entities** — e.g. `client:Content()` — each with the same small set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+It exposes the API as capitalised, semantic **Entities** — e.g. `client:Content()` — each with the same small set of operations (`list`, `load`, `create`, `update`, `patch`, `remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ It exposes the API as capitalised, semantic **Entities** — e.g. `client:Conten
 
 ## Install
 This package is not yet published to LuaRocks. Install it from the
-GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/lm-multichannel-sdk/releases)),
+GitHub release tag (`lua/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/lm-multichannel-sdk/tags)),
 or add the source directory to your `LUA_PATH`:
 
 ```bash
@@ -23,7 +23,7 @@ export LUA_PATH="path/to/lua/?.lua;path/to/lua/?/init.lua;;"
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -39,17 +39,19 @@ local client = sdk.new({
 
 Content is nested under template, so provide the `template_id`.
 
+`load` returns the entity; `data_get()` reads its record.
+
 ```lua
 local content, err = client:Content():load({ template_id = "example_template_id" })
 if err then error(err) end
-print(content)
+for k, val in pairs(content:data_get()) do print(k, val) end
 ```
 
 ### 4. Create, update, and remove
 
 ```lua
 -- Create
-local created, err = client:Content():create({ template_id = "example_template_id", carousel = {}, content = {}, fromTemplate = {}, location = {}, media = {} })
+local created, err = client:Content():create({ template_id = "example_template_id", carousel = {}, fromTemplate = {}, location = {}, media = {} })
 if err then error(err) end
 
 ```
@@ -120,7 +122,7 @@ Create a mock client for unit testing — no server required:
 local client = sdk.test()
 
 local result, err = client:Message():load({ id = "test01" })
--- result is the returned data; err is set on failure
+-- result is the entity; data_get() reads its mock record; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -219,11 +221,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria. |
-| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
-| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity. |
-| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity. |
-| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity. |
+| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria, and return it. |
+| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria, one per record. |
+| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity, and return it. |
+| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity, and return it. |
+| `patch` | `(reqdata, ctrl) -> any, err` | Change part of an existing entity, and return it. |
+| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `() -> table` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> table` | Get entity match criteria. |
@@ -233,19 +236,19 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(value, err)`. The `value` is the operation's
-data **directly** — there is no wrapper:
+Entity operations return `(value, err)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `load` / `create` / `update` / `remove` | the entity record (a `table`) |
-| `list` | an array (`table`) of entity records |
+| `load` / `create` / `update` / `patch` / `remove` | the entity, whose `data_get()` reads its record (a `table`) |
+| `list` | an array (`table`) of entities, one per record |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
     local content, err = client:Content():load()
     if err then error(err) end
-    -- content is the loaded record
+    -- content is the loaded entity
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -258,7 +261,6 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 | --- | --- |
 | `card` | Rich card containing media, text and/or buttons |
 | `carousel` |  |
-| `content` | Message content. |
 | `fromTemplate` | Content generated from a pre-defined template |
 | `location` |  |
 | `media` |  |
@@ -311,7 +313,6 @@ API path: `/templates/{templateId}/options`
 
 | Field | Description |
 | --- | --- |
-| `count` | Number of active schedules |
 
 Operations: Load, Remove.
 
@@ -354,7 +355,6 @@ API path: `/self/settings`
 | `options` |  |
 | `reviews` | Channel-specific template reviews (keyed by channelId) |
 | `status` | Template review lifecycle status. |
-| `template` | Properties for creating a new template |
 | `templateId` | Unique template identifier (generated by the service) |
 | `updatedOn` | Date of last template update |
 | `variables` |  |
@@ -438,7 +438,6 @@ Create an instance: `local content = client:Content(nil)`
 | --- | --- | --- |
 | `card` | `table` | Rich card containing media, text and/or buttons |
 | `carousel` | `table` |  |
-| `content` | `table` | Message content. |
 | `fromTemplate` | `table` | Content generated from a pre-defined template |
 | `location` | `table` |  |
 | `media` | `table` |  |
@@ -457,7 +456,6 @@ local content, err = client:Content():load({ template_id = "template_id" })
 local content, err = client:Content():create({
   template_id = "example_template_id", -- string
   carousel = {}, -- table
-  content = {}, -- table
   fromTemplate = {}, -- table
   location = {}, -- table
   media = {}, -- table
@@ -526,7 +524,7 @@ Create an instance: `local message_event = client:MessageEvent(nil)`
 #### Example: List
 
 ```lua
-local message_events, err = client:MessageEvent():list()
+local message_events, err = client:MessageEvent():list({ id = "example" })
 ```
 
 
@@ -574,12 +572,6 @@ Create an instance: `local schedule = client:Schedule(nil)`
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `count` | `number` | Number of active schedules |
 
 #### Example: Load
 
@@ -641,6 +633,7 @@ Create an instance: `local template = client:Template(nil)`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -659,7 +652,6 @@ Create an instance: `local template = client:Template(nil)`
 | `options` | `table` |  |
 | `reviews` | `table` | Channel-specific template reviews (keyed by channelId) |
 | `status` | `string` | Template review lifecycle status. |
-| `template` | `table` | Properties for creating a new template |
 | `templateId` | `string` | Unique template identifier (generated by the service) |
 | `updatedOn` | `string` | Date of last template update |
 | `variables` | `table` |  |
@@ -683,7 +675,6 @@ local template, err = client:Template():create({
   createdOn = "example_createdOn", -- string
   occurredOn = "example_occurredOn", -- string
   status = "example_status", -- string
-  template = {}, -- table
   templateId = "example_templateId", -- string
 })
 ```
@@ -713,7 +704,7 @@ Create an instance: `local template_review_event = client:TemplateReviewEvent(ni
 #### Example: List
 
 ```lua
-local template_review_events, err = client:TemplateReviewEvent():list()
+local template_review_events, err = client:TemplateReviewEvent():list({ review_id = "example", template_id = "example" })
 ```
 
 
@@ -793,7 +784,7 @@ Create an instance: `local variable = client:Variable(nil)`
 #### Example: List
 
 ```lua
-local variables, err = client:Variable():list()
+local variables, err = client:Variable():list({ template_id = "example" })
 ```
 
 #### Example: Create

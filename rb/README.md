@@ -4,7 +4,7 @@ LINK Mobility MyLINK Multichannel API clients in TypeScript, Python, PHP, Go, Ru
 
 The Ruby SDK for the LmMultichannel API — an entity-oriented client using idiomatic Ruby conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Content` — with named operations (`list`/`load`/`create`/`update`/`remove`/`patch`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Content` — with named operations (`list`/`load`/`create`/`update`/`patch`/`remove`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/lm-multichannel-sdk/releases)), or
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/lm-multichannel-sdk/tags)), or
 from a clone:
 
 ```bash
@@ -29,7 +29,7 @@ gem "voxgig-sdk-lm-multichannel-sdk", path: "./lm-multichannel-sdk/rb"
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -49,7 +49,7 @@ Content is nested under template, so provide the `template_id`.
 begin
   # load returns the ENTITY — call data_get for the Content record (raises on error).
   content = client.Content.load({ "template_id" => "example_template_id" })
-  puts content
+  puts content.data_get
 rescue => err
   warn "load failed: #{err}"
 end
@@ -59,7 +59,7 @@ end
 
 ```ruby
 # create returns the ENTITY — call data_get for the created Content record.
-created = client.Content.create({ "template_id" => "example_template_id", "carousel" => {}, "content" => {}, "fromTemplate" => {}, "location" => {}, "media" => {} })
+created = client.Content.create({ "template_id" => "example_template_id", "carousel" => {}, "fromTemplate" => {}, "location" => {}, "media" => {} })
 
 ```
 
@@ -142,9 +142,9 @@ client = LmMultichannelSDK.test({
 })
 
 # Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
+# data_get reads its mock record.
 message = client.Message.load({ "id" => "test01" })
-puts message
+puts message.data_get
 ```
 
 ### Use a custom fetch function
@@ -241,11 +241,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all), one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `patch` | `(reqdata, ctrl) -> any` | Change part of an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -255,9 +256,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `LmMultichannelError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`LmMultichannelError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -278,7 +280,6 @@ returns a result `Hash` with these keys:
 | --- | --- |
 | `card` | Rich card containing media, text and/or buttons |
 | `carousel` |  |
-| `content` | Message content. |
 | `fromTemplate` | Content generated from a pre-defined template |
 | `location` |  |
 | `media` |  |
@@ -331,7 +332,6 @@ API path: `/templates/{templateId}/options`
 
 | Field | Description |
 | --- | --- |
-| `count` | Number of active schedules |
 
 Operations: Load, Remove.
 
@@ -374,7 +374,6 @@ API path: `/self/settings`
 | `options` |  |
 | `reviews` | Channel-specific template reviews (keyed by channelId) |
 | `status` | Template review lifecycle status. |
-| `template` | Properties for creating a new template |
 | `templateId` | Unique template identifier (generated by the service) |
 | `updatedOn` | Date of last template update |
 | `variables` |  |
@@ -458,7 +457,6 @@ Create an instance: `content = client.Content`
 | --- | --- | --- |
 | `card` | `Hash` | Rich card containing media, text and/or buttons |
 | `carousel` | `Hash` |  |
-| `content` | `Hash` | Message content. |
 | `fromTemplate` | `Hash` | Content generated from a pre-defined template |
 | `location` | `Hash` |  |
 | `media` | `Hash` |  |
@@ -478,7 +476,6 @@ content = client.Content.load({ "template_id" => "template_id" })
 content = client.Content.create({
   "template_id" => "example_template_id", # String
   "carousel" => {}, # Hash
-  "content" => {}, # Hash
   "fromTemplate" => {}, # Hash
   "location" => {}, # Hash
   "media" => {}, # Hash
@@ -548,8 +545,9 @@ Create an instance: `message_event = client.MessageEvent`
 #### Example: List
 
 ```ruby
-# list returns an Array of MessageEvent records (raises on error).
-message_events = client.MessageEvent.list
+# list returns an Array of MessageEvent entities, one per record (raises on error).
+message_events = client.MessageEvent.list({ "id" => "example" })
+message_events.each { |item| puts item.data_get }
 ```
 
 
@@ -598,12 +596,6 @@ Create an instance: `schedule = client.Schedule`
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `count` | `Integer` | Number of active schedules |
 
 #### Example: Load
 
@@ -667,6 +659,7 @@ Create an instance: `template = client.Template`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -685,7 +678,6 @@ Create an instance: `template = client.Template`
 | `options` | `Hash` |  |
 | `reviews` | `Hash` | Channel-specific template reviews (keyed by channelId) |
 | `status` | `String` | Template review lifecycle status. |
-| `template` | `Hash` | Properties for creating a new template |
 | `templateId` | `String` | Unique template identifier (generated by the service) |
 | `updatedOn` | `String` | Date of last template update |
 | `variables` | `Array` |  |
@@ -700,8 +692,9 @@ template = client.Template.load({ "id" => "template_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of Template records (raises on error).
+# list returns an Array of Template entities, one per record (raises on error).
 templates = client.Template.list
+templates.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -711,7 +704,6 @@ template = client.Template.create({
   "createdOn" => "example_createdOn", # String
   "occurredOn" => "example_occurredOn", # String
   "status" => "example_status", # String
-  "template" => {}, # Hash
   "templateId" => "example_templateId", # String
 })
 ```
@@ -741,8 +733,9 @@ Create an instance: `template_review_event = client.TemplateReviewEvent`
 #### Example: List
 
 ```ruby
-# list returns an Array of TemplateReviewEvent records (raises on error).
-template_review_events = client.TemplateReviewEvent.list
+# list returns an Array of TemplateReviewEvent entities, one per record (raises on error).
+template_review_events = client.TemplateReviewEvent.list({ "review_id" => "example", "template_id" => "example" })
+template_review_events.each { |item| puts item.data_get }
 ```
 
 
@@ -767,8 +760,9 @@ Create an instance: `traffic = client.Traffic`
 #### Example: List
 
 ```ruby
-# list returns an Array of Traffic records (raises on error).
+# list returns an Array of Traffic entities, one per record (raises on error).
 traffics = client.Traffic.list
+traffics.each { |item| puts item.data_get }
 ```
 
 
@@ -824,8 +818,9 @@ Create an instance: `variable = client.Variable`
 #### Example: List
 
 ```ruby
-# list returns an Array of Variable records (raises on error).
-variables = client.Variable.list
+# list returns an Array of Variable entities, one per record (raises on error).
+variables = client.Variable.list({ "template_id" => "example" })
+variables.each { |item| puts item.data_get }
 ```
 
 #### Example: Create

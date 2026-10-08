@@ -146,7 +146,7 @@ class VariableEntity extends LmMultichannelEntityBase<Variable> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Variable[]> return stays clean under strict null checks.
+        // Promise<VariableEntity[]> return stays clean under strict null checks.
         return undefined as any
       }
     }
@@ -263,7 +263,7 @@ class VariableEntity extends LmMultichannelEntityBase<Variable> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Variable> return stays clean under strict null checks.
+        // Promise<VariableEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
@@ -386,11 +386,12 @@ class VariableEntity extends LmMultichannelEntityBase<Variable> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Variable> return stays clean under strict null checks.
+        // Promise<VariableEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
   }
+
 
 
 

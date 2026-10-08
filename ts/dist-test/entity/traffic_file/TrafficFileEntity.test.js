@@ -54,6 +54,14 @@ const utility_1 = require("../../utility");
         const ent = testsdk.TrafficFile();
         (0, node_assert_1.default)(null != ent);
     });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.LmMultichannelSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.TrafficFile().load({ "id": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE;
         for (const op of ['load']) {
@@ -62,7 +70,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "files": { "a": true, "h": "Files", "n": "files", "r": true, "t": "`$ARRAY`", "key$": "files", "index$": 0 }, "id": { "a": true, "h": "Id", "n": "id", "r": false, "t": "`$STRING`", "key$": "id", "index$": 1 } }, "id": { "field": "id", "name": "id" }, "name": "traffic_file", "op": { "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /traffic/files/{path}", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "id", "or": "path", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/traffic/files/{path}", "q": { "exist": ["id"] }, "r": { "param": { "path": "id" } }, "s": [{ "lit": "traffic" }, { "lit": "files" }, { "var": "id" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [] }, "key$": "traffic_file", "name__orig": "traffic_file", "Name": "TrafficFile", "name_": "traffic_file", "name-": "traffic-file", "NAME": "TRAFFIC_FILE", "index$": 10 }, { "active": true, "entity": "traffic_file", "key$": "BasicTrafficFileFlow", "kind": "basic", "name": "BasicTrafficFileFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "traffic_file_ref01", "srcdatavar": "traffic_file_ref01_data", "suffix": "_dt0" }, "m": { "id": "traffic_file01" }, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-traffic_file_ref01" } }], "index$": 0 }] }, 'TrafficFile', { "GET /traffic/files/{path}": { "protocol": "http", "parameters": [{ "name": "path", "in": "path", "required": true, "description": "Relative folder path (e.g. events/2024 or events/2024/11/10/09) or file path for DELETE", "schema": { "type": "string" }, "index$": 0 }] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "files": { "a": true, "h": "Files", "n": "files", "r": true, "t": "`$ARRAY`", "key$": "files", "index$": 0 }, "id": { "a": true, "h": "Id", "n": "id", "r": false, "t": "`$STRING`", "key$": "id", "index$": 1 } }, "id": { "field": "id", "name": "id" }, "name": "traffic_file", "op": { "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /traffic/files/{path}", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "id", "or": "path", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/traffic/files/{path}", "q": { "exist": ["id"] }, "r": { "param": { "path": "id" } }, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "traffic" }, { "lit": "files" }, { "var": "id" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [] }, "key$": "traffic_file", "name__orig": "traffic_file", "Name": "TrafficFile", "name_": "traffic_file", "name-": "traffic-file", "NAME": "TRAFFIC_FILE", "index$": 10 }, { "active": true, "entity": "traffic_file", "key$": "BasicTrafficFileFlow", "kind": "basic", "name": "BasicTrafficFileFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "traffic_file_ref01", "srcdatavar": "traffic_file_ref01_data", "suffix": "_dt0" }, "m": { "id": "traffic_file01" }, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-traffic_file_ref01" } }], "index$": 0 }] }, 'TrafficFile', { "GET /traffic/files/{path}": { "protocol": "http", "parameters": [{ "name": "path", "in": "path", "required": true, "description": "Relative folder path (e.g. events/2024 or events/2024/11/10/09) or file path for DELETE", "schema": { "type": "string" }, "index$": 0 }] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -77,6 +85,11 @@ const utility_1 = require("../../utility");
         (0, node_assert_1.default)(traffic_file_ref01_data_dt0.id === traffic_file_ref01_data.id);
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

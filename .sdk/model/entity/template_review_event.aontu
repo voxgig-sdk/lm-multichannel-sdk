@@ -104,10 +104,7 @@ main: kit: entity: template_review_event: {
           o: "/templates/{templateId}/reviews/{channelId}/events"
           q: {
             exist: [
-              "page_index"
-              "page_size"
               "review_id"
-              "sort"
               "template_id"
             ]
           }
@@ -116,6 +113,10 @@ main: kit: entity: template_review_event: {
               channelId: "review_id"
               templateId: "template_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

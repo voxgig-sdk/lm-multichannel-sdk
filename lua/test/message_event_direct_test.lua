@@ -6,6 +6,20 @@ local sdk = require("lm-multichannel_sdk")
 local helpers = require("core.helpers")
 local runner = require("test.runner")
 
+-- main.kit.test.live.strict is true (the default is true): a live
+-- request that fails, or a live test missing an input it needs,
+-- fails the test.
+-- An account with no record for a test to read skips it either way.
+local LIVE_STRICT = true
+
+local function live_ok(result, err)
+  if err ~= nil or type(result) ~= "table" or result["err"] ~= nil or not result["ok"] then
+    return false
+  end
+  local status = helpers.to_int(result["status"])
+  return status >= 200 and status < 300
+end
+
 describe("MessageEventDirect", function()
   it("should direct-list-message_event", function()
     local setup = message_event_direct_setup({
@@ -20,8 +34,7 @@ describe("MessageEventDirect", function()
     if setup.live then
       for _, _live_key in ipairs({"message_event01"}) do
         if setup.idmap[_live_key] == nil then
-          pending("live test needs " .. _live_key .. " via *_ENTID env var (synthetic IDs only)")
-          return
+          runner.live_miss(pending, LIVE_STRICT, "Live test blocked: needs " .. _live_key .. " via LM_MULTICHANNEL_TEST_MESSAGE_EVENT_ENTID")
         end
       end
     end
@@ -40,22 +53,13 @@ describe("MessageEventDirect", function()
       params = params,
     })
     if setup.live then
-      -- Live mode is lenient: synthetic IDs frequently 4xx and the list-
-      -- response shape varies wildly across public APIs. Skip rather than
-      -- fail when the call doesn't return a usable list.
-      if err ~= nil then
-        pending("list call failed (likely synthetic IDs against live API): " .. tostring(err))
-        return
+      if not live_ok(result, err) then
+        runner.live_miss(pending, LIVE_STRICT, "Live list failed: " .. runner.live_describe(result, err))
       end
-      if not result["ok"] then
-        pending("list call not ok (likely synthetic IDs against live API)")
-        return
+      if runner.live_list(result["data"]) == nil then
+        runner.live_miss(pending, LIVE_STRICT, "Live list returned no list: " .. runner.live_describe(result, err))
       end
-      local status = helpers.to_int(result["status"])
-      if status < 200 or status >= 300 then
-        pending("expected 2xx status, got " .. tostring(status))
-        return
-      end
+      assert.is_table(runner.live_list(result["data"]))
     else
       assert.is_nil(err)
       assert.is_true(result["ok"])
@@ -94,11 +98,12 @@ function message_event_direct_setup(mockres)
       end
     end
     local client = sdk.new(merged_opts)
+    local idmap = env["LM_MULTICHANNEL_TEST_MESSAGE_EVENT_ENTID"]
     return {
       client = client,
       calls = calls,
       live = true,
-      idmap = {},
+      idmap = type(idmap) == "table" and idmap or {},
     }
   end
 

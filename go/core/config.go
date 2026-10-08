@@ -12,7 +12,7 @@ func MakeConfig() map[string]any {
 		"main": map[string]any{
 			"name": "LmMultichannel",
 			"slug": "lm-multichannel",
-			"version": "0.1.1",
+			"version": "0.1.2",
 			"target": "go",
 		},
 		"feature": map[string]any{
@@ -141,6 +141,7 @@ func MakeConfig() map[string]any {
 				},
 				"optspec": map[string]any{
 					"clearTimer": "`$FUNCTION`",
+					"now": "`$FUNCTION`",
 					"setTimer": "`$FUNCTION`",
 				},
 				"strict": false,
@@ -185,13 +186,6 @@ func MakeConfig() map[string]any {
 						"title": "Carousel",
 						"type": "`$OBJECT`",
 						"req": true,
-					},
-					map[string]any{
-						"name": "content",
-						"title": "Content",
-						"type": "`$OBJECT`",
-						"req": true,
-						"short": "Message content.",
 					},
 					map[string]any{
 						"name": "fromTemplate",
@@ -278,6 +272,10 @@ func MakeConfig() map[string]any {
 										"template_id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -329,6 +327,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"template_id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -394,6 +396,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -446,6 +452,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -630,10 +640,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"id",
-										"page_index",
-										"page_size",
-										"sort",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -703,6 +714,10 @@ func MakeConfig() map[string]any {
 										"template_id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -754,6 +769,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"template_id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -807,6 +826,10 @@ func MakeConfig() map[string]any {
 										"template_id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -820,15 +843,7 @@ func MakeConfig() map[string]any {
 				},
 			},
 			"schedule": map[string]any{
-				"fields": []any{
-					map[string]any{
-						"name": "count",
-						"title": "Count",
-						"type": "`$INTEGER`",
-						"req": true,
-						"short": "Number of active schedules",
-					},
-				},
+				"fields": []any{},
 				"name": "schedule",
 				"op": map[string]any{
 					"load": map[string]any{
@@ -877,11 +892,11 @@ func MakeConfig() map[string]any {
 									},
 								},
 								"select": map[string]any{
-									"exist": []any{
-										"between",
-										"campaign_id",
-										"time_zone",
-									},
+									"$action": "count",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -929,12 +944,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"between",
-										"campaign_id",
-										"time_zone",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -985,6 +998,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1037,6 +1054,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1115,13 +1136,6 @@ func MakeConfig() map[string]any {
 						"short": "Template review lifecycle status.",
 					},
 					map[string]any{
-						"name": "template",
-						"title": "Template",
-						"type": "`$OBJECT`",
-						"req": true,
-						"short": "Properties for creating a new template",
-					},
-					map[string]any{
 						"name": "templateId",
 						"title": "Template Id",
 						"type": "`$STRING`",
@@ -1197,6 +1211,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -1219,6 +1237,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1266,12 +1288,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"page_index",
-										"page_size",
-										"sort",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1338,6 +1358,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -1379,6 +1403,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -1427,6 +1455,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -1473,6 +1505,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1526,6 +1562,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1591,6 +1631,10 @@ func MakeConfig() map[string]any {
 										"channel_id",
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -1698,6 +1742,10 @@ func MakeConfig() map[string]any {
 										"channel_id",
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1835,12 +1883,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"page_index",
-										"page_size",
 										"review_id",
-										"sort",
 										"template_id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1900,6 +1949,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2025,6 +2078,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2130,6 +2187,10 @@ func MakeConfig() map[string]any {
 										"template_id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2182,6 +2243,10 @@ func MakeConfig() map[string]any {
 										"template_id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2233,6 +2298,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"template_id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},

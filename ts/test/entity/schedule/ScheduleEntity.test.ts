@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { LmMultichannelSDK, BaseFeature, stdutil } from '../../..'
+import { LmMultichannelSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('ScheduleEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = LmMultichannelSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Schedule().load({"between":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE
@@ -51,7 +63,7 @@ describe('ScheduleEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"count":{"a":true,"h":"Count","n":"count","r":true,"sh":"Number of active schedules","t":"`$INTEGER`","key$":"count","index$":0}},"name":"schedule","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /schedules:count","source":"openapi3","version":2},"g":{"query":[{"a":true,"ex":"2026-02-01T10:00,2026-02-16T20:00","k":"query","n":"between","or":"between","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"campaign_id","or":"campaignId","r":false,"t":"`$STRING`","index$":1},{"a":true,"ex":"Europe/Zurich","k":"query","n":"time_zone","or":"timeZone","r":false,"t":"`$STRING`","index$":2}]},"k":"http","m":"GET","o":"/schedules:count","q":{"exist":["between","campaign_id","time_zone"]},"r":{},"s":[{"lit":"schedules:count"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /schedules","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"between","or":"between","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"campaign_id","or":"campaignId","r":false,"t":"`$STRING`","index$":1},{"a":true,"k":"query","n":"time_zone","or":"timeZone","r":false,"t":"`$STRING`","index$":2}]},"k":"http","m":"DELETE","o":"/schedules","q":{"exist":["between","campaign_id","time_zone"]},"r":{},"s":[{"lit":"schedules"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"schedule","name__orig":"schedule","Name":"Schedule","name_":"schedule","name-":"schedule","NAME":"SCHEDULE","index$":4}, {"active":true,"entity":"schedule","key$":"BasicScheduleFlow","kind":"basic","name":"BasicScheduleFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"schedule_ref01","srcdatavar":"schedule_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-schedule_ref01"}}],"index$":0}]}, 'Schedule', {"GET /schedules:count":{"protocol":"http","parameters":[{"name":"campaignId","in":"query","required":false,"description":"Schedule grouping identifier","schema":{"type":"string"},"index$":0},{"name":"between","in":"query","required":false,"description":"Time range as pair of ISO 8601 timestamps separated by comma (inclusive)","schema":{"type":"string"},"examples":{"default":{"value":"2026-02-01T10:00,2026-02-16T20:00"}},"index$":1},{"name":"timeZone","in":"query","required":false,"description":"IANA TZ for interpreting the between parameter","schema":{"type":"string"},"examples":{"default":{"value":"Europe/Zurich"}},"index$":2}]},"DELETE /schedules":{"protocol":"http","parameters":[{"name":"campaignId","in":"query","required":false,"description":"Schedule grouping identifier","schema":{"type":"string"},"index$":0},{"name":"between","in":"query","required":false,"description":"Time range as pair of ISO 8601 timestamps separated by comma (inclusive)","schema":{"type":"string"},"index$":1},{"name":"timeZone","in":"query","required":false,"description":"IANA TZ for interpreting the between parameter","schema":{"type":"string"},"index$":2}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"schedule","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /schedules:count","source":"openapi3","version":2},"g":{"query":[{"a":true,"ex":"2026-02-01T10:00,2026-02-16T20:00","k":"query","n":"between","or":"between","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"campaign_id","or":"campaignId","r":false,"t":"`$STRING`","index$":1},{"a":true,"ex":"Europe/Zurich","k":"query","n":"time_zone","or":"timeZone","r":false,"t":"`$STRING`","index$":2}]},"k":"http","m":"GET","o":"/schedules:count","q":{"$action":"count"},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"schedules:count"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /schedules","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"between","or":"between","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"campaign_id","or":"campaignId","r":false,"t":"`$STRING`","index$":1},{"a":true,"k":"query","n":"time_zone","or":"timeZone","r":false,"t":"`$STRING`","index$":2}]},"k":"http","m":"DELETE","o":"/schedules","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"schedules"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"schedule","name__orig":"schedule","Name":"Schedule","name_":"schedule","name-":"schedule","NAME":"SCHEDULE","index$":4}, {"active":true,"entity":"schedule","key$":"BasicScheduleFlow","kind":"basic","name":"BasicScheduleFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"schedule_ref01","srcdatavar":"schedule_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-schedule_ref01"}}],"index$":0}]}, 'Schedule', {"GET /schedules:count":{"protocol":"http","parameters":[{"name":"campaignId","in":"query","required":false,"description":"Schedule grouping identifier","schema":{"type":"string"},"index$":0},{"name":"between","in":"query","required":false,"description":"Time range as pair of ISO 8601 timestamps separated by comma (inclusive)","schema":{"type":"string"},"examples":{"default":{"value":"2026-02-01T10:00,2026-02-16T20:00"}},"index$":1},{"name":"timeZone","in":"query","required":false,"description":"IANA TZ for interpreting the between parameter","schema":{"type":"string"},"examples":{"default":{"value":"Europe/Zurich"}},"index$":2}]},"DELETE /schedules":{"protocol":"http","parameters":[{"name":"campaignId","in":"query","required":false,"description":"Schedule grouping identifier","schema":{"type":"string"},"index$":0},{"name":"between","in":"query","required":false,"description":"Time range as pair of ISO 8601 timestamps separated by comma (inclusive)","schema":{"type":"string"},"index$":1},{"name":"timeZone","in":"query","required":false,"description":"IANA TZ for interpreting the between parameter","schema":{"type":"string"},"index$":2}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('ScheduleEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

@@ -9,7 +9,6 @@
 ---@class Content
 ---@field card? table
 ---@field carousel table
----@field content table
 ---@field fromTemplate table
 ---@field location table
 ---@field media table
@@ -23,7 +22,6 @@
 ---@field template_id string
 ---@field card? table
 ---@field carousel table
----@field content table
 ---@field fromTemplate table
 ---@field location table
 ---@field media table
@@ -76,7 +74,6 @@
 ---@field options? table
 
 ---@class Schedule
----@field count number
 
 ---@class ScheduleLoadMatch
 ---@field between? string
@@ -116,7 +113,6 @@
 ---@field options? table
 ---@field reviews? table
 ---@field status string
----@field template table
 ---@field templateId string
 ---@field updatedOn? string
 ---@field variables? table
@@ -142,7 +138,6 @@
 ---@field options? table
 ---@field reviews? table
 ---@field status string
----@field template table
 ---@field templateId string
 ---@field updatedOn? string
 ---@field variables? table
@@ -160,7 +155,22 @@
 ---@field options? table
 ---@field reviews? table
 ---@field status? string
----@field template? table
+---@field templateId? string
+---@field updatedOn? string
+---@field variables? table
+
+---@class TemplatePatchData
+---@field id string
+---@field channelData? table
+---@field content? table
+---@field createdOn? string
+---@field designerUrl? string
+---@field details? string
+---@field meta? table
+---@field occurredOn? string
+---@field options? table
+---@field reviews? table
+---@field status? string
 ---@field templateId? string
 ---@field updatedOn? string
 ---@field variables? table

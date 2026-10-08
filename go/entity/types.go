@@ -26,7 +26,6 @@ type ContentCreateData struct {
 	TemplateId string `json:"template_id"`
 	Card *map[string]any `json:"card,omitempty"`
 	Carousel map[string]any `json:"carousel"`
-	Content map[string]any `json:"content"`
 	FromTemplate map[string]any `json:"fromTemplate"`
 	Location map[string]any `json:"location"`
 	Media map[string]any `json:"media"`
@@ -156,7 +155,6 @@ type TemplateCreateData struct {
 	Options *map[string]any `json:"options,omitempty"`
 	Reviews *map[string]any `json:"reviews,omitempty"`
 	Status string `json:"status"`
-	Template map[string]any `json:"template"`
 	TemplateId string `json:"templateId"`
 	UpdatedOn *string `json:"updatedOn,omitempty"`
 	Variables *[]any `json:"variables,omitempty"`
@@ -176,7 +174,24 @@ type TemplateUpdateData struct {
 	Options *map[string]any `json:"options,omitempty"`
 	Reviews *map[string]any `json:"reviews,omitempty"`
 	Status *string `json:"status,omitempty"`
-	Template *map[string]any `json:"template,omitempty"`
+	TemplateId *string `json:"templateId,omitempty"`
+	UpdatedOn *string `json:"updatedOn,omitempty"`
+	Variables *[]any `json:"variables,omitempty"`
+}
+
+// TemplatePatchData is the typed request payload for Template.PatchTyped.
+type TemplatePatchData struct {
+	Id string `json:"id"`
+	ChannelData *map[string]any `json:"channelData,omitempty"`
+	Content *map[string]any `json:"content,omitempty"`
+	CreatedOn *string `json:"createdOn,omitempty"`
+	DesignerUrl *string `json:"designerUrl,omitempty"`
+	Details *string `json:"details,omitempty"`
+	Meta *map[string]any `json:"meta,omitempty"`
+	OccurredOn *string `json:"occurredOn,omitempty"`
+	Options *map[string]any `json:"options,omitempty"`
+	Reviews *map[string]any `json:"reviews,omitempty"`
+	Status *string `json:"status,omitempty"`
 	TemplateId *string `json:"templateId,omitempty"`
 	UpdatedOn *string `json:"updatedOn,omitempty"`
 	Variables *[]any `json:"variables,omitempty"`

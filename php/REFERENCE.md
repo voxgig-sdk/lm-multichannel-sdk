@@ -139,7 +139,6 @@ $content = $client->Content();
 | --- | --- | --- | --- |
 | `card` | `array` | No | Rich card containing media, text and/or buttons |
 | `carousel` | `array` | Yes |  |
-| `content` | `array` | Yes | Message content. |
 | `fromTemplate` | `array` | Yes | Content generated from a pre-defined template |
 | `location` | `array` | Yes |  |
 | `media` | `array` | Yes |  |
@@ -150,13 +149,12 @@ $content = $client->Content();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Content()->create([
   "template_id" => null, // string
   "carousel" => null, // array
-  "content" => null, // array
   "fromTemplate" => null, // array
   "location" => null, // array
   "media" => null, // array
@@ -165,7 +163,7 @@ $result = $client->Content()->create([
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Content()->load(["template_id" => "template_id"]);
@@ -219,7 +217,7 @@ $message = $client->Message();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Message()->create([
@@ -230,7 +228,7 @@ $result = $client->Message()->create([
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Message()->load(["id" => "message_id"]);
@@ -238,7 +236,7 @@ $result = $client->Message()->load(["id" => "message_id"]);
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Message()->remove(["id" => "message_id"]);
@@ -296,10 +294,10 @@ $message_event = $client->MessageEvent();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->MessageEvent()->list();
+$results = $client->MessageEvent()->list(["id" => "example"]);
 ```
 
 ### Common Methods
@@ -348,7 +346,7 @@ $option = $client->Option();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Option()->create([
@@ -359,7 +357,7 @@ $result = $client->Option()->create([
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Option()->load(["template_id" => "template_id"]);
@@ -367,7 +365,7 @@ $result = $client->Option()->load(["template_id" => "template_id"]);
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->Option()->update([
@@ -412,17 +410,11 @@ Return the entity name.
 $schedule = $client->Schedule();
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `count` | `int` | Yes | Number of active schedules |
-
 ### Operations
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Schedule()->load();
@@ -430,7 +422,7 @@ $result = $client->Schedule()->load();
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Schedule()->remove();
@@ -483,7 +475,7 @@ $self = $client->Self();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Self()->load();
@@ -536,7 +528,7 @@ $self_admin = $client->SelfAdmin();
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->SelfAdmin()->update([
@@ -595,7 +587,6 @@ $template = $client->Template();
 | `options` | `array` | No |  |
 | `reviews` | `array` | No | Channel-specific template reviews (keyed by channelId) |
 | `status` | `string` | Yes | Template review lifecycle status. |
-| `template` | `array` | Yes | Properties for creating a new template |
 | `templateId` | `string` | Yes | Unique template identifier (generated by the service) |
 | `updatedOn` | `string` | No | Date of last template update |
 | `variables` | `array` | No |  |
@@ -604,21 +595,20 @@ $template = $client->Template();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Template()->create([
   "createdOn" => null, // string
   "occurredOn" => null, // string
   "status" => null, // string
-  "template" => null, // array
   "templateId" => null, // string
 ]);
 ```
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Template()->list();
@@ -626,15 +616,26 @@ $results = $client->Template()->list();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Template()->load(["id" => "template_id"]);
 ```
 
+#### `patch(array $reqdata, ?array $ctrl = null): mixed`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and throws on error.
+
+```php
+$result = $client->Template()->patch([
+  "id" => "template_id",
+  // Only the fields to change
+]);
+```
+
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Template()->remove(["id" => "template_id"]);
@@ -642,7 +643,7 @@ $result = $client->Template()->remove(["id" => "template_id"]);
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->Template()->update([
@@ -703,10 +704,10 @@ $template_review_event = $client->TemplateReviewEvent();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->TemplateReviewEvent()->list();
+$results = $client->TemplateReviewEvent()->list(["review_id" => "example", "template_id" => "example"]);
 ```
 
 ### Common Methods
@@ -756,7 +757,7 @@ $traffic = $client->Traffic();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Traffic()->list();
@@ -764,7 +765,7 @@ $results = $client->Traffic()->list();
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Traffic()->remove(["path" => "path"]);
@@ -817,7 +818,7 @@ $traffic_file = $client->TrafficFile();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->TrafficFile()->load(["id" => "traffic_file_id"]);
@@ -875,7 +876,7 @@ $variable = $client->Variable();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Variable()->create([
@@ -887,15 +888,15 @@ $result = $client->Variable()->create([
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Variable()->list();
+$results = $client->Variable()->list(["template_id" => "example"]);
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->Variable()->update([
@@ -1224,6 +1225,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

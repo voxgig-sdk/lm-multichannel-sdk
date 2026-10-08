@@ -34,6 +34,10 @@ main: kit: entity: traffic: {
           }
           m: "GET"
           o: "/traffic/files"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "traffic"

@@ -37,6 +37,9 @@ main: kit: entity: message: {
       name: "create"
       points: [
         {
+          bf: [
+            "messages"
+          ]
           co: {
             id: "POST /messages"
             source: "openapi3"
@@ -44,6 +47,10 @@ main: kit: entity: message: {
           }
           m: "POST"
           o: "/messages"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "messages"
@@ -90,6 +97,10 @@ main: kit: entity: message: {
             param: {
               messageId: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

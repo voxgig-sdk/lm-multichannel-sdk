@@ -134,7 +134,6 @@ content = client.Content()
 | --- | --- | --- | --- |
 | `card` | `dict` | No | Rich card containing media, text and/or buttons |
 | `carousel` | `dict` | Yes |  |
-| `content` | `dict` | Yes | Message content. |
 | `fromTemplate` | `dict` | Yes | Content generated from a pre-defined template |
 | `location` | `dict` | Yes |  |
 | `media` | `dict` | Yes |  |
@@ -143,24 +142,23 @@ content = client.Content()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> ContentEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Content().create({
     "template_id": "example_template_id",  # str
     "carousel": {},  # dict
-    "content": {},  # dict
     "fromTemplate": {},  # dict
     "location": {},  # dict
     "media": {},  # dict
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> ContentEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Content().load({"template_id": "template_id"})
@@ -211,9 +209,9 @@ message = client.Message()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> MessageEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Message().create({
@@ -222,17 +220,17 @@ result = client.Message().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> MessageEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Message().load({"id": "message_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> MessageEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Message().remove({"id": "message_id"})
@@ -287,14 +285,14 @@ message_event = client.MessageEvent()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[MessageEventEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.MessageEvent().list({"id": "example"})
 for message_event in results:
-    print(message_event)
+    print(message_event.data_get())
 ```
 
 ### Common Methods
@@ -340,9 +338,9 @@ option = client.Option()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> OptionEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Option().create({
@@ -351,17 +349,17 @@ result = client.Option().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> OptionEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Option().load({"template_id": "template_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> OptionEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Option().update({
@@ -405,25 +403,19 @@ Return the entity name.
 schedule = client.Schedule()
 ```
 
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `count` | `int` | Yes | Number of active schedules |
-
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> ScheduleEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Schedule().load()
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> ScheduleEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Schedule().remove()
@@ -473,9 +465,9 @@ self = client.Self()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> SelfEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Self().load()
@@ -525,9 +517,9 @@ self_admin = client.SelfAdmin()
 
 ### Operations
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> SelfAdminEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.SelfAdmin().update({
@@ -585,56 +577,65 @@ template = client.Template()
 | `options` | `dict` | No |  |
 | `reviews` | `dict` | No | Channel-specific template reviews (keyed by channelId) |
 | `status` | `str` | Yes | Template review lifecycle status. |
-| `template` | `dict` | Yes | Properties for creating a new template |
 | `templateId` | `str` | Yes | Unique template identifier (generated by the service) |
 | `updatedOn` | `str` | No | Date of last template update |
 | `variables` | `list` | No |  |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> TemplateEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Template().create({
     "createdOn": "example_createdOn",  # str
     "occurredOn": "example_occurredOn",  # str
     "status": "example_status",  # str
-    "template": {},  # dict
     "templateId": "example_templateId",  # str
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[TemplateEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Template().list()
 for template in results:
-    print(template)
+    print(template.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> TemplateEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Template().load({"id": "template_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `patch(reqdata, ctrl=None) -> TemplateEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and raises on error.
+
+```python
+result = client.Template().patch({
+    "id": "template_id",
+    # Only the fields to change
+})
+```
+
+#### `remove(reqmatch, ctrl=None) -> TemplateEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Template().remove({"id": "template_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> TemplateEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Template().update({
@@ -692,14 +693,14 @@ template_review_event = client.TemplateReviewEvent()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[TemplateReviewEventEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.TemplateReviewEvent().list({"review_id": "example", "template_id": "example"})
 for template_review_event in results:
-    print(template_review_event)
+    print(template_review_event.data_get())
 ```
 
 ### Common Methods
@@ -746,19 +747,19 @@ traffic = client.Traffic()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[TrafficEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Traffic().list()
 for traffic in results:
-    print(traffic)
+    print(traffic.data_get())
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> TrafficEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Traffic().remove({"path": "path"})
@@ -808,9 +809,9 @@ traffic_file = client.TrafficFile()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> TrafficFileEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.TrafficFile().load({"id": "traffic_file_id"})
@@ -865,9 +866,9 @@ variable = client.Variable()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> VariableEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Variable().create({
@@ -877,19 +878,19 @@ result = client.Variable().create({
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[VariableEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Variable().list({"template_id": "example"})
 for variable in results:
-    print(variable)
+    print(variable.data_get())
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> VariableEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Variable().update({
@@ -1217,6 +1218,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

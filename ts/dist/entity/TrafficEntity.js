@@ -94,7 +94,7 @@ class TrafficEntity extends LmMultichannelEntityBase_1.LmMultichannelEntityBase 
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Traffic[]> return stays clean under strict null checks.
+                // Promise<TrafficEntity[]> return stays clean under strict null checks.
                 return undefined;
             }
         }

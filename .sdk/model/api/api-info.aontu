@@ -22,6 +22,17 @@ The documentation is also available as an agent skill, which extends AI assistan
         url: "https://www.linkmobility.com/legal/terms-and-conditions"
       }
       security: {
+        alternatives: [
+          [
+            {
+              in: "header"
+              name: "Authorization"
+              prefix: "Bearer"
+              scheme: "oauth2"
+              type: "oauth2"
+            }
+          ]
+        ]
         in: "header"
         name: "x-api-key"
         prefix: ""

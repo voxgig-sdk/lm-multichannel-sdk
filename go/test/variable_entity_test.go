@@ -16,6 +16,13 @@ import (
 	vs "github.com/voxgig-sdk/lm-multichannel-sdk/go/utility/struct"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const variableEntityLiveStrict = true
+
+
 func TestVariableEntity(t *testing.T) {
 	t.Run("instance", func(t *testing.T) {
 		testsdk := sdk.TestSDK(nil, nil)
@@ -25,55 +32,21 @@ func TestVariableEntity(t *testing.T) {
 		}
 	})
 
-	// Feature #4: the entity Stream(action, ...) method runs the op pipeline and
-	// returns a channel over result items. With the streaming feature active it
-	// yields the feature's incremental output; otherwise it falls back to the
-	// materialised list so Stream always yields.
-	t.Run("stream", func(t *testing.T) {
-		seed := map[string]any{
-			"entity": map[string]any{
-				"variable": map[string]any{
-					"s1": map[string]any{"id": "s1"},
-					"s2": map[string]any{"id": "s2"},
-					"s3": map[string]any{"id": "s3"},
-				},
-			},
+	t.Run("validate", func(t *testing.T) {
+		if !fhHasFeature("validate") {
+			t.Skip("feature not present in this SDK: validate")
 		}
-
-		// Fallback: streaming inactive -> yields the materialised list items.
-		base := sdk.TestSDK(seed, nil)
-		var seen []any
-		for item := range base.Variable(nil).Stream("list", nil, nil) {
-			seen = append(seen, item)
-		}
-		if len(seen) != 3 {
-			t.Fatalf("expected 3 streamed items, got %d", len(seen))
-		}
-
-		// Inbound: streaming active -> yields each item from the feature iterator.
-		hasStreaming := false
-		if fm, ok := core.SharedConfig()["feature"].(map[string]any); ok {
-			_, hasStreaming = fm["streaming"]
-		}
-		if hasStreaming {
-			streamSdk := sdk.TestSDK(seed, map[string]any{
-				"feature": map[string]any{"streaming": map[string]any{"active": true}},
-			})
-			var got []any
-			for item := range streamSdk.Variable(nil).Stream("list", nil, nil) {
-				if sub, ok := item.([]any); ok {
-					got = append(got, sub...)
-				} else {
-					got = append(got, item)
-				}
-			}
-			if len(got) != 3 {
-				t.Fatalf("expected 3 items via streaming feature, got %d", len(got))
-			}
+		client := sdk.TestSDK(nil, map[string]any{
+			"feature": map[string]any{"validate": map[string]any{"active": true}},
+		})
+		_, err := client.Variable(nil).List(map[string]any{"template_id": 1}, nil)
+		if sdkerr, ok := err.(*core.LmMultichannelError); !ok || "validate_failed" != sdkerr.Code {
+			t.Fatalf("expected validate_failed, got %v", err)
 		}
 	})
 
-	t.Run("basic", func(t *testing.T) {
+	t.Run("basic", func(tt *testing.T) {
+		var t testing.TB = tt
 		setup := variableBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
 		// with multiple ops; skipping any op skips the whole flow.
@@ -90,11 +63,12 @@ func TestVariableEntity(t *testing.T) {
 				return
 			}
 		}
-		// The basic flow consumes synthetic IDs from the fixture. In live mode
-		// without an *_ENTID env override, those IDs hit the live API and 4xx.
-		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set LM_MULTICHANNEL_TEST_VARIABLE_ENTID JSON to run live")
-			return
+		if setup.live {
+			for _, _liveKey := range []string{"template01"} {
+				if setup.syntheticOnly || setup.idmap[_liveKey] == nil {
+					liveMiss(t, variableEntityLiveStrict, "Live entity test blocked: needs %s via LM_MULTICHANNEL_TEST_VARIABLE_ENTID", _liveKey)
+				}
+			}
 		}
 		client := setup.client
 
@@ -184,9 +158,8 @@ func variableBasicSetup(extra map[string]any) *entityTestSetup {
 		},
 	)
 
-	// Detect ENTID env override before envOverride consumes it. When live
-	// mode is on without a real override, the basic test runs against synthetic
-	// IDs from the fixture and 4xx's. Surface this so the test can skip.
+	// Whether *_ENTID supplied the idmap, read before envOverride consumes it:
+	// without it, the ids a live flow binds are the fixture's synthetic ones.
 	entidEnvRaw := os.Getenv("LM_MULTICHANNEL_TEST_VARIABLE_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 

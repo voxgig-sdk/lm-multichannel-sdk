@@ -150,11 +150,12 @@ class ScheduleEntity extends LmMultichannelEntityBase<Schedule> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Schedule> return stays clean under strict null checks.
+        // Promise<ScheduleEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
   }
+
 
 
 

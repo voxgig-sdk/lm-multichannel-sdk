@@ -6,6 +6,17 @@ require_relative "../LmMultichannel_sdk"
 require_relative "runner"
 
 class TemplateDirectTest < Minitest::Test
+  # main.kit.test.live.strict is true (the default is true): a live
+  # request that fails, or a live test missing an input it needs,
+  # fails the test.
+  # An account with no record for a test to read skips it either way.
+  LIVE_STRICT = true
+
+  def live_ok(result)
+    status = Helpers.to_int(result["status"])
+    result["err"].nil? && result["ok"] && status >= 200 && status < 300
+  end
+
   def test_direct_list_template
     setup = template_direct_setup([
       { "id" => "direct01" },
@@ -18,29 +29,21 @@ class TemplateDirectTest < Minitest::Test
     end
     client = setup[:client]
 
+    params = {}
 
     result = client.direct({
       "path" => "templates",
       "method" => "GET",
-      "params" => {},
+      "params" => params,
     })
     if setup[:live]
-      # Live mode is lenient: synthetic IDs frequently 4xx and the list-
-      # response shape varies wildly across public APIs. Skip rather than
-      # fail when the call doesn't return a usable list.
-      if !result["err"].nil?
-        skip("list call failed (likely synthetic IDs against live API): #{result["err"]}")
-        return
+      unless live_ok(result)
+        Runner.live_miss(LIVE_STRICT, "Live list failed: " + Runner.live_describe(result))
       end
-      unless result["ok"]
-        skip("list call not ok (likely synthetic IDs against live API)")
-        return
+      if Runner.live_list(result["data"]).nil?
+        Runner.live_miss(LIVE_STRICT, "Live list returned no list: " + Runner.live_describe(result))
       end
-      status = Helpers.to_int(result["status"])
-      if status < 200 || status >= 300
-        skip("expected 2xx status, got #{status}")
-        return
-      end
+      assert Runner.live_list(result["data"]).is_a?(Array)
     else
       assert_nil result["err"]
       assert result["ok"]
@@ -59,14 +62,40 @@ class TemplateDirectTest < Minitest::Test
       return
     end
     if setup[:live]
-      skip "live direct-load needs real ID — set *_ENTID env var with real IDs to run"
-      return
+      ["channel01"].each do |_live_key|
+        if setup[:idmap][_live_key].nil?
+          Runner.live_miss(LIVE_STRICT, "Live test blocked: needs #{_live_key} via LM_MULTICHANNEL_TEST_TEMPLATE_ENTID")
+        end
+      end
     end
     client = setup[:client]
 
     params = {}
     query = {}
-    unless setup[:live]
+    if setup[:live]
+      list_result = client.direct({
+        "path" => "templates",
+        "method" => "GET",
+        "params" => {},
+      })
+      unless live_ok(list_result)
+        Runner.live_miss(LIVE_STRICT, "Live list discovery failed: " + Runner.live_describe(list_result))
+      end
+      records = Runner.live_list(list_result["data"])
+      if records.nil?
+        Runner.live_miss(LIVE_STRICT, "Live list discovery returned no list: " + Runner.live_describe(list_result))
+      end
+      if records.empty?
+        Runner.live_empty("The account has no template record to load")
+      end
+      first = records[0].is_a?(Hash) ? records[0] : {}
+      found = first.fetch("id", first["id"])
+      if found.nil?
+        Runner.live_miss(LIVE_STRICT, "Live load blocked: discovery returned no usable identity")
+      end
+      params["id"] = found
+      params["channel_id"] = setup[:idmap]["channel01"]
+    else
       params["channel_id"] = "direct01"
       params["id"] = "direct02"
     end
@@ -78,22 +107,13 @@ class TemplateDirectTest < Minitest::Test
       "query" => query,
     })
     if setup[:live]
-      # Live mode is lenient: synthetic IDs frequently 4xx. Skip rather
-      # than fail when the load endpoint isn't reachable with the IDs
-      # we can construct from setup.idmap.
-      if !result["err"].nil?
-        skip("load call failed (likely synthetic IDs against live API): #{result["err"]}")
-        return
+      unless live_ok(result)
+        Runner.live_miss(LIVE_STRICT, "Live load failed: " + Runner.live_describe(result))
       end
-      unless result["ok"]
-        skip("load call not ok (likely synthetic IDs against live API)")
-        return
+      if result["data"].nil?
+        Runner.live_miss(LIVE_STRICT, "Live load returned no data: " + Runner.live_describe(result))
       end
-      status = Helpers.to_int(result["status"])
-      if status < 200 || status >= 300
-        skip("expected 2xx status, got #{status}")
-        return
-      end
+      assert !result["data"].nil?
     else
       assert_nil result["err"]
       assert result["ok"]
@@ -129,11 +149,12 @@ def template_direct_setup(mockres)
       "apikey" => env["LM_MULTICHANNEL_APIKEY"],
     })
     client = LmMultichannelSDK.new(merged_opts)
+    idmap = env["LM_MULTICHANNEL_TEST_TEMPLATE_ENTID"]
     return {
       client: client,
       calls: calls,
       live: true,
-      idmap: {},
+      idmap: idmap.is_a?(Hash) ? idmap : {},
     }
   end
 

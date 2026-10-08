@@ -1,7 +1,7 @@
 import { LmMultichannelEntityBase } from '../LmMultichannelEntityBase';
 import type { LmMultichannelSDK } from '../LmMultichannelSDK';
 import type { Control } from '../types';
-import type { Template, TemplateLoadMatch, TemplateListMatch, TemplateCreateData, TemplateUpdateData, TemplateRemoveMatch } from '../LmMultichannelTypes';
+import type { Template, TemplateLoadMatch, TemplateListMatch, TemplateCreateData, TemplateUpdateData, TemplatePatchData, TemplateRemoveMatch } from '../LmMultichannelTypes';
 declare class TemplateEntity extends LmMultichannelEntityBase<Template> {
     constructor(client: LmMultichannelSDK, entopts: any);
     make(this: TemplateEntity): TemplateEntity;
@@ -9,6 +9,7 @@ declare class TemplateEntity extends LmMultichannelEntityBase<Template> {
     list(this: any, reqmatch?: TemplateListMatch, ctrl?: Control): Promise<TemplateEntity[]>;
     create(this: any, reqdata?: TemplateCreateData, ctrl?: Control): Promise<TemplateEntity>;
     update(this: any, reqdata?: TemplateUpdateData, ctrl?: Control): Promise<TemplateEntity>;
+    patch(this: any, reqdata?: TemplatePatchData, ctrl?: Control): Promise<TemplateEntity>;
     remove(this: any, reqmatch?: TemplateRemoveMatch, ctrl?: Control): Promise<TemplateEntity>;
 }
 export { TemplateEntity };

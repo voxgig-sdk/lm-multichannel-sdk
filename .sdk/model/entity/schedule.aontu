@@ -4,16 +4,6 @@ main: kit: entity: schedule: {
 
   alias: field: {}
 
-  fields: {
-    count: {
-      h: "Count"
-      n: "count"
-      r: true
-      sh: "Number of active schedules"
-      t: "`$INTEGER`"
-    }
-  }
-
   name: "schedule"
   op: {
     load: {
@@ -55,11 +45,11 @@ main: kit: entity: schedule: {
           m: "GET"
           o: "/schedules:count"
           q: {
-            exist: [
-              "between"
-              "campaign_id"
-              "time_zone"
-            ]
+            "$action": "count"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -109,12 +99,9 @@ main: kit: entity: schedule: {
           }
           m: "DELETE"
           o: "/schedules"
-          q: {
-            exist: [
-              "between"
-              "campaign_id"
-              "time_zone"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -128,6 +115,9 @@ main: kit: entity: schedule: {
         }
       ]
     }
+  }
+
+  fields: {
   }
 
 

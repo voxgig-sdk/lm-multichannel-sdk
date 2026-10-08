@@ -1,7 +1,6 @@
 export interface Content {
     card?: Record<string, any>;
     carousel: Record<string, any>;
-    content: Record<string, any>;
     fromTemplate: Record<string, any>;
     location: Record<string, any>;
     media: Record<string, any>;
@@ -15,7 +14,6 @@ export interface ContentCreateData {
     template_id: string;
     card?: Record<string, any>;
     carousel: Record<string, any>;
-    content: Record<string, any>;
     fromTemplate: Record<string, any>;
     location: Record<string, any>;
     media: Record<string, any>;
@@ -72,12 +70,13 @@ export interface OptionUpdateData {
     options?: Record<string, any>;
 }
 export interface Schedule {
-    count: number;
 }
 export interface ScheduleLoadMatch {
     between?: string;
     campaign_id?: string;
     time_zone?: string;
+    $action?: string;
+    [action: string]: any;
 }
 export interface ScheduleRemoveMatch {
     between?: string;
@@ -112,7 +111,6 @@ export interface Template {
     options?: Record<string, any>;
     reviews?: Record<string, any>;
     status: string;
-    template: Record<string, any>;
     templateId: string;
     updatedOn?: string;
     variables?: any[];
@@ -140,7 +138,6 @@ export interface TemplateCreateData {
     options?: Record<string, any>;
     reviews?: Record<string, any>;
     status: string;
-    template: Record<string, any>;
     templateId: string;
     updatedOn?: string;
     variables?: any[];
@@ -160,10 +157,27 @@ export interface TemplateUpdateData {
     options?: Record<string, any>;
     reviews?: Record<string, any>;
     status?: string;
-    template?: Record<string, any>;
     templateId?: string;
     updatedOn?: string;
     variables?: any[];
+}
+export interface TemplatePatchData {
+    id: string;
+    channelData?: Record<string, any>;
+    content?: Record<string, any>;
+    createdOn?: string;
+    designerUrl?: string;
+    details?: string;
+    meta?: Record<string, any>;
+    occurredOn?: string;
+    options?: Record<string, any>;
+    reviews?: Record<string, any>;
+    status?: string;
+    templateId?: string;
+    updatedOn?: string;
+    variables?: any[];
+    $action?: string;
+    [action: string]: any;
 }
 export interface TemplateRemoveMatch {
     channel_id?: string;

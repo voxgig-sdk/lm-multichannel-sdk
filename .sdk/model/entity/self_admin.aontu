@@ -25,6 +25,9 @@ main: kit: entity: self_admin: {
       name: "update"
       points: [
         {
+          bf: [
+            "settings"
+          ]
           co: {
             id: "PATCH /self/settings"
             source: "openapi3"
@@ -32,6 +35,10 @@ main: kit: entity: self_admin: {
           }
           m: "PATCH"
           o: "/self/settings"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "self"

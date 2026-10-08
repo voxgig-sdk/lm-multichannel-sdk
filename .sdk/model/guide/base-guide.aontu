@@ -57,6 +57,7 @@ guide: {
       op: remove: method: *DELETE
     }
     path: "/schedules:count": {
+      action: "count": {}
       op: load: method: *GET
     }
   }

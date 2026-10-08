@@ -94,7 +94,7 @@ class MessageEventEntity extends LmMultichannelEntityBase_1.LmMultichannelEntity
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<MessageEvent[]> return stays clean under strict null checks.
+                // Promise<MessageEventEntity[]> return stays clean under strict null checks.
                 return undefined;
             }
         }

@@ -18,7 +18,6 @@ from typing import TypedDict, Any
 
 class ContentRequired(TypedDict):
     carousel: dict
-    content: dict
     fromTemplate: dict
     location: dict
     media: dict
@@ -37,7 +36,6 @@ class ContentLoadMatch(TypedDict):
 class ContentCreateDataRequired(TypedDict):
     template_id: str
     carousel: dict
-    content: dict
     fromTemplate: dict
     location: dict
     media: dict
@@ -120,7 +118,7 @@ class OptionUpdateData(OptionUpdateDataRequired, total=False):
 
 
 class Schedule(TypedDict):
-    count: int
+    pass
 
 
 class ScheduleLoadMatch(TypedDict, total=False):
@@ -159,7 +157,6 @@ class TemplateRequired(TypedDict):
     createdOn: str
     occurredOn: str
     status: str
-    template: dict
     templateId: str
 
 
@@ -194,7 +191,6 @@ class TemplateCreateDataRequired(TypedDict):
     createdOn: str
     occurredOn: str
     status: str
-    template: dict
     templateId: str
 
 
@@ -227,7 +223,26 @@ class TemplateUpdateData(TemplateUpdateDataRequired, total=False):
     options: dict
     reviews: dict
     status: str
-    template: dict
+    templateId: str
+    updatedOn: str
+    variables: list
+
+
+class TemplatePatchDataRequired(TypedDict):
+    id: str
+
+
+class TemplatePatchData(TemplatePatchDataRequired, total=False):
+    channelData: dict
+    content: dict
+    createdOn: str
+    designerUrl: str
+    details: str
+    meta: dict
+    occurredOn: str
+    options: dict
+    reviews: dict
+    status: str
     templateId: str
     updatedOn: str
     variables: list

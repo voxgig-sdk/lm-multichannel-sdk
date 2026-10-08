@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { LmMultichannelSDK, BaseFeature, stdutil } from '../../..'
+import { LmMultichannelSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('SelfEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = LmMultichannelSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Self().load({"accountId":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE
@@ -51,7 +63,7 @@ describe('SelfEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"accountId":{"a":true,"h":"Account Id","n":"accountId","r":true,"sh":"Unique technical account identifier","t":"`$STRING`","key$":"accountId","index$":0},"settings":{"a":true,"h":"Settings","n":"settings","r":true,"t":"`$OBJECT`","key$":"settings","index$":1}},"name":"self","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /self","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/self","q":{},"r":{},"s":[{"lit":"self"}],"t":{"req":"`reqdata`","res":"`body.account`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"self","name__orig":"self","Name":"Self","name_":"self","name-":"self","NAME":"SELF","index$":5}, {"active":true,"entity":"self","key$":"BasicSelfFlow","kind":"basic","name":"BasicSelfFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"self_ref01","srcdatavar":"self_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-self_ref01"}}],"index$":0}]}, 'Self', {"GET /self":{"protocol":"http","parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"accountId":{"a":true,"h":"Account Id","n":"accountId","r":true,"sh":"Unique technical account identifier","t":"`$STRING`","key$":"accountId","index$":0},"settings":{"a":true,"h":"Settings","n":"settings","r":true,"t":"`$OBJECT`","key$":"settings","index$":1}},"name":"self","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /self","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/self","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"self"}],"t":{"req":"`reqdata`","res":"`body.account`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"self","name__orig":"self","Name":"Self","name_":"self","name-":"self","NAME":"SELF","index$":5}, {"active":true,"entity":"self","key$":"BasicSelfFlow","kind":"basic","name":"BasicSelfFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"self_ref01","srcdatavar":"self_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-self_ref01"}}],"index$":0}]}, 'Self', {"GET /self":{"protocol":"http","parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('SelfEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

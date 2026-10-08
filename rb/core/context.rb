@@ -10,6 +10,10 @@ require_relative 'error'
 require_relative 'helpers'
 
 class LmMultichannelContext
+  # Every context of a client shares its root's operation cache. CRuby's GVL
+  # makes each Hash operation atomic; a Ruby without one needs this lock.
+  OPMAP_LOCK = Mutex.new
+
   attr_accessor :id, :out, :client, :utility, :ctrl, :meta, :config,
                 :entopts, :options, :entity, :shared, :opmap,
                 :data, :reqdata, :match, :reqmatch, :point,
@@ -83,12 +87,13 @@ class LmMultichannelContext
     # served to every subsequent entity's call.
     entname = @entity&.respond_to?(:get_name) ? @entity.get_name : "_"
     cache_key = "#{entname}:#{opname}"
-    return @opmap[cache_key] if @opmap[cache_key]
+    cached = OPMAP_LOCK.synchronize { @opmap[cache_key] }
+    return cached if cached
     return LmMultichannelOperation.new({}) if opname.empty?
 
     opcfg = VoxgigStruct.getpath(@config, "entity.#{entname}.op.#{opname}")
 
-    input = (opname == "update" || opname == "create") ? "data" : "match"
+    input = (opname == "update" || opname == "create" || opname == "patch") ? "data" : "match"
 
     points = []
     if opcfg.is_a?(Hash)
@@ -102,8 +107,8 @@ class LmMultichannelContext
       "input" => input,
       "points" => points,
     })
-    @opmap[cache_key] = op
-    op
+    # Racing requests get the Operation stored first.
+    OPMAP_LOCK.synchronize { @opmap[cache_key] ||= op }
   end
 
   def make_error(code, msg)

@@ -23,7 +23,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -35,77 +40,90 @@ const PLAN = [
         "status": 200,
         "sample": {
             "content": {
+                "text": "x",
+                "media": {
+                    "type": "x",
+                    "source": "x",
+                    "thumbnail": "x",
+                    "description": "x"
+                },
+                "location": {
+                    "latitude": "x",
+                    "longitude": "x",
+                    "title": "x",
+                    "description": "x"
+                },
                 "card": {
+                    "media": {
+                        "type": "x",
+                        "source": "x",
+                        "thumbnail": "x",
+                        "description": "x"
+                    },
+                    "location": {
+                        "latitude": "x",
+                        "longitude": "x",
+                        "title": "x",
+                        "description": "x"
+                    },
+                    "title": "x",
+                    "subtitle": "x",
+                    "text": "x",
                     "buttons": [
                         {
                             "caption": "x",
-                            "copyCode": {
-                                "value": "x"
-                            },
-                            "createCalendarEvent": {
-                                "description": "x",
-                                "endTime": "2026-01-01T00:00:00Z",
-                                "startTime": "2026-01-01T00:00:00Z",
-                                "title": "x"
+                            "postback": "x",
+                            "options": {},
+                            "reply": {
+                                "text": "x"
                             },
                             "dial": {
                                 "phoneNumber": "x"
                             },
-                            "flow": {},
                             "openUrl": {
                                 "url": "x"
                             },
-                            "options": {},
-                            "postback": "x",
-                            "reply": {
-                                "text": "x"
+                            "createCalendarEvent": {
+                                "startTime": "2026-01-01T00:00:00Z",
+                                "endTime": "2026-01-01T00:00:00Z",
+                                "title": "x",
+                                "description": "x"
                             },
                             "shareLocation": {},
                             "viewLocation": {
-                                "description": "x",
                                 "latitude": "x",
                                 "longitude": "x",
-                                "query": "x"
-                            }
+                                "query": "x",
+                                "description": "x"
+                            },
+                            "copyCode": {
+                                "value": "x"
+                            },
+                            "flow": {}
                         }
-                    ],
-                    "location": {
-                        "description": "x",
-                        "latitude": "x",
-                        "longitude": "x",
-                        "title": "x"
-                    },
-                    "media": {
-                        "description": "x",
-                        "source": "x",
-                        "thumbnail": "x",
-                        "type": "x"
-                    },
-                    "subtitle": "x",
-                    "text": "x",
-                    "title": "x"
+                    ]
                 },
                 "carousel": {
                     "cards": [
                         {
-                            "buttons": [
-                                {}
-                            ],
-                            "location": {
-                                "description": "x",
-                                "latitude": "x",
-                                "longitude": "x",
-                                "title": "x"
-                            },
                             "media": {
-                                "description": "x",
+                                "type": "x",
                                 "source": "x",
                                 "thumbnail": "x",
-                                "type": "x"
+                                "description": "x"
                             },
+                            "location": {
+                                "latitude": "x",
+                                "longitude": "x",
+                                "title": "x",
+                                "description": "x"
+                            },
+                            "title": "x",
                             "subtitle": "x",
                             "text": "x",
-                            "title": "x"
+                            "buttons": [
+                                {}
+                            ]
                         }
                     ],
                     "text": "x"
@@ -114,52 +132,39 @@ const PLAN = [
                     "templateId": "x",
                     "variables": {}
                 },
-                "location": {
-                    "description": "x",
-                    "latitude": "x",
-                    "longitude": "x",
-                    "title": "x"
-                },
-                "media": {
-                    "description": "x",
-                    "source": "x",
-                    "thumbnail": "x",
-                    "type": "x"
-                },
                 "suggestions": [
                     {
                         "caption": "x",
-                        "copyCode": {
-                            "value": "x"
-                        },
-                        "createCalendarEvent": {
-                            "description": "x",
-                            "endTime": "2026-01-01T00:00:00Z",
-                            "startTime": "2026-01-01T00:00:00Z",
-                            "title": "x"
+                        "postback": "x",
+                        "options": {},
+                        "reply": {
+                            "text": "x"
                         },
                         "dial": {
                             "phoneNumber": "x"
                         },
-                        "flow": {},
                         "openUrl": {
                             "url": "x"
                         },
-                        "options": {},
-                        "postback": "x",
-                        "reply": {
-                            "text": "x"
+                        "createCalendarEvent": {
+                            "startTime": "2026-01-01T00:00:00Z",
+                            "endTime": "2026-01-01T00:00:00Z",
+                            "title": "x",
+                            "description": "x"
                         },
                         "shareLocation": {},
                         "viewLocation": {
-                            "description": "x",
                             "latitude": "x",
                             "longitude": "x",
-                            "query": "x"
-                        }
+                            "query": "x",
+                            "description": "x"
+                        },
+                        "copyCode": {
+                            "value": "x"
+                        },
+                        "flow": {}
                     }
-                ],
-                "text": "x"
+                ]
             }
         },
         "idField": "id"
@@ -179,7 +184,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -191,77 +201,90 @@ const PLAN = [
         "status": 200,
         "sample": {
             "content": {
+                "text": "x",
+                "media": {
+                    "type": "x",
+                    "source": "x",
+                    "thumbnail": "x",
+                    "description": "x"
+                },
+                "location": {
+                    "latitude": "x",
+                    "longitude": "x",
+                    "title": "x",
+                    "description": "x"
+                },
                 "card": {
+                    "media": {
+                        "type": "x",
+                        "source": "x",
+                        "thumbnail": "x",
+                        "description": "x"
+                    },
+                    "location": {
+                        "latitude": "x",
+                        "longitude": "x",
+                        "title": "x",
+                        "description": "x"
+                    },
+                    "title": "x",
+                    "subtitle": "x",
+                    "text": "x",
                     "buttons": [
                         {
                             "caption": "x",
-                            "copyCode": {
-                                "value": "x"
-                            },
-                            "createCalendarEvent": {
-                                "description": "x",
-                                "endTime": "2026-01-01T00:00:00Z",
-                                "startTime": "2026-01-01T00:00:00Z",
-                                "title": "x"
+                            "postback": "x",
+                            "options": {},
+                            "reply": {
+                                "text": "x"
                             },
                             "dial": {
                                 "phoneNumber": "x"
                             },
-                            "flow": {},
                             "openUrl": {
                                 "url": "x"
                             },
-                            "options": {},
-                            "postback": "x",
-                            "reply": {
-                                "text": "x"
+                            "createCalendarEvent": {
+                                "startTime": "2026-01-01T00:00:00Z",
+                                "endTime": "2026-01-01T00:00:00Z",
+                                "title": "x",
+                                "description": "x"
                             },
                             "shareLocation": {},
                             "viewLocation": {
-                                "description": "x",
                                 "latitude": "x",
                                 "longitude": "x",
-                                "query": "x"
-                            }
+                                "query": "x",
+                                "description": "x"
+                            },
+                            "copyCode": {
+                                "value": "x"
+                            },
+                            "flow": {}
                         }
-                    ],
-                    "location": {
-                        "description": "x",
-                        "latitude": "x",
-                        "longitude": "x",
-                        "title": "x"
-                    },
-                    "media": {
-                        "description": "x",
-                        "source": "x",
-                        "thumbnail": "x",
-                        "type": "x"
-                    },
-                    "subtitle": "x",
-                    "text": "x",
-                    "title": "x"
+                    ]
                 },
                 "carousel": {
                     "cards": [
                         {
-                            "buttons": [
-                                {}
-                            ],
-                            "location": {
-                                "description": "x",
-                                "latitude": "x",
-                                "longitude": "x",
-                                "title": "x"
-                            },
                             "media": {
-                                "description": "x",
+                                "type": "x",
                                 "source": "x",
                                 "thumbnail": "x",
-                                "type": "x"
+                                "description": "x"
                             },
+                            "location": {
+                                "latitude": "x",
+                                "longitude": "x",
+                                "title": "x",
+                                "description": "x"
+                            },
+                            "title": "x",
                             "subtitle": "x",
                             "text": "x",
-                            "title": "x"
+                            "buttons": [
+                                {}
+                            ]
                         }
                     ],
                     "text": "x"
@@ -270,52 +293,39 @@ const PLAN = [
                     "templateId": "x",
                     "variables": {}
                 },
-                "location": {
-                    "description": "x",
-                    "latitude": "x",
-                    "longitude": "x",
-                    "title": "x"
-                },
-                "media": {
-                    "description": "x",
-                    "source": "x",
-                    "thumbnail": "x",
-                    "type": "x"
-                },
                 "suggestions": [
                     {
                         "caption": "x",
-                        "copyCode": {
-                            "value": "x"
-                        },
-                        "createCalendarEvent": {
-                            "description": "x",
-                            "endTime": "2026-01-01T00:00:00Z",
-                            "startTime": "2026-01-01T00:00:00Z",
-                            "title": "x"
+                        "postback": "x",
+                        "options": {},
+                        "reply": {
+                            "text": "x"
                         },
                         "dial": {
                             "phoneNumber": "x"
                         },
-                        "flow": {},
                         "openUrl": {
                             "url": "x"
                         },
-                        "options": {},
-                        "postback": "x",
-                        "reply": {
-                            "text": "x"
+                        "createCalendarEvent": {
+                            "startTime": "2026-01-01T00:00:00Z",
+                            "endTime": "2026-01-01T00:00:00Z",
+                            "title": "x",
+                            "description": "x"
                         },
                         "shareLocation": {},
                         "viewLocation": {
-                            "description": "x",
                             "latitude": "x",
                             "longitude": "x",
-                            "query": "x"
-                        }
+                            "query": "x",
+                            "description": "x"
+                        },
+                        "copyCode": {
+                            "value": "x"
+                        },
+                        "flow": {}
                     }
-                ],
-                "text": "x"
+                ]
             }
         },
         "idField": "id"
@@ -329,7 +339,12 @@ const PLAN = [
         "args": [],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -373,7 +388,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -385,8 +405,8 @@ const PLAN = [
         "status": 200,
         "sample": {
             "schedule": {
-                "campaignId": "x",
-                "scheduleAt": "2026-01-01T00:00:00Z"
+                "scheduleAt": "2026-01-01T00:00:00Z",
+                "campaignId": "x"
             }
         },
         "idField": "id"
@@ -407,7 +427,9 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -436,13 +458,31 @@ const PLAN = [
         "select": {
             "page_index": "v1",
             "page_size": "v1",
-            "sort": "v1"
+            "sort": "desc:on"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "_pageSize",
             "_pageIndex",
             "_sort"
+        ],
+        "queryArgs": [
+            {
+                "name": "page_index",
+                "wire": "_pageIndex"
+            },
+            {
+                "name": "page_size",
+                "wire": "_pageSize"
+            },
+            {
+                "name": "sort",
+                "wire": "_sort"
+            }
         ],
         "auth": [
             [
@@ -493,7 +533,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -523,7 +568,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -553,7 +603,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -574,17 +629,36 @@ const PLAN = [
         "op": "load",
         "method": "GET",
         "path": "/schedules:count",
+        "action": "count",
         "args": [],
         "select": {
-            "between": "v1",
+            "between": "2026-02-01T10:00,2026-02-16T20:00",
             "campaign_id": "v1",
-            "time_zone": "v1"
+            "time_zone": "Europe/Zurich"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "campaignId",
             "between",
             "timeZone"
+        ],
+        "queryArgs": [
+            {
+                "name": "between",
+                "wire": "between"
+            },
+            {
+                "name": "campaign_id",
+                "wire": "campaignId"
+            },
+            {
+                "name": "time_zone",
+                "wire": "timeZone"
+            }
         ],
         "auth": [
             [
@@ -613,10 +687,28 @@ const PLAN = [
             "time_zone": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "campaignId",
             "between",
             "timeZone"
+        ],
+        "queryArgs": [
+            {
+                "name": "between",
+                "wire": "between"
+            },
+            {
+                "name": "campaign_id",
+                "wire": "campaignId"
+            },
+            {
+                "name": "time_zone",
+                "wire": "timeZone"
+            }
         ],
         "auth": [
             [
@@ -641,7 +733,12 @@ const PLAN = [
         "args": [],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -656,19 +753,19 @@ const PLAN = [
                 "accountId": "x",
                 "settings": {
                     "callback": {
+                        "url": "x",
                         "auth": {
-                            "headerName": "x",
+                            "type": "httpBasic",
                             "login": "x",
                             "password": "x",
-                            "type": "httpBasic"
+                            "headerName": "x"
                         },
-                        "enableCompression": true,
-                        "signatureEnabled": true,
                         "tls": {
                             "certificate": "x",
                             "password": "x"
                         },
-                        "url": "x"
+                        "enableCompression": true,
+                        "signatureEnabled": true
                     }
                 }
             }
@@ -684,7 +781,12 @@ const PLAN = [
         "args": [],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -697,19 +799,19 @@ const PLAN = [
         "sample": {
             "settings": {
                 "callback": {
+                    "url": "x",
                     "auth": {
-                        "headerName": "x",
+                        "type": "httpBasic",
                         "login": "x",
                         "password": "x",
-                        "type": "httpBasic"
+                        "headerName": "x"
                     },
-                    "enableCompression": true,
-                    "signatureEnabled": true,
                     "tls": {
                         "certificate": "x",
                         "password": "x"
                     },
-                    "url": "x"
+                    "enableCompression": true,
+                    "signatureEnabled": true
                 }
             }
         },
@@ -731,7 +833,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -755,7 +862,12 @@ const PLAN = [
         "args": [],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -788,58 +900,58 @@ const PLAN = [
                 "content": {
                     "text": "x",
                     "media": {
-                        "description": "x",
+                        "type": "x",
                         "source": "x",
                         "thumbnail": "x",
-                        "type": "x"
+                        "description": "x"
                     },
                     "location": {
-                        "description": "x",
                         "latitude": "x",
                         "longitude": "x",
-                        "title": "x"
+                        "title": "x",
+                        "description": "x"
                     },
                     "card": {
+                        "media": {
+                            "type": "x",
+                            "source": "x",
+                            "thumbnail": "x",
+                            "description": "x"
+                        },
+                        "location": {
+                            "latitude": "x",
+                            "longitude": "x",
+                            "title": "x",
+                            "description": "x"
+                        },
+                        "title": "x",
+                        "subtitle": "x",
+                        "text": "x",
                         "buttons": [
                             {
                                 "caption": "x",
-                                "copyCode": {},
-                                "createCalendarEvent": {},
-                                "dial": {},
-                                "flow": {},
-                                "openUrl": {},
-                                "options": {},
                                 "postback": "x",
+                                "options": {},
                                 "reply": {},
+                                "dial": {},
+                                "openUrl": {},
+                                "createCalendarEvent": {},
                                 "shareLocation": {},
-                                "viewLocation": {}
+                                "viewLocation": {},
+                                "copyCode": {},
+                                "flow": {}
                             }
-                        ],
-                        "location": {
-                            "description": "x",
-                            "latitude": "x",
-                            "longitude": "x",
-                            "title": "x"
-                        },
-                        "media": {
-                            "description": "x",
-                            "source": "x",
-                            "thumbnail": "x",
-                            "type": "x"
-                        },
-                        "subtitle": "x",
-                        "text": "x",
-                        "title": "x"
+                        ]
                     },
                     "carousel": {
                         "cards": [
                             {
-                                "buttons": [],
-                                "location": {},
                                 "media": {},
+                                "location": {},
+                                "title": "x",
                                 "subtitle": "x",
                                 "text": "x",
-                                "title": "x"
+                                "buttons": []
                             }
                         ],
                         "text": "x"
@@ -851,34 +963,34 @@ const PLAN = [
                     "suggestions": [
                         {
                             "caption": "x",
-                            "copyCode": {
-                                "value": "x"
-                            },
-                            "createCalendarEvent": {
-                                "description": "x",
-                                "endTime": "2026-01-01T00:00:00Z",
-                                "startTime": "2026-01-01T00:00:00Z",
-                                "title": "x"
+                            "postback": "x",
+                            "options": {},
+                            "reply": {
+                                "text": "x"
                             },
                             "dial": {
                                 "phoneNumber": "x"
                             },
-                            "flow": {},
                             "openUrl": {
                                 "url": "x"
                             },
-                            "options": {},
-                            "postback": "x",
-                            "reply": {
-                                "text": "x"
+                            "createCalendarEvent": {
+                                "startTime": "2026-01-01T00:00:00Z",
+                                "endTime": "2026-01-01T00:00:00Z",
+                                "title": "x",
+                                "description": "x"
                             },
                             "shareLocation": {},
                             "viewLocation": {
-                                "description": "x",
                                 "latitude": "x",
                                 "longitude": "x",
-                                "query": "x"
-                            }
+                                "query": "x",
+                                "description": "x"
+                            },
+                            "copyCode": {
+                                "value": "x"
+                            },
+                            "flow": {}
                         }
                     ]
                 },
@@ -899,13 +1011,31 @@ const PLAN = [
         "select": {
             "page_index": "v1",
             "page_size": "v1",
-            "sort": "v1"
+            "sort": "desc:updatedOn!createdOn"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "_pageSize",
             "_pageIndex",
             "_sort"
+        ],
+        "queryArgs": [
+            {
+                "name": "page_index",
+                "wire": "_pageIndex"
+            },
+            {
+                "name": "page_size",
+                "wire": "_pageSize"
+            },
+            {
+                "name": "sort",
+                "wire": "_sort"
+            }
         ],
         "auth": [
             [
@@ -972,7 +1102,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1011,7 +1146,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1085,7 +1225,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1116,7 +1261,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1149,6 +1299,42 @@ const PLAN = [
     {
         "entity": "template",
         "accessor": "Template",
+        "op": "patch",
+        "method": "PATCH",
+        "path": "/templates/{templateId}/meta",
+        "action": "meta",
+        "args": [
+            {
+                "name": "id",
+                "wire": "templateId",
+                "value": "p1"
+            }
+        ],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [],
+        "queryArgs": [],
+        "auth": [
+            [
+                {
+                    "in": "header",
+                    "name": "x-api-key"
+                }
+            ]
+        ],
+        "status": 200,
+        "sample": {
+            "meta": {}
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "template",
+        "accessor": "Template",
         "op": "remove",
         "method": "DELETE",
         "path": "/templates/{templateId}/reviews/{channelId}",
@@ -1166,7 +1352,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1204,7 +1395,9 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1237,7 +1430,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1276,13 +1474,31 @@ const PLAN = [
         "select": {
             "page_index": "v1",
             "page_size": "v1",
-            "sort": "v1"
+            "sort": "desc:on"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "_pageSize",
             "_pageIndex",
             "_sort"
+        ],
+        "queryArgs": [
+            {
+                "name": "page_index",
+                "wire": "_pageIndex"
+            },
+            {
+                "name": "page_size",
+                "wire": "_pageSize"
+            },
+            {
+                "name": "sort",
+                "wire": "_sort"
+            }
         ],
         "auth": [
             [
@@ -1347,7 +1563,12 @@ const PLAN = [
         "args": [],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1382,7 +1603,9 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1410,7 +1633,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1445,7 +1673,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1458,16 +1691,16 @@ const PLAN = [
         "sample": {
             "variables": [
                 {
+                    "name": "x",
+                    "type": "text",
+                    "formats": [
+                        "x"
+                    ],
                     "description": "x",
                     "examples": [
                         "x"
                     ],
-                    "formats": [
-                        "x"
-                    ],
-                    "name": "x",
-                    "ref": "x",
-                    "type": "text"
+                    "ref": "x"
                 }
             ]
         },
@@ -1488,7 +1721,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1501,16 +1739,16 @@ const PLAN = [
         "sample": {
             "variables": [
                 {
+                    "name": "x",
+                    "type": "text",
+                    "formats": [
+                        "x"
+                    ],
                     "description": "x",
                     "examples": [
                         "x"
                     ],
-                    "formats": [
-                        "x"
-                    ],
-                    "name": "x",
-                    "ref": "x",
-                    "type": "text"
+                    "ref": "x"
                 }
             ]
         },
@@ -1531,7 +1769,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": [
             [
                 {
@@ -1544,16 +1787,16 @@ const PLAN = [
         "sample": {
             "variables": [
                 {
+                    "name": "x",
+                    "type": "text",
+                    "formats": [
+                        "x"
+                    ],
                     "description": "x",
                     "examples": [
                         "x"
                     ],
-                    "formats": [
-                        "x"
-                    ],
-                    "name": "x",
-                    "ref": "x",
-                    "type": "text"
+                    "ref": "x"
                 }
             ]
         },

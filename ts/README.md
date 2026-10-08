@@ -5,7 +5,7 @@ LINK Mobility MyLINK Multichannel API clients in TypeScript, Python, PHP, Go, Ru
 The TypeScript SDK for the LmMultichannel API — a type-safe, entity-oriented client with full async/await support.
 
 The API is exposed as capitalised, semantic **Entities** — e.g.
-`client.Content()` — each with a small set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`)
+`client.Content()` — each with a small set of operations (`list`, `load`, `create`, `update`, `patch`, `remove`)
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
@@ -15,7 +15,7 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/lm-multichannel-sdk/releases)), or from a
+release tag (`ts/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/lm-multichannel-sdk/tags)), or from a
 clone, which carries the compiled `dist/`:
 
 ```bash
@@ -27,7 +27,7 @@ npm install ./lm-multichannel-sdk/ts
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -42,14 +42,14 @@ const client = new LmMultichannelSDK({
 ### 3. Load a content
 
 Content is nested under template, so provide the `template_id`.
-`load()` returns the entity directly and throws on failure:
+`load()` returns the entity and throws on failure; `.data()` reads its record:
 
 ```ts
 try {
   const content = await client.Content().load({
     template_id: 'example_template_id',
   })
-  console.log(content)
+  console.log(content.data())
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -62,7 +62,6 @@ try {
 const created = await client.Content().create({
   template_id: 'example_template_id',
   carousel: {},
-  content: {},
   fromTemplate: {},
   location: {},
   media: {},
@@ -78,14 +77,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const message = await client.Message().load({ id: "example_id" })
-  console.log(message)
+  console.log(message.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -94,8 +94,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -113,9 +113,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -145,9 +142,8 @@ Create a mock client for unit testing — no server required:
 const client = LmMultichannelSDK.test()
 
 const message = await client.Message().load({ id: 'test01' })
-// message is the entity, populated with mock response data
-// — call message.data() for the record itself
-console.log(message)
+// message is the Message entity; .data() reads its mock record
+console.log(message.data())
 ```
 
 You can also use the instance method:
@@ -277,11 +273,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity, and return it. |
+| `patch` | `patch(reqdata?, ctrl?): Promise<Entity>` | Change part of an existing entity, and return it. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<Entity>` | Remove an entity, and return it marked as deleted. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -290,13 +287,13 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
-- `load`, `create` and `update` resolve to a single entity object.
+- `load`, `create`, `update` and `patch` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
-- `remove` resolves to `void`.
+- `remove` resolves to the entity, marked as deleted.
 
 On a failed request these methods **throw**, so wrap calls in
 `try`/`catch` to handle errors. Only `direct()` returns the result
@@ -338,7 +335,6 @@ The `prepare()` method returns:
 | --- | --- |
 | `card` | Rich card containing media, text and/or buttons |
 | `carousel` |  |
-| `content` | Message content. |
 | `fromTemplate` | Content generated from a pre-defined template |
 | `location` |  |
 | `media` |  |
@@ -391,7 +387,6 @@ API path: `/templates/{templateId}/options`
 
 | Field | Description |
 | --- | --- |
-| `count` | Number of active schedules |
 
 Operations: load, remove.
 
@@ -434,7 +429,6 @@ API path: `/self/settings`
 | `options` |  |
 | `reviews` | Channel-specific template reviews (keyed by channelId) |
 | `status` | Template review lifecycle status. |
-| `template` | Properties for creating a new template |
 | `templateId` | Unique template identifier (generated by the service) |
 | `updatedOn` | Date of last template update |
 | `variables` |  |
@@ -518,7 +512,6 @@ Create an instance: `const content = client.Content()`
 | --- | --- | --- |
 | `card` | `Record<string, any>` | Rich card containing media, text and/or buttons |
 | `carousel` | `Record<string, any>` |  |
-| `content` | `Record<string, any>` | Message content. |
 | `fromTemplate` | `Record<string, any>` | Content generated from a pre-defined template |
 | `location` | `Record<string, any>` |  |
 | `media` | `Record<string, any>` |  |
@@ -537,7 +530,6 @@ const content = await client.Content().load({ template_id: 'template_id' })
 const content = await client.Content().create({
   template_id: 'example_template_id',
   carousel: {},
-  content: {},
   fromTemplate: {},
   location: {},
   media: {},
@@ -655,12 +647,6 @@ Create an instance: `const schedule = client.Schedule()`
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `count` | `number` | Number of active schedules |
-
 #### Example: Load
 
 ```ts
@@ -721,6 +707,7 @@ Create an instance: `const template = client.Template()`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -739,7 +726,6 @@ Create an instance: `const template = client.Template()`
 | `options` | `Record<string, any>` |  |
 | `reviews` | `Record<string, any>` | Channel-specific template reviews (keyed by channelId) |
 | `status` | `string` | Template review lifecycle status. |
-| `template` | `Record<string, any>` | Properties for creating a new template |
 | `templateId` | `string` | Unique template identifier (generated by the service) |
 | `updatedOn` | `string` | Date of last template update |
 | `variables` | `any[]` |  |
@@ -763,7 +749,6 @@ const template = await client.Template().create({
   createdOn: 'example_createdOn',
   occurredOn: 'example_occurredOn',
   status: 'example_status',
-  template: {},
   templateId: 'example_templateId',
 })
 ```

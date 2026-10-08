@@ -54,28 +54,36 @@ const utility_1 = require("../../utility");
         const ent = testsdk.MessageEvent();
         (0, node_assert_1.default)(null != ent);
     });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.LmMultichannelSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.MessageEvent().list({ "id": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.LM_MULTICHANNEL_TEST_LIVE;
-        for (const op of ['list']) {
+        for (const op of []) {
             if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'message_event.' + op, live))
                 return;
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "accountId": { "a": true, "h": "Account Id", "n": "accountId", "r": true, "sh": "Account identifier", "t": "`$STRING`", "key$": "accountId", "index$": 0 }, "eventId": { "a": true, "h": "Event Id", "n": "eventId", "r": true, "sh": "Unique event identifier (for idempotent processing / deduplication)", "t": "`$STRING`", "key$": "eventId", "index$": 1 }, "id": { "a": true, "h": "Id", "n": "id", "r": false, "t": "`$STRING`", "key$": "id", "index$": 2 }, "messageStatusChanged": { "a": true, "h": "Message Status Changed", "n": "messageStatusChanged", "r": true, "t": "`$OBJECT`", "key$": "messageStatusChanged", "index$": 3 }, "on": { "a": true, "fo": "date-time", "h": "On", "n": "on", "r": true, "sh": "UTC date-time when the event occurred", "t": "`$STRING`", "key$": "on", "index$": 4 }, "templateReviewStatusChanged": { "a": true, "h": "Template Review Status Changed", "n": "templateReviewStatusChanged", "r": true, "t": "`$OBJECT`", "key$": "templateReviewStatusChanged", "index$": 5 }, "userMessageReceived": { "a": true, "h": "User Message Received", "n": "userMessageReceived", "r": true, "t": "`$OBJECT`", "key$": "userMessageReceived", "index$": 6 } }, "id": { "field": "id", "name": "id" }, "name": "message_event", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /messages/{messageId}/events", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "id", "or": "messageId", "r": true, "t": "`$STRING`", "index$": 0 }], "query": [{ "a": true, "k": "query", "n": "page_index", "or": "_pageIndex", "r": false, "t": "`$INTEGER`", "index$": 0 }, { "a": true, "k": "query", "n": "page_size", "or": "_pageSize", "r": false, "t": "`$INTEGER`", "index$": 1 }, { "a": true, "ex": "desc:on", "k": "query", "n": "sort", "or": "_sort", "r": false, "t": "`$STRING`", "index$": 2 }] }, "k": "http", "m": "GET", "o": "/messages/{messageId}/events", "q": { "exist": ["id", "page_index", "page_size", "sort"] }, "r": { "param": { "messageId": "id" } }, "s": [{ "lit": "messages" }, { "var": "id" }, { "lit": "events" }], "t": { "req": "`reqdata`", "res": "`body.events`" }, "index$": 0 }], "key$": "list" } }, "relations": { "ancestors": [] }, "key$": "message_event", "name__orig": "message_event", "Name": "MessageEvent", "name_": "message_event", "name-": "message-event", "NAME": "MESSAGE_EVENT", "index$": 2 }, { "active": true, "entity": "message_event", "key$": "BasicMessageEventFlow", "kind": "basic", "name": "BasicMessageEventFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": { "message_id": "message01" }, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "message_event_ref01" } }], "index$": 0 }] }, 'MessageEvent', { "GET /messages/{messageId}/events": { "protocol": "http", "parameters": [{ "name": "messageId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique message identifier", "x-ref": "#/components/parameters/MessageId", "index$": 0 }, { "name": "_pageSize", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Page size for pagination", "x-ref": "#/components/parameters/PageSize", "index$": 1 }, { "name": "_pageIndex", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Zero-based page index", "x-ref": "#/components/parameters/PageIndex", "index$": 2 }, { "name": "_sort", "in": "query", "required": false, "description": "Sort by property paths with optional asc:/desc: prefix", "schema": { "type": "string" }, "examples": { "newest_first": { "summary": "Newest events first", "value": "desc:on" } }, "index$": 3 }] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "accountId": { "a": true, "h": "Account Id", "n": "accountId", "r": true, "sh": "Account identifier", "t": "`$STRING`", "key$": "accountId", "index$": 0 }, "eventId": { "a": true, "h": "Event Id", "n": "eventId", "r": true, "sh": "Unique event identifier (for idempotent processing / deduplication)", "t": "`$STRING`", "key$": "eventId", "index$": 1 }, "id": { "a": true, "h": "Id", "n": "id", "r": false, "t": "`$STRING`", "key$": "id", "index$": 2 }, "messageStatusChanged": { "a": true, "h": "Message Status Changed", "n": "messageStatusChanged", "r": true, "t": "`$OBJECT`", "key$": "messageStatusChanged", "index$": 3 }, "on": { "a": true, "fo": "date-time", "h": "On", "n": "on", "r": true, "sh": "UTC date-time when the event occurred", "t": "`$STRING`", "key$": "on", "index$": 4 }, "templateReviewStatusChanged": { "a": true, "h": "Template Review Status Changed", "n": "templateReviewStatusChanged", "r": true, "t": "`$OBJECT`", "key$": "templateReviewStatusChanged", "index$": 5 }, "userMessageReceived": { "a": true, "h": "User Message Received", "n": "userMessageReceived", "r": true, "t": "`$OBJECT`", "key$": "userMessageReceived", "index$": 6 } }, "id": { "field": "id", "name": "id" }, "name": "message_event", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /messages/{messageId}/events", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "id", "or": "messageId", "r": true, "t": "`$STRING`", "index$": 0 }], "query": [{ "a": true, "k": "query", "n": "page_index", "or": "_pageIndex", "r": false, "t": "`$INTEGER`", "index$": 0 }, { "a": true, "k": "query", "n": "page_size", "or": "_pageSize", "r": false, "t": "`$INTEGER`", "index$": 1 }, { "a": true, "ex": "desc:on", "k": "query", "n": "sort", "or": "_sort", "r": false, "t": "`$STRING`", "index$": 2 }] }, "k": "http", "m": "GET", "o": "/messages/{messageId}/events", "q": { "exist": ["id"] }, "r": { "param": { "messageId": "id" } }, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "messages" }, { "var": "id" }, { "lit": "events" }], "t": { "req": "`reqdata`", "res": "`body.events`" }, "index$": 0 }], "key$": "list" } }, "relations": { "ancestors": [] }, "key$": "message_event", "name__orig": "message_event", "Name": "MessageEvent", "name_": "message_event", "name-": "message-event", "NAME": "MESSAGE_EVENT", "index$": 2 }, { "active": true, "entity": "message_event", "key$": "BasicMessageEventFlow", "kind": "basic", "name": "BasicMessageEventFlow", "param": {}, "step": [{ "a": false, "d": {}, "i": {}, "m": { "message_id": "message01" }, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "message_event_ref01" } }], "unreachable": true }] }, 'MessageEvent', { "GET /messages/{messageId}/events": { "protocol": "http", "parameters": [{ "name": "messageId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Unique message identifier", "x-ref": "#/components/parameters/MessageId", "index$": 0 }, { "name": "_pageSize", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Page size for pagination", "x-ref": "#/components/parameters/PageSize", "index$": 1 }, { "name": "_pageIndex", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Zero-based page index", "x-ref": "#/components/parameters/PageIndex", "index$": 2 }, { "name": "_sort", "in": "query", "required": false, "description": "Sort by property paths with optional asc:/desc: prefix", "schema": { "type": "string" }, "examples": { "newest_first": { "summary": "Newest events first", "value": "desc:on" } }, "index$": 3 }] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
         const isempty = struct.isempty;
         const select = struct.select;
         let message_event_ref01_data = Object.values(setup.data.existing.message_event)[0];
-        // LIST
-        const message_event_ref01_ent = client.MessageEvent();
-        const message_event_ref01_match = {};
-        message_event_ref01_match['message_id'] = setup.idmap['message01'];
-        const message_event_ref01_list = (await message_event_ref01_ent.list(message_event_ref01_match)).map((e) => e.data());
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null
@@ -90,7 +98,7 @@ function basicSetup(extra) {
     const struct = client.utility().struct;
     const merge = struct.merge;
     const transform = struct.transform;
-    let idmap = transform(['message_event01', 'message_event02', 'message_event03', 'message01'], {
+    let idmap = transform(['message_event01', 'message_event02', 'message_event03'], {
         '`$PACK`': ['', {
                 '`$KEY`': '`$COPY`',
                 '`$VAL`': ['`$FORMAT`', 'upper', '`$COPY`']
